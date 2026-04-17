@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachIQ — Coach Intake</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-off);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page { max-width: 680px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* HEADER */
+.cq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 32px;
+}
+.cq-brand { display: flex; align-items: center; gap: 10px; }
+.cq-logo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 4px 9px;
+  border-radius: var(--radius);
+  letter-spacing: 0.5px;
+}
+.cq-wordmark { font-family: var(--font-head); font-size: 17px; font-weight: 700; }
+.cq-wordmark span { color: var(--accent); }
+.cq-doc-type { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); }
+
+/* PROGRESS */
+.progress-wrap { margin-bottom: 36px; }
+.progress-steps { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.step-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); transition: color 0.2s; }
+.step-label.active { color: var(--accent); }
+.step-label.done { color: var(--ink); }
+.progress-track { height: 2px; background: var(--rule); border-radius: 1px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 1px; transition: width 0.35s ease; width: 0%; }
+
+/* SECTIONS */
+.section { display: none; animation: fadeUp 0.25s ease; }
+.section.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.section-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.section-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
+.section-desc { font-size: 13px; color: var(--ink-3); margin-bottom: 28px; line-height: 1.5; }
+
+/* LEVEL CARDS — big tap targets for S0 */
+.level-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+@media (max-width: 480px) { .level-cards { grid-template-columns: 1fr; } }
+
+.level-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--bg);
+  text-align: left;
+}
+.level-card:hover { border-color: var(--accent); }
+.level-card.selected { border-color: var(--accent); background: var(--accent-bg); }
+.level-card .lc-icon { font-size: 22px; margin-bottom: 8px; }
+.level-card .lc-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.level-card.selected .lc-title { color: var(--accent); }
+.level-card .lc-sub { font-size: 11px; color: var(--ink-3); line-height: 1.4; }
+
+/* DYNAMIC CONTEXT BADGE */
+.context-badge {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-bg);
+  border: 1px solid rgba(0,87,168,0.2);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  margin-bottom: 20px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.context-badge.visible { display: flex; }
+.context-badge .cb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+/* FIELDS */
+.field { margin-bottom: 22px; }
+label { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+label .hint { display: block; font-size: 11px; font-weight: 400; color: var(--ink-3); margin-top: 2px; font-style: italic; }
+label .req { color: var(--accent); margin-left: 2px; }
+
+input[type="text"], input[type="email"], input[type="number"], input[type="date"], textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 10px 13px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+}
+input::placeholder, textarea::placeholder { color: var(--ink-3); }
+input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,87,168,0.1); }
+textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 500px) { .row { grid-template-columns: 1fr; } }
+
+/* CHIPS */
+.chip-group { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }
+.chip {
+  padding: 6px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--ink-3);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s;
+  background: var(--bg);
+}
+.chip:hover { border-color: var(--accent); color: var(--ink); }
+.chip.selected { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+/* DYNAMIC BLOCKS — shown/hidden by level */
+.show-hs, .show-club, .show-college { display: none; }
+.show-hs.visible, .show-club.visible, .show-college.visible { display: block; }
+
+/* PHASE BLOCKS */
+.phase-block {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 14px;
+  background: var(--bg);
+}
+.phase-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+/* TIMELINE */
+.timeline-strip {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 14px;
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  gap: 0;
+}
+.tl-phase { text-align: center; flex-shrink: 0; min-width: 80px; }
+.tl-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); margin: 0 auto 5px; }
+.tl-dot.accent { background: var(--accent); }
+.tl-label { font-size: 11px; font-weight: 600; color: var(--ink); margin-bottom: 2px; white-space: nowrap; }
+.tl-label.accent { color: var(--accent); }
+.tl-sub { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); white-space: nowrap; }
+.tl-line { flex: 1; height: 1px; background: var(--rule); margin: 0 8px; min-width: 16px; }
+
+/* RANK LIST */
+.rank-list { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.rank-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  background: var(--bg); cursor: grab;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.rank-item.dragging { opacity: 0.4; }
+.rank-item.drag-over { box-shadow: 0 0 0 2px var(--accent); background: var(--accent-bg); }
+.rank-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); min-width: 14px; font-weight: 600; }
+.rank-name { font-size: 13px; font-weight: 600; color: var(--ink); min-width: 140px; flex-shrink: 0; }
+.rank-notes-wrap { flex: 1; }
+.rank-note { width: 100%; font-family: var(--font-body); font-size: 12px; color: var(--ink-2); border: none; border-bottom: 1px solid var(--rule-light); background: transparent; outline: none; padding: 2px 0; }
+.rank-note::placeholder { color: var(--ink-3); }
+.rank-note:focus { border-bottom-color: var(--accent); }
+.drag-handle { color: var(--ink-3); font-size: 14px; cursor: grab; flex-shrink: 0; }
+
+.rank-remove {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--ink-3);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.rank-remove:hover { color: #B01C14; }
+
+/* CALLOUT */
+.callout {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-bg);
+  padding: 12px 16px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 13px; color: var(--ink-2);
+  margin-bottom: 18px; line-height: 1.5;
+}
+.callout strong { color: var(--ink); }
+
+.divider { border: none; border-top: 1px solid var(--rule-light); margin: 22px 0; }
+
+/* TOURNAMENT ROWS */
+.tournament-row { border: 1px solid var(--rule); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; background: var(--bg); }
+.btn-add-row {
+  margin-top: 6px; padding: 7px 16px;
+  background: transparent; border: 1px dashed var(--rule);
+  border-radius: var(--radius); color: var(--ink-3);
+  font-family: var(--font-body); font-size: 12px;
+  cursor: pointer; transition: all 0.15s; width: 100%;
+}
+.btn-add-row:hover { border-color: var(--accent); color: var(--accent); }
+
+/* NAV */
+.nav { display: flex; gap: 10px; justify-content: flex-end; margin-top: 36px; }
+.btn-back {
+  padding: 10px 22px; background: transparent;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  color: var(--ink-3); font-family: var(--font-body);
+  font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+}
+.btn-back:hover { border-color: var(--ink-3); color: var(--ink); }
+.btn-next, .btn-submit {
+  padding: 10px 26px; background: var(--accent);
+  border: none; border-radius: var(--radius);
+  color: #fff; font-family: var(--font-body);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: opacity 0.15s; letter-spacing: 0.2px;
+}
+.btn-next:hover, .btn-submit:hover { opacity: 0.88; }
+
+/* SUCCESS */
+.success { display: none; text-align: center; padding: 48px 0; }
+.success.active { display: block; animation: fadeUp 0.3s ease; }
+.success-icon { font-size: 40px; margin-bottom: 20px; }
+.success h2 { font-family: var(--font-head); font-size: 28px; margin-bottom: 12px; }
+.success p { font-size: 14px; color: var(--ink-3); max-width: 400px; margin: 0 auto 28px; line-height: 1.6; }
+.summary-box { background: var(--bg-off); border: 1px solid var(--rule); border-radius: var(--radius); padding: 20px; text-align: left; max-width: 480px; margin: 0 auto; }
+.summary-box h4 { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 14px; }
+.sum-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--rule-light); font-size: 13px; }
+.sum-row:last-child { border-bottom: none; }
+.sum-row .k { color: var(--ink-3); }
+.sum-row .v { color: var(--ink); font-weight: 600; text-align: right; max-width: 58%; }
+
+/* FOOTER */
+.cq-footer { border-top: 1px solid var(--rule); padding-top: 14px; display: flex; justify-content: space-between; margin-top: 48px; }
+.cq-footer span { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); letter-spacing: 1px; text-transform: uppercase; }
+
+@media print {
+  body { font-size: 12px; }
+  .page { padding: 0; max-width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="cq-header">
+    <div class="cq-brand">
+      <span class="cq-logo">CQ</span>
+      <span class="cq-wordmark">Coach<span>IQ</span></span>
+    </div>
+    <span class="cq-doc-type">Coach Intake</span>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-steps">
+      <span class="step-label active" id="lbl-0">Profile</span>
+      <span class="step-label" id="lbl-1">Roster</span>
+      <span class="step-label" id="lbl-2">System</span>
+      <span class="step-label" id="lbl-3">Decisions</span>
+      <span class="step-label" id="lbl-4">Schedule</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- ===================== S0: PROFILE ===================== -->
+  <div class="section active" id="s0">
+    <div class="section-label">01 / 05</div>
+    <div class="section-title">Who are you coaching?</div>
+    <p class="section-desc">Start here — your program level shapes everything that follows.</p>
+
+    <!-- LEVEL SELECTOR — branch point -->
+    <div class="field">
+      <label>Program Level<span class="req">*</span></label>
+      <div class="level-cards" id="levelCards">
+        <div class="level-card" data-level="hs" onclick="selectLevel(this)">
+          <div class="lc-icon">🏫</div>
+          <div class="lc-title">High School</div>
+          <div class="lc-sub">Varsity or JV — interscholastic competition, league title, state/regional championships</div>
+        </div>
+        <div class="level-card" data-level="club" onclick="selectLevel(this)">
+          <div class="lc-icon">🤽</div>
+          <div class="lc-title">Club</div>
+          <div class="lc-sub">Age group — USA Water Polo zone play, JONO, Nationals, Western / Eastern championships</div>
+        </div>
+        <div class="level-card" data-level="college" onclick="selectLevel(this)">
+          <div class="lc-icon">🎓</div>
+          <div class="lc-title">Collegiate</div>
+          <div class="lc-sub">NCAA or NAIA — CWPA or Mountain Pacific conference, national championship</div>
+        </div>
+        <div class="level-card" data-level="other" onclick="selectLevel(this)">
+          <div class="lc-icon">🌊</div>
+          <div class="lc-title">Other</div>
+          <div class="lc-sub">Masters, recreation, international, or a structure not listed above</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>First Name<span class="req">*</span></label>
+        <input type="text" id="firstName" placeholder="Max">
+      </div>
+      <div class="field">
+        <label>Last Name<span class="req">*</span></label>
+        <input type="text" id="lastName" placeholder="Kelly">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Email<span class="req">*</span></label>
+      <input type="email" id="email" placeholder="coach@school.edu">
+    </div>
+
+    <div class="field">
+      <label>School / Club / Program<span class="req">*</span></label>
+      <input type="text" id="school" placeholder="Episcopal Academy / Santa Barbara Water Polo Club / UCLA">
+    </div>
+
+    <!-- HS-specific -->
+    <div class="show-hs field">
+      <label>Conference / League
+        <span class="hint">e.g. Inter-Ac, CIF Southern Section, NYSPHSAA, Mission League</span>
+      </label>
+      <input type="text" id="hsLeague" placeholder="Inter-Ac">
+    </div>
+
+    <div class="show-hs field">
+      <label>Team
+        <span class="hint">Select all you're submitting this intake for.</span>
+      </label>
+      <div class="chip-group" id="hsTeamChips">
+        <div class="chip" data-val="Varsity Boys">Varsity Boys</div>
+        <div class="chip" data-val="Varsity Girls">Varsity Girls</div>
+        <div class="chip" data-val="JV Boys">JV Boys</div>
+        <div class="chip" data-val="JV Girls">JV Girls</div>
+      </div>
+    </div>
+
+    <!-- Club-specific -->
+    <div class="show-club field">
+      <label>Age Group & Gender</label>
+      <div class="chip-group" id="clubAgeChips">
+        <div class="chip" data-val="18U Boys">18U Boys</div>
+        <div class="chip" data-val="18U Girls">18U Girls</div>
+        <div class="chip" data-val="16U Boys">16U Boys</div>
+        <div class="chip" data-val="16U Girls">16U Girls</div>
+        <div class="chip" data-val="14U Boys">14U Boys</div>
+        <div class="chip" data-val="14U Girls">14U Girls</div>
+        <div class="chip" data-val="12U">12U</div>
+      </div>
+    </div>
+
+    <div class="show-club field">
+      <label>USA Water Polo Zone
+        <span class="hint">Your zone determines qualifier structure and Nationals pathway.</span>
+      </label>
+      <div class="chip-group" id="clubZoneChips">
+        <div class="chip" data-val="Zone 1 — Pacific">Zone 1 — Pacific</div>
+        <div class="chip" data-val="Zone 2 — Rocky Mountain">Zone 2 — Rocky Mountain</div>
+        <div class="chip" data-val="Zone 3 — Midwest">Zone 3 — Midwest</div>
+        <div class="chip" data-val="Zone 4 — Gulf Coast">Zone 4 — Gulf Coast</div>
+        <div class="chip" data-val="Zone 5 — Southeast">Zone 5 — Southeast</div>
+        <div class="chip" data-val="Zone 6 — Mid-Atlantic">Zone 6 — Mid-Atlantic</div>
+        <div class="chip" data-val="Zone 7 — New England">Zone 7 — New England</div>
+      </div>
+    </div>
+
+    <!-- College-specific -->
+    <div class="show-college field">
+      <label>Conference & Division</label>
+      <div class="chip-group" id="collegeConfChips">
+        <div class="chip" data-val="MPSF — Men's">MPSF — Men's</div>
+        <div class="chip" data-val="MPSF — Women's">MPSF — Women's</div>
+        <div class="chip" data-val="CWPA — Men's">CWPA — Men's</div>
+        <div class="chip" data-val="CWPA — Women's">CWPA — Women's</div>
+        <div class="chip" data-val="SLC / Other NCAA D1">SLC / Other NCAA D1</div>
+        <div class="chip" data-val="NCAA D2 / D3">NCAA D2 / D3</div>
+        <div class="chip" data-val="NAIA">NAIA</div>
+        <div class="chip" data-val="Club / Intramural">Club / Intramural</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Head Coaching Experience</label>
+      <div class="chip-group" id="expChips">
+        <div class="chip" data-val="0–2 years">0–2 years</div>
+        <div class="chip" data-val="3–5 years">3–5 years</div>
+        <div class="chip" data-val="6–10 years">6–10 years</div>
+        <div class="chip" data-val="10+ years">10+ years</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-next" onclick="next(0)">Roster →</button>
+    </div>
+  </div>
+
+  <!-- ===================== S1: ROSTER ===================== -->
+  <div class="section" id="s1">
+    <div class="section-label">02 / 05</div>
+    <div class="section-title">Roster & Personnel</div>
+    <p class="section-desc">Personnel dictates system — be direct about where you're thin.</p>
+
+    <div class="context-badge" id="ctxBadge1">
+      <span class="cb-dot"></span>
+      <span id="ctxBadge1Text">Your Program</span>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Roster Size</label>
+        <input type="number" id="rosterSize" placeholder="18" min="6" max="50">
+      </div>
+      <div class="field">
+        <label id="returnerLabel">Returning Starters</label>
+        <input type="number" id="returners" placeholder="6" min="0" max="13">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Goalkeeper Situation
+        <span class="hint">This shapes your entire defensive scheme — be direct.</span>
+      </label>
+      <div class="chip-group" id="gkChips">
+        <div class="chip" data-val="Elite — returning All-League selection">Elite — returning All-League selection</div>
+        <div class="chip" data-val="Solid, still developing">Solid, still developing</div>
+        <div class="chip" data-val="Starting-level underclassman">Starting-level underclassman</div>
+        <div class="chip" data-val="Position unresolved — competition ongoing">Position unresolved</div>
+        <div class="chip" data-val="GK is a liability">GK is a liability</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Where Are You Thin?
+        <span class="hint">Select all that apply.</span>
+      </label>
+      <div class="chip-group" id="depthChips">
+        <div class="chip" data-val="2-meter offense">2-meter offense</div>
+        <div class="chip" data-val="Hole D (center defender)">Hole D</div>
+        <div class="chip" data-val="Wing play (2 / 4 positions)">Wing play (2 / 4)</div>
+        <div class="chip" data-val="Point / perimeter decision-maker">Point / perimeter decision-maker</div>
+        <div class="chip" data-val="6x5 execution">6x5 execution</div>
+        <div class="chip" data-val="5x6 defense">5x6 defense</div>
+        <div class="chip" data-val="Counter-attack finish">Counter-attack finish</div>
+        <div class="chip" data-val="Transition off the press">Transition off press</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Describe Your Starting Lineup in One Sentence
+        <span class="hint">Where does your talent concentrate, who do opponents scheme around, and where are you asking players to play up?</span>
+      </label>
+      <textarea id="bestPlayer" placeholder="Physical 2-meter and an elite returning GK are our anchor — strong on the right side, thin at point guard and left wing, opponents will press our perimeter decision-making."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(1)">← Back</button>
+      <button class="btn-next" onclick="next(1)">System →</button>
+    </div>
+  </div>
+
+  <!-- ===================== S2: SYSTEM ===================== -->
+  <div class="section" id="s2">
+    <div class="section-label">03 / 05</div>
+    <div class="section-title">System & Playing Style</div>
+    <p class="section-desc">What you actually run — not the ideal. CoachIQ optimizes around real constraints.</p>
+
+    <div class="context-badge" id="ctxBadge2">
+      <span class="cb-dot"></span>
+      <span id="ctxBadge2Text">Your Program</span>
+    </div>
+
+    <div class="field">
+      <label>Front-Court Offensive Identity</label>
+      <div class="chip-group" id="offenseChips">
+        <div class="chip" data-val="Center-forward dominant — entry to post first, kick out second">Center-forward dominant — post entry first, kick out second</div>
+        <div class="chip" data-val="Perimeter-based — press defense, create shooting lanes outside">Perimeter-based — press defense, create outside lanes</div>
+        <div class="chip" data-val="Drive-and-replace — gap drives with continuous motion">Drive-and-replace — gap drives, continuous motion</div>
+        <div class="chip" data-val="Isolation / pick — create 2v1 advantage on one side">Isolation / pick — create 2v1 on one side</div>
+        <div class="chip" data-val="Counter-attack primary — transition before front-court set">Counter-attack primary — transition before front-court set</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Attacking a 2-Player Logical Zone (3-4 / Splitting) — First Action?
+        <span class="hint">This reveals your offensive decision architecture more than anything else.</span>
+      </label>
+      <div class="chip-group" id="zone33Chips">
+        <div class="chip" data-val="Widen the triangle at 3 & 4 — stress zone, create backdoor at 2">Widen triangle at 3 & 4 — stress zone, create backdoor at 2</div>
+        <div class="chip" data-val="Drive the gap, cross to pocket when zone over-commits">Drive the gap — cross to pocket when zone over-commits</div>
+        <div class="chip" data-val="Ball to center-forward — collapse zone, kick out to perimeter">Ball to center-forward — collapse zone, kick out perimeter</div>
+        <div class="chip" data-val="Skip pass across the top — freeze zone, 2v1 weak side">Skip pass across the top — freeze zone, 2v1 weak side</div>
+        <div class="chip" data-val="No defined structure for attacking zones yet">No defined structure yet</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+      <label>Defensive Base</label>
+      <div class="chip-group" id="defenseChips">
+        <div class="chip" data-val="Full press — deny the passing lane on all perimeter players">Full press — deny passing lane on all perimeter players</div>
+        <div class="chip" data-val="Press with logical zone on center-forward (prevent entry)">Press with logical zone on center-forward</div>
+        <div class="chip" data-val="Splitting / M-zone gap — take away box entry, accept perimeter">Splitting / M-zone gap — take away box entry</div>
+        <div class="chip" data-val="3-4 zone (pistoning) — funnel to GK, double-block from 3 & 4">3-4 zone (pistoning) — funnel to GK</div>
+        <div class="chip" data-val="Situation-dependent — press or zone by opponent and game state">Situation-dependent</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>6x5 Power Play Structure</label>
+      <div class="chip-group" id="pp6Chips">
+        <div class="chip" data-val="4-2 — 6 in, 5 wide, rotate to create 2v1 at posts">4-2 — 6 in, 5 wide, rotate to 2v1 at posts</div>
+        <div class="chip" data-val="3-3 — 1 in / 2 down or 5 in / 4 down rotation">3-3 — 1 in/2 down or 5 in/4 down</div>
+        <div class="chip" data-val="Quick first — score off the exclusion call, positions second">Quick first — score off the exclusion call</div>
+        <div class="chip" data-val="Hybrid — start 4-2, shift to 3-3 on defensive read">Hybrid — 4-2 start, shift to 3-3 on read</div>
+        <div class="chip" data-val="Still developing our 6x5 structure">Still developing</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>5x6 Man-Down — Baseline Priority</label>
+      <div class="chip-group" id="md5Chips">
+        <div class="chip" data-val="Protect the posts — heavy on center-forward, concede perimeter">Protect the posts — heavy on center-forward</div>
+        <div class="chip" data-val="Baseline holds, top three press — disrupt quick entry">Baseline holds, top three press — disrupt quick entry</div>
+        <div class="chip" data-val="Double-block from x3 — take away cross-cage, trust GK near side">Double-block from x3 — take away cross-cage</div>
+        <div class="chip" data-val="Splitting / gap — take away post entry, allow perimeter shot">Splitting / gap — take away post entry</div>
+        <div class="chip" data-val="No defined 5x6 baseline priority yet">No defined priority yet</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Counter-Attack Emphasis</label>
+      <div class="chip-group" id="counterChips">
+        <div class="chip" data-val="Primary counter — 1v0 / 2v1 is our main scoring source">Primary counter — 1v0 / 2v1 is our main scoring source</div>
+        <div class="chip" data-val="Transition counter — 3v2 / 4v3, no number advantage">Transition counter — 3v2 / 4v3</div>
+        <div class="chip" data-val="Controlled transition — we don't chase the counter">Controlled transition — we don't chase it</div>
+        <div class="chip" data-val="Counter-attack underdeveloped — we default to front-court">Counter-attack underdeveloped</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(2)">← Back</button>
+      <button class="btn-next" onclick="next(2)">Decision Points →</button>
+    </div>
+  </div>
+
+  <!-- ===================== S3: DECISION POINTS ===================== -->
+  <div class="section" id="s3">
+    <div class="section-label">04 / 05</div>
+    <div class="section-title">Where Are You Guessing?</div>
+
+    <div class="callout">
+      <strong>This section builds your first deliverable.</strong> Select what fits, then add detail if useful. Answer based on where you are right now — preseason, early season, or mid-season.
+    </div>
+
+    <!-- Q1: Guessing moment -->
+    <div class="field">
+      <label>Where do you expect to be — or already are — guessing in-game?
+        <span class="hint">Select all that apply, then elaborate if useful.</span>
+      </label>
+      <div class="chip-group" id="guessingChips">
+        <div class="chip" data-val="Late-game clock management — protecting a lead or chasing one">Late-game clock management</div>
+        <div class="chip" data-val="6x5 conversion — when our primary look is taken away">6x5 — when our primary look is taken away</div>
+        <div class="chip" data-val="5x6 shape discipline — we break under pressure">5x6 shape discipline under pressure</div>
+        <div class="chip" data-val="Exclusion management — drawing them or avoiding ours">Exclusion management</div>
+        <div class="chip" data-val="Press timing — when to press and when to drop">Press timing — when to press vs. drop</div>
+        <div class="chip" data-val="Halftime adjustments — I'm improvising, not prepared">Halftime adjustments — improvising, not prepared</div>
+        <div class="chip" data-val="Attacking a zone — we don't have a reliable answer">Attacking a zone — no reliable answer</div>
+        <div class="chip" data-val="Counter-attack reads — we're not converting our advantages">Counter-attack reads — not converting advantages</div>
+        <div class="chip" data-val="Substitution timing and rotation management">Sub timing and rotation</div>
+      </div>
+      <textarea id="guessingMoment" style="min-height:72px; margin-top:10px;" placeholder="Add any specific detail — the exact situation, what you've tried, what makes it hard..."></textarea>
+    </div>
+
+    <!-- Q2: Defensive adaptation trigger -->
+    <div class="field">
+      <label>What does an opponent have to show before you change your defensive base?
+        <span class="hint">Select the trigger, then describe it if needed.</span>
+      </label>
+      <div class="chip-group" id="defTriggerChips">
+        <div class="chip" data-val="Dominant 2-meter we can't contain with solo hole D">Dominant 2-meter — can't contain with solo hole D</div>
+        <div class="chip" data-val="Elite perimeter shooter — we need to close harder">Elite perimeter shooter — need to close harder</div>
+        <div class="chip" data-val="Counter-attack threat — we pull the press to protect transition">Counter-attack threat — pull press to protect transition</div>
+        <div class="chip" data-val="Strong 6x5 unit — we shift to protect against the quick">Strong 6x5 — shift to protect against the quick</div>
+        <div class="chip" data-val="Score deficit — we go full press to force turnovers">Score deficit — go full press, force turnovers</div>
+        <div class="chip" data-val="We rarely adjust our base — we make them beat our scheme">We rarely adjust — make them beat our scheme</div>
+        <div class="chip" data-val="We don't have a clear trigger yet">No clear trigger yet</div>
+      </div>
+      <textarea id="defAdaptTrigger" style="min-height:68px; margin-top:10px;" placeholder="Elaborate on what specifically forces the change and what the timing challenge is..."></textarea>
+    </div>
+
+    <!-- Q3: Least in control -->
+    <div class="field">
+      <label>What moment in a match do you feel — or expect to feel — least in control?
+        <span class="hint">Select the situation, then add detail if useful.</span>
+      </label>
+      <div class="chip-group" id="controlChips">
+        <div class="chip" data-val="Protecting a one-goal lead in the final 2 minutes">Protecting a one-goal lead — final 2 minutes</div>
+        <div class="chip" data-val="Down 2+ goals with under 4 minutes — opponent stalling">Down 2+ — opponent stalling</div>
+        <div class="chip" data-val="After we give up a quick 6x5 goal — we fall apart">After giving up a 6x5 quick — we fall apart</div>
+        <div class="chip" data-val="Third period — conditioning affects our execution">Third period — conditioning affects execution</div>
+        <div class="chip" data-val="After a momentum swing — we can't re-set emotionally">After a momentum swing — can't re-set</div>
+        <div class="chip" data-val="First 2 minutes — we're slow to establish our press">First 2 minutes — slow to establish press</div>
+        <div class="chip" data-val="Tied game in the fourth — I'm not sure how aggressively to play">Tied fourth period — unsure how aggressive to play</div>
+      </div>
+      <textarea id="leastControl" style="min-height:68px; margin-top:10px;" placeholder="Add context on what specifically breaks down in that moment..."></textarea>
+    </div>
+
+    <!-- Q4: Build or fix -->
+    <div class="field">
+      <label>What's one tactical area you want to build or fix — right now?
+        <span class="hint">This becomes your Week 1 focal point. Select the area, then describe the specific problem.</span>
+      </label>
+      <div class="chip-group" id="focusChips">
+        <div class="chip" data-val="6x5 — build or add a secondary look off our primary action">6x5 — build a secondary look off our primary action</div>
+        <div class="chip" data-val="5x6 — build shape discipline and reset after conceding">5x6 — shape discipline and reset after conceding</div>
+        <div class="chip" data-val="Counter-attack structure — we need defined roles and spacing">Counter-attack — defined roles and spacing</div>
+        <div class="chip" data-val="Press defense — timing, triggers, and transition out of it">Press defense — timing, triggers, transition</div>
+        <div class="chip" data-val="Zone attack — we need a defined sequence against split defenses">Zone attack — defined sequence vs. split defenses</div>
+        <div class="chip" data-val="2-meter post entry — getting the ball in reliably">2-meter post entry — getting the ball in reliably</div>
+        <div class="chip" data-val="Exclusion discipline — reducing ours and drawing more">Exclusion discipline — reduce ours, draw more</div>
+        <div class="chip" data-val="GK communication — ownership of set pieces and shot reads">GK communication — set piece ownership</div>
+        <div class="chip" data-val="Late-game protocols — clock, fouling, possession decisions">Late-game protocols — clock, fouling, possession</div>
+      </div>
+      <textarea id="unseenProblem" style="min-height:68px; margin-top:10px;" placeholder="Describe what you've tried, what breaks down, or what you're starting from scratch on..."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(3)">← Back</button>
+      <button class="btn-next" onclick="next(3)">Schedule →</button>
+    </div>
+  </div>
+
+  <!-- ===================== S4: SCHEDULE (DYNAMIC) ===================== -->
+  <div class="section" id="s4">
+    <div class="section-label">05 / 05</div>
+    <div class="section-title">Schedule & Season Structure</div>
+    <p class="section-desc">Every phase of your season gets different CoachIQ support. Map it out once.</p>
+
+    <div class="context-badge visible" id="ctxBadge4">
+      <span class="cb-dot"></span>
+      <span id="ctxBadge4Text">Showing fields for your program level</span>
+    </div>
+
+    <!-- UNIVERSAL: Season window -->
+    <div class="phase-block">
+      <div class="phase-label">Season Window</div>
+      <div class="row">
+        <div class="field">
+          <label>First Practice Date</label>
+          <input type="text" id="practiceStart" placeholder="Aug 24">
+        </div>
+        <div class="field">
+          <label>Last Possible Game Date
+            <span class="hint">End of playoffs, nationals, or championship window.</span>
+          </label>
+          <input type="text" id="seasonEnd" placeholder="Nov 8">
+        </div>
+      </div>
+      <div class="field">
+        <label>Preseason Length
+          <span class="hint">Time between first practice and first game.</span>
+        </label>
+        <div class="chip-group" id="preseasonLenChips">
+          <div class="chip" data-val="1 week">1 week</div>
+          <div class="chip" data-val="2 weeks">2 weeks</div>
+          <div class="chip" data-val="3 weeks">3 weeks</div>
+          <div class="chip" data-val="4+ weeks">4+ weeks</div>
+          <div class="chip" data-val="No formal preseason">No formal preseason</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Practices Per Week (in-season)</label>
+          <div class="chip-group" id="practiceFreqChips">
+            <div class="chip" data-val="2x">2x</div>
+            <div class="chip" data-val="3x">3x</div>
+            <div class="chip" data-val="4x">4x</div>
+            <div class="chip" data-val="5x+">5x+</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Typical Practice Duration</label>
+          <div class="chip-group" id="practiceLenChips">
+            <div class="chip" data-val="60 min">60 min</div>
+            <div class="chip" data-val="75 min">75 min</div>
+            <div class="chip" data-val="90 min">90 min</div>
+            <div class="chip" data-val="2+ hrs">2+ hrs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIVERSAL: League title format -->
+    <div class="phase-block">
+      <div class="phase-label">League / Title Structure</div>
+      <div class="field">
+        <label>How is your league title or championship determined?
+          <span class="hint">Select all that apply to your season.</span>
+        </label>
+        <div class="chip-group" id="titleFormatChips">
+          <div class="chip show-hs" data-val="Round robin — best record against conference opponents wins title">Round robin — best conference record wins</div>
+          <div class="chip show-hs" data-val="CIF section playoffs — single elimination bracket">CIF section playoffs</div>
+          <div class="chip show-hs" data-val="State championship tournament">State championship tournament</div>
+          <div class="chip show-hs" data-val="Eastern Prep Championships (Easterns)">Eastern Prep Championships (Easterns)</div>
+          <div class="chip show-hs" data-val="National Prep Championship">National Prep Championship</div>
+          <div class="chip show-club" data-val="USAWP Zone qualifier — top finishers advance to Nationals">USAWP Zone qualifier → Nationals</div>
+          <div class="chip show-club" data-val="Junior Olympics (JONO)">Junior Olympics (JONO)</div>
+          <div class="chip show-club" data-val="Western / Eastern Age Group Championships">Western / Eastern Age Group Championships</div>
+          <div class="chip show-club" data-val="USA Water Polo Nationals">USA Water Polo Nationals</div>
+          <div class="chip show-club" data-val="Club-hosted invitational tournaments only">Invitational tournaments only</div>
+          <div class="chip show-college" data-val="CWPA regular season — best conference record">CWPA regular season — best record</div>
+          <div class="chip show-college" data-val="CWPA Championship tournament">CWPA Championship tournament</div>
+          <div class="chip show-college" data-val="MPSF Championship">MPSF Championship</div>
+          <div class="chip show-college" data-val="NCAA Championship">NCAA Championship</div>
+          <div class="chip show-college" data-val="Conference round robin into post-season bracket">Conference round robin → post-season bracket</div>
+          <div class="chip show-other" data-val="No formal league structure">No formal league structure</div>
+          <div class="chip show-other" data-val="Other — I'll describe below">Other — I'll describe below</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Anything worth adding about your title format?
+          <span class="hint">Tiebreaker rules, number of rounds, home/away split — only if it changes how the season is sequenced.</span>
+        </label>
+        <textarea id="titleContext" style="min-height:60px;" placeholder="Optional — e.g. we play each opponent twice, best overall record wins, no tiebreaker tournament."></textarea>
+      </div>
+    </div>
+
+    <!-- UNIVERSAL: Major tournaments -->
+    <div class="phase-block">
+      <div class="phase-label">Major Tournaments & Championships</div>
+      <div class="callout">
+        <strong>List every tournament you're building toward.</strong> These get the deepest prep packages and define how CoachIQ sequences your season.
+      </div>
+      <div id="tournamentList">
+        <div class="tournament-row">
+          <div class="row" style="margin-bottom:10px;">
+            <div class="field" style="margin-bottom:0;">
+              <label style="font-weight:500;font-size:12px;">Tournament / Championship Name</label>
+              <input type="text" class="t-name" placeholder="Easterns / JONO / CWPA Championships / CIF Playoffs">
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label style="font-weight:500;font-size:12px;">Dates</label>
+              <input type="text" class="t-dates" placeholder="Nov 6–8">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field" style="margin-bottom:0;">
+              <label style="font-weight:500;font-size:12px;">Location</label>
+              <input type="text" class="t-loc" placeholder="@ Lawrenceville / TBD">
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label style="font-weight:500;font-size:12px;">Priority</label>
+              <div class="chip-group" style="margin-top:4px;">
+                <div class="chip t-pri-chip" data-val="Primary — we're building the season toward this">Primary</div>
+                <div class="chip t-pri-chip" data-val="Secondary — want to compete well but not primary target">Secondary</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn-add-row" onclick="addTournament()">+ Add Tournament</button>
+    </div>
+
+    <!-- HS-specific: Game schedule phases -->
+    <div class="show-hs phase-block">
+      <div class="phase-label">HS — Game Schedule</div>
+
+      <div class="field">
+        <label>Preseason Scrimmages</label>
+        <div class="chip-group" id="hsScrimChips">
+          <div class="chip" data-val="None before first game">None before first game</div>
+          <div class="chip" data-val="1 scrimmage">1 scrimmage</div>
+          <div class="chip" data-val="2 scrimmages">2 scrimmages</div>
+          <div class="chip" data-val="Scrimmage tournament / jamboree">Scrimmage tournament / jamboree</div>
+        </div>
+        <textarea id="hsScrimmages" style="min-height:60px; margin-top:10px;" placeholder="Optional — date(s), opponent(s), home or away..."></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>First Game Date</label>
+          <input type="text" id="hsFirstGame" placeholder="Sept 1">
+        </div>
+        <div class="field">
+          <label>First League Game Date</label>
+          <input type="text" id="hsFirstLeague" placeholder="Sept 29">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Non-League Games — Prep Level
+          <span class="hint">Select your default, then list any exceptions below.</span>
+        </label>
+        <div class="chip-group" id="hsNonLeaguePrepChips">
+          <div class="chip" data-val="Full prep package for all non-league games">Full prep — all non-league games</div>
+          <div class="chip" data-val="Full prep for flagged games only, light scout for the rest">Full prep for flagged games only</div>
+          <div class="chip" data-val="Light scouting note for all non-league games">Light scout — all non-league games</div>
+        </div>
+        <textarea id="hsNonLeague" style="min-height:72px; margin-top:10px;" placeholder="9/1 — Lower Merion (home)&#10;9/11 — Lawrenceville (home)&#10;9/12 — Gonzaga (home)&#10;9/18 — Hill (home)&#10;Flag any exceptions to your default above with ✓ or —"></textarea>
+      </div>
+
+      <div class="field">
+        <label>League Opponents — Drag to Rank by Priority
+          <span class="hint">Add your actual league opponents. Drag to reorder by importance to winning the title.</span>
+        </label>
+        <div class="rank-list" id="hsRankList">
+          <div class="rank-item" draggable="true">
+            <span class="rank-num">1</span>
+            <div class="rank-notes-wrap">
+              <input type="text" class="rank-note" placeholder="Opponent name — e.g. Penn Charter (PC)">
+            </div>
+            <input type="text" class="rank-note" style="max-width:180px;" placeholder="What makes them hard">
+            <span class="drag-handle">⠿</span>
+            <button type="button" class="rank-remove" onclick="removeOpponent(this, 'hsRankList')" title="Remove">×</button>
+          </div>
+          <div class="rank-item" draggable="true">
+            <span class="rank-num">2</span>
+            <div class="rank-notes-wrap">
+              <input type="text" class="rank-note" placeholder="Opponent name">
+            </div>
+            <input type="text" class="rank-note" style="max-width:180px;" placeholder="What makes them hard">
+            <span class="drag-handle">⠿</span>
+            <button type="button" class="rank-remove" onclick="removeOpponent(this, 'hsRankList')" title="Remove">×</button>
+          </div>
+        </div>
+        <button type="button" class="btn-add-row" onclick="addLeagueOpponent('hsRankList')" style="margin-top:8px;">+ Add Opponent</button>
+      </div>
+    </div>
+
+    <!-- Club-specific -->
+    <div class="show-club phase-block">
+      <div class="phase-label">Club — Season Schedule</div>
+      <div class="field">
+        <label>First Competition Date</label>
+        <input type="text" id="clubFirstComp" placeholder="Oct 5">
+      </div>
+      <div class="field">
+        <label>Season Structure
+          <span class="hint">Select what applies, then add detail below if useful.</span>
+        </label>
+        <div class="chip-group" id="clubStructureChips">
+          <div class="chip" data-val="Single-day tournaments throughout season">Single-day tournaments throughout</div>
+          <div class="chip" data-val="Multi-day tournaments as primary competition format">Multi-day tournaments — primary format</div>
+          <div class="chip" data-val="Zone play / league games leading to qualifier">Zone play / league games → qualifier</div>
+          <div class="chip" data-val="Dual meets plus tournaments">Dual meets plus tournaments</div>
+        </div>
+        <textarea id="clubRegularTourneys" style="min-height:68px; margin-top:10px;" placeholder="List key regular season tournaments with dates — e.g. Oct 5-6 Zone Qualifier @ Long Beach, Oct 19-20 SoCal Championships..."></textarea>
+      </div>
+      <div class="field">
+        <label>Zone Qualifier / Nationals</label>
+        <div class="chip-group" id="clubNationalsChips">
+          <div class="chip" data-val="Targeting Nationals — qualifier is the priority event">Targeting Nationals — qualifier is priority</div>
+          <div class="chip" data-val="Nationals is a stretch goal — qualifier is the realistic target">Qualifier is realistic target, Nationals is stretch</div>
+          <div class="chip" data-val="Not targeting Nationals this season">Not targeting Nationals this season</div>
+        </div>
+        <textarea id="clubQualifier" style="min-height:60px; margin-top:10px;" placeholder="Optional — qualifier date / location, nationals date if known..."></textarea>
+      </div>
+    </div>
+
+    <!-- College-specific -->
+    <div class="show-college phase-block">
+      <div class="phase-label">Collegiate — Season Schedule</div>
+      <div class="row">
+        <div class="field">
+          <label>First Game Date</label>
+          <input type="text" id="collegeFirstGame" placeholder="Sept 6">
+        </div>
+        <div class="field">
+          <label>Conference Play Begins</label>
+          <input type="text" id="collegeConfStart" placeholder="Oct 1">
+        </div>
+      </div>
+      <div class="field">
+        <label>Non-Conference Prep Level
+          <span class="hint">Select your default approach, then list exceptions below.</span>
+        </label>
+        <div class="chip-group" id="collegeNonConfPrepChips">
+          <div class="chip" data-val="Full prep package for all non-conference games">Full prep — all non-conference games</div>
+          <div class="chip" data-val="Full prep for ranked or scouted opponents, light scout for others">Full prep for ranked opponents only</div>
+          <div class="chip" data-val="Light scouting note for all non-conference games">Light scout — all non-conference</div>
+        </div>
+        <textarea id="collegeNonConf" style="min-height:68px; margin-top:10px;" placeholder="9/6 — USC (home)&#10;9/14 — Long Beach State (away)&#10;9/21 — Hawaii (home)&#10;Flag exceptions to your default with ✓ or —"></textarea>
+      </div>
+      <div class="field">
+        <label>Conference Opponents — Rank by Priority</label>
+        <div class="rank-list" id="collegeRankList">
+          <div class="rank-item" draggable="true">
+            <span class="rank-num">1</span>
+            <div class="rank-notes-wrap">
+              <input type="text" class="rank-note" placeholder="Opponent / program name">
+            </div>
+            <input type="text" class="rank-note" style="max-width:180px;" placeholder="Key threat or scouting note">
+            <span class="drag-handle">⠿</span>
+            <button type="button" class="rank-remove" onclick="removeOpponent(this, 'collegeRankList')" title="Remove">×</button>
+          </div>
+          <div class="rank-item" draggable="true">
+            <span class="rank-num">2</span>
+            <div class="rank-notes-wrap">
+              <input type="text" class="rank-note" placeholder="Opponent / program name">
+            </div>
+            <input type="text" class="rank-note" style="max-width:180px;" placeholder="Key threat or scouting note">
+            <span class="drag-handle">⠿</span>
+            <button type="button" class="rank-remove" onclick="removeOpponent(this, 'collegeRankList')" title="Remove">×</button>
+          </div>
+        </div>
+        <button type="button" class="btn-add-row" onclick="addLeagueOpponent('collegeRankList')" style="margin-top:8px;">+ Add Opponent</button>
+      </div>
+    </div>
+
+    <!-- UNIVERSAL: Pool logistics -->
+    <div class="phase-block">
+      <div class="phase-label">Practice Logistics</div>
+      <div class="field">
+        <label>Pool Availability</label>
+        <div class="chip-group" id="poolChips">
+          <div class="chip" data-val="Dedicated pool — full access all week">Dedicated pool — full access</div>
+          <div class="chip" data-val="Shared pool — limited to assigned lanes or time slots">Shared pool — limited lanes or slots</div>
+          <div class="chip" data-val="Shared pool with swim team — partial access">Shared with swim team</div>
+          <div class="chip" data-val="No weekend pool access">No weekend access</div>
+          <div class="chip" data-val="Dry-land days built into weekly schedule">Dry-land days built in</div>
+        </div>
+        <textarea id="poolConstraints" style="min-height:60px; margin-top:10px;" placeholder="Optional — any specifics on which days, which end of pool, time blocks, or off-site dry-land arrangements..."></textarea>
+      </div>
+    </div>
+
+    <!-- UNIVERSAL: Success vision -->
+    <div class="field">
+      <label>What does a successful CoachIQ season look like to you?
+        <span class="hint">Select what matters most, then add your own framing below.</span>
+      </label>
+      <div class="chip-group" id="successChips">
+        <div class="chip" data-val="Win the league title">Win the league title</div>
+        <div class="chip" data-val="Win a major tournament (Easterns / JONO / CWPA / CIF)">Win a major tournament</div>
+        <div class="chip" data-val="Walk into every game feeling tactically prepared">Walk in tactically prepared every game</div>
+        <div class="chip" data-val="Develop a system we can build on next year">Build a system for next year</div>
+        <div class="chip" data-val="Spend less time improvising, more time executing">Less improvising, more executing</div>
+        <div class="chip" data-val="Better halftime adjustments and in-game decision-making">Better in-game adjustments</div>
+      </div>
+      <textarea id="successVision" style="min-height:60px; margin-top:10px;" placeholder="Optional — add anything specific to your program or situation..."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(4)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">Submit Intake →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="successScreen">
+    <div class="success-icon">●</div>
+    <h2>You're in the system.</h2>
+    <p>Intake received. Week 1 Practice Plan delivered within 24 hours — starting with your biggest decision-point problem.</p>
+    <div class="summary-box" id="summaryBox">
+      <h4>Intake Summary</h4>
+    </div>
+  </div>
+
+  <div class="cq-footer">
+    <span>CoachIQ · Max Kelly</span>
+    <span>Confidential</span>
+  </div>
+
+</div>
+<script>
+// ---- STATE ----
+let cur = 0;
+const total = 5;
+let selectedLevel = null;
+
+// Chip group config
+const multiChips  = ['depthChips', 'hsTeamChips', 'titleFormatChips', 'guessingChips', 'focusChips', 'successChips', 'poolChips', 'hsScrimChips'];
+const singleChips = ['gkChips','offenseChips','zone33Chips','defenseChips','pp6Chips',
+                     'md5Chips','counterChips','practiceFreqChips','practiceLenChips',
+                     'clubAgeChips','clubZoneChips','collegeConfChips','expChips',
+                     'defTriggerChips','controlChips','hsNonLeaguePrepChips',
+                     'clubStructureChips','clubNationalsChips','collegeNonConfPrepChips',
+                     'preseasonLenChips'];
+
+// Wire all chips
+document.querySelectorAll('.chip').forEach(c => {
+  c.addEventListener('click', () => {
+    const g = c.closest('.chip-group');
+    const gid = g.id;
+    if (multiChips.includes(gid)) {
+      c.classList.toggle('selected');
+    } else {
+      g.querySelectorAll('.chip').forEach(x => x.classList.remove('selected'));
+      c.classList.add('selected');
+    }
+  });
+});
+
+// ---- LEVEL SELECTION — the core branch ----
+function selectLevel(card) {
+  document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedLevel = card.dataset.level;
+  applyLevel(selectedLevel);
+}
+
+function applyLevel(level) {
+  // Hide all dynamic blocks
+  document.querySelectorAll('.show-hs, .show-club, .show-college, .show-other').forEach(el => {
+    el.classList.remove('visible');
+  });
+
+  // Show the right ones
+  const map = { hs: '.show-hs', club: '.show-club', college: '.show-college', other: '.show-other' };
+  if (map[level]) {
+    document.querySelectorAll(map[level]).forEach(el => el.classList.add('visible'));
+  }
+
+  // Also show title-format chips for all levels
+  document.querySelectorAll('#titleFormatChips .chip').forEach(c => {
+    c.style.display = 'none';
+  });
+  document.querySelectorAll(`#titleFormatChips .chip.show-${level}`).forEach(c => {
+    c.style.display = '';
+  });
+
+  // Update context badges
+  const labels = {
+    hs:      'High School Program',
+    club:    'Club Program',
+    college: 'Collegiate Program',
+    other:   'Your Program'
+  };
+  const badge = labels[level] || 'Your Program';
+  ['ctxBadge1Text','ctxBadge2Text','ctxBadge4Text'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = badge;
+  });
+  ['ctxBadge1','ctxBadge2','ctxBadge4'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('visible');
+  });
+
+  // Adjust returner label
+  const rLabel = document.getElementById('returnerLabel');
+  if (rLabel) {
+    rLabel.textContent = level === 'club' ? 'Returning Players (from last season)' :
+                         level === 'college' ? 'Returning Starters' : 'Returning Starters';
+  }
+}
+
+// ---- PROGRESS ----
+function updateProgress(i) {
+  document.getElementById('progressFill').style.width = (i / (total - 1) * 100) + '%';
+  for (let x = 0; x < total; x++) {
+    const l = document.getElementById('lbl-' + x);
+    if (!l) continue;
+    l.className = 'step-label' + (x < i ? ' done' : x === i ? ' active' : '');
+  }
+}
+
+// ---- VALIDATE ----
+function validate(i) {
+  if (i === 0) {
+    if (!selectedLevel) {
+      alert('Please select your program level to continue.');
+      return false;
+    }
+    if (!document.getElementById('firstName').value.trim() ||
+        !document.getElementById('email').value.trim() ||
+        !document.getElementById('school').value.trim()) {
+      alert('Please fill in your name, email, and program name before continuing.');
+      return false;
+    }
+  }
+  return true;
+}
+
+// ---- NAVIGATION ----
+function next(i) {
+  if (!validate(i)) return;
+  document.getElementById('s' + i).classList.remove('active');
+  cur = i + 1;
+  document.getElementById('s' + cur).classList.add('active');
+  updateProgress(cur);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prev(i) {
+  document.getElementById('s' + i).classList.remove('active');
+  cur = i - 1;
+  document.getElementById('s' + cur).classList.add('active');
+  updateProgress(cur);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---- CHIP HELPER ----
+function chips(id) {
+  const el = document.getElementById(id);
+  if (!el) return '—';
+  return Array.from(el.querySelectorAll('.chip.selected')).map(c => c.dataset.val).join(', ') || '—';
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? (el.value.trim() || '—') : '—';
+}
+
+// ---- TOURNAMENT ----
+function addTournament() {
+  const tpl = `<div class="tournament-row">
+    <div class="row" style="margin-bottom:10px;">
+      <div class="field" style="margin-bottom:0;">
+        <label style="font-weight:500;font-size:12px;">Tournament / Championship Name</label>
+        <input type="text" class="t-name" placeholder="Tournament name">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label style="font-weight:500;font-size:12px;">Dates</label>
+        <input type="text" class="t-dates" placeholder="Nov 6–8">
+      </div>
+    </div>
+    <div class="row">
+      <div class="field" style="margin-bottom:0;">
+        <label style="font-weight:500;font-size:12px;">Location</label>
+        <input type="text" class="t-loc" placeholder="Location / TBD">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label style="font-weight:500;font-size:12px;">Priority</label>
+        <div class="chip-group" style="margin-top:4px;">
+          <div class="chip t-pri-chip" data-val="Primary">Primary</div>
+          <div class="chip t-pri-chip" data-val="Secondary">Secondary</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('tournamentList').insertAdjacentHTML('beforeend', tpl);
+  document.querySelectorAll('#tournamentList .tournament-row:last-child .t-pri-chip').forEach(c => {
+    c.addEventListener('click', () => {
+      c.closest('.chip-group').querySelectorAll('.chip').forEach(x => x.classList.remove('selected'));
+      c.classList.add('selected');
+    });
+  });
+}
+
+document.querySelectorAll('.t-pri-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    c.closest('.chip-group').querySelectorAll('.chip').forEach(x => x.classList.remove('selected'));
+    c.classList.add('selected');
+  });
+});
+
+// ---- ADD / REMOVE LEAGUE OPPONENT ----
+function addLeagueOpponent(listId) {
+  const list = document.getElementById(listId);
+  const count = list.querySelectorAll('.rank-item').length + 1;
+  const div = document.createElement('div');
+  div.className = 'rank-item';
+  div.draggable = true;
+  div.innerHTML =
+    '<span class="rank-num">' + count + '</span>' +
+    '<div class="rank-notes-wrap"><input type="text" class="rank-note" placeholder="Opponent name"></div>' +
+    '<input type="text" class="rank-note" style="max-width:180px;" placeholder="Key scouting note">' +
+    '<span class="drag-handle">⠿</span>' +
+    '<button type="button" class="rank-remove" onclick="removeOpponent(this,\'' + listId + '\')" title="Remove">×</button>';
+  list.appendChild(div);
+  initDrag(listId);
+}
+
+function removeOpponent(btn, listId) {
+  const list = document.getElementById(listId);
+  if (list.querySelectorAll('.rank-item').length <= 1) return; // keep at least 1
+  btn.closest('.rank-item').remove();
+  updateRankNumbers(listId);
+}
+
+// ---- DRAG TO RANK ----
+let dragSrc = null;
+
+function initDrag(listId) {
+  const list = document.getElementById(listId);
+  if (!list) return;
+  list.querySelectorAll('.rank-item').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      dragSrc = item; item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      list.querySelectorAll('.rank-item').forEach(i => i.classList.remove('drag-over'));
+      updateRankNumbers(listId);
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (item !== dragSrc) {
+        list.querySelectorAll('.rank-item').forEach(i => i.classList.remove('drag-over'));
+        item.classList.add('drag-over');
+      }
+    });
+    item.addEventListener('drop', e => {
+      e.preventDefault();
+      if (item !== dragSrc) {
+        const items = [...list.querySelectorAll('.rank-item')];
+        const si = items.indexOf(dragSrc), ti = items.indexOf(item);
+        if (si < ti) list.insertBefore(dragSrc, item.nextSibling);
+        else list.insertBefore(dragSrc, item);
+      }
+    });
+  });
+}
+
+function updateRankNumbers(listId) {
+  document.querySelectorAll('#' + listId + ' .rank-item').forEach((item, i) => {
+    item.querySelector('.rank-num').textContent = i + 1;
+  });
+}
+
+initDrag('hsRankList');
+initDrag('collegeRankList');
+
+// ---- SUBMIT ----
+function submitForm() {
+  const tournaments = [...document.querySelectorAll('.tournament-row')].map(row => ({
+    name:  row.querySelector('.t-name')?.value || '',
+    dates: row.querySelector('.t-dates')?.value || '',
+    loc:   row.querySelector('.t-loc')?.value || '',
+    pri:   row.querySelector('.t-pri-chip.selected')?.dataset.val || '—'
+  })).filter(t => t.name);
+
+  const hsRank = [...document.querySelectorAll('#hsRankList .rank-item')].map((item, i) => {
+    const inputs = item.querySelectorAll('input');
+    return { rank: i+1, opp: inputs[0]?.value || '', note: inputs[1]?.value || '' };
+  }).filter(r => r.opp);
+
+  const collegeRank = [...document.querySelectorAll('#collegeRankList .rank-item')].map((item, i) => {
+    const inputs = item.querySelectorAll('input');
+    return { rank: i+1, opp: inputs[0]?.value || '', note: inputs[1]?.value || '' };
+  }).filter(r => r.opp);
+
+  const gm = document.getElementById('guessingMoment').value || '';
+
+  const data = {
+    level: selectedLevel,
+    name:  val('firstName') + ' ' + val('lastName'),
+    email: val('email'),
+    school: val('school'),
+    hsLeague: val('hsLeague'),
+    hsTeam: chips('hsTeamChips'),
+    clubAge: chips('clubAgeChips'),
+    clubZone: chips('clubZoneChips'),
+    collegeConf: chips('collegeConfChips'),
+    experience: chips('expChips'),
+    // Roster
+    rosterSize: val('rosterSize'),
+    gk: chips('gkChips'),
+    thinAt: chips('depthChips'),
+    bestPlayer: val('bestPlayer'),
+    // System
+    offense: chips('offenseChips'),
+    vsZone: chips('zone33Chips'),
+    defense: chips('defenseChips'),
+    powerPlay: chips('pp6Chips'),
+    manDown: chips('md5Chips'),
+    counter: chips('counterChips'),
+    // Decisions
+    guessingChips:    chips('guessingChips'),
+    guessingMoment:   gm || '—',
+    defTriggerChip:   chips('defTriggerChips'),
+    defAdaptTrigger:  val('defAdaptTrigger'),
+    controlChip:      chips('controlChips'),
+    leastControl:     val('leastControl'),
+    focusChip:        chips('focusChips'),
+    unseenProblem:    val('unseenProblem'),
+    // Schedule
+    practiceStart: val('practiceStart'),
+    seasonEnd: val('seasonEnd'),
+    preseasonLen: chips('preseasonLenChips'),
+    practiceFreq: chips('practiceFreqChips'),
+    practiceLen: chips('practiceLenChips'),
+    titleFormat: chips('titleFormatChips'),
+    titleContext: val('titleContext'),
+    tournaments,
+    // HS
+    hsScrimmages: val('hsScrimmages'),
+    hsFirstGame: val('hsFirstGame'),
+    hsNonLeague: val('hsNonLeague'),
+    hsFirstLeague: val('hsFirstLeague'),
+    hsLeagueRank: hsRank,
+    // Club
+    clubFirstComp: val('clubFirstComp'),
+    clubRegularTourneys: val('clubRegularTourneys'),
+    clubQualifier: val('clubQualifier'),
+    // College
+    collegeFirstGame: val('collegeFirstGame'),
+    collegeConfStart: val('collegeConfStart'),
+    collegeRank,
+    collegeNonConf: val('collegeNonConf'),
+    // Universal
+    poolConstraints: val('poolConstraints'),
+    successVision: val('successVision'),
+  };
+
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelector('.progress-wrap').style.display = 'none';
+
+  // Show loading state briefly
+  document.getElementById('successScreen').classList.add('active');
+  document.getElementById('successScreen').innerHTML = `
+    <div class="success-icon">⏳</div>
+    <h2>Submitting...</h2>
+    <p>Sending your intake to CoachIQ.</p>
+  `;
+
+  // Submit to Formspree
+  fetch('https://formspree.io/f/myklwjnp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      // Identity
+      _subject: 'CoachIQ Intake — ' + data.name + ' (' + data.school + ')',
+      name:        data.name,
+      email:       data.email,
+      school:      data.school,
+      level:       data.level,
+      // Profile
+      league:      data.hsLeague,
+      team:        data.hsTeam || data.clubAge || data.collegeConf,
+      experience:  data.experience,
+      // Roster
+      roster_size:   data.rosterSize,
+      gk_situation:  data.gk,
+      depth_gaps:    data.thinAt,
+      lineup:        data.bestPlayer,
+      // System
+      offense:       data.offense,
+      vs_zone:       data.vsZone,
+      defense:       data.defense,
+      power_play:    data.powerPlay,
+      man_down:      data.manDown,
+      counter:       data.counter,
+      // Decision Points
+      guessing_situations:  data.guessingMoment,
+      guessing_chips:       data.guessingChips || chips('guessingChips'),
+      def_trigger_chip:     data.defTriggerChip || chips('defTriggerChips'),
+      def_trigger_detail:   data.defAdaptTrigger,
+      least_control_chip:   data.controlChip || chips('controlChips'),
+      least_control_detail: data.leastControl,
+      focus_chip:           data.focusChip || chips('focusChips'),
+      focus_detail:         data.unseenProblem,
+      // Schedule
+      practice_start:   data.practiceStart,
+      season_end:       data.seasonEnd,
+      preseason_length: data.preseasonLen,
+      practice_freq:    data.practiceFreq,
+      practice_len:     data.practiceLen,
+      title_format:     data.titleFormat,
+      title_context:    data.titleContext,
+      tournaments:      JSON.stringify(data.tournaments),
+      // HS
+      hs_scrimmages:    data.hsScrimmages,
+      hs_first_game:    data.hsFirstGame,
+      hs_non_league:    data.hsNonLeague,
+      hs_first_league:  data.hsFirstLeague,
+      hs_league_rank:   JSON.stringify(data.hsLeagueRank),
+      // Club
+      club_first_comp:      data.clubFirstComp,
+      club_tournaments:     data.clubRegularTourneys,
+      club_qualifier:       data.clubQualifier,
+      // College
+      college_first_game:   data.collegeFirstGame,
+      college_conf_start:   data.collegeConfStart,
+      college_rank:         JSON.stringify(data.collegeRank),
+      college_non_conf:     data.collegeNonConf,
+      // Logistics
+      pool_constraints: data.poolConstraints,
+      success_vision:   data.successVision,
+    })
+  })
+  .then(res => {
+    if (res.ok) {
+      // Success screen
+      const levelLabel = { hs: 'High School', club: 'Club', college: 'Collegiate', other: 'Other' };
+      const tourStr = tournaments.length ? tournaments.map(t => t.name + (t.dates ? ' (' + t.dates + ')' : '')).join(', ') : '—';
+      const interacStr = hsRank.length ? hsRank.map(r => r.rank + '. ' + r.opp).join(' · ') : '—';
+
+      document.getElementById('successScreen').innerHTML = `
+        <div class="success-icon">●</div>
+        <h2>You're in the system.</h2>
+        <p>Intake received. Week 1 Practice Plan delivered within 24 hours — starting with your biggest decision-point problem.</p>
+        <div class="summary-box" id="summaryBox"><h4>Intake Summary</h4></div>
+      `;
+
+      const box = document.getElementById('summaryBox');
+      [
+        ['Coach',        data.name],
+        ['Program',      data.school + ' — ' + (levelLabel[data.level] || data.level)],
+        ['Offense',      data.offense],
+        ['Defense',      data.defense],
+        ['Season',       data.practiceStart + ' → ' + data.seasonEnd],
+        ['Preseason',    data.preseasonLen],
+        ['Title Format', data.titleFormat],
+        ['Tournaments',  tourStr],
+        ['Week 1 Focus', gm.substring(0, 55) + (gm.length > 55 ? '...' : '')],
+      ].forEach(([k, v]) => {
+        const r = document.createElement('div');
+        r.className = 'sum-row';
+        r.innerHTML = '<span class="k">' + k + '</span><span class="v">' + (v || '—') + '</span>';
+        box.appendChild(r);
+      });
+
+    } else {
+      document.getElementById('successScreen').innerHTML = `
+        <div class="success-icon">⚠️</div>
+        <h2>Something went wrong.</h2>
+        <p>Your intake didn't submit. Please email your responses directly to <strong>max@coachiq.com</strong> or try again.</p>
+      `;
+    }
+  })
+  .catch(() => {
+    document.getElementById('successScreen').innerHTML = `
+      <div class="success-icon">⚠️</div>
+      <h2>Connection error.</h2>
+      <p>Check your internet connection and try again. If the problem continues, email <strong>max@coachiq.com</strong>.</p>
+    `;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
