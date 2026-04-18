@@ -1225,7 +1225,7 @@ function updateRankNumbers(listId) {
 initDrag('hsRankList');
 initDrag('collegeRankList');
 
-function submitForm() {
+async function submitForm() {
   const consent = document.getElementById('consentRequired');
   if (!consent.checked) {
     consent.closest('.phase-block').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1234,6 +1234,10 @@ function submitForm() {
     setTimeout(() => { consent.style.outline = ''; }, 2000);
     return;
   }
+
+  const submitBtn = document.querySelector('.btn-submit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending...';
 
   const tournaments = [...document.querySelectorAll('.tournament-row')].map(row => ({
     name:  row.querySelector('.t-name')?.value || '',
@@ -1304,38 +1308,47 @@ function submitForm() {
     successVision: val('successVision'),
   };
 
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelector('.progress-wrap').style.display = 'none';
-  document.getElementById('successScreen').classList.add('active');
+  try {
+    const response = await fetch('https://formspree.io/f/myklwjnp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
 
-  const box = document.getElementById('summaryBox');
-  const levelLabel = { hs: 'High School', club: 'Club', college: 'Collegiate', other: 'Other' };
-  const tourStr = tournaments.length ? tournaments.map(t => t.name + (t.dates ? ' (' + t.dates + ')' : '')).join(', ') : '—';
+    if (!response.ok) throw new Error('Formspree returned ' + response.status);
 
-  [
-    ['Coach',       data.name],
-    ['Program',     data.school + ' — ' + (levelLabel[data.level] || data.level)],
-    ['Offense',     data.offense],
-    ['Defense',     data.defense],
-    ['Season',      data.practiceStart + ' → ' + data.seasonEnd],
-    ['Title Format', data.titleFormat],
-    ['Tournaments', tourStr],
-    ['Week 1 Focus', gm.substring(0, 55) + (gm.length > 55 ? '...' : '')],
-  ].forEach(([k, v]) => {
-    const r = document.createElement('div');
-    r.className = 'sum-row';
-    r.innerHTML = '<span class="k">' + k + '</span><span class="v">' + v + '</span>';
-    box.appendChild(r);
-  });
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelector('.progress-wrap').style.display = 'none';
+    document.getElementById('successScreen').classList.add('active');
 
-  fetch('https://formspree.io/f/myklwjnp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(data)
-  });
+    const box = document.getElementById('summaryBox');
+    const levelLabel = { hs: 'High School', club: 'Club', college: 'Collegiate', other: 'Other' };
+    const tourStr = tournaments.length ? tournaments.map(t => t.name + (t.dates ? ' (' + t.dates + ')' : '')).join(', ') : '—';
 
-  console.log('=== COACHIQ INTAKE ===\n' + JSON.stringify(data, null, 2));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+    [
+      ['Coach',        data.name],
+      ['Program',      data.school + ' — ' + (levelLabel[data.level] || data.level)],
+      ['Offense',      data.offense],
+      ['Defense',      data.defense],
+      ['Season',       data.practiceStart + ' → ' + data.seasonEnd],
+      ['Title Format', data.titleFormat],
+      ['Tournaments',  tourStr],
+      ['Week 1 Focus', gm.substring(0, 55) + (gm.length > 55 ? '...' : '')],
+    ].forEach(([k, v]) => {
+      const r = document.createElement('div');
+      r.className = 'sum-row';
+      r.innerHTML = '<span class="k">' + k + '</span><span class="v">' + v + '</span>';
+      box.appendChild(r);
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Intake →';
+    alert('Submission failed — please check your connection and try again.');
+    console.error('Formspree error:', err);
+  }
 }
 </script>
 </body>
