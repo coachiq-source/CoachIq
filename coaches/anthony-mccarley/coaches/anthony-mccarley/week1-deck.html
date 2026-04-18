@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachIQ — Week 1 Deck — Terra Nova Men's</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 13px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.page { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+
+.cq-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 18px; }
+.cq-brand { display: flex; align-items: center; gap: 10px; }
+.cq-logo { font-family: var(--font-mono); font-size: 11px; background: var(--ink); color: var(--bg); padding: 4px 9px; border-radius: var(--radius); letter-spacing: 0.5px; }
+.cq-wordmark { font-family: var(--font-head); font-size: 16px; font-weight: 700; }
+.cq-wordmark span { color: var(--accent); }
+.cq-doc-title { font-family: var(--font-head); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: right; }
+.cq-doc-sub { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); margin-top: 3px; text-align: right; }
+
+.focus-card { background: var(--accent-bg); border: 1px solid rgba(0,87,168,0.2); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; }
+.focus-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.focus-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 5px; }
+.focus-outcome { font-size: 12px; color: var(--ink-2); font-style: italic; line-height: 1.45; }
+
+.context-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
+.ctx-cell { background: var(--bg); padding: 8px 12px; }
+.ctx-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
+.ctx-value { font-size: 12px; font-weight: 600; color: var(--ink); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.mini-bar { border-radius: var(--radius); padding: 10px 14px; }
+.mini-bar.swim { border-left: 3px solid var(--ink-3); background: var(--bg-off); }
+.mini-bar.gk   { border-left: 3px solid var(--accent); background: var(--accent-bg); }
+.mini-bar-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mini-bar.gk .mini-bar-label { color: var(--accent); }
+.mini-bar-body { font-size: 11px; color: var(--ink-2); line-height: 1.6; }
+.mini-bar-body strong { color: var(--ink); }
+
+.day-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; }
+.day-col { background: var(--bg); }
+.day-head { padding: 7px 8px; background: var(--bg-off); border-bottom: 1px solid var(--rule); }
+.day-name { font-family: var(--font-head); font-size: 11px; font-weight: 700; color: var(--ink); }
+.day-tag { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
+.tag-def  { color: #666; }
+.tag-tran { color: #1A7A2E; }
+.tag-off  { color: var(--accent); }
+.tag-int  { color: var(--ink-3); }
+.day-body { padding: 7px 8px; }
+.day-block { margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px solid var(--rule-light); }
+.day-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.db-time { font-family: var(--font-mono); font-size: 8px; color: var(--ink-3); margin-bottom: 1px; }
+.db-name { font-size: 10px; font-weight: 600; color: var(--ink); line-height: 1.3; margin-bottom: 1px; }
+.db-note { font-size: 10px; color: var(--ink-3); line-height: 1.3; }
+.db-decision { font-family: var(--font-mono); font-size: 8px; color: var(--accent); margin-top: 3px; line-height: 1.3; }
+
+.drill-table { width: 100%; border-collapse: collapse; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; font-size: 11px; margin-bottom: 14px; }
+.drill-table thead tr { background: var(--ink); color: var(--bg); }
+.drill-table th { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; padding: 7px 10px; text-align: left; font-weight: 500; }
+.drill-table td { padding: 8px 10px; border-bottom: 1px solid var(--rule-light); vertical-align: top; color: var(--ink-2); line-height: 1.4; }
+.drill-table tr:last-child td { border-bottom: none; }
+.drill-table tr:nth-child(even) td { background: var(--bg-off); }
+.drill-table td:first-child { font-weight: 600; color: var(--ink); }
+
+.bottom-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.bottom-card { border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+.bc-head { padding: 6px 10px; background: var(--bg-off); border-bottom: 1px solid var(--rule); font-family: var(--font-mono); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); }
+.bc-head.accent { color: var(--accent); }
+.bc-body { padding: 8px 10px; }
+.bc-body li { font-size: 10px; color: var(--ink-2); padding: 3px 0; border-bottom: 1px solid var(--rule-light); line-height: 1.35; list-style: none; display: flex; gap: 5px; }
+.bc-body li:last-child { border-bottom: none; }
+.bc-body li::before { content: '→'; color: var(--ink-3); flex-shrink: 0; }
+
+.cq-footer { border-top: 1px solid var(--rule); padding-top: 10px; display: flex; justify-content: space-between; margin-top: 24px; }
+.cq-footer span { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); letter-spacing: 1px; text-transform: uppercase; }
+
+@media (max-width: 640px) {
+  .day-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .context-strip { grid-template-columns: 1fr 1fr; }
+  .bottom-grid { grid-template-columns: 1fr; }
+}
+@media print {
+  body { font-size: 11px; }
+  .page { padding: 0; max-width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="cq-header">
+    <div class="cq-brand">
+      <span class="cq-logo">CQ</span>
+      <span class="cq-wordmark">Coach<span>IQ</span></span>
+    </div>
+    <div>
+      <div class="cq-doc-title">Week 1 Deck Sheet</div>
+      <div class="cq-doc-sub">Anthony McCarley · Terra Nova Men's · Jul 30–Aug 2</div>
+    </div>
+  </div>
+
+  <div class="focus-card">
+    <div class="focus-label">Week 1 Focus</div>
+    <div class="focus-title">Speed without structure kills the counter attack. Press breaks that don't convert — and a 6x5 unit that fires before it's set — turn your biggest weapon into a turnover.</div>
+    <div class="focus-outcome">Outcome: Every press break → named lane sprint-swim. 6x5 quick attempted within 5s on 6/8 live reps. GK calls every 5x6 shape break before any field player adjusts.</div>
+  </div>
+
+  <div class="context-strip">
+    <div class="ctx-cell"><div class="ctx-label">First Practice</div><div class="ctx-value">July 30</div></div>
+    <div class="ctx-cell"><div class="ctx-label">Primary Target</div><div class="ctx-value">North Peninsula League · Dec 7–10</div></div>
+    <div class="ctx-cell"><div class="ctx-label">Practice</div><div class="ctx-value">4x / week · 90 min</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="mini-bar swim">
+      <div class="mini-bar-label">Swim Conditioning</div>
+      <div class="mini-bar-body">
+        <strong>All sets:</strong> head-up · no walls · 1:1 rest · two groups<br>
+        <strong>Mon/Thu:</strong> 20 × 25y &nbsp;·&nbsp; <strong>Tue:</strong> 10 × 50y :60 &nbsp;·&nbsp; <strong>Wed:</strong> 5 × 75y 90s &nbsp;·&nbsp; <strong>Fri:</strong> 8 × 25y full recovery
+      </div>
+    </div>
+    <div class="mini-bar gk">
+      <div class="mini-bar-label">GK Track · 0–40 min</div>
+      <div class="mini-bar-body">
+        <strong>Mon/Wed (Day 1):</strong> Positional blocks · GP hold → corner lunges → glide series<br>
+        <strong>Tue/Thu (Day 2):</strong> Heavy ball · forehead holds → lunges → 25 catapult throws<br>
+        <strong>Fri:</strong> Activation only · joins all special teams reps
+      </div>
+    </div>
+  </div>
+
+  <div class="day-grid">
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Monday</div>
+        <div class="day-tag tag-def">Press Defense</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–20</div>
+          <div class="db-name">Spidering + Swim</div>
+          <div class="db-note">20 × 25y · 1:1 rest</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">20–45</div>
+          <div class="db-name">Press Base Position</div>
+          <div class="db-note">Ball / Player / Area · log hip shifts by name</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">45–70</div>
+          <div class="db-name">Grab-and-Go Prevention</div>
+          <div class="db-note">5v5 · win hand fight → sprint-swim to named lane</div>
+          <div class="db-decision">↳ DECISION: Top 3 lane breakers named by end</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">70–85</div>
+          <div class="db-name">GK Outlet Lanes</div>
+          <div class="db-note">10 reps · lane discipline only</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">85–90</div>
+          <div class="db-name">Scrimmage</div>
+          <div class="db-note">Press identity · every break → counter</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Tuesday</div>
+        <div class="day-tag tag-tran">Counter Attack</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–20</div>
+          <div class="db-name">Reverse Sculling + Swim</div>
+          <div class="db-note">10 × 50y · :60 rest</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">20–50</div>
+          <div class="db-name">Advantage Rules</div>
+          <div class="db-note">3v2 + 4v3 · verbalize rule first · 15 reps each</div>
+          <div class="db-decision">↳ DECISION: First-line CA group selected</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">50–70</div>
+          <div class="db-name">CA Lanes — Create/Read/Attack</div>
+          <div class="db-note">Right / center / left · reset on wrong spacing</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">70–80</div>
+          <div class="db-name">5x6 GK Shape Call</div>
+          <div class="db-note">8 reps · GK calls "set" · count breaks</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">80–90</div>
+          <div class="db-name">Transition Scrimmage</div>
+          <div class="db-note">Every possession → counter attempt first</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Wednesday</div>
+        <div class="day-tag tag-off">6x5 Quick</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–20</div>
+          <div class="db-name">Spidering + Swim</div>
+          <div class="db-note">5 × 75y · 90s rest</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">20–45</div>
+          <div class="db-name">6x5 Quick — Exclusion to Shot</div>
+          <div class="db-note">Shot or clean exit within 20s · exclusion drawer recovers first</div>
+          <div class="db-decision">↳ DECISION: Primary 6x5 unit locked</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">45–65</div>
+          <div class="db-name">6x5 Secondary</div>
+          <div class="db-note">"Quick denied" signal → secondary read · no stall</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">65–80</div>
+          <div class="db-name">Live 6x5 — Shot Clock</div>
+          <div class="db-note">10 reps · no coaching · track quick % + stalls</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">80–90</div>
+          <div class="db-name">Scrimmage — Exclusion Rules</div>
+          <div class="db-note">No shot clock · count exclusions drawn vs. conceded</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Thursday</div>
+        <div class="day-tag tag-off">Transition + FC</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–20</div>
+          <div class="db-name">Spidering + Swim</div>
+          <div class="db-note">20 × 25y · 1:1 rest</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">20–45</div>
+          <div class="db-name">Transition Offense — No CF</div>
+          <div class="db-note">Drive-and-replace + skip pass · track 3+ pass possessions</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">45–65</div>
+          <div class="db-name">Reverse Scull to Field Block</div>
+          <div class="db-note">45° approach · hand switch · close-out on pass</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">65–80</div>
+          <div class="db-name">First-Line CA Speed Runs</div>
+          <div class="db-note">3v2 + 4v3 at full speed · compare to Tue baseline</div>
+          <div class="db-decision">↳ DECISION: Confirm first-line CA group</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">80–90</div>
+          <div class="db-name">Scrimmage — Full System</div>
+          <div class="db-note">Compare lane list to Monday · same names?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Friday</div>
+        <div class="day-tag tag-int">Rehearsal</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–15</div>
+          <div class="db-name">Short Activation</div>
+          <div class="db-note">8 × 25y · sharp, not tiring</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">15–40</div>
+          <div class="db-name">Special Teams Rehearsal</div>
+          <div class="db-note">6x5: 8 reps · 4 "quick denied" · 5x6: 8 reps GK calls all</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">40–60</div>
+          <div class="db-name">CA Speed Runs</div>
+          <div class="db-note">First-line · 3v2 + 4v3 · verbalize rule first</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">60–78</div>
+          <div class="db-name">Scrimmage — Full Rules</div>
+          <div class="db-note">Shot clock · coach calls 1 timeout</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">78–88</div>
+          <div class="db-name">Timeout Protocol</div>
+          <div class="db-note">3 reps · 2 adjustments · 60s · zero hesitation by rep 3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="drill-table">
+    <thead>
+      <tr><th>Drill</th><th>Day</th><th>Key Cue</th><th>Success</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Spidering</td>
+        <td>Mon / Wed / Thu / Fri</td>
+        <td>"Hollow the upper body — coiled, not rigid."</td>
+        <td>Move all directions without losing eggbeater rhythm</td>
+      </tr>
+      <tr>
+        <td>Grab-and-Go Prevention</td>
+        <td>Mon · 45–70</td>
+        <td>"Win the hand fight — then sprint-swim to the lane."</td>
+        <td>Lane discipline improves period 1 → period 3</td>
+      </tr>
+      <tr>
+        <td>Advantage Rules 3v2 / 4v3</td>
+        <td>Tue · 20–50</td>
+        <td>"Say the rule before you swim."</td>
+        <td>≥65% conversion 3v2 · ≥50% 4v3</td>
+      </tr>
+      <tr>
+        <td>6x5 Quick — Exclusion to Shot</td>
+        <td>Wed · 20–45</td>
+        <td>"Exclusion drawer recovers first — not a spectator."</td>
+        <td>≥60% quick attempt within 5 seconds</td>
+      </tr>
+      <tr>
+        <td>Transition Offense — No CF</td>
+        <td>Thu · 20–45</td>
+        <td>"Drive creates the gap. Skip freezes the zone."</td>
+        <td>3+ pass possessions drop period 1 → period 3</td>
+      </tr>
+      <tr>
+        <td>Timeout Protocol</td>
+        <td>Fri · 78–88</td>
+        <td>"Two adjustments, one positive, 60 seconds."</td>
+        <td>Zero hesitation on restart by rep 3</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="bottom-grid">
+    <div class="bottom-card">
+      <div class="bc-head accent">Tracking Priorities</div>
+      <div class="bc-body">
+        <li>Counter attack lane discipline — by player name every session</li>
+        <li>CA conversion rate — primary vs. transition</li>
+        <li>6x5 quick attempt rate — within 5 seconds of exclusion</li>
+        <li>5x6 shape breaks — GK calls vs. field player calls</li>
+        <li>Press recovery time — how quickly press re-establishes</li>
+        <li>GK unprompted shape calls — target: before any field player moves</li>
+      </div>
+    </div>
+    <div class="bottom-card">
+      <div class="bc-head">Coach Decisions</div>
+      <div class="bc-body">
+        <li>Mon end: Top 3 lane discipline breakers named</li>
+        <li>Tue end: First-line counter attack group selected</li>
+        <li>Wed end: Primary 6x5 unit locked — who draws, who takes quick</li>
+        <li>Thu before scrimmage: First-line CA group confirmed or replaced</li>
+        <li>Fri: Week 2 focus decided based on KPI data</li>
+      </div>
+    </div>
+    <div class="bottom-card">
+      <div class="bc-head">Watch For</div>
+      <div class="bc-body">
+        <li>Passive recovery swim after press break — must sprint-swim to lane</li>
+        <li>Counter attack players freelancing wide instead of CF line first</li>
+        <li>6x5 exclusion drawer fixing cap instead of recovering</li>
+        <li>GK going quiet when 5x6 shape breaks</li>
+        <li>Wet passes within 5 feet — defender wins that ball</li>
+        <li>Team relying on speed alone when quick doesn't convert</li>
+      </div>
+    </div>
+  </div>
+
+  <div class="cq-footer">
+    <span>CoachIQ · Max Kelly</span>
+    <span>Next: Week 2 Plan + First Game Prep</span>
+  </div>
+
+</div>
+</body>
+</html>
