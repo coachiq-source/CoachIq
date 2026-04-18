@@ -1328,6 +1328,12 @@ function submitForm() {
     box.appendChild(r);
   });
 
+  fetch('https://formspree.io/f/myklwjnp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(data)
+  });
+
   console.log('=== COACHIQ INTAKE ===\n' + JSON.stringify(data, null, 2));
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
