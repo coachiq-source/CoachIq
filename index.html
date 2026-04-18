@@ -78,7 +78,7 @@ body {
 .section-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
 .section-desc { font-size: 13px; color: var(--ink-3); margin-bottom: 28px; line-height: 1.5; }
 
-/* LEVEL CARDS — big tap targets for S0 */
+/* LEVEL CARDS */
 .level-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
 @media (max-width: 480px) { .level-cards { grid-template-columns: 1fr; } }
 
@@ -159,7 +159,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
 .chip:hover { border-color: var(--accent); color: var(--ink); }
 .chip.selected { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
 
-/* DYNAMIC BLOCKS — shown/hidden by level */
+/* DYNAMIC BLOCKS */
 .show-hs, .show-club, .show-college { display: none; }
 .show-hs.visible, .show-club.visible, .show-college.visible { display: block; }
 
@@ -331,7 +331,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
     <div class="section-title">Who are you coaching?</div>
     <p class="section-desc">Start here — your program level shapes everything that follows.</p>
 
-    <!-- LEVEL SELECTOR — branch point -->
     <div class="field">
       <label>Program Level<span class="req">*</span></label>
       <div class="level-cards" id="levelCards">
@@ -379,7 +378,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <input type="text" id="school" placeholder="Episcopal Academy / Santa Barbara Water Polo Club / UCLA">
     </div>
 
-    <!-- HS-specific -->
     <div class="show-hs field">
       <label>Conference / League
         <span class="hint">e.g. Inter-Ac, CIF Southern Section, NYSPHSAA, Mission League</span>
@@ -399,7 +397,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       </div>
     </div>
 
-    <!-- Club-specific -->
     <div class="show-club field">
       <label>Age Group & Gender</label>
       <div class="chip-group" id="clubAgeChips">
@@ -428,7 +425,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       </div>
     </div>
 
-    <!-- College-specific -->
     <div class="show-college field">
       <label>Conference & Division</label>
       <div class="chip-group" id="collegeConfChips">
@@ -617,7 +613,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <strong>This section builds your first deliverable.</strong> Select what fits, then add detail if useful. Answer based on where you are right now — preseason, early season, or mid-season.
     </div>
 
-    <!-- Q1: Guessing moment -->
     <div class="field">
       <label>Where do you expect to be — or already are — guessing in-game?
         <span class="hint">Select all that apply, then elaborate if useful.</span>
@@ -636,7 +631,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <textarea id="guessingMoment" style="min-height:72px; margin-top:10px;" placeholder="Add any specific detail — the exact situation, what you've tried, what makes it hard..."></textarea>
     </div>
 
-    <!-- Q2: Defensive adaptation trigger -->
     <div class="field">
       <label>What does an opponent have to show before you change your defensive base?
         <span class="hint">Select the trigger, then describe it if needed.</span>
@@ -653,7 +647,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <textarea id="defAdaptTrigger" style="min-height:68px; margin-top:10px;" placeholder="Elaborate on what specifically forces the change and what the timing challenge is..."></textarea>
     </div>
 
-    <!-- Q3: Least in control -->
     <div class="field">
       <label>What moment in a match do you feel — or expect to feel — least in control?
         <span class="hint">Select the situation, then add detail if useful.</span>
@@ -670,7 +663,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <textarea id="leastControl" style="min-height:68px; margin-top:10px;" placeholder="Add context on what specifically breaks down in that moment..."></textarea>
     </div>
 
-    <!-- Q4: Build or fix -->
     <div class="field">
       <label>What's one tactical area you want to build or fix — right now?
         <span class="hint">This becomes your Week 1 focal point. Select the area, then describe the specific problem.</span>
@@ -695,7 +687,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
     </div>
   </div>
 
-  <!-- ===================== S4: SCHEDULE (DYNAMIC) ===================== -->
+  <!-- ===================== S4: SCHEDULE ===================== -->
   <div class="section" id="s4">
     <div class="section-label">05 / 05</div>
     <div class="section-title">Schedule & Season Structure</div>
@@ -706,7 +698,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <span id="ctxBadge4Text">Showing fields for your program level</span>
     </div>
 
-    <!-- UNIVERSAL: Season window -->
     <div class="phase-block">
       <div class="phase-label">Season Window</div>
       <div class="row">
@@ -755,7 +746,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       </div>
     </div>
 
-    <!-- UNIVERSAL: League title format -->
     <div class="phase-block">
       <div class="phase-label">League / Title Structure</div>
       <div class="field">
@@ -783,14 +773,11 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         </div>
       </div>
       <div class="field">
-        <label>Anything worth adding about your title format?
-          <span class="hint">Tiebreaker rules, number of rounds, home/away split — only if it changes how the season is sequenced.</span>
-        </label>
+        <label>Anything worth adding about your title format?</label>
         <textarea id="titleContext" style="min-height:60px;" placeholder="Optional — e.g. we play each opponent twice, best overall record wins, no tiebreaker tournament."></textarea>
       </div>
     </div>
 
-    <!-- UNIVERSAL: Major tournaments -->
     <div class="phase-block">
       <div class="phase-label">Major Tournaments & Championships</div>
       <div class="callout">
@@ -826,10 +813,8 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <button type="button" class="btn-add-row" onclick="addTournament()">+ Add Tournament</button>
     </div>
 
-    <!-- HS-specific: Game schedule phases -->
     <div class="show-hs phase-block">
       <div class="phase-label">HS — Game Schedule</div>
-
       <div class="field">
         <label>Preseason Scrimmages</label>
         <div class="chip-group" id="hsScrimChips">
@@ -840,7 +825,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         </div>
         <textarea id="hsScrimmages" style="min-height:60px; margin-top:10px;" placeholder="Optional — date(s), opponent(s), home or away..."></textarea>
       </div>
-
       <div class="row">
         <div class="field">
           <label>First Game Date</label>
@@ -851,23 +835,17 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
           <input type="text" id="hsFirstLeague" placeholder="Sept 29">
         </div>
       </div>
-
       <div class="field">
-        <label>Non-League Games — Prep Level
-          <span class="hint">Select your default, then list any exceptions below.</span>
-        </label>
+        <label>Non-League Games — Prep Level</label>
         <div class="chip-group" id="hsNonLeaguePrepChips">
           <div class="chip" data-val="Full prep package for all non-league games">Full prep — all non-league games</div>
           <div class="chip" data-val="Full prep for flagged games only, light scout for the rest">Full prep for flagged games only</div>
           <div class="chip" data-val="Light scouting note for all non-league games">Light scout — all non-league games</div>
         </div>
-        <textarea id="hsNonLeague" style="min-height:72px; margin-top:10px;" placeholder="9/1 — Lower Merion (home)&#10;9/11 — Lawrenceville (home)&#10;9/12 — Gonzaga (home)&#10;9/18 — Hill (home)&#10;Flag any exceptions to your default above with ✓ or —"></textarea>
+        <textarea id="hsNonLeague" style="min-height:72px; margin-top:10px;" placeholder="9/1 — Lower Merion (home)&#10;9/11 — Lawrenceville (home)&#10;Flag any exceptions with ✓ or —"></textarea>
       </div>
-
       <div class="field">
-        <label>League Opponents — Drag to Rank by Priority
-          <span class="hint">Add your actual league opponents. Drag to reorder by importance to winning the title.</span>
-        </label>
+        <label>League Opponents — Drag to Rank by Priority</label>
         <div class="rank-list" id="hsRankList">
           <div class="rank-item" draggable="true">
             <span class="rank-num">1</span>
@@ -892,7 +870,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       </div>
     </div>
 
-    <!-- Club-specific -->
     <div class="show-club phase-block">
       <div class="phase-label">Club — Season Schedule</div>
       <div class="field">
@@ -900,29 +877,26 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         <input type="text" id="clubFirstComp" placeholder="Oct 5">
       </div>
       <div class="field">
-        <label>Season Structure
-          <span class="hint">Select what applies, then add detail below if useful.</span>
-        </label>
+        <label>Season Structure</label>
         <div class="chip-group" id="clubStructureChips">
           <div class="chip" data-val="Single-day tournaments throughout season">Single-day tournaments throughout</div>
           <div class="chip" data-val="Multi-day tournaments as primary competition format">Multi-day tournaments — primary format</div>
           <div class="chip" data-val="Zone play / league games leading to qualifier">Zone play / league games → qualifier</div>
           <div class="chip" data-val="Dual meets plus tournaments">Dual meets plus tournaments</div>
         </div>
-        <textarea id="clubRegularTourneys" style="min-height:68px; margin-top:10px;" placeholder="List key regular season tournaments with dates — e.g. Oct 5-6 Zone Qualifier @ Long Beach, Oct 19-20 SoCal Championships..."></textarea>
+        <textarea id="clubRegularTourneys" style="min-height:68px; margin-top:10px;" placeholder="List key regular season tournaments with dates..."></textarea>
       </div>
       <div class="field">
         <label>Zone Qualifier / Nationals</label>
         <div class="chip-group" id="clubNationalsChips">
           <div class="chip" data-val="Targeting Nationals — qualifier is the priority event">Targeting Nationals — qualifier is priority</div>
-          <div class="chip" data-val="Nationals is a stretch goal — qualifier is the realistic target">Qualifier is realistic target, Nationals is stretch</div>
+          <div class="chip" data-val="Nationals is a stretch goal — qualifier is the realistic target">Qualifier is realistic target</div>
           <div class="chip" data-val="Not targeting Nationals this season">Not targeting Nationals this season</div>
         </div>
-        <textarea id="clubQualifier" style="min-height:60px; margin-top:10px;" placeholder="Optional — qualifier date / location, nationals date if known..."></textarea>
+        <textarea id="clubQualifier" style="min-height:60px; margin-top:10px;" placeholder="Optional — qualifier date / location..."></textarea>
       </div>
     </div>
 
-    <!-- College-specific -->
     <div class="show-college phase-block">
       <div class="phase-label">Collegiate — Season Schedule</div>
       <div class="row">
@@ -936,15 +910,13 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         </div>
       </div>
       <div class="field">
-        <label>Non-Conference Prep Level
-          <span class="hint">Select your default approach, then list exceptions below.</span>
-        </label>
+        <label>Non-Conference Prep Level</label>
         <div class="chip-group" id="collegeNonConfPrepChips">
           <div class="chip" data-val="Full prep package for all non-conference games">Full prep — all non-conference games</div>
           <div class="chip" data-val="Full prep for ranked or scouted opponents, light scout for others">Full prep for ranked opponents only</div>
           <div class="chip" data-val="Light scouting note for all non-conference games">Light scout — all non-conference</div>
         </div>
-        <textarea id="collegeNonConf" style="min-height:68px; margin-top:10px;" placeholder="9/6 — USC (home)&#10;9/14 — Long Beach State (away)&#10;9/21 — Hawaii (home)&#10;Flag exceptions to your default with ✓ or —"></textarea>
+        <textarea id="collegeNonConf" style="min-height:68px; margin-top:10px;" placeholder="9/6 — USC (home)&#10;Flag exceptions with ✓ or —"></textarea>
       </div>
       <div class="field">
         <label>Conference Opponents — Rank by Priority</label>
@@ -972,7 +944,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       </div>
     </div>
 
-    <!-- UNIVERSAL: Pool logistics -->
     <div class="phase-block">
       <div class="phase-label">Practice Logistics</div>
       <div class="field">
@@ -984,15 +955,12 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
           <div class="chip" data-val="No weekend pool access">No weekend access</div>
           <div class="chip" data-val="Dry-land days built into weekly schedule">Dry-land days built in</div>
         </div>
-        <textarea id="poolConstraints" style="min-height:60px; margin-top:10px;" placeholder="Optional — any specifics on which days, which end of pool, time blocks, or off-site dry-land arrangements..."></textarea>
+        <textarea id="poolConstraints" style="min-height:60px; margin-top:10px;" placeholder="Optional — any specifics on which days, time blocks, or dry-land arrangements..."></textarea>
       </div>
     </div>
 
-    <!-- UNIVERSAL: Success vision -->
     <div class="field">
-      <label>What does a successful CoachIQ season look like to you?
-        <span class="hint">Select what matters most, then add your own framing below.</span>
-      </label>
+      <label>What does a successful CoachIQ season look like to you?</label>
       <div class="chip-group" id="successChips">
         <div class="chip" data-val="Win the league title">Win the league title</div>
         <div class="chip" data-val="Win a major tournament (Easterns / JONO / CWPA / CIF)">Win a major tournament</div>
@@ -1002,6 +970,34 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         <div class="chip" data-val="Better halftime adjustments and in-game decision-making">Better in-game adjustments</div>
       </div>
       <textarea id="successVision" style="min-height:60px; margin-top:10px;" placeholder="Optional — add anything specific to your program or situation..."></textarea>
+    </div>
+
+    <!-- ===================== CONFIDENTIALITY ===================== -->
+    <div class="phase-block" style="margin-top: 28px;">
+      <div class="phase-label">Confidentiality & Data Use</div>
+      <p style="font-size: 13px; color: var(--ink-2); line-height: 1.65; margin-bottom: 18px;">
+        CoachIQ treats all team data, notes, and performance information as confidential.
+        Information you provide is used only to generate your team's practice plans, analysis, and coaching recommendations.
+        Your data will not be shared, published, or used outside your program without your explicit permission.
+      </p>
+      <div class="field" style="margin-bottom: 14px;">
+        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-weight: 500;">
+          <input type="checkbox" id="consentRequired" required
+            style="margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); width: 15px; height: 15px;">
+          <span style="font-size: 13px; color: var(--ink); line-height: 1.5;">
+            I understand and agree that all information submitted will be treated as confidential and used only for my team's coaching support.<span style="color: var(--accent); margin-left: 2px;">*</span>
+          </span>
+        </label>
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-weight: 400;">
+          <input type="checkbox" id="consentAnonymized"
+            style="margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); width: 15px; height: 15px;">
+          <span style="font-size: 13px; color: var(--ink-3); line-height: 1.5;">
+            I allow CoachIQ to use anonymized insights (no names, teams, or identifying details) to improve the system.
+          </span>
+        </label>
+      </div>
     </div>
 
     <div class="nav">
@@ -1027,12 +1023,10 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
 
 </div>
 <script>
-// ---- STATE ----
 let cur = 0;
 const total = 5;
 let selectedLevel = null;
 
-// Chip group config
 const multiChips  = ['depthChips', 'hsTeamChips', 'titleFormatChips', 'guessingChips', 'focusChips', 'successChips', 'poolChips', 'hsScrimChips'];
 const singleChips = ['gkChips','offenseChips','zone33Chips','defenseChips','pp6Chips',
                      'md5Chips','counterChips','practiceFreqChips','practiceLenChips',
@@ -1041,7 +1035,6 @@ const singleChips = ['gkChips','offenseChips','zone33Chips','defenseChips','pp6C
                      'clubStructureChips','clubNationalsChips','collegeNonConfPrepChips',
                      'preseasonLenChips'];
 
-// Wire all chips
 document.querySelectorAll('.chip').forEach(c => {
   c.addEventListener('click', () => {
     const g = c.closest('.chip-group');
@@ -1055,7 +1048,6 @@ document.querySelectorAll('.chip').forEach(c => {
   });
 });
 
-// ---- LEVEL SELECTION — the core branch ----
 function selectLevel(card) {
   document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
@@ -1064,32 +1056,16 @@ function selectLevel(card) {
 }
 
 function applyLevel(level) {
-  // Hide all dynamic blocks
   document.querySelectorAll('.show-hs, .show-club, .show-college, .show-other').forEach(el => {
     el.classList.remove('visible');
   });
-
-  // Show the right ones
   const map = { hs: '.show-hs', club: '.show-club', college: '.show-college', other: '.show-other' };
   if (map[level]) {
     document.querySelectorAll(map[level]).forEach(el => el.classList.add('visible'));
   }
-
-  // Also show title-format chips for all levels
-  document.querySelectorAll('#titleFormatChips .chip').forEach(c => {
-    c.style.display = 'none';
-  });
-  document.querySelectorAll(`#titleFormatChips .chip.show-${level}`).forEach(c => {
-    c.style.display = '';
-  });
-
-  // Update context badges
-  const labels = {
-    hs:      'High School Program',
-    club:    'Club Program',
-    college: 'Collegiate Program',
-    other:   'Your Program'
-  };
+  document.querySelectorAll('#titleFormatChips .chip').forEach(c => { c.style.display = 'none'; });
+  document.querySelectorAll(`#titleFormatChips .chip.show-${level}`).forEach(c => { c.style.display = ''; });
+  const labels = { hs: 'High School Program', club: 'Club Program', college: 'Collegiate Program', other: 'Your Program' };
   const badge = labels[level] || 'Your Program';
   ['ctxBadge1Text','ctxBadge2Text','ctxBadge4Text'].forEach(id => {
     const el = document.getElementById(id);
@@ -1099,16 +1075,12 @@ function applyLevel(level) {
     const el = document.getElementById(id);
     if (el) el.classList.add('visible');
   });
-
-  // Adjust returner label
   const rLabel = document.getElementById('returnerLabel');
   if (rLabel) {
-    rLabel.textContent = level === 'club' ? 'Returning Players (from last season)' :
-                         level === 'college' ? 'Returning Starters' : 'Returning Starters';
+    rLabel.textContent = level === 'club' ? 'Returning Players (from last season)' : 'Returning Starters';
   }
 }
 
-// ---- PROGRESS ----
 function updateProgress(i) {
   document.getElementById('progressFill').style.width = (i / (total - 1) * 100) + '%';
   for (let x = 0; x < total; x++) {
@@ -1118,26 +1090,7 @@ function updateProgress(i) {
   }
 }
 
-// ---- VALIDATE ----
-function validate(i) {
-  if (i === 0) {
-    if (!selectedLevel) {
-      alert('Please select your program level to continue.');
-      return false;
-    }
-    if (!document.getElementById('firstName').value.trim() ||
-        !document.getElementById('email').value.trim() ||
-        !document.getElementById('school').value.trim()) {
-      alert('Please fill in your name, email, and program name before continuing.');
-      return false;
-    }
-  }
-  return true;
-}
-
-// ---- NAVIGATION ----
 function next(i) {
-  if (!validate(i)) return;
   document.getElementById('s' + i).classList.remove('active');
   cur = i + 1;
   document.getElementById('s' + cur).classList.add('active');
@@ -1153,7 +1106,6 @@ function prev(i) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ---- CHIP HELPER ----
 function chips(id) {
   const el = document.getElementById(id);
   if (!el) return '—';
@@ -1165,7 +1117,6 @@ function val(id) {
   return el ? (el.value.trim() || '—') : '—';
 }
 
-// ---- TOURNAMENT ----
 function addTournament() {
   const tpl = `<div class="tournament-row">
     <div class="row" style="margin-bottom:10px;">
@@ -1208,7 +1159,6 @@ document.querySelectorAll('.t-pri-chip').forEach(c => {
   });
 });
 
-// ---- ADD / REMOVE LEAGUE OPPONENT ----
 function addLeagueOpponent(listId) {
   const list = document.getElementById(listId);
   const count = list.querySelectorAll('.rank-item').length + 1;
@@ -1227,12 +1177,11 @@ function addLeagueOpponent(listId) {
 
 function removeOpponent(btn, listId) {
   const list = document.getElementById(listId);
-  if (list.querySelectorAll('.rank-item').length <= 1) return; // keep at least 1
+  if (list.querySelectorAll('.rank-item').length <= 1) return;
   btn.closest('.rank-item').remove();
   updateRankNumbers(listId);
 }
 
-// ---- DRAG TO RANK ----
 let dragSrc = null;
 
 function initDrag(listId) {
@@ -1276,8 +1225,16 @@ function updateRankNumbers(listId) {
 initDrag('hsRankList');
 initDrag('collegeRankList');
 
-// ---- SUBMIT ----
 function submitForm() {
+  const consent = document.getElementById('consentRequired');
+  if (!consent.checked) {
+    consent.closest('.phase-block').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    consent.focus();
+    consent.style.outline = '2px solid var(--accent)';
+    setTimeout(() => { consent.style.outline = ''; }, 2000);
+    return;
+  }
+
   const tournaments = [...document.querySelectorAll('.tournament-row')].map(row => ({
     name:  row.querySelector('.t-name')?.value || '',
     dates: row.querySelector('.t-dates')?.value || '',
@@ -1302,34 +1259,27 @@ function submitForm() {
     name:  val('firstName') + ' ' + val('lastName'),
     email: val('email'),
     school: val('school'),
+    consentAnonymized: document.getElementById('consentAnonymized').checked,
     hsLeague: val('hsLeague'),
     hsTeam: chips('hsTeamChips'),
     clubAge: chips('clubAgeChips'),
     clubZone: chips('clubZoneChips'),
     collegeConf: chips('collegeConfChips'),
     experience: chips('expChips'),
-    // Roster
     rosterSize: val('rosterSize'),
     gk: chips('gkChips'),
     thinAt: chips('depthChips'),
     bestPlayer: val('bestPlayer'),
-    // System
     offense: chips('offenseChips'),
     vsZone: chips('zone33Chips'),
     defense: chips('defenseChips'),
     powerPlay: chips('pp6Chips'),
     manDown: chips('md5Chips'),
     counter: chips('counterChips'),
-    // Decisions
-    guessingChips:    chips('guessingChips'),
-    guessingMoment:   gm || '—',
-    defTriggerChip:   chips('defTriggerChips'),
-    defAdaptTrigger:  val('defAdaptTrigger'),
-    controlChip:      chips('controlChips'),
-    leastControl:     val('leastControl'),
-    focusChip:        chips('focusChips'),
-    unseenProblem:    val('unseenProblem'),
-    // Schedule
+    guessingMoment: gm || '—',
+    defAdaptTrigger: val('defAdaptTrigger'),
+    leastControl: val('leastControl'),
+    unseenProblem: val('unseenProblem'),
     practiceStart: val('practiceStart'),
     seasonEnd: val('seasonEnd'),
     preseasonLen: chips('preseasonLenChips'),
@@ -1338,150 +1288,47 @@ function submitForm() {
     titleFormat: chips('titleFormatChips'),
     titleContext: val('titleContext'),
     tournaments,
-    // HS
     hsScrimmages: val('hsScrimmages'),
     hsFirstGame: val('hsFirstGame'),
     hsNonLeague: val('hsNonLeague'),
     hsFirstLeague: val('hsFirstLeague'),
     hsLeagueRank: hsRank,
-    // Club
     clubFirstComp: val('clubFirstComp'),
     clubRegularTourneys: val('clubRegularTourneys'),
     clubQualifier: val('clubQualifier'),
-    // College
     collegeFirstGame: val('collegeFirstGame'),
     collegeConfStart: val('collegeConfStart'),
     collegeRank,
     collegeNonConf: val('collegeNonConf'),
-    // Universal
     poolConstraints: val('poolConstraints'),
     successVision: val('successVision'),
   };
 
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelector('.progress-wrap').style.display = 'none';
-
-  // Show loading state briefly
   document.getElementById('successScreen').classList.add('active');
-  document.getElementById('successScreen').innerHTML = `
-    <div class="success-icon">⏳</div>
-    <h2>Submitting...</h2>
-    <p>Sending your intake to CoachIQ.</p>
-  `;
 
-  // Submit to Formspree
-  fetch('https://formspree.io/f/myklwjnp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      // Identity
-      _subject: 'CoachIQ Intake — ' + data.name + ' (' + data.school + ')',
-      name:        data.name,
-      email:       data.email,
-      school:      data.school,
-      level:       data.level,
-      // Profile
-      league:      data.hsLeague,
-      team:        data.hsTeam || data.clubAge || data.collegeConf,
-      experience:  data.experience,
-      // Roster
-      roster_size:   data.rosterSize,
-      gk_situation:  data.gk,
-      depth_gaps:    data.thinAt,
-      lineup:        data.bestPlayer,
-      // System
-      offense:       data.offense,
-      vs_zone:       data.vsZone,
-      defense:       data.defense,
-      power_play:    data.powerPlay,
-      man_down:      data.manDown,
-      counter:       data.counter,
-      // Decision Points
-      guessing_situations:  data.guessingMoment,
-      guessing_chips:       data.guessingChips || chips('guessingChips'),
-      def_trigger_chip:     data.defTriggerChip || chips('defTriggerChips'),
-      def_trigger_detail:   data.defAdaptTrigger,
-      least_control_chip:   data.controlChip || chips('controlChips'),
-      least_control_detail: data.leastControl,
-      focus_chip:           data.focusChip || chips('focusChips'),
-      focus_detail:         data.unseenProblem,
-      // Schedule
-      practice_start:   data.practiceStart,
-      season_end:       data.seasonEnd,
-      preseason_length: data.preseasonLen,
-      practice_freq:    data.practiceFreq,
-      practice_len:     data.practiceLen,
-      title_format:     data.titleFormat,
-      title_context:    data.titleContext,
-      tournaments:      JSON.stringify(data.tournaments),
-      // HS
-      hs_scrimmages:    data.hsScrimmages,
-      hs_first_game:    data.hsFirstGame,
-      hs_non_league:    data.hsNonLeague,
-      hs_first_league:  data.hsFirstLeague,
-      hs_league_rank:   JSON.stringify(data.hsLeagueRank),
-      // Club
-      club_first_comp:      data.clubFirstComp,
-      club_tournaments:     data.clubRegularTourneys,
-      club_qualifier:       data.clubQualifier,
-      // College
-      college_first_game:   data.collegeFirstGame,
-      college_conf_start:   data.collegeConfStart,
-      college_rank:         JSON.stringify(data.collegeRank),
-      college_non_conf:     data.collegeNonConf,
-      // Logistics
-      pool_constraints: data.poolConstraints,
-      success_vision:   data.successVision,
-    })
-  })
-  .then(res => {
-    if (res.ok) {
-      // Success screen
-      const levelLabel = { hs: 'High School', club: 'Club', college: 'Collegiate', other: 'Other' };
-      const tourStr = tournaments.length ? tournaments.map(t => t.name + (t.dates ? ' (' + t.dates + ')' : '')).join(', ') : '—';
-      const interacStr = hsRank.length ? hsRank.map(r => r.rank + '. ' + r.opp).join(' · ') : '—';
+  const box = document.getElementById('summaryBox');
+  const levelLabel = { hs: 'High School', club: 'Club', college: 'Collegiate', other: 'Other' };
+  const tourStr = tournaments.length ? tournaments.map(t => t.name + (t.dates ? ' (' + t.dates + ')' : '')).join(', ') : '—';
 
-      document.getElementById('successScreen').innerHTML = `
-        <div class="success-icon">●</div>
-        <h2>You're in the system.</h2>
-        <p>Intake received. Week 1 Practice Plan delivered within 24 hours — starting with your biggest decision-point problem.</p>
-        <div class="summary-box" id="summaryBox"><h4>Intake Summary</h4></div>
-      `;
-
-      const box = document.getElementById('summaryBox');
-      [
-        ['Coach',        data.name],
-        ['Program',      data.school + ' — ' + (levelLabel[data.level] || data.level)],
-        ['Offense',      data.offense],
-        ['Defense',      data.defense],
-        ['Season',       data.practiceStart + ' → ' + data.seasonEnd],
-        ['Preseason',    data.preseasonLen],
-        ['Title Format', data.titleFormat],
-        ['Tournaments',  tourStr],
-        ['Week 1 Focus', gm.substring(0, 55) + (gm.length > 55 ? '...' : '')],
-      ].forEach(([k, v]) => {
-        const r = document.createElement('div');
-        r.className = 'sum-row';
-        r.innerHTML = '<span class="k">' + k + '</span><span class="v">' + (v || '—') + '</span>';
-        box.appendChild(r);
-      });
-
-    } else {
-      document.getElementById('successScreen').innerHTML = `
-        <div class="success-icon">⚠️</div>
-        <h2>Something went wrong.</h2>
-        <p>Your intake didn't submit. Please email your responses directly to <strong>max@coachiq.com</strong> or try again.</p>
-      `;
-    }
-  })
-  .catch(() => {
-    document.getElementById('successScreen').innerHTML = `
-      <div class="success-icon">⚠️</div>
-      <h2>Connection error.</h2>
-      <p>Check your internet connection and try again. If the problem continues, email <strong>max@coachiq.com</strong>.</p>
-    `;
+  [
+    ['Coach',       data.name],
+    ['Program',     data.school + ' — ' + (levelLabel[data.level] || data.level)],
+    ['Offense',     data.offense],
+    ['Defense',     data.defense],
+    ['Season',      data.practiceStart + ' → ' + data.seasonEnd],
+    ['Title Format', data.titleFormat],
+    ['Tournaments', tourStr],
+    ['Week 1 Focus', gm.substring(0, 55) + (gm.length > 55 ? '...' : '')],
+  ].forEach(([k, v]) => {
+    const r = document.createElement('div');
+    r.className = 'sum-row';
+    r.innerHTML = '<span class="k">' + k + '</span><span class="v">' + v + '</span>';
+    box.appendChild(r);
   });
 
+  console.log('=== COACHIQ INTAKE ===\n' + JSON.stringify(data, null, 2));
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
