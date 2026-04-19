@@ -1,1 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachIQ — Week 1 Deck — C Team Hoops</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 13px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.page { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
 
+.cq-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 18px; }
+.cq-brand { display: flex; align-items: center; gap: 10px; }
+.cq-logo { font-family: var(--font-mono); font-size: 11px; background: var(--ink); color: var(--bg); padding: 4px 9px; border-radius: var(--radius); letter-spacing: 0.5px; }
+.cq-wordmark { font-family: var(--font-head); font-size: 16px; font-weight: 700; }
+.cq-wordmark span { color: var(--accent); }
+.cq-doc-title { font-family: var(--font-head); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: right; }
+.cq-doc-sub { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); margin-top: 3px; text-align: right; }
+
+.focus-card { background: var(--accent-bg); border: 1px solid rgba(0,87,168,0.2); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; }
+.focus-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.focus-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 5px; }
+.focus-outcome { font-size: 12px; color: var(--ink-2); font-style: italic; line-height: 1.45; }
+
+.context-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
+.ctx-cell { background: var(--bg); padding: 8px 12px; }
+.ctx-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
+.ctx-value { font-size: 12px; font-weight: 600; color: var(--ink); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.mini-bar { border-radius: var(--radius); padding: 10px 14px; }
+.mini-bar.swim { border-left: 3px solid var(--ink-3); background: var(--bg-off); }
+.mini-bar.gk   { border-left: 3px solid var(--accent); background: var(--accent-bg); }
+.mini-bar-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mini-bar.gk .mini-bar-label { color: var(--accent); }
+.mini-bar-body { font-size: 11px; color: var(--ink-2); line-height: 1.6; }
+.mini-bar-body strong { color: var(--ink); }
+
+.day-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; }
+.day-col { background: var(--bg); }
+.day-head { padding: 7px 8px; background: var(--bg-off); border-bottom: 1px solid var(--rule); }
+.day-name { font-family: var(--font-head); font-size: 11px; font-weight: 700; color: var(--ink); }
+.day-tag { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
+.tag-def  { color: #666; }
+.tag-tran { color: #1A7A2E; }
+.tag-off  { color: var(--accent); }
+.tag-int  { color: var(--ink-3); }
+.day-body { padding: 7px 8px; }
+.day-block { margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px solid var(--rule-light); }
+.day-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.db-time { font-family: var(--font-mono); font-size: 8px; color: var(--ink-3); margin-bottom: 1px; }
+.db-name { font-size: 10px; font-weight: 600; color: var(--ink); line-height: 1.3; margin-bottom: 1px; }
+.db-note { font-size: 10px; color: var(--ink-3); line-height: 1.3; }
+.db-decision { font-family: var(--font-mono); font-size: 8px; color: var(--accent); margin-top: 3px; line-height: 1.3; }
+
+.fri-col { background: var(--bg); grid-column: span 1; }
+
+.drill-table { width: 100%; border-collapse: collapse; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; font-size: 11px; margin-bottom: 14px; }
+.drill-table thead tr { background: var(--ink); color: var(--bg); }
+.drill-table th { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px; text-transform: uppercase; padding: 7px 10px; text-align: left; font-weight: 500; }
+.drill-table td { padding: 8px 10px; border-bottom: 1px solid var(--rule-light); vertical-align: top; color: var(--ink-2); line-height: 1.4; }
+.drill-table tr:last-child td { border-bottom: none; }
+.drill-table tr:nth-child(even) td { background: var(--bg-off); }
+.drill-table td:first-child { font-weight: 600; color: var(--ink); }
+
+.bottom-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.bottom-card { border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+.bc-head { padding: 6px 10px; background: var(--bg-off); border-bottom: 1px solid var(--rule); font-family: var(--font-mono); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); }
+.bc-head.accent { color: var(--accent); }
+.bc-body { padding: 8px 10px; }
+.bc-body li { font-size: 10px; color: var(--ink-2); padding: 3px 0; border-bottom: 1px solid var(--rule-light); line-height: 1.35; list-style: none; display: flex; gap: 5px; }
+.bc-body li:last-child { border-bottom: none; }
+.bc-body li::before { content: '→'; color: var(--ink-3); flex-shrink: 0; }
+
+/* NOTES + KPI STRIP */
+.notes-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-top: 14px; }
+.notes-col { background: var(--bg); padding: 10px 14px; }
+.notes-col + .notes-col { border-left: 1px solid var(--rule); }
+.notes-head { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+.notes-line { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+.notes-line:last-child { margin-bottom: 0; }
+.notes-day { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); min-width: 26px; flex-shrink: 0; }
+.notes-rule { flex: 1; border-bottom: 1px solid var(--rule); display: inline-block; height: 14px; }
+.kpi-log-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+.kpi-log-row:last-child { margin-bottom: 0; }
+.kpi-log-label { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); min-width: 130px; flex-shrink: 0; line-height: 1.3; }
+.kpi-log-rule { flex: 1; border-bottom: 1px solid var(--rule); display: inline-block; height: 14px; }
+
+.cq-footer { border-top: 1px solid var(--rule); padding-top: 10px; display: flex; justify-content: space-between; margin-top: 18px; }
+.cq-footer span { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); letter-spacing: 1px; text-transform: uppercase; }
+
+@media (max-width: 640px) {
+  .day-grid { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .context-strip { grid-template-columns: 1fr 1fr; }
+  .bottom-grid { grid-template-columns: 1fr; }
+  .notes-strip { grid-template-columns: 1fr; }
+}
+@media print {
+  body { font-size: 11px; }
+  .page { padding: 0; max-width: 100%; }
+  .notes-strip { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="cq-header">
+    <div class="cq-brand">
+      <span class="cq-logo">CQ</span>
+      <span class="cq-wordmark">Coach<span>IQ</span></span>
+    </div>
+    <div>
+      <div class="cq-doc-title">Week 1 Deck Sheet</div>
+      <div class="cq-doc-sub">Michael Sheehan · C Team Hoops · EA · 4x / week · 75 min</div>
+    </div>
+  </div>
+
+  <div class="focus-card">
+    <div class="focus-label">Week 1 Focus</div>
+    <div class="focus-title">Defensive identity is locked. The offense has no answer when a split defense takes away the drive — or when a lead has to be protected in the final 2 minutes.</div>
+    <div class="focus-outcome">Outcome: Zone attack sequence executes in order on 6/8 live possessions · 6x5 hybrid shifts before the stall on 5/8 reps · late-game structure holds 3/5 reps</div>
+  </div>
+
+  <div class="context-strip">
+    <div class="ctx-cell"><div class="ctx-label">Roster</div><div class="ctx-value">10 players · wing thin</div></div>
+    <div class="ctx-cell"><div class="ctx-label">Primary Target</div><div class="ctx-value">Easterns · Nov 6–8</div></div>
+    <div class="ctx-cell"><div class="ctx-label">Sessions</div><div class="ctx-value">4x / week · 75 min</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="mini-bar swim">
+      <div class="mini-bar-label">Swim Conditioning</div>
+      <div class="mini-bar-body">
+        <strong>All sets:</strong> head-up · no walls · 1:1 rest · two groups<br>
+        <strong>Mon/Thu:</strong> 16 × 25y &nbsp;·&nbsp; <strong>Tue:</strong> 8 × 50y :60 &nbsp;·&nbsp; <strong>Wed:</strong> 4 × 75y 90s &nbsp;·&nbsp; Week 2: +2 reps, rest −5s
+      </div>
+    </div>
+    <div class="mini-bar gk">
+      <div class="mini-bar-label">GK Track · 0–30 min</div>
+      <div class="mini-bar-body">
+        <strong>Mon/Wed (Day 1):</strong> Positional · GP hold → corner lunges → glide series<br>
+        <strong>Tue/Thu (Day 2):</strong> Heavy ball · holds → lunges → 20 catapult throws<br>
+        <strong>All scrimmages:</strong> Calls 5x6 shape · tracks every shot location
+      </div>
+    </div>
+  </div>
+
+  <!-- 4-day grid Mon–Thu, then Friday as a separate row -->
+  <div class="day-grid">
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Monday</div>
+        <div class="day-tag tag-off">Zone Attack</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–18</div>
+          <div class="db-name">Spidering + Swim</div>
+          <div class="db-note">16 × 25y · 1:1 rest</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">18–40</div>
+          <div class="db-name">Zone Attack — Triangle Stress</div>
+          <div class="db-note">Widen 3&amp;4 → stress zone → backdoor at 2 · dry then live</div>
+          <div class="db-decision">↳ DECISION: Zone attack trigger player named</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">40–60</div>
+          <div class="db-name">Zone Attack — Live Defense</div>
+          <div class="db-note">Sequence in order before any shot attempt</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">60–75</div>
+          <div class="db-name">Scrimmage</div>
+          <div class="db-note">Zone sequence required every front-court possession</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Tuesday</div>
+        <div class="day-tag tag-off">6x5 Hybrid</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–18</div>
+          <div class="db-name">Reverse Sculling + Swim</div>
+          <div class="db-note">8 × 50y · :60 rest</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">18–42</div>
+          <div class="db-name">6x5 Hybrid — 4-2 to 3-3</div>
+          <div class="db-note">Shift before clock pressure · 5 quick open, 5 quick denied</div>
+          <div class="db-decision">↳ DECISION: Primary 6x5 unit locked</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">42–62</div>
+          <div class="db-name">Live 6x5 — Shot Clock</div>
+          <div class="db-note">10 reps · no coaching · track shift timing</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">62–75</div>
+          <div class="db-name">Scrimmage — Exclusion Rules</div>
+          <div class="db-note">Count exclusions drawn vs. conceded</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Wednesday</div>
+        <div class="day-tag tag-tran">Counter + Zone</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–18</div>
+          <div class="db-name">Spidering + Swim</div>
+          <div class="db-note">4 × 75y · 90s rest</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">18–40</div>
+          <div class="db-name">Advantage Rules 2v1/3v2</div>
+          <div class="db-note">Verbalize rule first · GK outlet every rep</div>
+          <div class="db-decision">↳ DECISION: First-line CA group confirmed</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">40–58</div>
+          <div class="db-name">Counter → Zone Integration</div>
+          <div class="db-note">Counter first · zone second · read the Create section</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">58–75</div>
+          <div class="db-name">Scrimmage — Full Rules</div>
+          <div class="db-note">Counter → zone → perimeter, in that order</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Thursday</div>
+        <div class="day-tag tag-def">Press + Late-Game</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block">
+          <div class="db-time">0–18</div>
+          <div class="db-name">Spidering + Swim</div>
+          <div class="db-note">16 × 25y · 1:1 rest</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">18–40</div>
+          <div class="db-name">Center Defender + Double Trigger</div>
+          <div class="db-note">Solo coverage + name the double coverage trigger condition</div>
+          <div class="db-decision">↳ DECISION: Double trigger defined + named</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">40–60</div>
+          <div class="db-name">Late-Game Possession Structure</div>
+          <div class="db-note">Up one · 2 min left · defined structure · no improvising</div>
+        </div>
+        <div class="day-block">
+          <div class="db-time">60–75</div>
+          <div class="db-name">Scrimmage — Late-Game Scenarios</div>
+          <div class="db-note">Up one / tied / down one · execute correct structure</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRIDAY - full width separate row -->
+  <div style="border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 12px;background:var(--bg-off);border-bottom:1px solid var(--rule);">
+      <span style="font-family:var(--font-head);font-size:11px;font-weight:700;">Friday — Integration &amp; Rehearsal</span>
+      <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink-3);padding:2px 7px;border:1px solid var(--rule);border-radius:2px;">Rehearsal</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);">
+      <div style="background:var(--bg);padding:8px 10px;">
+        <div class="db-time">0–12</div>
+        <div class="db-name" style="font-size:10px;">Short Activation</div>
+        <div class="db-note">8 × 25y · sharp only</div>
+      </div>
+      <div style="background:var(--bg);padding:8px 10px;">
+        <div class="db-time">12–35</div>
+        <div class="db-name" style="font-size:10px;">Special Teams</div>
+        <div class="db-note">6x5: 8 reps · 5x6: 8 reps GK calls all</div>
+      </div>
+      <div style="background:var(--bg);padding:8px 10px;">
+        <div class="db-time">35–52</div>
+        <div class="db-name" style="font-size:10px;">Zone + CA Speed Runs</div>
+        <div class="db-note">Alternate 4 CA + 4 zone sequence reps at full speed</div>
+      </div>
+      <div style="background:var(--bg);padding:8px 10px;">
+        <div class="db-time">52–65</div>
+        <div class="db-name" style="font-size:10px;">Scrimmage — Full Rules</div>
+        <div class="db-note">Shot clock · 1 timeout · note reset speed</div>
+      </div>
+      <div style="background:var(--bg);padding:8px 10px;">
+        <div class="db-time">65–75</div>
+        <div class="db-name" style="font-size:10px;">Late-Game + Preview</div>
+        <div class="db-note">3 scenario reps · 2 min Easterns preview</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="drill-table">
+    <thead>
+      <tr><th>Drill</th><th>Day</th><th>Entry level</th><th>Key Cue</th><th>Success</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Spidering</td>
+        <td>Mon / Wed / Thu / Fri</td>
+        <td>Stationary, one direction at a time</td>
+        <td>"Hollow the upper body — coiled, not rigid."</td>
+        <td>All directions without losing eggbeater rhythm</td>
+      </tr>
+      <tr>
+        <td>Zone Attack — Triangle Stress</td>
+        <td>Mon · 18–60</td>
+        <td>Dry walkthrough, no defense, verbal calls only</td>
+        <td>"Widen first. Stress second. Read the backdoor third."</td>
+        <td>Sequence in order on 6/8 live possessions</td>
+      </tr>
+      <tr>
+        <td>6x5 Hybrid — 4-2 to 3-3</td>
+        <td>Tue · 18–62</td>
+        <td>Walk-through shift only, no ball</td>
+        <td>"Read the defender recovering — not the shot clock."</td>
+        <td>Shift before clock pressure on 5/8 denied reps</td>
+      </tr>
+      <tr>
+        <td>Advantage Rules 2v1/3v2</td>
+        <td>Wed · 18–40</td>
+        <td>2v1 only, GK holds</td>
+        <td>"Say the rule before you swim."</td>
+        <td>≥60% 2v1 · ≥50% 3v2</td>
+      </tr>
+      <tr>
+        <td>Late-Game Possession Structure</td>
+        <td>Thu · 40–60 · Fri · 65–73</td>
+        <td>Walk-through motion, no defense</td>
+        <td>"Goal is not to score — goal is not to turn it over."</td>
+        <td>Structure executes 3/5 reps without coach intervention</td>
+      </tr>
+      <tr>
+        <td>Center Defender + Double Trigger</td>
+        <td>Thu · 18–40</td>
+        <td>Solo fronting position only</td>
+        <td>"Name the trigger — define it once, execute every time."</td>
+        <td>Double trigger named and executed by Thursday scrimmage</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="bottom-grid">
+    <div class="bottom-card">
+      <div class="bc-head accent">Tracking Priorities</div>
+      <div class="bc-body">
+        <li>Zone attack sequence — order discipline, not outcome</li>
+        <li>6x5 shift timing — before clock pressure or after</li>
+        <li>Counter attack conversion — primary scoring baseline</li>
+        <li>Late-game structure vs. improvised plays</li>
+        <li>Double trigger execution — is the condition being read?</li>
+        <li>GK shape calls — before field player or after</li>
+      </div>
+    </div>
+    <div class="bottom-card">
+      <div class="bc-head">Coach Decisions</div>
+      <div class="bc-body">
+        <li>Mon end: Zone attack trigger player at position 2 named</li>
+        <li>Tue end: Primary 6x5 unit locked — draws, quick, shift call</li>
+        <li>Wed end: First-line CA group confirmed</li>
+        <li>Thu before scrimmage: Double coverage trigger defined + named</li>
+        <li>Fri: Week 2 adjustments decided from KPI data</li>
+      </div>
+    </div>
+    <div class="bottom-card">
+      <div class="bc-head">Watch For</div>
+      <div class="bc-body">
+        <li>Position 2 shooting before the triangle is widened</li>
+        <li>6x5 unit waiting for the shot clock to trigger the shift</li>
+        <li>Counter attack players not hitting the named lane</li>
+        <li>GK going quiet when 5x6 shape breaks</li>
+        <li>Late-game improvising — any individual drive in final 2 min</li>
+        <li>Wing depth gap showing under press recovery</li>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION NOTES + KPI LOG STRIP -->
+  <div class="notes-strip">
+    <div class="notes-col">
+      <div class="notes-head">Session notes</div>
+      <div class="notes-line"><span class="notes-day">Mon</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Tue</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Wed</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Thu</span><span class="notes-rule"></span></div>
+    </div>
+    <div class="notes-col">
+      <div class="notes-head">KPI log</div>
+      <div class="kpi-log-row"><span class="kpi-log-label">Zone sequence (in order)</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">6x5 shift (before clock)</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">CA conversion rate</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">Late-game structure held</span><span class="kpi-log-rule"></span></div>
+    </div>
+  </div>
+
+  <div class="cq-footer">
+    <span>CoachIQ · Max Kelly</span>
+    <span>Next: Week 2 Plan + Easterns Game Prep</span>
+  </div>
+
+</div>
+</body>
+</html>
