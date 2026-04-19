@@ -512,6 +512,25 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <textarea id="bestPlayer" placeholder="Physical 2-meter and an elite returning GK are our anchor — strong on the right side, thin at point guard and left wing, opponents will press our perimeter decision-making."></textarea>
     </div>
 
+    <div class="field">
+      <label>Describe your roster in plain language<span class="req">*</span>
+        <span class="hint">Who are your experienced leaders? Who is still developing? Where are you asking players to overperform their level? The more honest this is, the better the plan.</span>
+      </label>
+      <textarea id="rosterDescription" placeholder="Example: I have 3 seniors who understand the system well and can run complex schemes. I have 5 juniors who are solid but still developing reads. And I have 4 sophomores and freshmen who need fundamental reps before I can ask them to execute scheme — especially at center-forward and in the press."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Where is your team in their development?
+        <span class="hint">This shapes whether Week 1 builds fundamentals or installs scheme.</span>
+      </label>
+      <div class="chip-group" id="devStageChips">
+        <div class="chip" data-val="Building fundamentals — scheme comes later">Building fundamentals</div>
+        <div class="chip" data-val="Fundamentals solid — installing scheme now">Fundamentals solid, installing scheme</div>
+        <div class="chip" data-val="Scheme established — refining and competing">Scheme established, refining</div>
+        <div class="chip" data-val="Mixed — experienced core with developing players alongside">Mixed — experienced core + developing players</div>
+      </div>
+    </div>
+
     <div class="nav">
       <button class="btn-back" onclick="prev(1)">← Back</button>
       <button class="btn-next" onclick="next(1)">System →</button>
@@ -1033,7 +1052,7 @@ const singleChips = ['gkChips','offenseChips','zone33Chips','defenseChips','pp6C
                      'clubAgeChips','clubZoneChips','collegeConfChips','expChips',
                      'defTriggerChips','controlChips','hsNonLeaguePrepChips',
                      'clubStructureChips','clubNationalsChips','collegeNonConfPrepChips',
-                     'preseasonLenChips'];
+                     'preseasonLenChips', 'devStageChips'];
 
 document.querySelectorAll('.chip').forEach(c => {
   c.addEventListener('click', () => {
@@ -1274,6 +1293,8 @@ async function submitForm() {
     gk: chips('gkChips'),
     thinAt: chips('depthChips'),
     bestPlayer: val('bestPlayer'),
+    rosterDescription: val('rosterDescription'),
+    devStage: chips('devStageChips'),
     offense: chips('offenseChips'),
     vsZone: chips('zone33Chips'),
     defense: chips('defenseChips'),
@@ -1333,6 +1354,7 @@ async function submitForm() {
       ['Season',       data.practiceStart + ' → ' + data.seasonEnd],
       ['Title Format', data.titleFormat],
       ['Tournaments',  tourStr],
+      ['Development stage', data.devStage],
       ['Week 1 Focus', gm.substring(0, 55) + (gm.length > 55 ? '...' : '')],
     ].forEach(([k, v]) => {
       const r = document.createElement('div');
