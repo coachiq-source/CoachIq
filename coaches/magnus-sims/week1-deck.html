@@ -1,1 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross Cage — Week 1 Deck — Malvern Prep Varsity Boys</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--ink-2:#444444;--ink-3:#777777;--rule:#DEDEDE;--rule-light:#F0F0F0;--bg:#FFFFFF;--bg-off:#F8F8F6;--accent:#0057A8;--accent-bg:#EEF4FC;--font-head:'Libre Baskerville',Georgia,serif;--font-body:'Source Sans 3',system-ui,sans-serif;--font-mono:'Source Code Pro',monospace;--radius:4px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+.page{max-width:860px;margin:0 auto;padding:28px 20px 60px;}
+.cq-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:12px;border-bottom:2px solid var(--ink);margin-bottom:18px;}
+.cq-brand{display:flex;align-items:center;gap:10px;}
+.cq-logo{font-family:var(--font-mono);font-size:11px;background:var(--ink);color:var(--bg);padding:4px 9px;border-radius:var(--radius);letter-spacing:0.5px;}
+.cq-wordmark{font-family:var(--font-head);font-size:16px;font-weight:700;}
+.cq-wordmark span{color:var(--accent);}
+.cq-doc-title{font-family:var(--font-head);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:right;}
+.cq-doc-sub{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:3px;text-align:right;}
+.focus-card{background:var(--accent-bg);border:1px solid rgba(0,87,168,0.2);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;}
+.focus-label{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.focus-title{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:5px;}
+.focus-outcome{font-size:12px;color:var(--ink-2);font-style:italic;line-height:1.45;}
+.context-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;}
+.ctx-cell{background:var(--bg);padding:8px 12px;}
+.ctx-label{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px;}
+.ctx-value{font-size:12px;font-weight:600;color:var(--ink);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.mini-bar{border-radius:var(--radius);padding:10px 14px;}
+.mini-bar.swim{border-left:3px solid var(--ink-3);background:var(--bg-off);}
+.mini-bar.gk{border-left:3px solid var(--accent);background:var(--accent-bg);}
+.mini-bar-label{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
+.mini-bar.gk .mini-bar-label{color:var(--accent);}
+.mini-bar-body{font-size:11px;color:var(--ink-2);line-height:1.6;}
+.mini-bar-body strong{color:var(--ink);}
+.day-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
+.day-col{background:var(--bg);}
+.day-head{padding:7px 8px;background:var(--bg-off);border-bottom:1px solid var(--rule);}
+.day-name{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--ink);}
+.day-tag{font-family:var(--font-mono);font-size:8px;letter-spacing:0.5px;text-transform:uppercase;margin-top:2px;}
+.tag-def{color:#666;}.tag-tran{color:#1A7A2E;}.tag-off{color:var(--accent);}.tag-int{color:var(--ink-3);}
+.day-body{padding:7px 8px;}
+.day-block{margin-bottom:7px;padding-bottom:7px;border-bottom:1px solid var(--rule-light);}
+.day-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.db-time{font-family:var(--font-mono);font-size:8px;color:var(--ink-3);margin-bottom:1px;}
+.db-name{font-size:10px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:1px;}
+.db-note{font-size:10px;color:var(--ink-3);line-height:1.3;}
+.db-decision{font-family:var(--font-mono);font-size:8px;color:var(--accent);margin-top:3px;line-height:1.3;}
+.drill-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;font-size:11px;margin-bottom:14px;}
+.drill-table thead tr{background:var(--ink);color:var(--bg);}
+.drill-table th{font-family:var(--font-mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:7px 10px;text-align:left;font-weight:500;}
+.drill-table td{padding:8px 10px;border-bottom:1px solid var(--rule-light);vertical-align:top;color:var(--ink-2);line-height:1.4;}
+.drill-table tr:last-child td{border-bottom:none;}
+.drill-table tr:nth-child(even) td{background:var(--bg-off);}
+.drill-table td:first-child{font-weight:600;color:var(--ink);}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.bottom-card{border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;}
+.bc-head{padding:6px 10px;background:var(--bg-off);border-bottom:1px solid var(--rule);font-family:var(--font-mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);}
+.bc-head.accent{color:var(--accent);}
+.bc-body{padding:8px 10px;}
+.bc-body li{font-size:10px;color:var(--ink-2);padding:3px 0;border-bottom:1px solid var(--rule-light);line-height:1.35;list-style:none;display:flex;gap:5px;}
+.bc-body li:last-child{border-bottom:none;}
+.bc-body li::before{content:'→';color:var(--ink-3);flex-shrink:0;}
+.notes-strip{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;}
+.notes-col{background:var(--bg);padding:10px 14px;}
+.notes-col+.notes-col{border-left:1px solid var(--rule);}
+.notes-head{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;}
+.notes-line{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+.notes-line:last-child{margin-bottom:0;}
+.notes-day{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:26px;flex-shrink:0;}
+.notes-rule{flex:1;border-bottom:1px solid var(--rule);display:inline-block;height:14px;}
+.kpi-log-row{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+.kpi-log-row:last-child{margin-bottom:0;}
+.kpi-log-label{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:130px;flex-shrink:0;line-height:1.3;}
+.kpi-log-rule{flex:1;border-bottom:1px solid var(--rule);display:inline-block;height:14px;}
+.cq-footer{border-top:1px solid var(--rule);padding-top:10px;display:flex;justify-content:space-between;margin-top:18px;}
+.cq-footer span{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);letter-spacing:1px;text-transform:uppercase;}
+@media(max-width:640px){.day-grid{grid-template-columns:1fr 1fr;}.two-col{grid-template-columns:1fr;}.context-strip{grid-template-columns:1fr 1fr;}.bottom-grid{grid-template-columns:1fr;}.notes-strip{grid-template-columns:1fr;}}
+@media print{body{font-size:11px;}.page{padding:0;max-width:100%;}.notes-strip{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="page">
 
+  <div class="cq-header">
+    <div class="cq-brand">
+      <span class="cq-logo">CC</span>
+      <span class="cq-wordmark">Cross <span>Cage</span></span>
+    </div>
+    <div>
+      <div class="cq-doc-title">Week 1 Deck Sheet</div>
+      <div class="cq-doc-sub">Magnus Sims · Malvern Prep Varsity Boys · 5x / week · 2+ hrs</div>
+    </div>
+  </div>
+
+  <div class="focus-card">
+    <div class="focus-label">Week 1 Focus</div>
+    <div class="focus-title">Good water polo IQ, no counter attack structure. This team reads the game — they just default to front-court because no one has installed the framework yet.</div>
+    <div class="focus-outcome">Outcome: 100% Advantage Rule verbalization by Friday · 6x5 quick within 5s on 6/8 reps · counter attack attempted before front-court every possession in scrimmage</div>
+  </div>
+
+  <div class="context-strip">
+    <div class="ctx-cell"><div class="ctx-label">Roster</div><div class="ctx-value">15 players · mixed dev</div></div>
+    <div class="ctx-cell"><div class="ctx-label">League</div><div class="ctx-value">Inter-Ac · Varsity Boys</div></div>
+    <div class="ctx-cell"><div class="ctx-label">Primary Target</div><div class="ctx-value">Easterns · 2025</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="mini-bar swim">
+      <div class="mini-bar-label">Swim Conditioning</div>
+      <div class="mini-bar-body">
+        <strong>All sets:</strong> head-up · no walls · 1:1 rest · two groups<br>
+        <strong>Mon/Thu:</strong> 20 × 25y &nbsp;·&nbsp; <strong>Tue:</strong> 10 × 50y :60 &nbsp;·&nbsp; <strong>Wed:</strong> 5 × 75y 90s &nbsp;·&nbsp; <strong>Fri:</strong> 8 × 25y full recovery<br>
+        Week 2: +2 reps, tighten rest 5s
+      </div>
+    </div>
+    <div class="mini-bar gk">
+      <div class="mini-bar-label">GK Track · 0–40 min · Two GKs</div>
+      <div class="mini-bar-body">
+        <strong>Mon/Wed/Fri (Day 1):</strong> Positional · GP hold → corner lunges → glide series<br>
+        <strong>Tue/Thu (Day 2):</strong> Heavy ball · holds → lunges → 25 catapult throws<br>
+        <strong>Junior GK:</strong> Full track every session · observes all special teams reps
+      </div>
+    </div>
+  </div>
+
+  <div class="day-grid">
+    <div class="day-col">
+      <div class="day-head"><div class="day-name">Monday</div><div class="day-tag tag-tran">Counter Install</div></div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–20</div><div class="db-name">Spidering + Swim</div><div class="db-note">20 × 25y · 1:1 rest</div></div>
+        <div class="day-block">
+          <div class="db-time">20–55</div><div class="db-name">Advantage Rules Install</div>
+          <div class="db-note">Dev: 2v1 · verbalize first · Exp: 3v2 · dry walk-through first for all</div>
+          <div class="db-decision">↳ DECISION: Non-verbalizers listed by name</div>
+        </div>
+        <div class="day-block"><div class="db-time">55–80</div><div class="db-name">GK Outlet Lanes</div><div class="db-note">Named lane before outlet · 12 reps · counter starts at the save</div></div>
+        <div class="day-block"><div class="db-time">80–100</div><div class="db-name">Drive-and-Replace</div><div class="db-note">5v5 · no camping · drive within 2 passes · track stall rate</div></div>
+        <div class="day-block"><div class="db-time">100–120</div><div class="db-name">Scrimmage</div><div class="db-note">Counter first — mandatory · log attempts vs. conversions · baseline</div></div>
+      </div>
+    </div>
+    <div class="day-col">
+      <div class="day-head"><div class="day-name">Tuesday</div><div class="day-tag tag-off">6x5 Power Play</div></div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–20</div><div class="db-name">Reverse Sculling + Swim</div><div class="db-note">10 × 50y · :60 rest</div></div>
+        <div class="day-block">
+          <div class="db-time">20–55</div><div class="db-name">4-2 Quick + Post Rotation</div>
+          <div class="db-note">Quick within 5s · denied → 2v1 at posts · 12 reps</div>
+          <div class="db-decision">↳ DECISION: Primary 6x5 unit locked</div>
+        </div>
+        <div class="day-block"><div class="db-time">55–80</div><div class="db-name">Strong Shooter — Distribution</div><div class="db-note">Front-court set · distributor role · track assists vs. solo attempts</div></div>
+        <div class="day-block"><div class="db-time">80–100</div><div class="db-name">5x6 Double Block x3</div><div class="db-note">Dev: position only · Exp: live · GK calls shape</div></div>
+        <div class="day-block"><div class="db-time">100–120</div><div class="db-name">Scrimmage</div><div class="db-note">Every exclusion = live 6x5 · GK tracks every shot</div></div>
+      </div>
+    </div>
+    <div class="day-col">
+      <div class="day-head"><div class="day-name">Wednesday</div><div class="day-tag tag-def">Situation Defense</div></div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–20</div><div class="db-name">Spidering + Swim</div><div class="db-note">5 × 75y · 90s rest</div></div>
+        <div class="day-block">
+          <div class="db-time">20–55</div><div class="db-name">Press Base Position</div>
+          <div class="db-note">Dev: mechanics only · Exp: live 1v1 · Ball/Player/Area</div>
+          <div class="db-decision">↳ DECISION: 2 press vs. zone triggers defined + written down</div>
+        </div>
+        <div class="day-block"><div class="db-time">55–80</div><div class="db-name">Grab-and-Go Prevention</div><div class="db-note">Press → hand fight → sprint-swim to named lane · counter live</div></div>
+        <div class="day-block"><div class="db-time">80–100</div><div class="db-name">Zone Defense</div><div class="db-note">Dev: position only · Exp: live vs. drive-and-replace</div></div>
+        <div class="day-block"><div class="db-time">100–120</div><div class="db-name">Scrimmage — Situation Defense</div><div class="db-note">Coach calls press or zone · track call timing</div></div>
+      </div>
+    </div>
+    <div class="day-col">
+      <div class="day-head"><div class="day-name">Thursday</div><div class="day-tag tag-tran">Counter + Integration</div></div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–20</div><div class="db-name">Spidering + Swim</div><div class="db-note">20 × 25y · 1:1 rest</div></div>
+        <div class="day-block">
+          <div class="db-time">20–55</div><div class="db-name">Advantage Rules — Full Roster</div>
+          <div class="db-note">Every player · 5 reps · compare to Monday verbalization rate</div>
+          <div class="db-decision">↳ DECISION: First-line CA group confirmed</div>
+        </div>
+        <div class="day-block"><div class="db-time">55–80</div><div class="db-name">Counter → Front-Court</div><div class="db-note">Counter first · strong shooter as distributor · no isolation</div></div>
+        <div class="day-block"><div class="db-time">80–100</div><div class="db-name">Live 6x5 — Shot Clock</div><div class="db-note">Primary unit · 10 reps · no coaching · compare to Tuesday</div></div>
+        <div class="day-block"><div class="db-time">100–120</div><div class="db-name">Scrimmage — Full System</div><div class="db-note">Compare counter attempt rate to Monday · is default-to-front-court breaking?</div></div>
+      </div>
+    </div>
+    <div class="day-col">
+      <div class="day-head"><div class="day-name">Friday</div><div class="day-tag tag-int">Rehearsal</div></div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–15</div><div class="db-name">Short Activation</div><div class="db-note">8 × 25y · sharp, not tiring</div></div>
+        <div class="day-block"><div class="db-time">15–40</div><div class="db-name">Special Teams</div><div class="db-note">6x5: 8 reps · 5x6: 8 reps · no coaching during reps</div></div>
+        <div class="day-block"><div class="db-time">40–60</div><div class="db-name">Counter Speed Runs</div><div class="db-note">Full roster · 3v2 + 2v1 · verbalize rule · every rep</div></div>
+        <div class="day-block"><div class="db-time">60–90</div><div class="db-name">Scrimmage — Full Rules</div><div class="db-note">Shot clock · 1 timeout · track counter rate vs. Monday</div></div>
+        <div class="day-block"><div class="db-time">90–120</div><div class="db-name">Timeout Protocol + Preview</div><div class="db-note">3 scenarios · Week 2 preview · sprint-swim out knowing it</div></div>
+      </div>
+    </div>
+  </div>
+
+  <table class="drill-table">
+    <thead><tr><th>Drill</th><th>Session</th><th>Entry level</th><th>Key Cue</th><th>Success</th></tr></thead>
+    <tbody>
+      <tr><td>Spidering</td><td>Mon / Wed / Thu / Fri</td><td>Stationary, one direction at a time</td><td>"Hollow the upper body — coiled, not rigid."</td><td>All directions without losing eggbeater rhythm</td></tr>
+      <tr><td>Advantage Rules</td><td>Mon · 20–55 · Thu · 20–55 · Fri · 40–60</td><td>2v1, GK holds, verbalize first, no pressure</td><td>"Say the rule before you swim — every player, every rep."</td><td>100% verbalization by Thursday</td></tr>
+      <tr><td>4-2 Quick + Post Rotation</td><td>Tue · 20–55 · Fri · 15–40</td><td>Walk-through rotation, no defense</td><td>"Exclusion drawer recovers first — not a spectator."</td><td>Quick within 5s on 6/8 reps</td></tr>
+      <tr><td>Drive-and-Replace</td><td>Mon · 80–100</td><td>Dry replacement, no defense, verbal drive call</td><td>"Defense wins without weight commitment. Keep it moving."</td><td>Stall rate drops period 1 → period 3</td></tr>
+      <tr><td>Grab-and-Go Prevention</td><td>Wed · 55–80</td><td>Hand fight only, no counter yet</td><td>"Win the hand fight — then sprint-swim to the lane."</td><td>Lane discipline improves period 1 → period 3</td></tr>
+      <tr><td>Timeout Protocol</td><td>Fri · 90–110</td><td>Coach scripted — players execute on restart</td><td>"Two adjustments, one positive, 60 seconds."</td><td>Zero hesitation by rep 3 · run every week</td></tr>
+    </tbody>
+  </table>
+
+  <div class="bottom-grid">
+    <div class="bottom-card">
+      <div class="bc-head accent">Tracking Priorities</div>
+      <div class="bc-body">
+        <li>Advantage Rule verbalization — by player name, every session</li>
+        <li>Counter attack attempts vs. conversions — Mon and Thu</li>
+        <li>6x5 quick attempt rate — within 5 seconds of exclusion</li>
+        <li>Strong shooter: assists vs. solo shot attempts</li>
+        <li>Drive-and-replace stall rate — drops across the week</li>
+        <li>Situation defense call timing — before ball crosses half</li>
+      </div>
+    </div>
+    <div class="bottom-card">
+      <div class="bc-head">Coach Decisions</div>
+      <div class="bc-body">
+        <li>Mon end: Non-verbalizers listed — entry-level only until habit forms</li>
+        <li>Tue end: Primary 6x5 unit locked — roles fixed for season opener</li>
+        <li>Wed end: 2 press vs. zone triggers written down</li>
+        <li>Thu end: First-line CA group confirmed</li>
+        <li>Fri end: Week 2 focus from KPI data</li>
+      </div>
+    </div>
+    <div class="bottom-card">
+      <div class="bc-head">Watch For</div>
+      <div class="bc-body">
+        <li>Developing players executing without verbalizing — habit before speed</li>
+        <li>Team defaulting to front-court without attempting counter first</li>
+        <li>Strong shooter isolating instead of distributing</li>
+        <li>Situation defense calls coming after ball crosses half</li>
+        <li>Exclusion drawer fixing cap instead of recovering</li>
+        <li>Good water polo IQ going to waste — trust the IQ, install the system</li>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-strip">
+    <div class="notes-col">
+      <div class="notes-head">Session notes</div>
+      <div class="notes-line"><span class="notes-day">Mon</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Tue</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Wed</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Thu</span><span class="notes-rule"></span></div>
+    </div>
+    <div class="notes-col">
+      <div class="notes-head">KPI log</div>
+      <div class="kpi-log-row"><span class="kpi-log-label">Verbalization rate</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">Counter conversion</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">6x5 quick rate</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">Shooter: distrib. vs. isolate</span><span class="kpi-log-rule"></span></div>
+    </div>
+  </div>
+
+  <div class="cq-footer">
+    <span>Cross Cage · Max Kelly</span>
+    <span>Next: Week 2 Plan + First Game Prep Package</span>
+  </div>
+
+</div>
+</body>
+</html>
