@@ -1,1 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross Cage — Week 1 Deck — Penn Charter Varsity Girls</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--ink-2:#444444;--ink-3:#777777;--rule:#DEDEDE;--rule-light:#F0F0F0;--bg:#FFFFFF;--bg-off:#F8F8F6;--accent:#0057A8;--accent-bg:#EEF4FC;--font-head:'Libre Baskerville',Georgia,serif;--font-body:'Source Sans 3',system-ui,sans-serif;--font-mono:'Source Code Pro',monospace;--radius:4px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+.page{max-width:860px;margin:0 auto;padding:28px 20px 60px;}
+.cq-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:12px;border-bottom:2px solid var(--ink);margin-bottom:18px;}
+.cq-brand{display:flex;align-items:center;gap:10px;}
+.cq-logo{font-family:var(--font-mono);font-size:11px;background:var(--ink);color:var(--bg);padding:4px 9px;border-radius:var(--radius);letter-spacing:0.5px;}
+.cq-wordmark{font-family:var(--font-head);font-size:16px;font-weight:700;}
+.cq-wordmark span{color:var(--accent);}
+.cq-doc-title{font-family:var(--font-head);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:right;}
+.cq-doc-sub{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:3px;text-align:right;}
+.focus-card{background:var(--accent-bg);border:1px solid rgba(0,87,168,0.2);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;}
+.focus-label{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.focus-title{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:5px;}
+.focus-outcome{font-size:12px;color:var(--ink-2);font-style:italic;line-height:1.45;}
+.context-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;}
+.ctx-cell{background:var(--bg);padding:8px 12px;}
+.ctx-label{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px;}
+.ctx-value{font-size:12px;font-weight:600;color:var(--ink);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.mini-bar{border-radius:var(--radius);padding:10px 14px;}
+.mini-bar.swim{border-left:3px solid var(--ink-3);background:var(--bg-off);}
+.mini-bar.gk{border-left:3px solid var(--accent);background:var(--accent-bg);}
+.mini-bar-label{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
+.mini-bar.gk .mini-bar-label{color:var(--accent);}
+.mini-bar-body{font-size:11px;color:var(--ink-2);line-height:1.6;}
+.mini-bar-body strong{color:var(--ink);}
+.day-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
+.day-col{background:var(--bg);}
+.day-head{padding:7px 8px;background:var(--bg-off);border-bottom:1px solid var(--rule);}
+.day-name{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--ink);}
+.day-tag{font-family:var(--font-mono);font-size:8px;letter-spacing:0.5px;text-transform:uppercase;margin-top:2px;}
+.tag-def{color:#666;}.tag-tran{color:#1A7A2E;}.tag-off{color:var(--accent);}.tag-int{color:var(--ink-3);}
+.day-body{padding:7px 8px;}
+.day-block{margin-bottom:7px;padding-bottom:7px;border-bottom:1px solid var(--rule-light);}
+.day-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.db-time{font-family:var(--font-mono);font-size:8px;color:var(--ink-3);margin-bottom:1px;}
+.db-name{font-size:10px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:1px;}
+.db-note{font-size:10px;color:var(--ink-3);line-height:1.3;}
+.db-decision{font-family:var(--font-mono);font-size:8px;color:var(--accent);margin-top:3px;line-height:1.3;}
+.drill-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;font-size:11px;margin-bottom:14px;}
+.drill-table thead tr{background:var(--ink);color:var(--bg);}
+.drill-table th{font-family:var(--font-mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:7px 10px;text-align:left;font-weight:500;}
+.drill-table td{padding:8px 10px;border-bottom:1px solid var(--rule-light);vertical-align:top;color:var(--ink-2);line-height:1.4;}
+.drill-table tr:last-child td{border-bottom:none;}
+.drill-table tr:nth-child(even) td{background:var(--bg-off);}
+.drill-table td:first-child{font-weight:600;color:var(--ink);}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.bottom-card{border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;}
+.bc-head{padding:6px 10px;background:var(--bg-off);border-bottom:1px solid var(--rule);font-family:var(--font-mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);}
+.bc-head.accent{color:var(--accent);}
+.bc-body{padding:8px 10px;}
+.bc-body li{font-size:10px;color:var(--ink-2);padding:3px 0;border-bottom:1px solid var(--rule-light);line-height:1.35;list-style:none;display:flex;gap:5px;}
+.bc-body li:last-child{border-bottom:none;}
+.bc-body li::before{content:'→';color:var(--ink-3);flex-shrink:0;}
+.notes-strip{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;}
+.notes-col{background:var(--bg);padding:10px 14px;}
+.notes-col+.notes-col{border-left:1px solid var(--rule);}
+.notes-head{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;}
+.notes-line{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+.notes-line:last-child{margin-bottom:0;}
+.notes-day{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:26px;flex-shrink:0;}
+.notes-rule{flex:1;border-bottom:1px solid var(--rule);display:inline-block;height:14px;}
+.kpi-log-row{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+.kpi-log-row:last-child{margin-bottom:0;}
+.kpi-log-label{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:140px;flex-shrink:0;line-height:1.3;}
+.kpi-log-rule{flex:1;border-bottom:1px solid var(--rule);display:inline-block;height:14px;}
+.cq-footer{border-top:1px solid var(--rule);padding-top:10px;display:flex;justify-content:space-between;margin-top:18px;}
+.cq-footer span{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);letter-spacing:1px;text-transform:uppercase;}
+@media(max-width:640px){.day-grid{grid-template-columns:1fr 1fr;}.two-col{grid-template-columns:1fr;}.context-strip{grid-template-columns:1fr 1fr;}.bottom-grid{grid-template-columns:1fr;}.notes-strip{grid-template-columns:1fr;}}
+@media print{body{font-size:11px;}.page{padding:0;max-width:100%;}.notes-strip{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="page">
 
+  <div class="cq-header">
+    <div class="cq-brand">
+      <span class="cq-logo">CC</span>
+      <span class="cq-wordmark">Cross <span>Cage</span></span>
+    </div>
+    <div>
+      <div class="cq-doc-title">Week 1 Deck Sheet</div>
+      <div class="cq-doc-sub">Brian Hecker · Penn Charter Varsity Girls · 4x / 75 min · Aug 24–29</div>
+    </div>
+  </div>
+
+  <div class="focus-card">
+    <div class="focus-label">Week 1 Focus</div>
+    <div class="focus-title">Speed is the weapon. Inexperience is the liability. The counter attack only works if developing players make fast decisions on the outlet.</div>
+    <div class="focus-outcome">Outcome: 100% verbalization rate on Advantage Rule by Thursday · Rising junior runs all CF reps in M-drop by Friday · 4-2 quick attempted within 5s on 6/8 live reps</div>
+  </div>
+
+  <div class="context-strip">
+    <div class="ctx-cell"><div class="ctx-label">Roster</div><div class="ctx-value">21 players · mixed dev</div></div>
+    <div class="ctx-cell"><div class="ctx-label">Next Tournament</div><div class="ctx-value">Beast of the East · Sept 25–26</div></div>
+    <div class="ctx-cell"><div class="ctx-label">Primary Target</div><div class="ctx-value">Easterns · Nov 2025</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="mini-bar swim">
+      <div class="mini-bar-label">Swim Conditioning</div>
+      <div class="mini-bar-body">
+        <strong>All sets:</strong> head-up · no walls · 1:1 rest · two groups · swimmers: same standard<br>
+        <strong>Mon/Thu:</strong> 16 × 25y &nbsp;·&nbsp; <strong>Tue:</strong> 8 × 50y :60 &nbsp;·&nbsp; <strong>Wed:</strong> 4 × 75y 90s &nbsp;·&nbsp; <strong>Fri:</strong> 8 × 25y full recovery
+      </div>
+    </div>
+    <div class="mini-bar gk">
+      <div class="mini-bar-label">GK Track · 0–30 min · she/her</div>
+      <div class="mini-bar-body">
+        <strong>Mon/Thu (Day 1):</strong> Positional · GP hold → corner lunges → glide series<br>
+        <strong>Tue/Wed (Day 2):</strong> Heavy ball · holds → lunges → 25 catapult throws<br>
+        <strong>All sessions:</strong> Calls M-drop shape · tracks every shot location
+      </div>
+    </div>
+  </div>
+
+  <div class="day-grid">
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Monday</div>
+        <div class="day-tag tag-tran">Counter Attack</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–18</div><div class="db-name">Spidering + Swim</div><div class="db-note">16 × 25y · 1:1 rest</div></div>
+        <div class="day-block">
+          <div class="db-time">18–42</div><div class="db-name">Advantage Rules</div>
+          <div class="db-note">Dev: 2v1 · verbalize first · Exp: 3v2 · full speed</div>
+          <div class="db-decision">↳ DECISION: Non-verbalizers identified by name</div>
+        </div>
+        <div class="day-block"><div class="db-time">42–60</div><div class="db-name">GK Outlet Lanes</div><div class="db-note">Named lane before outlet · 10 reps · sprint-swim to lane</div></div>
+        <div class="day-block"><div class="db-time">60–75</div><div class="db-name">Scrimmage</div><div class="db-note">Counter first · log attempts vs. conversions · baseline</div></div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Tuesday</div>
+        <div class="day-tag tag-def">M-Drop + CF</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–18</div><div class="db-name">Reverse Sculling + Swim</div><div class="db-note">8 × 50y · :60 rest</div></div>
+        <div class="day-block">
+          <div class="db-time">18–42</div><div class="db-name">Center-Forward M-Drop</div>
+          <div class="db-note">Rising junior · position before entry · GK directs shape</div>
+          <div class="db-decision">↳ DECISION: CF role confirmed for rising junior</div>
+        </div>
+        <div class="day-block"><div class="db-time">42–60</div><div class="db-name">Perimeter Decision Triggers</div><div class="db-note">Dev: verbal trigger assigned · Exp: self-select · log hesitation</div></div>
+        <div class="day-block"><div class="db-time">60–75</div><div class="db-name">Scrimmage — M-Drop</div><div class="db-note">Track shape breaks · CF entry attempts vs. denials</div></div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Wednesday</div>
+        <div class="day-tag tag-off">6x5 Power Play</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–18</div><div class="db-name">Spidering + Swim</div><div class="db-note">4 × 75y · 90s rest</div></div>
+        <div class="day-block">
+          <div class="db-time">18–45</div><div class="db-name">4-2 Quick + Post Rotation</div>
+          <div class="db-note">Quick within 5s · denied → read 2v1 at posts · 10 reps</div>
+          <div class="db-decision">↳ DECISION: Primary 6x5 unit locked</div>
+        </div>
+        <div class="day-block"><div class="db-time">45–60</div><div class="db-name">5x6 M-Drop Post Protection</div><div class="db-note">8 reps · GK calls every shape break</div></div>
+        <div class="day-block"><div class="db-time">60–75</div><div class="db-name">Scrimmage — Special Teams</div><div class="db-note">Every exclusion = live 6x5 · GK tracks every shot</div></div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-head">
+        <div class="day-name">Thursday</div>
+        <div class="day-tag tag-tran">Counter + Integration</div>
+      </div>
+      <div class="day-body">
+        <div class="day-block"><div class="db-time">0–18</div><div class="db-name">Spidering + Swim</div><div class="db-note">16 × 25y · 1:1 rest</div></div>
+        <div class="day-block">
+          <div class="db-time">18–42</div><div class="db-name">Advantage Rules — Full Roster</div>
+          <div class="db-note">Every player · 5 reps · compare verbalization to Monday</div>
+          <div class="db-decision">↳ DECISION: First-line CA group confirmed</div>
+        </div>
+        <div class="day-block"><div class="db-time">42–60</div><div class="db-name">Counter → Front-Court</div><div class="db-note">Counter first · CF sets before Attack line · no camping</div></div>
+        <div class="day-block"><div class="db-time">60–75</div><div class="db-name">Scrimmage — Full System</div><div class="db-note">Compare counter rate + verbalization to Monday</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRIDAY -->
+  <div style="border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 12px;background:var(--bg-off);border-bottom:1px solid var(--rule);">
+      <span style="font-family:var(--font-head);font-size:11px;font-weight:700;">Friday — Integration &amp; Rehearsal</span>
+      <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink-3);padding:2px 7px;border:1px solid var(--rule);border-radius:2px;">Rehearsal</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);">
+      <div style="background:var(--bg);padding:8px 10px;"><div class="db-time">0–12</div><div class="db-name" style="font-size:10px;">Activation</div><div class="db-note">8 × 25y · sharp only</div></div>
+      <div style="background:var(--bg);padding:8px 10px;"><div class="db-time">12–35</div><div class="db-name" style="font-size:10px;">Special Teams</div><div class="db-note">6x5: 8 reps · 5x6: 8 reps GK calls all</div></div>
+      <div style="background:var(--bg);padding:8px 10px;"><div class="db-time">35–52</div><div class="db-name" style="font-size:10px;">Counter Speed Runs</div><div class="db-note">Full roster · 3v2 + 2v1 · verbalize rule · every rep</div></div>
+      <div style="background:var(--bg);padding:8px 10px;"><div class="db-time">52–65</div><div class="db-name" style="font-size:10px;">Scrimmage</div><div class="db-note">Full rules · 1 timeout · note reset speed</div></div>
+      <div style="background:var(--bg);padding:8px 10px;"><div class="db-time">65–75</div><div class="db-name" style="font-size:10px;">Beast Preview + Debrief</div><div class="db-note">Beast of the East Sept 25–26 · 1 question: what was hardest?</div></div>
+    </div>
+  </div>
+
+  <table class="drill-table">
+    <thead><tr><th>Drill</th><th>Session</th><th>Entry level</th><th>Key Cue</th><th>Success</th></tr></thead>
+    <tbody>
+      <tr><td>Spidering</td><td>Mon / Wed / Thu / Fri</td><td>Stationary, one direction at a time</td><td>"Hollow the upper body — coiled, not rigid."</td><td>All directions without losing eggbeater rhythm</td></tr>
+      <tr><td>Advantage Rules</td><td>Mon · 18–42 · Thu · 18–42 · Fri · 35–52</td><td>2v1 only, GK holds, verbalize first</td><td>"Say the rule before you swim — every rep, every player."</td><td>100% verbalization by Thursday</td></tr>
+      <tr><td>CF — M-Drop Positioning</td><td>Tue · 18–42</td><td>Stationary position only, no entry attempt</td><td>"Position before entry — get the catch first."</td><td>Rising junior runs all CF reps by Friday</td></tr>
+      <tr><td>4-2 Quick + Post Rotation</td><td>Wed · 18–45 · Fri · 12–35</td><td>Walk-through rotation, no defense</td><td>"Post defender committing = rotation trigger."</td><td>Quick within 5s on 6/8 reps</td></tr>
+      <tr><td>Perimeter Decision Triggers</td><td>Tue · 42–60</td><td>Verbal trigger assigned — one action, execute</td><td>"Drive or cross — pick one and go."</td><td>Hesitation drops period 1 → period 3</td></tr>
+    </tbody>
+  </table>
+
+  <div class="bottom-grid">
+    <div class="bottom-card">
+      <div class="bc-head accent">Tracking Priorities</div>
+      <div class="bc-body">
+        <li>Advantage Rule verbalization — by player, every session</li>
+        <li>Primary counter conversion — 2v1 and 3v2 baseline</li>
+        <li>CF entry attempts vs. denials — rising junior</li>
+        <li>6x5 quick attempt rate — within 5 seconds of exclusion</li>
+        <li>M-drop shape breaks — GK calls vs. field player calls</li>
+        <li>Perimeter hesitation moments — by player name</li>
+      </div>
+    </div>
+    <div class="bottom-card">
+      <div class="bc-head">Coach Decisions</div>
+      <div class="bc-body">
+        <li>Mon end: Non-verbalizers named — entry-level only until habit forms</li>
+        <li>Tue end: Rising junior CF role confirmed (with senior alongside if needed)</li>
+        <li>Wed end: Primary 6x5 unit locked for Beast of the East</li>
+        <li>Thu end: First-line counter attack group confirmed</li>
+        <li>Fri end: Week 2 focus from KPI data + debrief question</li>
+      </div>
+    </div>
+    <div class="bottom-card">
+      <div class="bc-head">Watch For</div>
+      <div class="bc-body">
+        <li>Developing players executing without verbalizing — habit before speed</li>
+        <li>Experienced players skipping verbalization — they set the standard</li>
+        <li>Rising junior rushing entry before position is established</li>
+        <li>GK going quiet when M-drop shape breaks</li>
+        <li>Perimeter players holding ball 2+ seconds under pressure</li>
+        <li>Counter attack players freelancing instead of hitting the named lane</li>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-strip">
+    <div class="notes-col">
+      <div class="notes-head">Session notes</div>
+      <div class="notes-line"><span class="notes-day">Mon</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Tue</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Wed</span><span class="notes-rule"></span></div>
+      <div class="notes-line"><span class="notes-day">Thu</span><span class="notes-rule"></span></div>
+    </div>
+    <div class="notes-col">
+      <div class="notes-head">KPI log</div>
+      <div class="kpi-log-row"><span class="kpi-log-label">Verbalization rate</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">Counter conversion</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">6x5 quick rate</span><span class="kpi-log-rule"></span></div>
+      <div class="kpi-log-row"><span class="kpi-log-label">CF entries completed</span><span class="kpi-log-rule"></span></div>
+    </div>
+  </div>
+
+  <div class="cq-footer">
+    <span>Cross Cage · Max Kelly</span>
+    <span>Next: Week 2 Plan + Beast of the East Prep Package</span>
+  </div>
+
+</div>
+</body>
+</html>
