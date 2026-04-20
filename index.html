@@ -531,6 +531,21 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       </div>
     </div>
 
+    <div class="field">
+      <label>Do you coach another sport?
+        <span class="hint">If so, which one? This helps frame plans in language that bridges both sports.</span>
+      </label>
+      <div class="chip-group" id="otherSportChips">
+        <div class="chip" data-val="Basketball">Basketball</div>
+        <div class="chip" data-val="Lacrosse">Lacrosse</div>
+        <div class="chip" data-val="Swimming">Swimming</div>
+        <div class="chip" data-val="Soccer">Soccer</div>
+        <div class="chip" data-val="Other">Other</div>
+        <div class="chip" data-val="Water polo only">Water polo only</div>
+      </div>
+      <textarea id="otherSportDetail" placeholder="Optional — any context about your other sport background that would help us frame the plan." style="margin-top:8px;"></textarea>
+    </div>
+
     <div class="nav">
       <button class="btn-back" onclick="prev(1)">← Back</button>
       <button class="btn-next" onclick="next(1)">System →</button>
@@ -1052,7 +1067,7 @@ const singleChips = ['gkChips','offenseChips','zone33Chips','defenseChips','pp6C
                      'clubAgeChips','clubZoneChips','collegeConfChips','expChips',
                      'defTriggerChips','controlChips','hsNonLeaguePrepChips',
                      'clubStructureChips','clubNationalsChips','collegeNonConfPrepChips',
-                     'preseasonLenChips', 'devStageChips'];
+                     'preseasonLenChips', 'devStageChips', 'gkPronounChips', 'otherSportChips'];
 
 document.querySelectorAll('.chip').forEach(c => {
   c.addEventListener('click', () => {
@@ -1295,6 +1310,9 @@ async function submitForm() {
     bestPlayer: val('bestPlayer'),
     rosterDescription: val('rosterDescription'),
     devStage: chips('devStageChips'),
+    gkPronoun: chips('gkPronounChips'),
+    otherSport: chips('otherSportChips'),
+    otherSportDetail: val('otherSportDetail'),
     offense: chips('offenseChips'),
     vsZone: chips('zone33Chips'),
     defense: chips('defenseChips'),
