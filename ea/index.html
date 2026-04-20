@@ -1,1 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross Cage — EA Coach Intake</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#111111; --ink-2:#444444; --ink-3:#777777;
+  --rule:#DEDEDE; --rule-light:#F0F0F0;
+  --bg:#FFFFFF; --bg-off:#F8F8F6;
+  --accent:#0057A8; --accent-bg:#EEF4FC;
+  --green:#1A7A2E; --green-bg:#EDF7ED;
+  --font-head:'Libre Baskerville',Georgia,serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --font-mono:'Source Code Pro',monospace;
+  --r:4px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg-off);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.page{max-width:680px;margin:0 auto;padding:40px 20px 80px;}
 
+/* HEADER */
+.header{display:flex;align-items:center;gap:12px;padding-bottom:18px;border-bottom:2px solid var(--ink);margin-bottom:32px;}
+.logo{font-family:var(--font-mono);font-size:11px;background:var(--ink);color:var(--bg);padding:4px 10px;border-radius:var(--r);letter-spacing:0.5px;}
+.wordmark{font-family:var(--font-head);font-size:19px;font-weight:700;}
+.wordmark span{color:var(--accent);}
+.header-right{margin-left:auto;text-align:right;}
+.header-title{font-family:var(--font-head);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.header-sub{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:2px;}
+
+/* PROGRESS */
+.progress{display:flex;gap:6px;margin-bottom:28px;}
+.prog-step{flex:1;height:3px;background:var(--rule);border-radius:2px;transition:background 0.2s;}
+.prog-step.done{background:var(--accent);}
+.prog-step.active{background:var(--accent);opacity:0.5;}
+
+/* STEP HEADER */
+.step-label{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+.step-title{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.step-desc{font-size:14px;color:var(--ink-2);margin-bottom:28px;line-height:1.55;}
+
+/* FIELDS */
+.field{margin-bottom:22px;}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.hint{display:block;font-size:12px;color:var(--ink-3);margin-top:3px;font-style:italic;}
+.req{color:var(--accent);margin-left:2px;}
+input[type=text],input[type=email],input[type=number],select,textarea{
+  width:100%;background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);
+  padding:11px 14px;color:var(--ink);font-family:var(--font-body);font-size:14px;
+  outline:none;transition:border-color 0.15s;appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,87,168,0.08);}
+input::placeholder,textarea::placeholder{color:var(--ink-3);}
+textarea{resize:vertical;min-height:90px;line-height:1.55;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23777' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;cursor:pointer;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* SPORT SELECTOR */
+.sport-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px;}
+.sport-card{border:1px solid var(--rule);border-radius:var(--r);padding:14px 12px;cursor:pointer;transition:all 0.15s;background:var(--bg);text-align:center;}
+.sport-card:hover{border-color:var(--accent);background:var(--accent-bg);}
+.sport-card.selected{border-color:var(--accent);background:var(--accent-bg);box-shadow:0 0 0 2px var(--accent);}
+.sport-card .sport-icon{font-size:22px;margin-bottom:6px;}
+.sport-card .sport-name{font-size:12px;font-weight:600;color:var(--ink);}
+.sport-card .sport-level{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:2px;letter-spacing:0.5px;}
+.sport-section{display:none;}
+.sport-section.active{display:block;}
+.section-divider{border:none;border-top:1px solid var(--rule);margin:28px 0;}
+
+/* CHIPS */
+.chip-group{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{border:1px solid var(--rule);border-radius:20px;padding:6px 14px;font-size:13px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;background:var(--bg);user-select:none;}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.chip.selected{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);font-weight:600;}
+
+/* NAV */
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--rule);}
+.btn-back{background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:11px 20px;font-family:var(--font-body);font-size:14px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;}
+.btn-back:hover{border-color:var(--ink-2);color:var(--ink);}
+.btn-next{background:var(--accent);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.btn-next:hover{opacity:0.88;}
+.btn-submit{background:var(--green);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.btn-submit:hover{opacity:0.88;}
+
+/* STEPS */
+.step{display:none;}
+.step.active{display:block;}
+
+/* SUCCESS */
+.success{display:none;text-align:center;padding:40px 20px;}
+.success.active{display:block;}
+.success-icon{font-size:48px;margin-bottom:16px;}
+.success-title{font-family:var(--font-head);font-size:22px;font-weight:700;margin-bottom:10px;}
+.success-desc{font-size:15px;color:var(--ink-2);margin-bottom:28px;line-height:1.6;}
+.summary-box{background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);padding:18px 20px;text-align:left;margin-bottom:24px;}
+.summary-row{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--rule-light);font-size:13px;}
+.summary-row:last-child{border-bottom:none;}
+.summary-label{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.5px;min-width:120px;padding-top:1px;}
+.summary-value{color:var(--ink-2);}
+
+/* ATHLETE ROWS (XC/Golf) */
+.athlete-list{display:flex;flex-direction:column;gap:8px;}
+.athlete-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);padding:10px 12px;}
+.athlete-row input{border:none;background:transparent;font-family:var(--font-body);font-size:13px;color:var(--ink);outline:none;padding:0;}
+.btn-add-athlete{background:transparent;border:1px dashed var(--rule);border-radius:var(--r);padding:8px;font-size:13px;color:var(--ink-3);cursor:pointer;width:100%;margin-top:6px;transition:all 0.15s;}
+.btn-add-athlete:hover{border-color:var(--accent);color:var(--accent);}
+.btn-rm{background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:16px;padding:0 4px;line-height:1;}
+.btn-rm:hover{color:var(--red,#B01C14);}
+
+@media(max-width:540px){
+  .sport-grid{grid-template-columns:repeat(2,1fr);}
+  .two-col{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <span class="logo">CC</span>
+    <span class="wordmark">Cross <span>Cage</span></span>
+    <div class="header-right">
+      <div class="header-title">Coach Intake</div>
+      <div class="header-sub">Episcopal Academy · All Sports</div>
+    </div>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="prog-step active" id="ps0"></div>
+    <div class="prog-step" id="ps1"></div>
+    <div class="prog-step" id="ps2"></div>
+    <div class="prog-step" id="ps3"></div>
+    <div class="prog-step" id="ps4"></div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- STEP 0 — SPORT SELECT + BASICS -->
+  <!-- ═══════════════════════════════ -->
+  <div class="step active" id="step0">
+    <div class="step-label">Step 1 of 5</div>
+    <div class="step-title">Who are you and what do you coach?</div>
+    <div class="step-desc">Select your sport first — the rest of the form will adjust to your program.</div>
+
+    <div class="field">
+      <label>Select your sport<span class="req">*</span></label>
+      <div class="sport-grid" id="sportGrid">
+        <div class="sport-card" data-sport="football" onclick="selectSport('football',this)">
+          <div class="sport-icon">🏈</div>
+          <div class="sport-name">Football</div>
+          <div class="sport-level">Middle School · Tackle</div>
+        </div>
+        <div class="sport-card" data-sport="waterpolo" onclick="selectSport('waterpolo',this)">
+          <div class="sport-icon">🤽</div>
+          <div class="sport-name">Water Polo</div>
+          <div class="sport-level">Boys or Girls</div>
+        </div>
+        <div class="sport-card" data-sport="soccer" onclick="selectSport('soccer',this)">
+          <div class="sport-icon">⚽</div>
+          <div class="sport-name">Soccer</div>
+          <div class="sport-level">Boys or Girls</div>
+        </div>
+        <div class="sport-card" data-sport="xc" onclick="selectSport('xc',this)">
+          <div class="sport-icon">🏃</div>
+          <div class="sport-name">Cross Country</div>
+          <div class="sport-level">Boys or Girls</div>
+        </div>
+        <div class="sport-card" data-sport="golf" onclick="selectSport('golf',this)">
+          <div class="sport-icon">⛳</div>
+          <div class="sport-name">Golf</div>
+          <div class="sport-level">Boys or Girls</div>
+        </div>
+        <div class="sport-card" data-sport="fieldhockey" onclick="selectSport('fieldhockey',this)">
+          <div class="sport-icon">🏑</div>
+          <div class="sport-name">Field Hockey</div>
+          <div class="sport-level">Girls</div>
+        </div>
+        <div class="sport-card" data-sport="volleyball" onclick="selectSport('volleyball',this)">
+          <div class="sport-icon">🏐</div>
+          <div class="sport-name">Volleyball</div>
+          <div class="sport-level">Girls</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Your name<span class="req">*</span></label>
+      <input type="text" id="name" placeholder="Coach name">
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label>Email<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@episcopalacademy.org">
+      </div>
+      <div class="field">
+        <label>Team level<span class="req">*</span></label>
+        <select id="teamLevel">
+          <option value="">Select level</option>
+          <option>Middle School</option>
+          <option>JV</option>
+          <option>Varsity</option>
+        </select>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label>Gender program</label>
+        <select id="gender">
+          <option value="">Select</option>
+          <option>Boys</option>
+          <option>Girls</option>
+          <option>Co-ed</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Coaching experience</label>
+        <select id="experience">
+          <option value="">Select</option>
+          <option>First year</option>
+          <option>1–2 years</option>
+          <option>3–5 years</option>
+          <option>6–10 years</option>
+          <option>10+ years</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="nav">
+      <span></span>
+      <button class="btn-next" onclick="next(0)">Roster →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- STEP 1 — ROSTER                -->
+  <!-- ═══════════════════════════════ -->
+  <div class="step" id="step1">
+    <div class="step-label">Step 2 of 5</div>
+    <div class="step-title">Tell me about your roster</div>
+    <div class="step-desc">The more honest this is, the better the plan. No one else sees this.</div>
+
+    <div class="field">
+      <label>Roster size<span class="req">*</span></label>
+      <input type="number" id="rosterSize" placeholder="15" min="1" max="100">
+    </div>
+
+    <!-- XC / GOLF — athlete list -->
+    <div class="sport-section" id="sec-athletes">
+      <div class="field">
+        <label>Your athletes <span style="font-weight:400;color:var(--ink-3)">(name + current PR or handicap)</span></label>
+        <div class="athlete-list" id="athleteList">
+          <div class="athlete-row">
+            <input placeholder="Athlete name" class="ath-name">
+            <input placeholder="Current PR / handicap" class="ath-pr">
+            <button class="btn-rm" onclick="removeAthlete(this)">×</button>
+          </div>
+        </div>
+        <button class="btn-add-athlete" onclick="addAthlete()">+ Add athlete</button>
+      </div>
+      <div class="field">
+        <label>Team goal for the season</label>
+        <textarea id="teamGoal" placeholder="e.g. Every runner achieves a personal best at the championship meet. Build a pack of 5 that runs together through mile 2."></textarea>
+      </div>
+    </div>
+
+    <!-- ALL OTHER SPORTS -->
+    <div class="sport-section" id="sec-roster-general">
+      <div class="field">
+        <label>Describe your roster in plain language<span class="req">*</span></label>
+        <textarea id="rosterDescription" placeholder="Who are your experienced leaders? Who is still developing? Where are you asking players to overperform their level? Be direct — this shapes every plan."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Where is your team in their development?</label>
+        <div class="chip-group" id="devStageChips">
+          <div class="chip" data-val="Building fundamentals — scheme comes later">Building fundamentals</div>
+          <div class="chip" data-val="Fundamentals solid — installing scheme now">Installing scheme</div>
+          <div class="chip" data-val="Scheme established — refining and competing">Scheme established</div>
+          <div class="chip" data-val="Mixed — experienced core with developing players alongside">Mixed</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Where are you thin?</label>
+        <textarea id="thinAt" placeholder="Positions or areas where you lack depth or experience"></textarea>
+      </div>
+    </div>
+
+    <!-- GK field for water polo / field hockey -->
+    <div class="sport-section" id="sec-gk">
+      <div class="field">
+        <label id="gkLabel">Goalkeeper situation</label>
+        <div class="chip-group" id="gkChips">
+          <div class="chip" data-val="Elite — returning All-League selection">Elite — returning All-League</div>
+          <div class="chip" data-val="Solid, still developing">Solid, developing</div>
+          <div class="chip" data-val="Starting-level underclassman">Starting-level underclassman</div>
+          <div class="chip" data-val="Position unresolved">Position unresolved</div>
+          <div class="chip" data-val="GK is a liability">GK is a liability</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Goalkeeper pronouns</label>
+        <div class="chip-group" id="gkPronounChips">
+          <div class="chip" data-val="he/him">he/him</div>
+          <div class="chip" data-val="she/her">she/her</div>
+          <div class="chip" data-val="they/them">they/them</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(1)">← Back</button>
+      <button class="btn-next" onclick="next(1)">System →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- STEP 2 — SYSTEM (SPORT-SPECIFIC) -->
+  <!-- ═══════════════════════════════ -->
+  <div class="step" id="step2">
+    <div class="step-label">Step 3 of 5</div>
+    <div class="step-title">How do you play?</div>
+    <div class="step-desc">Your offensive and defensive identity. Don't describe what you want to do — describe what you actually do right now.</div>
+
+    <!-- FOOTBALL -->
+    <div class="sport-section" id="sys-football">
+      <div class="field">
+        <label>Offensive system</label>
+        <div class="chip-group" id="fbOffenseChips">
+          <div class="chip" data-val="Wing-T — misdirection, fullback-based">Wing-T</div>
+          <div class="chip" data-val="Spread — shotgun, multiple WRs">Spread</div>
+          <div class="chip" data-val="I-formation — power run, play action">I-Formation</div>
+          <div class="chip" data-val="Single wing — direct snap, deception">Single Wing</div>
+          <div class="chip" data-val="Run-first — no defined system yet">Run-first, developing</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Defensive system</label>
+        <div class="chip-group" id="fbDefenseChips">
+          <div class="chip" data-val="4-4 — stop the run, physical">4-4</div>
+          <div class="chip" data-val="3-5-3 — speed-based, pursuit angles">3-5-3</div>
+          <div class="chip" data-val="5-3 — gap control, two-gap technique">5-3</div>
+          <div class="chip" data-val="Situation-dependent — multiple looks">Multiple / situation-dependent</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Special teams priority</label>
+        <textarea id="fbSpecialTeams" placeholder="e.g. Kickoff coverage is our biggest gap. Punting is unreliable. PAT kick is automatic."></textarea>
+      </div>
+      <div class="field">
+        <label>What does your offense run best right now?</label>
+        <textarea id="fbOffenseBest" placeholder="e.g. QB keeper on the option. We can't throw consistently but our backs are fast."></textarea>
+      </div>
+    </div>
+
+    <!-- WATER POLO -->
+    <div class="sport-section" id="sys-waterpolo">
+      <div class="field">
+        <label>Offensive system</label>
+        <div class="chip-group" id="wpOffenseChips">
+          <div class="chip" data-val="Drive-and-replace — gap drives with continuous motion">Drive-and-replace</div>
+          <div class="chip" data-val="Counter-attack primary — transition before front-court set">Counter-attack primary</div>
+          <div class="chip" data-val="Center-forward dominant — post entry and kick-out">Center-forward dominant</div>
+          <div class="chip" data-val="Perimeter-based — shooting lanes from outside">Perimeter-based</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Defensive system</label>
+        <div class="chip-group" id="wpDefenseChips">
+          <div class="chip" data-val="Full press — deny passing lane on all perimeter players">Full press</div>
+          <div class="chip" data-val="Press with logical zone on center-forward">Press + logical zone on CF</div>
+          <div class="chip" data-val="Splitting / M-zone gap — take away box entry">Splitting / M-zone</div>
+          <div class="chip" data-val="Situation-dependent — press or zone by game state">Situation-dependent</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>6x5 power play structure</label>
+        <div class="chip-group" id="wpPowerPlayChips">
+          <div class="chip" data-val="4-2 — rotate to 2v1 at posts">4-2</div>
+          <div class="chip" data-val="3-3 — perimeter rotation">3-3</div>
+          <div class="chip" data-val="Quick first — score off the exclusion call">Quick first</div>
+          <div class="chip" data-val="Not yet defined">Not yet defined</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>5x6 man-down priority</label>
+        <div class="chip-group" id="wpManDownChips">
+          <div class="chip" data-val="Protect the posts — heavy on center-forward, concede perimeter">Protect posts</div>
+          <div class="chip" data-val="Double-block from x3 — take away cross-cage">Double-block x3</div>
+          <div class="chip" data-val="Baseline holds — top three press and disrupt">Baseline holds</div>
+          <div class="chip" data-val="Not yet defined">Not yet defined</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOCCER -->
+    <div class="sport-section" id="sys-soccer">
+      <div class="field">
+        <label>Formation</label>
+        <div class="chip-group" id="socFormChips">
+          <div class="chip" data-val="4-3-3 — wide attack, pressing">4-3-3</div>
+          <div class="chip" data-val="4-4-2 — balanced, traditional">4-4-2</div>
+          <div class="chip" data-val="4-2-3-1 — defensive midfield, attacking 10">4-2-3-1</div>
+          <div class="chip" data-val="3-5-2 — wing backs, possession">3-5-2</div>
+          <div class="chip" data-val="Not yet defined — developing">Not yet defined</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Defensive approach</label>
+        <div class="chip-group" id="socDefenseChips">
+          <div class="chip" data-val="High press — win ball in opponent's half">High press</div>
+          <div class="chip" data-val="Mid-block — defend from midfield, counter">Mid-block + counter</div>
+          <div class="chip" data-val="Low block — compact defense, absorb pressure">Low block</div>
+          <div class="chip" data-val="Situation-dependent — press or drop by game state">Situation-dependent</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>How do you attack?</label>
+        <textarea id="socAttack" placeholder="e.g. We attack wide and cross. We're not effective through the middle. Counter attack is our best weapon when we sit deep."></textarea>
+      </div>
+      <div class="field">
+        <label>Set piece priority (corners, free kicks)</label>
+        <textarea id="socSetPiece" placeholder="e.g. Corners are disorganized. We have one player who can strike a dead ball well. No defined free kick routine."></textarea>
+      </div>
+    </div>
+
+    <!-- CROSS COUNTRY -->
+    <div class="sport-section" id="sys-xc">
+      <div class="field">
+        <label>Race strategy</label>
+        <div class="chip-group" id="xcStratChips">
+          <div class="chip" data-val="Pack running — top 5 stay together through mile 2">Pack running</div>
+          <div class="chip" data-val="Go-out-fast — seize position early, hold on">Go out fast</div>
+          <div class="chip" data-val="Even splits — consistent pace, negative split finish">Even splits</div>
+          <div class="chip" data-val="Individual — each runner runs their own race">Individual race plans</div>
+          <div class="chip" data-val="Not yet defined — first season">Not yet defined</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>What does your training week look like right now?</label>
+        <textarea id="xcTraining" placeholder="e.g. Monday easy, Tuesday tempo, Wednesday long, Thursday intervals, Friday shakeout. Total mileage around 25-30/week for varsity."></textarea>
+      </div>
+      <div class="field">
+        <label>What's your biggest coaching challenge right now?</label>
+        <textarea id="xcChallenge" placeholder="e.g. Getting runners to trust the pack strategy. They all want to go out too fast and die in mile 2."></textarea>
+      </div>
+    </div>
+
+    <!-- GOLF -->
+    <div class="sport-section" id="sys-golf">
+      <div class="field">
+        <label>Team scoring format</label>
+        <div class="chip-group" id="golfFormatChips">
+          <div class="chip" data-val="Stroke play — low total wins">Stroke play</div>
+          <div class="chip" data-val="Match play — hole-by-hole">Match play</div>
+          <div class="chip" data-val="Stableford — point-based">Stableford</div>
+          <div class="chip" data-val="Mixed formats throughout season">Mixed formats</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>What's each player's biggest scoring opportunity right now?</label>
+        <textarea id="golfOpportunity" placeholder="e.g. Most of our team can make pars consistently but fall apart on par 5s. Short game is the biggest gap across the board."></textarea>
+      </div>
+      <div class="field">
+        <label>Course management approach</label>
+        <textarea id="golfCourse" placeholder="e.g. We don't have a defined approach. Players make individual decisions. I'd like to install a 'play to your strengths' framework for each player."></textarea>
+      </div>
+    </div>
+
+    <!-- FIELD HOCKEY -->
+    <div class="sport-section" id="sys-fieldhockey">
+      <div class="field">
+        <label>Offensive system</label>
+        <div class="chip-group" id="fhOffenseChips">
+          <div class="chip" data-val="Direct — quick passes, penetrate circle fast">Direct — penetrate fast</div>
+          <div class="chip" data-val="Possession — keep the ball, create width">Possession — create width</div>
+          <div class="chip" data-val="Counter attack — win ball deep, attack fast">Counter attack</div>
+          <div class="chip" data-val="Not yet defined">Not yet defined</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Defensive system</label>
+        <div class="chip-group" id="fhDefenseChips">
+          <div class="chip" data-val="Press high — win ball in opponent's half">High press</div>
+          <div class="chip" data-val="Zone — hold shape, deny circle entry">Zone — deny circle</div>
+          <div class="chip" data-val="Man-to-man — deny in transition">Man-to-man</div>
+          <div class="chip" data-val="Situation-dependent">Situation-dependent</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Penalty corner approach</label>
+        <textarea id="fhPenaltyCorner" placeholder="e.g. We have one reliable injector. Our first option is a direct shot. No defined second or third option yet."></textarea>
+      </div>
+    </div>
+
+    <!-- VOLLEYBALL -->
+    <div class="sport-section" id="sys-volleyball">
+      <div class="field">
+        <label>Offensive system</label>
+        <div class="chip-group" id="vbOffenseChips">
+          <div class="chip" data-val="5-1 — one setter, five hitters">5-1</div>
+          <div class="chip" data-val="6-2 — two setters, six hitters">6-2</div>
+          <div class="chip" data-val="4-2 — two setters, always front row">4-2</div>
+          <div class="chip" data-val="Not yet defined — developing">Not yet defined</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Defensive system</label>
+        <div class="chip-group" id="vbDefenseChips">
+          <div class="chip" data-val="Perimeter defense — back row digs, block line">Perimeter</div>
+          <div class="chip" data-val="Rotational defense — read hitter, rotate">Rotational</div>
+          <div class="chip" data-val="Man-up — block cross, dig line">Man-up</div>
+          <div class="chip" data-val="Not yet defined">Not yet defined</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Serve receive system</label>
+        <div class="chip-group" id="vbServeRecChips">
+          <div class="chip" data-val="3-person serve receive — W formation">3-person — W formation</div>
+          <div class="chip" data-val="2-person serve receive — specialist passers">2-person specialists</div>
+          <div class="chip" data-val="5-person serve receive — everyone passes">5-person</div>
+          <div class="chip" data-val="Not yet defined">Not yet defined</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>What's your biggest offensive weapon right now?</label>
+        <textarea id="vbWeapon" placeholder="e.g. We have one outside hitter who is dominant. Our middle attack is underdeveloped. Serving is inconsistent."></textarea>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(2)">← Back</button>
+      <button class="btn-next" onclick="next(2)">Decision Points →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- STEP 3 — DECISION POINTS       -->
+  <!-- ═══════════════════════════════ -->
+  <div class="step" id="step3">
+    <div class="step-label">Step 4 of 5</div>
+    <div class="step-title">Where do you need the most help?</div>
+    <div class="step-desc">This is the most important section. Be direct — it drives the Week 1 focal theme.</div>
+
+    <div class="field">
+      <label>Where are you guessing right now?</label>
+      <textarea id="guessingMoment" placeholder="e.g. I don't know what to do when our offense stalls and we're losing in the second half. I improvise and it doesn't always work."></textarea>
+    </div>
+
+    <div class="field">
+      <label>What's the moment you feel least in control?</label>
+      <textarea id="leastControl" placeholder="e.g. Final 2 minutes of a close game. I'm not sure when to call timeout or what to say in it."></textarea>
+    </div>
+
+    <div class="field">
+      <label>What problem do you most want to solve this week?</label>
+      <textarea id="unseenProblem" placeholder="e.g. My players don't know what to do when the primary play doesn't work. We have no defined second option."></textarea>
+    </div>
+
+    <div class="field">
+      <label>What's working that you want to protect?</label>
+      <textarea id="whatWorking" placeholder="e.g. Our defensive intensity is high. Players compete hard. I don't want to over-coach and lose that."></textarea>
+    </div>
+
+    <div class="field">
+      <label>How would you describe your coaching style?</label>
+      <div class="chip-group" id="coachStyleChips">
+        <div class="chip" data-val="High structure — players follow the system">High structure</div>
+        <div class="chip" data-val="Player-led — guided freedom within a framework">Player-led</div>
+        <div class="chip" data-val="Developmental — teaching over winning">Developmental focus</div>
+        <div class="chip" data-val="Competitive — results matter at this level">Results-oriented</div>
+        <div class="chip" data-val="Still figuring it out — first or second year">Still finding my style</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(3)">← Back</button>
+      <button class="btn-next" onclick="next(3)">Schedule →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- STEP 4 — SCHEDULE + SUBMIT     -->
+  <!-- ═══════════════════════════════ -->
+  <div class="step" id="step4">
+    <div class="step-label">Step 5 of 5</div>
+    <div class="step-title">Schedule and target events</div>
+    <div class="step-desc">What's the season structure? What are we building toward?</div>
+
+    <div class="two-col">
+      <div class="field">
+        <label>First practice</label>
+        <input type="text" id="practiceStart" placeholder="Aug 24">
+      </div>
+      <div class="field">
+        <label>Season end</label>
+        <input type="text" id="seasonEnd" placeholder="Nov 14">
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label>Practice frequency</label>
+        <select id="practiceFreq">
+          <option value="">Select</option>
+          <option>Daily (5x/week)</option>
+          <option>4x / week</option>
+          <option>3x / week</option>
+          <option>2x / week</option>
+          <option>Variable</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Practice length</label>
+        <select id="practiceLen">
+          <option value="">Select</option>
+          <option>45 min</option>
+          <option>60 min</option>
+          <option>75 min</option>
+          <option>90 min</option>
+          <option>2 hrs</option>
+          <option>2+ hrs</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>First game / competition</label>
+      <input type="text" id="firstGame" placeholder="Sept 1">
+    </div>
+
+    <div class="field">
+      <label>Primary target event — what are you building the season toward?</label>
+      <textarea id="primaryTarget" placeholder="e.g. Inter-Ac Championship · Nov 1. Or: we want every player to PR at the league meet. Or: qualifying for States."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Any other key dates or opponents worth knowing?</label>
+      <textarea id="otherDates" placeholder="e.g. Rival game Sept 20. League meet Oct 15. Must win to make playoffs Nov 1."></textarea>
+    </div>
+
+    <div class="field">
+      <label>What does a successful season look like to you?</label>
+      <textarea id="successVision" placeholder="Describe the outcome — wins, development, a specific event, player growth. Be honest about what matters most."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Anything else I should know before building your Week 1 plan?</label>
+      <textarea id="anythingElse" placeholder="Parent dynamics, facility constraints, a player situation, a personal coaching goal — anything relevant."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(4)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">Submit Intake →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success">
+    <div class="success-icon">✓</div>
+    <div class="success-title">Intake received.</div>
+    <div class="success-desc">Your Week 1 plan will be delivered within 24 hours. Check your email for the links when it's ready.</div>
+    <div class="summary-box" id="summaryBox"></div>
+    <p style="font-size:13px;color:var(--ink-3);">Questions? Email Max Kelly directly at <strong>maxkelly@episcopalacademy.org</strong></p>
+  </div>
+
+</div>
+
+<script>
+let currentSport = '';
+let currentStep = 0;
+const totalSteps = 5;
+
+// ── SPORT SELECTOR ──
+const sportSections = {
+  football:   { sys: ['sys-football'],   roster: [],           gk: false, athletes: false },
+  waterpolo:  { sys: ['sys-waterpolo'],  roster: [],           gk: true,  athletes: false },
+  soccer:     { sys: ['sys-soccer'],     roster: [],           gk: false, athletes: false },
+  xc:         { sys: ['sys-xc'],         roster: [],           gk: false, athletes: true  },
+  golf:       { sys: ['sys-golf'],       roster: [],           gk: false, athletes: true  },
+  fieldhockey:{ sys: ['sys-fieldhockey'],roster: [],           gk: true,  athletes: false },
+  volleyball: { sys: ['sys-volleyball'], roster: [],           gk: false, athletes: false },
+};
+
+function selectSport(sport, el) {
+  currentSport = sport;
+  document.querySelectorAll('.sport-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+
+  const cfg = sportSections[sport];
+
+  // System sections
+  document.querySelectorAll('[id^="sys-"]').forEach(s => s.classList.remove('active'));
+  cfg.sys.forEach(id => { const el = document.getElementById(id); if(el) el.classList.add('active'); });
+
+  // GK section
+  const gkSec = document.getElementById('sec-gk');
+  if(gkSec) gkSec.classList.toggle('active', cfg.gk);
+
+  // Athlete list (XC / Golf)
+  const athSec = document.getElementById('sec-athletes');
+  const genSec = document.getElementById('sec-roster-general');
+  if(athSec) athSec.classList.toggle('active', cfg.athletes);
+  if(genSec) genSec.classList.toggle('active', !cfg.athletes);
+
+  // GK label per sport
+  if(sport === 'fieldhockey') {
+    const lbl = document.getElementById('gkLabel');
+    if(lbl) lbl.textContent = 'Goalkeeper situation';
+  }
+}
+
+// ── CHIPS (single select) ──
+const singleChips = ['devStageChips','gkChips','gkPronounChips','coachStyleChips',
+  'fbOffenseChips','fbDefenseChips','wpOffenseChips','wpDefenseChips','wpPowerPlayChips',
+  'wpManDownChips','socFormChips','socDefenseChips','xcStratChips','golfFormatChips',
+  'fhOffenseChips','fhDefenseChips','vbOffenseChips','vbDefenseChips','vbServeRecChips'];
+
+singleChips.forEach(id => {
+  const group = document.getElementById(id);
+  if(!group) return;
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+    });
+  });
+});
+
+function chips(id) {
+  const group = document.getElementById(id);
+  if(!group) return '';
+  const sel = group.querySelector('.chip.selected');
+  return sel ? sel.dataset.val : '';
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+// ── ATHLETE LIST ──
+function addAthlete() {
+  const list = document.getElementById('athleteList');
+  const row = document.createElement('div');
+  row.className = 'athlete-row';
+  row.innerHTML = `<input placeholder="Athlete name" class="ath-name"><input placeholder="Current PR / handicap" class="ath-pr"><button class="btn-rm" onclick="removeAthlete(this)">×</button>`;
+  list.appendChild(row);
+}
+function removeAthlete(btn) {
+  btn.closest('.athlete-row').remove();
+}
+function getAthletes() {
+  const rows = document.querySelectorAll('.athlete-row');
+  return Array.from(rows).map(r => {
+    const name = r.querySelector('.ath-name')?.value.trim();
+    const pr = r.querySelector('.ath-pr')?.value.trim();
+    return name ? `${name} (${pr || 'no PR'})` : null;
+  }).filter(Boolean).join('; ');
+}
+
+// ── NAVIGATION ──
+function updateProgress() {
+  for(let i = 0; i < totalSteps; i++) {
+    const el = document.getElementById('ps' + i);
+    if(!el) continue;
+    el.className = 'prog-step' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+  }
+}
+
+function next(fromStep) {
+  if(fromStep === 0 && !currentSport) { alert('Please select a sport first.'); return; }
+  if(fromStep === 0 && !val('name')) { alert('Please enter your name.'); return; }
+  document.getElementById('step' + fromStep).classList.remove('active');
+  currentStep = fromStep + 1;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+function prev(fromStep) {
+  document.getElementById('step' + fromStep).classList.remove('active');
+  currentStep = fromStep - 1;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+// ── SUBMIT ──
+async function submitForm() {
+  const data = {
+    sport: currentSport,
+    name: val('name'),
+    email: val('email'),
+    teamLevel: val('teamLevel'),
+    gender: val('gender'),
+    experience: val('experience'),
+    rosterSize: val('rosterSize'),
+    rosterDescription: val('rosterDescription'),
+    devStage: chips('devStageChips'),
+    thinAt: val('thinAt'),
+    gk: chips('gkChips'),
+    gkPronoun: chips('gkPronounChips'),
+    athletes: getAthletes(),
+    teamGoal: val('teamGoal'),
+    // System — sport-specific
+    fbOffense: chips('fbOffenseChips'), fbDefense: chips('fbDefenseChips'), fbSpecialTeams: val('fbSpecialTeams'), fbOffenseBest: val('fbOffenseBest'),
+    wpOffense: chips('wpOffenseChips'), wpDefense: chips('wpDefenseChips'), wpPowerPlay: chips('wpPowerPlayChips'), wpManDown: chips('wpManDownChips'),
+    socFormation: chips('socFormChips'), socDefense: chips('socDefenseChips'), socAttack: val('socAttack'), socSetPiece: val('socSetPiece'),
+    xcStrategy: chips('xcStratChips'), xcTraining: val('xcTraining'), xcChallenge: val('xcChallenge'),
+    golfFormat: chips('golfFormatChips'), golfOpportunity: val('golfOpportunity'), golfCourse: val('golfCourse'),
+    fhOffense: chips('fhOffenseChips'), fhDefense: chips('fhDefenseChips'), fhPenaltyCorner: val('fhPenaltyCorner'),
+    vbOffense: chips('vbOffenseChips'), vbDefense: chips('vbDefenseChips'), vbServeReceive: chips('vbServeRecChips'), vbWeapon: val('vbWeapon'),
+    // Decision points
+    guessingMoment: val('guessingMoment'),
+    leastControl: val('leastControl'),
+    unseenProblem: val('unseenProblem'),
+    whatWorking: val('whatWorking'),
+    coachStyle: chips('coachStyleChips'),
+    // Schedule
+    practiceStart: val('practiceStart'),
+    seasonEnd: val('seasonEnd'),
+    practiceFreq: val('practiceFreq'),
+    practiceLen: val('practiceLen'),
+    firstGame: val('firstGame'),
+    primaryTarget: val('primaryTarget'),
+    otherDates: val('otherDates'),
+    successVision: val('successVision'),
+    anythingElse: val('anythingElse'),
+    _subject: `Cross Cage EA Intake — ${val('name')} · ${currentSport} · ${val('teamLevel')}`,
+  };
+
+  if(!data.name || !data.email || !currentSport) {
+    alert('Please fill in your name, email, and sport before submitting.');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://formspree.io/f/myklwjnp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if(res.ok) {
+      document.getElementById('step4').classList.remove('active');
+      const succ = document.getElementById('success');
+      succ.classList.add('active');
+      document.getElementById('summaryBox').innerHTML = `
+        <div class="summary-row"><span class="summary-label">Name</span><span class="summary-value">${data.name}</span></div>
+        <div class="summary-row"><span class="summary-label">Sport</span><span class="summary-value">${currentSport.charAt(0).toUpperCase()+currentSport.slice(1)}</span></div>
+        <div class="summary-row"><span class="summary-label">Level</span><span class="summary-value">${data.teamLevel} ${data.gender}</span></div>
+        <div class="summary-row"><span class="summary-label">Roster</span><span class="summary-value">${data.rosterSize} players</span></div>
+        <div class="summary-row"><span class="summary-label">First practice</span><span class="summary-value">${data.practiceStart || 'TBD'}</span></div>
+        <div class="summary-row"><span class="summary-label">Primary target</span><span class="summary-value">${data.primaryTarget || 'TBD'}</span></div>
+        <div class="summary-row"><span class="summary-label">Plan delivered to</span><span class="summary-value">${data.email}</span></div>
+      `;
+      window.scrollTo(0,0);
+    } else {
+      alert('Submission failed. Please email maxkelly@episcopalacademy.org directly.');
+    }
+  } catch(e) {
+    alert('Network error. Please try again or email maxkelly@episcopalacademy.org.');
+  }
+}
+</script>
+</body>
+</html>
