@@ -1,1 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachIQ — Week 1 Practice Plan — EA Varsity Boys</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.page { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+.cq-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 14px; border-bottom: 2px solid var(--ink); margin-bottom: 28px; }
+.cq-brand { display: flex; align-items: center; gap: 10px; }
+.cq-logo { font-family: var(--font-mono); font-size: 11px; background: var(--ink); color: var(--bg); padding: 4px 9px; border-radius: var(--radius); letter-spacing: 0.5px; }
+.cq-wordmark { font-family: var(--font-head); font-size: 17px; font-weight: 700; }
+.cq-wordmark span { color: var(--accent); }
+.cq-doc-title { font-family: var(--font-head); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: right; }
+.cq-doc-sub { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); margin-top: 3px; text-align: right; }
+.info-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 22px; }
+.info-cell { background: var(--bg); padding: 10px 14px; }
+.info-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.info-value { font-size: 14px; font-weight: 600; color: var(--ink); }
+.focal-bar { border-left: 3px solid var(--accent); background: var(--accent-bg); padding: 14px 18px; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 18px; }
+.focal-bar .fl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.focal-bar .ft { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.4; margin-bottom: 6px; font-family: var(--font-head); }
+.focal-bar .fs { font-size: 13px; color: var(--ink-2); font-style: italic; line-height: 1.5; }
+.swim-bar { border-left: 3px solid var(--ink-3); background: var(--bg-off); padding: 12px 18px; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 14px; }
+.swim-bar .sl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.swim-bar .sc { font-size: 12px; color: var(--ink-2); line-height: 1.7; }
+.swim-bar .sc strong { color: var(--ink); }
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 28px; }
+.kpi-cell { background: var(--bg); padding: 11px 14px; }
+.kpi-cell.accent { background: var(--accent-bg); }
+.kpi-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.kpi-cell.accent .kpi-label { color: var(--accent); }
+.kpi-value { font-size: 12px; font-weight: 600; color: var(--ink); line-height: 1.4; margin-bottom: 3px; }
+.kpi-if { font-size: 11px; color: var(--ink-3); font-style: italic; line-height: 1.4; }
+.coach-decision { display: flex; align-items: flex-start; gap: 8px; background: var(--accent-bg); border: 1px solid rgba(0,87,168,0.25); border-radius: var(--radius); padding: 7px 11px; margin-top: 6px; }
+.coach-decision-icon { font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0; padding-top: 1px; }
+.coach-decision-text { font-size: 12px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+.session-priority { font-family: var(--font-mono); font-size: 9px; color: var(--accent); background: var(--accent-bg); border-bottom: 1px solid var(--rule); padding: 6px 14px; letter-spacing: 0.5px; }
+.sec-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ink-3); border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 18px; margin-top: 32px; }
+.season-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 22px; }
+.season-cell { background: var(--bg); padding: 10px 14px; }
+.season-cell.accent { background: var(--accent-bg); }
+.season-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.season-value { font-size: 13px; font-weight: 600; color: var(--ink); }
+.season-cell.accent .season-value { color: var(--accent); }
+.session-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 8px; }
+@media (max-width: 600px) { .session-grid { grid-template-columns: 1fr; } }
+.session { border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+.session-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--bg-off); border-bottom: 1px solid var(--rule); }
+.session-day { font-family: var(--font-head); font-size: 14px; font-weight: 700; }
+.session-focus { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; }
+.focus-off  { background: var(--accent-bg); color: var(--accent); }
+.focus-def  { background: #F5F5F5; color: #444; border: 1px solid var(--rule); }
+.focus-int  { background: var(--bg-off); color: var(--ink-3); border: 1px solid var(--rule); }
+.focus-tran { background: #EDF7ED; color: #1A7A2E; border: 1px solid #B8DDB8; }
+.session-body { padding: 12px 14px; }
+.block { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--rule-light); align-items: flex-start; }
+.block:last-child { border-bottom: none; padding-bottom: 0; }
+.block-time { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); min-width: 38px; padding-top: 2px; flex-shrink: 0; }
+.block-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.block-detail { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+.block-detail em { color: var(--accent); font-style: normal; font-weight: 600; }
+.swim-set { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); background: var(--bg-off); border: 1px solid var(--rule); border-radius: var(--radius); padding: 6px 10px; line-height: 1.7; }
+.swim-intent { display: block; font-family: var(--font-mono); font-size: 9px; color: var(--accent); margin-top: 3px; letter-spacing: 0.3px; }
+.drill-ref { display: inline-block; font-family: var(--font-mono); font-size: 9px; color: var(--accent); background: var(--accent-bg); border: 1px solid rgba(0,87,168,0.2); border-radius: 2px; padding: 1px 6px; margin-top: 4px; margin-right: 4px; }
+.block-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 2px; margin-top: 4px; letter-spacing: 0.5px; }
+.tag-focal { background: var(--accent-bg); color: var(--accent); }
+.tag-swim  { background: #F0F4FF; color: #2244AA; border: 1px solid #C8D8F8; }
+.tag-tech  { background: var(--bg-off); color: var(--ink-3); border: 1px solid var(--rule); }
+.tag-scrim { background: #F0F0F0; color: #555; }
+.tag-tran  { background: #EDF7ED; color: #1A7A2E; }
+.session.full { grid-column: 1 / -1; }
+.session.full .session-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+@media (max-width: 600px) { .session.full .session-body { grid-template-columns: 1fr; } }
+.friday-success { background: var(--bg-off); border: 1px solid var(--rule); border-radius: var(--radius); padding: 8px 14px; margin: 0 14px 12px; }
+.friday-success-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.friday-success-text { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+.friday-success-text strong { color: var(--ink); }
+.cq-table { width: 100%; border-collapse: collapse; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; font-size: 13px; margin-bottom: 22px; }
+.cq-table thead tr { background: var(--ink); color: var(--bg); }
+.cq-table th { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 9px 14px; text-align: left; font-weight: 500; }
+.cq-table td { padding: 11px 14px; border-bottom: 1px solid var(--rule-light); vertical-align: top; color: var(--ink-2); line-height: 1.5; }
+.cq-table tr:last-child td { border-bottom: none; }
+.cq-table tr:nth-child(even) td { background: var(--bg-off); }
+.cell-head { font-size: 13px; font-weight: 600; color: var(--ink); display: block; margin-bottom: 2px; }
+.cell-sub { font-family: var(--font-mono); font-size: 10px; color: var(--accent); display: block; margin-top: 2px; }
+.cell-prog { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); display: block; margin-top: 4px; line-height: 1.5; }
+.cell-prog strong { color: var(--ink-2); }
+.notes-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+@media (max-width: 600px) { .notes-grid { grid-template-columns: 1fr; } }
+.note-card { border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+.note-head { padding: 8px 12px; background: var(--bg-off); border-bottom: 1px solid var(--rule); font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); }
+.note-head.accent { color: var(--accent); }
+.note-body { padding: 12px; }
+.note-body li { font-size: 12px; color: var(--ink-2); padding: 4px 0; border-bottom: 1px solid var(--rule-light); line-height: 1.45; list-style: none; display: flex; gap: 6px; }
+.note-body li:last-child { border-bottom: none; }
+.note-body li::before { content: '→'; color: var(--ink-3); flex-shrink: 0; }
+.cq-footer { border-top: 1px solid var(--rule); padding-top: 14px; display: flex; justify-content: space-between; margin-top: 40px; }
+.cq-footer span { font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); letter-spacing: 1px; text-transform: uppercase; }
+@media (max-width: 640px) {
+  .page { padding: 20px 16px 60px; }
+  .info-strip { grid-template-columns: 1fr 1fr; }
+  .season-bar { grid-template-columns: 1fr 1fr; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .session-grid { grid-template-columns: 1fr; }
+  .session.full .session-body { grid-template-columns: 1fr; }
+  .notes-grid { grid-template-columns: 1fr; }
+  .cq-table { font-size: 11px; display: block; overflow-x: auto; }
+  .block { flex-direction: column; gap: 6px; }
+  .block-time { min-width: unset; }
+  .cq-footer { flex-direction: column; gap: 6px; }
+}
+@media print {
+  body { font-size: 12px; }
+  .page { padding: 0; max-width: 100%; }
+  .session, .note-card, .cq-table { break-inside: avoid; }
+  .sec-label { margin-top: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
 
+  <div class="cq-header">
+    <div class="cq-brand">
+      <span class="cq-logo">CQ</span>
+      <span class="cq-wordmark">Coach<span>IQ</span></span>
+    </div>
+    <div>
+      <div class="cq-doc-title">Week 1 Practice Plan</div>
+      <div class="cq-doc-sub">Taylor Wright · EA Varsity Boys · Aug 24–29, 2025</div>
+    </div>
+  </div>
+
+  <div class="info-strip">
+    <div class="info-cell"><div class="info-label">Program</div><div class="info-value">EA Varsity Boys</div></div>
+    <div class="info-cell"><div class="info-label">Practices</div><div class="info-value">3x / week · 90 min</div></div>
+    <div class="info-cell"><div class="info-label">First Game</div><div class="info-value">Sept 1</div></div>
+    <div class="info-cell"><div class="info-label">Preseason</div><div class="info-value">2 weeks · Inter-Ac</div></div>
+  </div>
+
+  <div class="focal-bar">
+    <div class="fl">Week 1 Focus — From Your Intake</div>
+    <div class="ft">The center defender position is the week's critical unknown. High skill returns — but the defensive spine does not.</div>
+    <div class="fs">A press with logical zone on the center-forward only works if the center defender can hold position under physicality. Haverford is the #1 priority opponent specifically because they are physical. This week finds out who can handle that before Sept 1. Simultaneously: the 4-2 unit installs the 2v1 post rotation so the 6x5 doesn't stall when the first look is contested. Two decisions, three practices.</div>
+  </div>
+
+  <div style="border-left:3px solid var(--ink);background:var(--bg-off);padding:12px 18px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:18px;">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;">End of Week 1 Outcome</div>
+    <div style="font-size:13px;color:var(--ink);line-height:1.5;">Center defender starter is named before the first game — that player runs all hole D reps in Friday's scrimmage, not as a candidate but as the starter. The 4-2 6x5 unit executes the post rotation read without a verbal cue on 6 of 8 live reps. The drive-and-replace motion stays continuous under defensive pressure.</div>
+  </div>
+
+  <div class="swim-bar">
+    <div class="sl">Swim Conditioning — Suggested Sets</div>
+    <div class="sc">
+      All sets: <strong>head-up · no walls · 1:1 work:rest · two groups</strong> (Group 2 leaves when Group 1 touches far end). Time every rep.<br>
+      <strong>Mon:</strong> 20 × 25y &nbsp;|&nbsp; <strong>Wed:</strong> 5 × 75y · 90s rest &nbsp;|&nbsp; <strong>Fri:</strong> 8 × 25y · full recovery &nbsp;|&nbsp; Week 2: add 2 reps, tighten rest 5s.
+    </div>
+  </div>
+
+  <div class="swim-bar" style="border-left-color: var(--accent); margin-bottom: 28px;">
+    <div class="sl" style="color: var(--accent);">GK Track — Parallel Focus (0–40 min) &nbsp;·&nbsp; <span style="font-weight:400;letter-spacing:0;">GK communication drives logical zone shape and center-forward entry denial.</span></div>
+    <div class="sc">
+      All days: <strong>200y warm-up</strong> (25 free / 25 backstroke / 25 eggbeater / 25 vertical backstroke) + <strong>3 × 100y technical block</strong> (GP · Lateral · Glide · Quick Hands · Cherry Pickers · Gravity Drill).<br>
+      <strong>Mon / Fri (Day 1 — Positional):</strong> 4 × 7-min blocks · 20s work / 10s rest → GP hold → corner lunges → near-side glide → cross-cage glide.<br>
+      <strong>Wed (Day 2 — Heavy Ball):</strong> 4 × 7-min blocks → forehead holds → med ball lunges → lateral lunges → 25 catapult throws.<br>
+      <strong>All sessions:</strong> GK joins team for all special teams reps. Calls logical zone shape before any field player adjusts. Tracks shot location every rep.
+    </div>
+  </div>
+
+  <div class="sec-label">Week 1 Tracking Priorities</div>
+  <div class="kpi-grid">
+    <div class="kpi-cell accent">
+      <div class="kpi-label">Center Defender Evaluation</div>
+      <div class="kpi-value">2 candidates — track entry pass read timing and contact decision under escalating physicality each session</div>
+      <div class="kpi-if">Decision must be made before Friday's scrimmage — starter named, not candidate</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">6x5 Post Rotation Read</div>
+      <div class="kpi-value">Track whether the 4-2 unit reads the 2v1 at the posts or reverts to perimeter stall when primary look is contested</div>
+      <div class="kpi-if">If rotation read rate &lt;60% → drill the read trigger in isolation before adding shot clock</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Drive-and-Replace Continuity</div>
+      <div class="kpi-value">Count possessions where motion stalls — ball stays one side 3+ passes without a gap drive attempt</div>
+      <div class="kpi-if">If stall rate &gt;40% → players are camping; reset the replace rule before next live rep</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Logical Zone — Center-Forward Entry Denial</div>
+      <div class="kpi-value">Count center-forward entry passes completed vs. denied. GK tracks each attempt and calls the shape adjustment</div>
+      <div class="kpi-if">If &gt;3 entries per scrimmage → center defender footwork is the problem, not the scheme</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Transition Counter Rate</div>
+      <div class="kpi-value">Log 3v2 and 4v3 attempts vs. conversions. This team's counter emphasis — baseline it Week 1</div>
+      <div class="kpi-if">If conversion &lt;45% → GK outlet timing; the counter starts at the save, not after it</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Physicality Under Pressure</div>
+      <div class="kpi-value">Track which players hold position under contact in the center defender drill. High skill ≠ physicality — log who competes</div>
+      <div class="kpi-if">If no candidate holds position → escalate physicality each round until one emerges; evaluate vs. Haverford</div>
+    </div>
+  </div>
+
+  <div style="border:1px solid var(--rule);border-radius:var(--radius);padding:10px 14px;margin-bottom:28px;display:flex;gap:14px;align-items:flex-start;">
+    <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);flex-shrink:0;padding-top:2px;">Week 2 Adjustment Trigger</div>
+    <div style="font-size:12px;color:var(--ink-2);line-height:1.5;">If center defender is still unresolved after Friday's scrimmage → make the decision anyway and give the named starter all reps Week 2. If 6x5 rotation read rate is below 60% → repeat the post rotation drill before adding shot clock pressure. Do not add new offensive concepts until the center defender is settled and the 4-2 rotation is clean.</div>
+  </div>
+
+  <div class="sec-label">Season Context</div>
+  <div class="season-bar">
+    <div class="season-cell"><div class="season-label">First League Game</div><div class="season-value">Sept 29</div></div>
+    <div class="season-cell"><div class="season-label">Priority Opponent</div><div class="season-value">Haverford (#1 — physical)</div></div>
+    <div class="season-cell"><div class="season-label">Title Format</div><div class="season-value">Inter-Ac round robin</div></div>
+    <div class="season-cell accent"><div class="season-label">Primary Target</div><div class="season-value">Easterns · Nov 6–8</div></div>
+  </div>
+
+  <div class="sec-label">Session Breakdown — Week 1 (3 sessions · Aug 24–29)</div>
+  <div class="session-grid">
+
+    <!-- SESSION 1: MONDAY -->
+    <div class="session">
+      <div class="session-head">
+        <div class="session-day">Monday — Session 1</div>
+        <span class="session-focus focus-def">Center Defense + Press</span>
+      </div>
+      <div class="session-body">
+        <div class="block">
+          <div class="block-time">0–20</div>
+          <div>
+            <div class="block-name">Spidering + Swim Activation</div>
+            <div class="block-detail">Hollow upper body, lower core engaged. Scull forward, sideways, backward — then directly into the swim set.
+              <span class="swim-set">20 × 25y head-up · no wall · 1:1 rest · two groups · time every rep</span>
+              <span class="swim-intent">Intent: Explosive transition speed + repeat sprint recovery</span>
+            </div>
+            <span class="block-tag tag-swim">Swim · 500y</span>
+            <span class="drill-ref">Spidering</span>
+          </div>
+        </div>
+        <div class="block">
+          <div class="block-time">20–50</div>
+          <div>
+            <div class="block-name">Center Defender Ball-Side Positioning — Evaluation Round 1</div>
+            <div class="block-detail">Two candidates vs. live center-forward entries. Start at controlled pace — armpit grab points, breaststroke lunges, fronting with whistle-called position changes. <em>Escalate physicality each round.</em> Track who reads the entry pass angle earlier and who holds position under contact. Log both candidates by name. GK calls logical zone shape before any field player moves.
+              <div class="coach-decision"><span class="coach-decision-icon">Decision</span><span class="coach-decision-text">By end of Monday — identify which candidate shows more physical composure under contact. This sets Tuesday and Wednesday's evaluation priority.</span></div>
+            </div>
+            <span class="block-tag tag-focal">Focal Drill</span>
+            <span class="drill-ref">Center Defender Ball-Side Positioning</span>
+          </div>
+        </div>
+        <div class="block">
+          <div class="block-time">50–75</div>
+          <div>
+            <div class="block-name">Press Base Position + Logical Zone — Full Press Shape</div>
+            <div class="block-detail">Full press on perimeter with logical zone on center-forward. Ball / Player / Area before every rep. <em>Coach calls the moment any defender loses ball-side position on the center-forward — that is the entry opening.</em> 5v5 live, 3 × 8-min periods. Track center-forward entry attempts vs. denials.</div>
+            <span class="block-tag tag-focal">Focal Drill</span>
+          </div>
+        </div>
+        <div class="block">
+          <div class="block-time">75–90</div>
+          <div>
+            <div class="block-name">Scrimmage — Press Identity</div>
+            <div class="block-detail">7v7. Defense calls "press" or "drop" aloud every possession. Center defender candidate runs all hole D reps — evaluation continues in live game state. Track entry denials and physicality under pressure.</div>
+            <span class="block-tag tag-scrim">Scrimmage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESSION 2: WEDNESDAY -->
+    <div class="session">
+      <div class="session-head">
+        <div class="session-day">Wednesday — Session 2</div>
+        <span class="session-focus focus-off">6x5 + Drive-and-Replace</span>
+      </div>
+      <div class="session-priority">Priority: 4-2 post rotation read — lock the unit and the read trigger before Friday</div>
+      <div class="session-body">
+        <div class="block">
+          <div class="block-time">0–20</div>
+          <div>
+            <div class="block-name">Spidering + Anaerobic Set</div>
+            <div class="block-detail">Spidering, eggbeater ladder, GK reaction shots from 4m.
+              <span class="swim-set">5 × 75y all-out · 90s rest · head-up every other length · time every rep</span>
+              <span class="swim-intent">Intent: Anaerobic capacity under game tempo — longest effort of the week</span>
+            </div>
+            <span class="block-tag tag-swim">Swim · 375y</span>
+            <span class="drill-ref">Spidering</span>
+          </div>
+        </div>
+        <div class="block">
+          <div class="block-time">20–50</div>
+          <div>
+            <div class="block-name">4-2 Power Play — Post Rotation Read</div>
+            <div class="block-detail">4-2 structure: 6 in, 5 wide. Primary look — quick after the exclusion call. If primary is denied: <em>read the 2v1 at the posts before the defense re-sets.</em> The rotation trigger is the moment the deeper post defender commits — not the shot clock. 5 reps with primary open, 5 with primary denied (coach signals). 10 live reps with shot clock. Track: does the rotation read happen before or after clock pressure?
+              <div class="coach-decision"><span class="coach-decision-icon">Decision</span><span class="coach-decision-text">Lock your primary 6x5 unit by end of this block — who draws the exclusion, who takes the quick, who initiates the post rotation call. These roles run all 6x5 reps Friday.</span></div>
+            </div>
+            <span class="block-tag tag-focal">Focal Drill</span>
+          </div>
+        </div>
+        <div class="block">
+          <div class="block-time">50–70</div>
+          <div>
+            <div class="block-name">Drive-and-Replace — Continuous Motion Under Pressure</div>
+            <div class="block-detail">5v5: every driver replaced immediately — no camping. Ball stays one side two passes maximum before a gap drive is required. <em>Offense wins with a gap drive score. Defense wins by containing without weight commitment.</em> Track stall rate: possessions where ball stays one side 3+ passes without a drive attempt.</div>
+            <span class="block-tag tag-focal">Focal Drill</span>
+            <span class="drill-ref">Drive and Defend</span>
+          </div>
+        </div>
+        <div class="block">
+          <div class="block-time">70–90</div>
+          <div>
+            <div class="block-name">Scrimmage — Transition Counter Emphasis</div>
+            <div class="block-detail">7v7, shot clock, full rules. Every press break attempts a transition counter (3v2/4v3) before settling into front-court attack. Log attempts vs. conversions — this is the Week 1 transition baseline. Note which players verbalize the Advantage Rule without prompting.</div>
+            <span class="block-tag tag-scrim">Scrimmage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESSION 3: FRIDAY — FULL WIDTH -->
+    <div class="session full">
+      <div class="session-head">
+        <div class="session-day">Friday — Session 3 · Pre-Season Integration (Aug 29)</div>
+        <span class="session-focus focus-int">Rehearsal + Decision Day</span>
+      </div>
+      <div class="friday-success">
+        <div class="friday-success-label">Session Success =</div>
+        <div class="friday-success-text"><strong>Center defender starter named and running all hole D reps</strong> · <strong>4-2 unit reads the post rotation without a verbal cue on 6/8 live reps</strong> · <strong>Drive-and-replace motion stays continuous for 3 consecutive possessions</strong></div>
+      </div>
+      <div class="session-body">
+        <div>
+          <div class="block">
+            <div class="block-time">0–15</div>
+            <div>
+              <div class="block-name">Short Activation — No Fatigue Load</div>
+              <div class="block-detail">Spidering, eggbeater. Sharp, not tiring.
+                <span class="swim-set">8 × 25y head-up · 1:1 rest · full recovery</span>
+                <span class="swim-intent">Intent: System activation only — no fatigue before Sept 1</span>
+              </div>
+              <span class="block-tag tag-swim">Swim · 200y</span>
+            </div>
+          </div>
+          <div class="block">
+            <div class="block-time">15–35</div>
+            <div>
+              <div class="block-name">Center Defender — Final Evaluation Round</div>
+              <div class="block-detail">Both candidates vs. live center-forward entries at maximum physicality — this is the final comparison. <em>The starter is named before the scrimmage block begins.</em> No more evaluation after this. Coach makes the decision and communicates it to the team.
+                <div class="coach-decision"><span class="coach-decision-icon">Decision</span><span class="coach-decision-text">Name your center defender starter before 50-minute mark. That player runs every hole D rep in the 50–90 scrimmage — not as a candidate, as the starter. This decision holds through Sept 1.</span></div>
+              </div>
+              <span class="block-tag tag-focal">Focal Drill</span>
+              <span class="drill-ref">Center Defender Ball-Side Positioning</span>
+            </div>
+          </div>
+          <div class="block">
+            <div class="block-time">35–50</div>
+            <div>
+              <div class="block-name">Special Teams Rehearsal</div>
+              <div class="block-detail">6x5: 8 live reps — 4 primary open, 4 primary denied (post rotation required). No coaching during reps. 5x6: 8 reps, heavy center-forward protection, GK calls every shape break.</div>
+              <span class="block-tag tag-focal">Focal Drill</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="block">
+            <div class="block-time">50–75</div>
+            <div>
+              <div class="block-name">Scrimmage — Full Game Conditions</div>
+              <div class="block-detail">7v7, shot clock, full rules. Named center defender starter runs every hole D rep. Coach calls one timeout mid-game — two adjustments, one positive, under 60 seconds. Track center-forward entry denials, 6x5 rotation reads, and drive-and-replace continuity.</div>
+              <span class="block-tag tag-scrim">Scrimmage</span>
+            </div>
+          </div>
+          <div class="block">
+            <div class="block-time">75–87</div>
+            <div>
+              <div class="block-name">Transition Counter Speed Runs</div>
+              <div class="block-detail">3v2 and 4v3 at full game speed — 10 reps each. Verbalize Advantage Rule before every rep. Compare conversion to Wednesday baseline. Speed with a decision — this is the identity Sept 1 sees.</div>
+              <span class="block-tag tag-tran">Counter Attack</span>
+            </div>
+          </div>
+          <div class="block">
+            <div class="block-time">87–90</div>
+            <div>
+              <div class="block-name">Sept 1 Preview — 3 min</div>
+              <div class="block-detail">Two points: what we established this week, one thing about Sept 1 worth knowing. End on the press — that's the identity. They sprint-swim out believing.</div>
+              <span class="block-tag tag-tech">Technical</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-label">Focal Drills — Full Detail</div>
+  <table class="cq-table">
+    <thead>
+      <tr><th>Drill</th><th>Setup</th><th>Reps / Duration</th><th>Coaching Cue</th><th>Progression</th><th>Success Metric</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="cell-head">Spidering</span><span class="cell-sub">Mon / Wed / Fri warm-up</span></td>
+        <td>Open water. Hollow upper body, lower core engaged. Scull forward, sideways, backward, 360-degree rotation.</td>
+        <td>5–8 min each session. Stationary → moving.</td>
+        <td>"Hollow the upper body — coiled, not rigid. Every defensive movement starts here."</td>
+        <td><span class="cell-prog"><strong>Entry:</strong> Stationary, one direction, coach calls changes.<br><strong>Full:</strong> Moving all directions, 360-degree rotation under ball pressure.</span></td>
+        <td>Players move in all directions without losing eggbeater rhythm by end of Week 1.</td>
+      </tr>
+      <tr>
+        <td><span class="cell-head">Center Defender Ball-Side Positioning</span><span class="cell-sub">Mon · 20–50 · Fri · 15–35</span></td>
+        <td>Two candidates vs. live center-forward entries. Armpit grab points, breaststroke lunges, fronting with whistle-called position changes. Escalate physicality each round.</td>
+        <td>3 rounds per candidate Monday, escalating. Final comparison round Friday.</td>
+        <td>"Track who reads the entry pass angle earlier — that is your starter."</td>
+        <td><span class="cell-prog"><strong>Entry:</strong> Solo fronting position — stationary, controlled tempo, establish body position only.<br><strong>Full:</strong> Live center-forward entries, maximum physicality, whistle-called position changes.</span></td>
+        <td>Starter named before Friday scrimmage. No exceptions — decision is made by the 50-minute mark.</td>
+      </tr>
+      <tr>
+        <td><span class="cell-head">4-2 Power Play — Post Rotation</span><span class="cell-sub">Wed · 20–50 · Fri · 35–50</span></td>
+        <td>4-2 structure. Quick first. If primary denied: read 2v1 at posts before defense re-sets. Coach signals "denied" on half the reps.</td>
+        <td>5 primary open + 5 primary denied (Wed). 8 live reps with shot clock (Wed). 8 rehearsal reps (Fri).</td>
+        <td>"The rotation trigger is the post defender committing — not the shot clock."</td>
+        <td><span class="cell-prog"><strong>Entry:</strong> Walk-through rotation — no defense, positions move from 4-2 to post 2v1 on verbal call.<br><strong>Full:</strong> Live 6x5, rotation triggered by defensive read, no verbal prompt.</span></td>
+        <td>Rotation read happens before shot clock pressure on 6/8 denied reps. Primary unit locked Wednesday.</td>
+      </tr>
+      <tr>
+        <td><span class="cell-head">Drive-and-Replace</span><span class="cell-sub">Wed · 50–70</span></td>
+        <td>5v5. Every driver replaced immediately — no camping. Ball stays one side two passes maximum before a gap drive is required.</td>
+        <td>3 × 8-min periods. Track stall rate each period.</td>
+        <td>"Defense wins by containing without weight commitment. Offense wins by keeping it moving."</td>
+        <td><span class="cell-prog"><strong>Entry:</strong> Dry replacement drill — no defense, positions move on verbal drive call, replacement is the skill.<br><strong>Full:</strong> 5v5 live, ball moves or drive must happen within 2 passes one side.</span></td>
+        <td>Stall rate (3+ passes one side without drive) drops from period 1 to period 3.</td>
+      </tr>
+      <tr>
+        <td><span class="cell-head">Transition Counter — 3v2 / 4v3</span><span class="cell-sub">Wed scrimmage · Fri · 75–87</span></td>
+        <td>GK outlet initiates. Establish right, center, left lanes. Verbalize Advantage Rule before executing.</td>
+        <td>10 reps at 3v2, 10 reps at 4v3 Friday. 20-second recovery swim between reps.</td>
+        <td>"Say the rule before you swim — verbalization forces the read."</td>
+        <td><span class="cell-prog"><strong>Entry:</strong> 3v2 only, GK holds — read the sole defender, establish lanes first.<br><strong>Full:</strong> 4v3, GK live, Advantage Rule verbalized, full game speed.</span></td>
+        <td>≥55% conversion 3v2. ≥45% 4v3. Week 1 transition baseline established.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sec-label">Coaching Notes — Week 1</div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <div class="note-head accent">Preseason Priorities</div>
+      <div class="note-body">
+        <li>Center defender starter named before Friday scrimmage — no later</li>
+        <li>6x5 primary unit locked by end of Wednesday — draws, quick, post rotation call</li>
+        <li>High skill ≠ physicality — the evaluation must test contact, not just technique</li>
+        <li>New concepts before swim sets — teach before fatigue, not after</li>
+        <li>Ball / Player / Area — repeat until second nature on every press rep</li>
+      </div>
+    </div>
+    <div class="note-card">
+      <div class="note-head">Scrimmage Evaluation</div>
+      <div class="note-body">
+        <li>Evaluation only — do not coach to the result in live reps</li>
+        <li>Log center-forward entry attempts vs. denials every scrimmage</li>
+        <li>Log 6x5 rotation reads: before or after shot clock pressure</li>
+        <li>Log transition counter attempts vs. conversions — Week 1 baseline</li>
+        <li>Compare drive-and-replace stall rate across all three sessions</li>
+        <li>GK tracks every shot location — high/low, near/far, every rep</li>
+      </div>
+    </div>
+    <div class="note-card">
+      <div class="note-head">Watch For</div>
+      <div class="note-body">
+        <li>Center defender "skill-playing" physicality — needs to make contact, not avoid it</li>
+        <li>6x5 unit waiting for the shot clock before reading the post rotation</li>
+        <li>Drive-and-replace players camping after the drive — replacement is the drill</li>
+        <li>GK going quiet on logical zone shape breaks — must call before any field player moves</li>
+        <li>Transition counter launching without the Advantage Rule verbalized</li>
+        <li>Haverford prep: their physicality in the hole will test whoever you name — the decision matters</li>
+      </div>
+    </div>
+  </div>
+
+  <div class="cq-footer">
+    <span>CoachIQ · Max Kelly</span>
+    <span>Next: Week 2 Plan + Sept 1 Game Prep Package</span>
+  </div>
+
+</div>
+</body>
+</html>
