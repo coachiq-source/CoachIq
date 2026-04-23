@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Plan - Magnus Sims - Malvern Prep Water Polo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header {
+            border-bottom: 4px solid #0066cc;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #0066cc;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .meta-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meta-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .meta-value {
+            color: #1a1a1a;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+        
+        h2 {
+            color: #0066cc;
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin: 25px 0 12px 0;
+        }
+        
+        h4 {
+            color: #0066cc;
+            font-size: 1.1em;
+            margin: 15px 0 8px 0;
+        }
+        
+        .philosophy-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .philosophy-section h2 {
+            color: white;
+            border-bottom-color: rgba(255,255,255,0.3);
+        }
+        
+        .principle {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid rgba(255,255,255,0.5);
+        }
+        
+        .principle-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .session {
+            background: #f8f9fa;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            border-left: 5px solid #0066cc;
+        }
+        
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .session-title {
+            font-size: 1.5em;
+            color: #0066cc;
+            font-weight: 700;
+        }
+        
+        .session-duration {
+            background: #0066cc;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .drill {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .drill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .drill-name {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #333;
+            flex: 1;
+        }
+        
+        .drill-time {
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .drill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .tag.emphasis {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .drill-section {
+            margin: 12px 0;
+        }
+        
+        .drill-section-title {
+            font-weight: 700;
+            color: #0066cc;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        
+        .drill-content {
+            color: #333;
+            line-height: 1.7;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-top: 8px;
+        }
+        
+        li {
+            margin: 6px 0;
+        }
+        
+        .coaching-point {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        
+        .coaching-point strong {
+            color: #0066cc;
+        }
+        
+        .progression {
+            background: #f0f8f0;
+            border-left: 4px solid #28a745;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        
+        .alert {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .alert-title {
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+        
+        .weekly-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .day-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+        
+        .day-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .day-name {
+            font-weight: 700;
+            color: #0066cc;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .day-focus {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .emphasis-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .emphasis-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            .session {
+                page-break-inside: avoid;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .meta-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏊‍♂️ Varsity Boys Water Polo Practice Plan</h1>
+            <p style="font-size: 1.1em; color: #666; margin-top: 10px;">Malvern Prep Water Polo Program</p>
+        </header>
+
+        <div class="meta-info">
+            <div class="meta-item">
+                <span class="meta-label">Coach</span>
+                <span class="meta-value">Magnus Sims</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Team Level</span>
+                <span class="meta-value">Varsity Boys</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Roster Size</span>
+                <span class="meta-value">15 Athletes</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Experience Level</span>
+                <span class="meta-value">0-2 Years (Mixed Development)</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Practice Frequency</span>
+                <span class="meta-value">5+ sessions per week</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Session Length</span>
+                <span class="meta-value">2+ hours</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Primary Target</span>
+                <span class="meta-value">Easterns 2025</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Current Focus</span>
+                <span class="meta-value">Decision-Making Under Pressure</span>
+            </div>
+        </div>
+
+        <div class="philosophy-section">
+            <h2>🎯 Coaching Philosophy & Season Framework</h2>
+            
+            <div class="principle">
+                <div class="principle-title">Building a Championship Culture</div>
+                <p>With Easterns 2025 as our North Star, we're developing a team that thinks clearly under pressure. Your roster—4 solid seniors, emerging juniors, and high-IQ underclassmen—has the foundation. The challenge is accelerating decision-making maturity to match their water polo IQ.</p>
+            </div>
+
+            <div class="principle">
+                <div class="principle-title">Addressing Your "Guessing Moment"</div>
+                <p><strong>Challenge:</strong> "When to press vs. drop into zone"<br>
+                <strong>Solution:</strong> This week introduces a decision-tree framework tied to game situations (score differential, time remaining, opponent personnel). We'll practice recognition patterns so your defensive calls become instinctive rather than reactive.</p>
+            </div>
+
+            <div class="principle">
+                <div class="principle-title">Mastering the "Least Control" Scenario</div>
+                <p><strong>Challenge:</strong> "Final 2 minutes of a close game"<br>
+                <strong>Solution:</strong> Every session includes pressure simulation—shortened shot clocks, consequence-based scoring, and late-game scenarios. We're training composure as a skill, not hoping it appears in April.</p>
+            </div>
+
+            <div class="principle">
+                <div class="principle-title">Systematic Offensive Development</div>
+                <p>Your drive-and-replace offense (confidence: 2/5) needs sharper spacing and timing. This week emphasizes:</p>
+                <ul style="margin-top: 10px;">
+                    <li>Gap recognition before drives begin</li>
+                    <li>Continuous motion with purpose (not decorative movement)</li>
+                    <li>Counter-attacking patterns (currently underdeveloped)</li>
+                </ul>
+            </div>
+
+            <div class="principle">
+                <div class="principle-title">Leveraging Your Underclassman Goalkeeper</div>
+                <p>Starting-level GK work requires parallel tracks: technical refinement and game-management confidence. This week includes specific goalkeeper integration moments in every session—not isolated drills, but game-realistic decision points.</p>
+            </div>
+        </div>
+
+        <h2>📅 Weekly Practice Structure Overview</h2>
+        
+        <p style="margin: 20px 0; line-height: 1.8;">This week's design follows a <strong>skill-acquisition-to-pressure-application</strong> progression. With 5+ practices of 2+ hours, we have the volume to layer complexity thoughtfully:</p>
+
+        <div class="weekly-overview">
+            <div class="day-card">
+                <div class="day-name">Monday</div>
+                <div class="day-focus"><strong>Foundation:</strong> Defensive reads & offensive spacing patterns</div>
+            </div>
+            <div class="day-card">
+                <div class="day-name">Tuesday</div>
+                <div class="day-focus"><strong>Application:</strong> Press vs. zone decision-making with constraints</div>
+            </div>
+            <div class="day-card">
+                <div class="day-name">Wednesday</div>
+                <div class="day-focus"><strong>Integration:</strong> Counter-attack development + 6v6 situational</div>
+            </div>
+            <div class="day-card">
+                <div class="day-name">Thursday</div>
+                <div class="day-focus"><strong>Pressure Testing:</strong> Late-game scenarios & competitive chaos</div>
+            </div>
+            <div class="day-card">
+                <div class="day-name">Friday</div>
+                <div class="day-focus"><strong>Synthesis:</strong> Full-field scrimmage with coaching interventions</div>
+            </div>
+        </div>
+
+        <div class="emphasis-box">
+            <h3>🔑 This Week's Emphasis Areas</h3>
+            <ul style="margin-top: 15px;">
+                <li><strong>Defensive Identity:</strong> Clear cues for press/zone transitions based on score, time, and opponent personnel</li>
+                <li><strong>Offensive Tempo:</strong> Faster front-court decisions post-turnover (countering your current default)</li>
+                <li><strong>Pressure Inoculation:</strong> Every session includes 2-minute drill simulation with consequences</li>
+                <li><strong>GK Development:</strong> Communication protocols and positioning under pressure</li>
+            </ul>
+        </div>
+
+        <h2>📋 Detailed Session Plans</h2>
+
+        <!-- MONDAY SESSION -->
+        <div class="session">
+            <div class="session-header">
+                <div class="session-title">Monday: Foundation Day - Defensive Reads & Offensive Spacing</div>
+                <div class="session-duration">130 minutes</div>
+            </div>
+
+            <div class="alert">
+                <div class="alert-title">Session Goal</div>
+                Establish baseline recognition patterns for defensive transitions and reinforce offensive spacing principles that enable drive-and-replace execution.
+            </div>
+
+            <!-- Warm-up -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Dynamic Warm-up: Ball Handling Circuit</div>
+                    <div class="drill-time">15 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Warm-up</span>
+                    <span class="tag">Ball Skills</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">Three stations rotating every 5 minutes: (1) Passing lines with defensive pressure, (2) Eggbeater + ball manipulation, (3) Sprint-and-catch sequences</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Execution</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Station 1:</strong> Partner passing with defender applying 50% pressure—focus on hand positioning and quick release</li>
+                            <li><strong>Station 2:</strong> Vertical eggbeater holds while performing figure-8 ball movements, single-hand catches</li>
+                            <li><strong>Station 3:</strong> 15m sprint to receive lead pass, immediate turn and shot</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Coach's Eye:</strong> Watch for athletes rushing movements—reinforce "smooth is fast" mentality. Your developing players will benefit from deliberate repetition over frantic speed.
+                </div>
+            </div>
+
+            <!-- Drill 2 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Defensive Recognition Drill: "Read & React"</div>
+                    <div class="drill-time">20 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Defense</span>
+                    <span class="tag emphasis">Press vs Zone</span>
+                    <span class="tag">Decision-Making</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Address your "guessing moment"—teach situational cues that dictate press versus zone coverage.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">
+                        4v4 half-court. Coach signals game situation before each possession:<br>
+                        <strong>Scenario A:</strong> "Up 2 goals, 4 minutes left"<br>
+                        <strong>Scenario B:</strong> "Down 1 goal, 2 minutes left"<br>
+                        <strong>Scenario C:</strong> "Tied, 6 minutes left, opponent's best shooter out of water"
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Execution</div>
+                    <div class="drill-content">
+                        <ol>
+                            <li>Defensive team discusses 10 seconds: press or zone?</li>
+                            <li>Execute possession with full commitment to choice</li>
+                            <li>After stop/goal, quick debrief: "Was this the right call? Why?"</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Teaching Framework:</strong><br>
+                    • <strong>Press when:</strong> Protecting lead late, opponent has weak ballhandlers, you need a turnover urgently<br>
+                    • <strong>Zone when:</strong> Opponent has skilled drivers, you're managing foul trouble, conserving energy for offensive push
+                </div>
+                <div class="progression">
+                    <strong>Progression:</strong> Once basics click, add offensive counteraction—teach offense to exploit wrong defensive choice (e.g., burn press with quick passing, attack zone gaps with drives).
+                </div>
+            </div>
+
+            <!-- Drill 3 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Offensive Spacing Fundamentals: "3-Man Weave Plus"</div>
+                    <div class="drill-time">25 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Offense</span>
+                    <span class="tag emphasis">Drive & Replace</span>
+                    <span class="tag">Spacing</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Build muscle memory for proper spacing (4-5m between perimeter players) and purposeful motion that creates driving lanes.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">Start with 3 attackers vs. 2 defenders in perimeter positions. No hole set initially—pure motion emphasis.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Execution</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Phase 1 (10 min):</strong> Continuous passing with movement—no drives yet. Defenders provide token pressure. Focus: maintaining spacing triangles.</li>
+                            <li><strong>Phase 2 (10 min):</strong> Add drive option. Rule: driver must see a gap BEFORE initiating. Non-drivers replace to open spots.</li>
+                            <li><strong>Phase 3 (5 min):</strong> Add hole set. Now 4v3. Emphasize: motion continues even when ball goes inside.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Common Error to Fix:</strong> Athletes bunch together or "decorate" (move without purpose). Use visual cue: "If you can touch your teammate, you're too close." Purpose of movement: create 2v1 advantage somewhere on perimeter.
+                </div>
+            </div>
+
+            <!-- Drill 4 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Goalkeeper Integration: "Communication Under Pressure"</div>
+                    <div class="drill-time">15 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Goalkeeper</span>
+                    <span class="tag">Team Defense</span>
+                    <span class="tag">Communication</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Develop your underclassman GK's vocal leadership and defensive organization skills.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">5v5 half-court defense. GK must verbally direct: (1) defensive alignment, (2) ball pressure, (3) crash/cover assignments.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Execution</div>
+                    <div class="drill-content">
+                        <ol>
+                            <li>Offense resets after each shot attempt</li>
+                            <li>GK has 3 seconds to organize defense before ball moves</li>
+                            <li>Coach evaluates: Was communication early? Specific? Confident?</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Development Focus:</strong> Your GK is "starting-level" but underclassman—this drill builds game-management confidence as much as technical skill. Praise assertive communication attempts even if not perfect. Script key phrases: "Step, step!", "Ball pressure!", "I've got help side!"
+                </div>
+            </div>
+
+            <!-- Drill 5 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">6v6 Situational Scrimmage: "Structured Chaos"</div>
+                    <div class="drill-time">35 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Scrimmage</span>
+                    <span class="tag emphasis">Game Application</span>
+                    <span class="tag">Decision-Making</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Apply morning's concepts in game context while introducing pressure-management scenarios.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">Full-court 6v6. Coach manipulates situations every 3-4 minutes using stoppage points.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Scenarios to Rotate</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Scenario 1:</strong> "Blue up 1, 2 minutes left" → Must defend without fouling</li>
+                            <li><strong>Scenario 2:</strong> "White down 2, 3 minutes left" → Must score on current possession</li>
+                            <li><strong>Scenario 3:</strong> "Tied game, opponent's top scorer excluded" → Press opportunity?</li>
+                            <li><strong>Scenario 4:</strong> Fresh start, no constraints → Reward clean execution</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Coaching Points During Play</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Defensive decisions:</strong> Freeze play when you see hesitation on press/zone choice. "What did you see? What should we do?"</li>
+                            <li><strong>Offensive spacing:</strong> Catch bunching immediately—reset possession and re-establish spacing principles</li>
+                            <li><strong>GK communication:</strong> Amplify good examples: "Did you hear GK organize that? That's Easterns-level leadership."</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="alert">
+                    <div class="alert-title">Critical Coaching Moment</div>
+                    This is where Monday's teaching converts to understanding. Resist urge to over-coach—let athletes struggle briefly with decisions, then intervene with guiding questions, not answers.
+                </div>
+            </div>
+
+            <!-- Cool-down -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Cool-down & Film Preview</div>
+                    <div class="drill-time">10 min</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-content">
+                        <ul>
+                            <li>Light swimming (200m choice pace)</li>
+                            <li>Static stretching focusing on shoulders and legs</li>
+                            <li>Quick huddle: Preview 2-3 film clips from today's scrimmage showing (1) great defensive read, (2) spacing breakdown, (3) GK communication win</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Tomorrow's Setup:</strong> "We've established the framework—press vs. zone isn't guessing, it's reading cues. Tomorrow we add constraints to make these decisions automatic under fatigue."
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TUESDAY SESSION -->
+        <div class="session">
+            <div class="session-header">
+                <div class="session-title">Tuesday: Application Day - Decision-Making Under Constraints</div>
+                <div class="session-duration">130 minutes</div>
+            </div>
+
+            <div class="alert">
+                <div class="alert-title">Session Goal</div>
+                Force rapid defensive decision-making under fatigue and time pressure. Introduce offensive counter-attack foundations (currently underdeveloped per your intake).
+            </div>
+
+            <!-- Warm-up -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Activation: "Sprint Transitions"</div>
+                    <div class="drill-time">15 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Warm-up</span>
+                    <span class="tag">Conditioning</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">Partner work across pool width (4 lanes). One athlete sprints offense, other sprints defense.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Execution (3 rounds)</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Round 1:</strong> Sprint to 25m, defensive partner must touch offensive player's shoulder before they touch wall (teaches urgency)</li>
+                            <li><strong>Round 2:</strong> Same, but offensive player has ball—practice speed dribbling under pressure</li>
+                            <li><strong>Round 3:</strong> Offensive player receives pass at 15m, must score in mini-goal before defender arrives</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Rest:</strong> 30 seconds between rounds, partners switch roles after each round</p>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Purpose:</strong> Primes athletes for high-speed decision-making coming later. Your counter-attack is "underdeveloped"—this plants seeds of urgency mentality.
+                </div>
+            </div>
+
+            <!-- Drill 2 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">"Pressure Cooker" Defensive Decisions</div>
+                    <div class="drill-time">25 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag emphasis">Press vs Zone</span>
+                    <span class="tag">Game Situations</span>
+                    <span class="tag">Fatigue Management</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Take Monday's recognition patterns and stress-test them under fatigue and time pressure—simulating late-game conditions where your team currently loses control.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">4v4 half-court. Possessions last maximum 20 seconds. After each stop/goal, defensive team sprints to opposite end and back before defending again (15-second turnaround).</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Constraint Protocol</div>
+                    <div class="drill-content">
+                        Coach announces situation AFTER the sprint (when defense is winded):
+                        <ul>
+                            <li>"Up 2, 90 seconds left—what coverage?"</li>
+                            <li>"Down 1, 45 seconds, need ball—press or zone?"</li>
+                            <li>"Tied, 2 minutes, opponent's best driver excluded—your call?"</li>
+                        </ul>
+                        Defense has 5 seconds to decide and organize. Offense attacks immediately.
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Scoring Twist</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Correct defensive choice + stop:</strong> 2 points</li>
+                            <li><strong>Correct choice + goal allowed:</strong> 0 points</li>
+                            <li><strong>Wrong choice + stop:</strong> 0 points (luck doesn't count)</li>
+                            <li><strong>Wrong choice + goal:</strong> -1 point (learn from mistakes)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Debrief After Each Possession:</strong> "Why did you choose that? What cues did you use?" Force verbalization—thinking out loud converts instinct to teachable process. Your seniors should be leading these discussions.
+                </div>
+                <div class="progression">
+                    <strong>Week 3-4 Progression:</strong> Reduce decision time to 3 seconds. Add offensive countermeasures (they get bonus point if they exploit wrong defensive choice).
+                </div>
+            </div>
+
+            <!-- Drill 3 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Counter-Attack Foundations: "3-Second Rule"</div>
+                    <div class="drill-time">30 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag emphasis">Counter-Attack</span>
+                    <span class="tag">Transition Offense</span>
+                    <span class="tag">Speed of Play</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Address your team's current habit of defaulting to front-court offense. Build 3-second decision window post-turnover: counter opportunity or set up?</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup - Phase 1: Recognition (12 min)</div>
+                    <div class="drill-content">
+                        <strong>Drill:</strong> "Outlet + Decision"<br>
+                        • GK makes save or defensive team gets steal<br>
+                        • Rebounder/GK outlets to nearest teammate (player must be looking/ready)<br>
+                        • That player scans downfield for 3 seconds<br>
+                        <br>
+                        <strong>Decision Tree:</strong><br>
+                        • <strong>SEE:</strong> Outnumber situation (3v2, 4v3) → Attack immediately<br>
+                        • <strong>SEE:</strong> Even numbers but speed advantage → Push tempo<br>
+                        • <strong>DON'T SEE:</strong> Clear advantage → Pull back, set offense
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup - Phase 2: Execution (18 min)</div>
+                    <div class="drill-content">
+                        <strong>Full-court 4v4 waves:</strong><br>
+                        1. Coach shoots on GK (or rolls ball to defender)<br>
+                        2. Possession team outlets and makes 3-second decision<br>
+                        3. If countering: finish within 8 seconds total or possession ends<br>
+                        4. If setting: 30-second possession clock starts<br>
+                        <br>
+                        <strong>Rotate groups every 4 possessions</strong> (keeps intensity high, manages fatigue)
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Teaching Emphasis:</strong> "Counter-attack isn't reckless—it's reading numbers and exploiting them FAST. Your IQ is high; now we're adding foot to the gas." Your developing players will initially hesitate—praise aggressive decisions even if execution isn't perfect.
+                </div>
+                <div class="alert">
+                    <div class="alert-title">Connection to Game Management</div>
+                    Late-game situations (your "least control" moment) often hinge on transition efficiency. Team that converts turnovers into quick scores controls tempo—exactly what you need in final 2 minutes.
+                </div>
+            </div>
+
+            <!-- Drill 4 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Pressure Free Throws: "Consequence Shooting"</div>
+                    <div class="drill-time">15 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Shooting</span>
+                    <span class="tag">Mental Training</span>
+                    <span class="tag">Pressure Management</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Introduce consequence-based training for late-game composure (your identified weak spot).</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">
+                        Athletes rotate through 5-meter penalty shots. Before each attempt, coach announces scenario:
+                        <ul>
+                            <li>"Tie game, 10 seconds left, this decides Easterns semifinal"</li>
+                            <li>"Down 1, drew foul with 5 seconds on shot clock—must convert"</li>
+                            <li>"Up 1, opponent gets ball back if you miss"</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Consequence System</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Make:</strong> Team earns 1 point</li>
+                            <li><strong>Miss:</strong> Shooter + 3 teammates do 10 burpees (shared consequence builds team accountability)</li>
+                            <li><strong>Target:</strong> Team accumulates 12 points before practice ends or everyone swims 200m sprint as group penalty</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Mental Skills Integration:</strong> Before each shot, require athlete to state their routine (e.g., "Three deep breaths, pick my spot, trust my mechanics"). Pressure reveals preparation—we're training preparation.
+                </div>
+            </div>
+
+            <!-- Drill 5 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Small-Sided Games: "Adaptive Defense Tournament"</div>
+                    <div class="drill-time">35 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Scrimmage</span>
+                    <span class="tag">Competition</span>
+                    <span class="tag">Decision Application</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Format</div>
+                    <div class="drill-content">
+                        3 teams of 5, round-robin 4v4 games (one team rests/rotates). Each game is 6 minutes.
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Special Rules</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Minute 1-2:</strong> Coach dictates defensive coverage (practice execution)</li>
+                            <li><strong>Minute 3-4:</strong> Defense chooses coverage at start of possession (must commit)</li>
+                            <li><strong>Minute 5-6:</strong> Defense can switch mid-possession if they recognize exploitation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Coaching During Play</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li>Catch "light-bulb moments"—pause when a team makes excellent read and explain why it worked</li>
+                            <li>Track press vs. zone success rates by situation (you're building data for their decision-making)</li>
+                            <li>Highlight counter-attack attempts (good or bad)—reward the DECISION to push</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cool-down -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Recovery & Reflection</div>
+                    <div class="drill-time">10 min</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-content">
+                        <ul>
+                            <li>Easy 150m swim (personal pace, full recovery)</li>
+                            <li>Partner shoulder/tricep stretching</li>
+                            <li>Team huddle: "What situation did you handle better today than Monday? What still needs work?" (seniors lead discussion)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Tomorrow's Preview:</strong> "We've practiced decision-making under constraints. Wednesday integrates everything into continuous game flow—closer to April realities."
+                </div>
+            </div>
+
+        </div>
+
+        <!-- WEDNESDAY SESSION -->
+        <div class="session">
+            <div class="session-header">
+                <div class="session-title">Wednesday: Integration Day - Counter Development & Live Situations</div>
+                <div class="session-duration">130 minutes</div>
+            </div>
+
+            <div class="alert">
+                <div class="alert-title">Session Goal</div>
+                Seamlessly integrate counter-attack into game flow. Practice full-field 6v6 with embedded late-game scenarios (targeting your "least control" weakness).
+            </div>
+
+            <!-- Warm-up -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Technical Warm-up: "Passing Ladders"</div>
+                    <div class="drill-time">12 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Warm-up</span>
+                    <span class="tag">Passing</span>
+                    <span class="tag">Movement</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">Groups of 3, one ball. Triangle formation (5m between players).</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Progression</div>
+                    <div class="drill-content">
+                        <ol>
+                            <li><strong>Level 1:</strong> Stationary passing with specific catch-and-release (wet pass, dry pass, skip pass) - 3 min</li>
+                            <li><strong>Level 2:</strong> Passer calls receiver's name + pass type BEFORE releasing - 3 min</li>
+                            <li><strong>Level 3:</strong> Receiver moves to new spot after each catch (continuous repositioning) - 3 min</li>
+                            <li><strong>Level 4:</strong> Add fourth player as token defender providing pressure - 3 min</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Quality Focus:</strong> Level 1-2 should be perfect execution. Only advance when there are zero dropped balls in a minute. Your mixed-development roster needs these precision reps.
+                </div>
+            </div>
+
+            <!-- Drill 2 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Counter-Attack Integration: "Live Rebound Breaks"</div>
+                    <div class="drill-time">28 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag emphasis">Counter-Attack</span>
+                    <span class="tag">GK Development</span>
+                    <span class="tag">Transition</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Convert Tuesday's counter-attack foundations into automatic responses. Integrate GK as offensive initiator.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">
+                        Full-court. Two lines on offense (wings), one line on defense (middle). GK in goal at starting end.
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Sequence (continuous 4-minute rotations)</div>
+                    <div class="drill-content">
+                        <ol>
+                            <li><strong>Initial shot:</strong> Offensive player shoots on GK from 7m (50% power—goal is rebound, not goal)</li>
+                            <li><strong>GK save:</strong> Outlets immediately to wing streaking down sideline</li>
+                            <li><strong>Decision point:</strong> Wing receives outlet, evaluates:
+                                <ul style="margin-top: 8px;">
+                                    <li>Defender recovering behind? → Drive and finish</li>
+                                    <li>Defender even or ahead? → Look for trailing player or pull back</li>
+                                </ul>
+                            </li>
+                            <li><strong>Constraint:</strong> Entire sequence must complete within 10 seconds or possession resets (forces urgency)</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Coaching Layers</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>For GK:</strong> "Outlet accuracy > Outlet speed. Hit your target in stride."</li>
+                            <li><strong>For wings:</strong> "Head up at outlet—scan before ball arrives."</li>
+                            <li><strong>For defenders:</strong> "Get goalside immediately—eliminate the angle."</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="progression">
+                    <strong>Progression (after 20 min):</strong> Add second defender. Now it's 2v2 break. Offense must complete pass to trailer or create 2v1 isolation. Teaches counter COMPLETION, not just initiation.
+                </div>
+                <div class="coaching-point">
+                    <strong>Mental Model for Your Team:</strong> "Counter-attack is a 10-second window. We're training to recognize it and capitalize automatically. By Easterns, this will be instinct."
+                </div>
+            </div>
+
+            <!-- Drill 3 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Situational 6v6: "The Final Two Minutes"</div>
+                    <div class="drill-time">40 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag emphasis">Game Situations</span>
+                    <span class="tag">Pressure Management</span>
+                    <span class="tag">Late-Game Execution</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Directly address your "least control" moment—final 2 minutes of close games. Practice the exact scenarios that will determine Easterns outcomes.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Format</div>
+                    <div class="drill-content">
+                        Full-court 6v6. Each scenario runs for 5 real minutes (managed by shot clock/game clock). Teams rotate every 2 scenarios.
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Scenario Bank (rotate through 8 total)</div>
+                    <div class="drill-content">
+                        <ol>
+                            <li><strong>Scenario Alpha:</strong> Blue up 1 goal, 2:00 remaining, Blue ball
+                                <ul style="margin-top: 5px;">
+                                    <li><em>Task:</em> Blue must maintain possession and defend lead</li>
+                                    <li><em>Emphasis:</em> Shot selection, foul management, clock awareness</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scenario Bravo:</strong> White down 2 goals, 1:45 remaining, White ball
+                                <ul style="margin-top: 5px;">
+                                    <li><em>Task:</em> White must score twice while preventing Blue counters</li>
+                                    <li><em>Emphasis:</em> Aggressive but smart offense, immediate press after goals</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scenario Charlie:</strong> Tied game, 1:30 remaining, Blue ball, White's best player excluded for 20 seconds
+                                <ul style="margin-top: 5px;">
+                                    <li><em>Task:</em> Blue capitalize on man-advantage; White survive and counter</li>
+                                    <li><em>Emphasis:</em> Efficiency vs. desperation defense</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scenario Delta:</strong> White up 1, 0:45 remaining, Blue ball, must-score situation
+                                <ul style="margin-top: 5px;">
+                                    <li><em>Task:</em> Blue execute under ultimate pressure; White close out</li>
+                                    <li><em>Emphasis:</em> Composure, decision quality under fatigue</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scenarios Echo-Hotel:</strong> Repeat above with reversed teams and slight variations (e.g., different player exclusions, foul trouble constraints)</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Coaching Protocol During Scenarios</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Minimize stoppages:</strong> Let mistakes happen—players learn from consequences</li>
+                            <li><strong>Strategic timeouts:</strong> Each team gets ONE 30-second timeout per scenario—forces decision-making about when to use it</li>
+                            <li><strong>Post-scenario debrief (2 min):</strong>
+                                <ul style="margin-top: 5px;">
+                                    <li>"What went right?"</li>
+                                    <li>"What would you change?"</li>
+                                    <li>"Did you execute your defensive decision (press/zone)? Why or why not?"</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="alert">
+                    <div class="alert-title">Why This Drill Matters for Your Team</div>
+                    You identified "final 2 minutes of close game" as least-control moment. Most teams practice until they're physically ready but mentally unprepared for late-game chaos. This drill inoculates your team against that pressure—by Easterns, these scenarios will feel familiar, not foreign.
+                </div>
+                <div class="coaching-point">
+                    <strong>For Your Seniors:</strong> Empower them to coach during timeouts. "You four have been here before—what does your team need right now?" Leadership development through adversity.
+                </div>
+            </div>
+
+            <!-- Drill 4 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Technical Refinement: "Drive Finishing"</div>
+                    <div class="drill-time">20 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Shooting</span>
+                    <span class="tag">Driving</span>
+                    <span class="tag">Skill Development</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Complement drive-and-replace offense (confidence: 2/5) with better finishing skills under contact.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">
+                        Three lanes (left, center, right). One shooter, one defender, one rebounder per lane. GK in goal.
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Progression</div>
+                    <div class="drill-content">
+                        <ol>
+                            <li><strong>Phase 1 (6 min):</strong> Shooter drives from 7m with 50% defensive pressure. Focus: drive to space, not to defender. Finish with inside hand.</li>
+                            <li><strong>Phase 2 (7 min):</strong> 75% defensive pressure. Defender can foul (legal contact). Shooter must protect ball and finish through contact.</li>
+                            <li><strong>Phase 3 (7 min):</strong> Full defensive pressure. Add constraint: shooter must pass to rebounder if path closes, rebounder must one-time finish. (Teaches when to abandon drive.)</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Key Teaching:</strong> "Drive-and-replace only works if drives FINISH or create assists. We're 2/5 confidence because we're not threatening enough with the ball. This changes that."
+                </div>
+            </div>
+
+            <!-- Cool-down -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Recovery Swim & Mental Prep</div>
+                    <div class="drill-time">10 min</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-content">
+                        <ul>
+                            <li>200m choice stroke (easy pace, focus on breathing and relaxation)</li>
+                            <li>Partner-assisted stretching (emphasis on hip flexors and shoulders)</li>
+                            <li><strong>Mental skills moment:</strong> Guided visualization—close eyes, replay successful late-game scenario from today. "What did you see? What did you feel? That's what composure looks like." (2 minutes of silence)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Tomorrow's Tease:</strong> "Thursday is controlled chaos—fastest pace yet, shortest attention windows. We're stress-testing everything before Friday's full scrimmage."
+                </div>
+            </div>
+
+        </div>
+
+        <!-- THURSDAY SESSION -->
+        <div class="session">
+            <div class="session-header">
+                <div class="session-title">Thursday: Pressure Testing - Competitive Chaos & Speed</div>
+                <div class="session-duration">130 minutes</div>
+            </div>
+
+            <div class="alert">
+                <div class="alert-title">Session Goal</div>
+                Maximum intensity, minimum instruction. Test everything learned Monday-Wednesday under competition and fatigue. Build mental toughness through consequence-based competition.
+            </div>
+
+            <!-- Warm-up -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">High-Intensity Activation: "Sprint Medley"</div>
+                    <div class="drill-time">15 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Warm-up</span>
+                    <span class="tag">High Intensity</span>
+                    <span class="tag">Competition</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Format</div>
+                    <div class="drill-content">
+                        Teams of 3. Relay races across pool (25m or 25y depending on your facility). Each team completes:
+                        <ol style="margin-top: 8px;">
+                            <li>Sprint swim (no ball) - 25m</li>
+                            <li>Sprint with ball (dribble) - 25m</li>
+                            <li>Sprint, catch pass at 15m, shoot on goal before 25m line</li>
+                        </ol>
+                        <strong>Rest:</strong> 90 seconds between rounds. Complete 4 rounds. Winning team each round gets to assign 10 push-ups to another team (friendly competition culture).
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Energy Level:</strong> This is Thursday—your team should be physically tired from the week but mentally sharp. High-energy music, rapid transitions, competitive edge from minute one.
+                </div>
+            </div>
+
+            <!-- Drill 2 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">"Chaos Ball" - Multi-Situation Tournament</div>
+                    <div class="drill-time">35 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag emphasis">Competition</span>
+                    <span class="tag">All Skills</span>
+                    <span class="tag">Rapid Transitions</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Force rapid adaptation to constantly changing game situations. No time to think—only react based on week's training.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Format</div>
+                    <div class="drill-content">
+                        4v4 continuous play. Coach blows whistle every 45-60 seconds and announces NEW situation mid-possession:
+                        <ul style="margin-top: 8px;">
+                            <li>"Blue now down 1, 90 seconds left!"</li>
+                            <li>"White player #3 excluded—20 seconds!"</li>
+                            <li>"Tied game, both teams in bonus foul situation!"</li>
+                            <li>"Score now counts double for next possession only!"</li>
+                            <li>"Counter-attack mode: must shoot within 8 seconds or turnover!"</li>
+                        </ul>
+                        Play continues WITHOUT stoppage—teams must adjust on the fly.
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Scoring System</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li>Goals count as announced (usually 1 point, sometimes 2)</li>
+                            <li><strong>Bonus points:</strong> Successful defensive press when behind = +1 point even if opponent scores</li>
+                            <li><strong>Bonus points:</strong> Counter-attack goal within 8 seconds = +1 point</li>
+                            <li><strong>Penalty:</strong> Bad shot selection in late-game situation = -1 point</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Coach's Role</div>
+                    <div class="drill-content">
+                        <strong>Minimal intervention during play.</strong> Take mental notes of:
+                        <ul style="margin-top: 5px;">
+                            <li>Who stays composed when situation changes?</li>
+                            <li>Who communicates the new reality to teammates?</li>
+                            <li>Are defensive choices (press/zone) improving?</li>
+                            <li>Are counter-attack decisions getting faster?</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Why This Works:</strong> Game situations rarely unfold predictably. This drill trains your team to THRIVE in chaos rather than fear it—critical for Easterns-level competition where momentum swings are constant.
+                </div>
+            </div>
+
+            <!-- Drill 3 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Goalkeeper Battle: "High-Pressure Shot Defense"</div>
+                    <div class="drill-time">20 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Goalkeeper</span>
+                    <span class="tag">Shooting</span>
+                    <span class="tag">Competition</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Develop your starting-level underclassman GK's confidence through competitive repetition. Simultaneously sharpen field players' finishing.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Format</div>
+                    <div class="drill-content">
+                        <strong>Setup:</strong> GK in goal. Shooters in three lines (left wing, center, right wing) at 7m. Rotate every 5 minutes if you have backup GK; otherwise, build in rest after every 10 shots.
+                        <br><br>
+                        <strong>Round Structure:</strong>
+                        <ul>
+                            <li><strong>Round 1 (5 min):</strong> Stationary shots, caller announces location ("high left", "low right", etc.) 1 second before shot. GK reacts to call + read shooter.</li>
+                            <li><strong>Round 2 (5 min):</strong> Drive shots with 50% defensive pressure. GK must read drive angle and body position.</li>
+                            <li><strong>Round 3 (5 min):</strong> Penalty shots (5m). Shooter announces intention (power vs. placement). GK has 3 seconds to set and guess.</li>
+                            <li><strong>Round 4 (5 min):</strong> Rapid-fire: 3 shooters go in sequence with 5-second intervals. GK must reset and save without rest.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Scoring & Consequences</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>GK save:</strong> Shooter does 5 push-ups</li>
+                            <li><strong>Goal scored:</strong> GK does 3 (lower number because GK has harder job—we're building confidence, not crushing spirit)</li>
+                            <li><strong>Team challenge:</strong> If GK records 15+ saves across all rounds, entire team gets to skip final conditioning. If under 15, team does extra set.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>For Your GK:</strong> "You're not expected to save everything—even Olympic GKs save ~60%. Your job is COMMUNICATE before shots, REACT during shots, and RESET after goals. We're building patterns." Praise vocal organization and positioning even when goals occur.
+                </div>
+            </div>
+
+            <!-- Drill 4 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">"King of the Pool" Tournament</div>
+                    <div class="drill-time">40 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag emphasis">Competition</span>
+                    <span class="tag">Full Integration</span>
+                    <span class="tag">Mental Toughness</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Format</div>
+                    <div class="drill-content">
+                        <strong>Setup:</strong> Three teams of 5. Round-robin 4v4 (one player rests per team). Each match is 8 minutes running clock.
+                        <br><br>
+                        <strong>Special Tournament Rules:</strong>
+                        <ul>
+                            <li>First 4 minutes: standard play</li>
+                            <li>Minute 4-6: Coach randomly announces "SITUATION" every 60 seconds (see list below)</li>
+                            <li>Minute 6-8: "Final two minutes" conditions—all prior week's learning tested</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Situation Callouts (Random)</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li>"Power play! White player excluded 20 seconds!"</li>
+                            <li>"Counter mode! Next goal only counts if scored within 8 seconds!"</li>
+                            <li>"Press mandatory! Blue must press for next possession!"</li>
+                            <li>"Free throw! Blue earns penalty shot if they win this possession!"</li>
+                            <li>"Survival mode! Next team to give up goal loses 2 points!"</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Championship Stakes</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Winner:</strong> Gets to design tomorrow's warm-up music playlist + chooses Friday scrimmage jerseys</li>
+                            <li><strong>Second place:</strong> Standard finish</li>
+                            <li><strong>Last place:</strong> Leads tomorrow's cooldown stretching + sets up/cleans all equipment Friday</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Coaching Approach</div>
+                    <div class="drill-content">
+                        <strong>Hands-off during play.</strong> Observe patterns:
+                        <ul style="margin-top: 5px;">
+                            <li>Decision quality under fatigue (they're tired by now)</li>
+                            <li>Leadership emergence (who keeps team focused?)</li>
+                            <li>Execution of week's concepts without prompting</li>
+                        </ul>
+                        <br>
+                        <strong>After tournament:</strong> 5-minute debrief highlighting 3 team wins and 2 things to clean up Friday.
+                    </div>
+                </div>
+                <div class="alert">
+                    <div class="alert-title">Why Thursday Matters</div>
+                    This is your diagnostic session—how much has stuck from Mon-Wed? Friday's scrimmage will refine, but Thursday reveals your team's current capacity under pressure. Expect imperfection; celebrate growth.
+                </div>
+            </div>
+
+            <!-- Cool-down -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Recovery Protocol & Film Teaser</div>
+                    <div class="drill-time">10 min</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Physical:</strong> 300m easy swim (personal pace), emphasis on long strokes and controlled breathing</li>
+                            <li><strong>Mental:</strong> Floating recovery (90 seconds on back, eyes closed, focus on breathing)</li>
+                            <li><strong>Team huddle:</strong> Show 60-second highlight clip from today's tournament—best defensive read, best counter finish, best communication moment</li>
+                            <li><strong>Tomorrow's preview:</strong> "Friday is full scrimmage with coaching stoppages. We'll look like an Easterns-ready team or we'll discover what still needs work. Either way, we get better."</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FRIDAY SESSION -->
+        <div class="session">
+            <div class="session-header">
+                <div class="session-title">Friday: Synthesis Day - Full Scrimmage with Interventions</div>
+                <div class="session-duration">130 minutes</div>
+            </div>
+
+            <div class="alert">
+                <div class="alert-title">Session Goal</div>
+                Apply entire week's learning in game-realistic flow. Use strategic coaching interventions to refine execution. End week with clear individual/team feedback and next-week priorities.
+            </div>
+
+            <!-- Warm-up -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Player-Led Warm-up</div>
+                    <div class="drill-time">15 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Warm-up</span>
+                    <span class="tag">Leadership</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Format</div>
+                    <div class="drill-content">
+                        <strong>Seniors design and lead warm-up.</strong> Must include:
+                        <ul style="margin-top: 8px;">
+                            <li>Swimming component (200m minimum)</li>
+                            <li>Ball-handling component</li>
+                            <li>Shooting component</li>
+                        </ul>
+                        Coach observes but doesn't intervene unless safety issue. This builds ownership and leadership—critical for Easterns.
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Assessment Opportunity:</strong> Are your seniors demonstrating the organization and purpose that championship teams need? Take notes for individual conversations next week.
+                </div>
+            </div>
+
+            <!-- Drill 2 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Offensive Systems Review: "Flow Shooting"</div>
+                    <div class="drill-time">20 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag">Shooting</span>
+                    <span class="tag">Offensive Review</span>
+                    <span class="tag">System Work</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Purpose</div>
+                    <div class="drill-content">Briefly reinforce drive-and-replace spacing before scrimmage. Quick confidence-builder.</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Setup</div>
+                    <div class="drill-content">
+                        6v0 (no defense). Perimeter players + hole set. Continuous ball movement with drives/shots for 4-minute windows.
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Emphasis Points</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Spacing:</strong> 4-5m between perimeter players maintained throughout</li>
+                            <li><strong>Decision quality:</strong> Drive when gap exists; pass when defender recovers</li>
+                            <li><strong>Shot selection:</strong> Only shoot if you'd take this shot in Easterns final</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Brief Teaching:</strong> This isn't a full drill—it's a movement rehearsal. "We know these patterns now. Scrimmage will test if we execute them under defensive pressure."
+                </div>
+            </div>
+
+            <!-- Drill 3 -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Full-Team Scrimmage with Coaching Interventions</div>
+                    <div class="drill-time">70 min</div>
+                </div>
+                <div class="drill-tags">
+                    <span class="tag emphasis">Scrimmage</span>
+                    <span class="tag">Game Application</span>
+                    <span class="tag">Coaching Interventions</span>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Format</div>
+                    <div class="drill-content">
+                        Two teams of 7 (6 field + 1 GK). Four 12-minute quarters with 3-minute breaks between Q1/Q2 and Q3/Q4, 5-minute halftime.
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Game Flow</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li><strong>Q1:</strong> Standard play, minimal stoppages. Let game breathe. Coach observes patterns.</li>
+                            <li><strong>Q2:</strong> Introduce 2 "coach's challenges" per team—can stop play once per 6 minutes to ask for defensive adjustment or offensive reset. (Simulates timeout usage.)</li>
+                            <li><strong>Q3:</strong> Late-game simulation mode—start quarter with "2 minutes left, Blue up 1" scenario. Play through pressure.</li>
+                            <li><strong>Q4:</strong> Standard play returning, but embed 3 random situation changes (see list below).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Q4 Situation Callouts</div>
+                    <div class="drill-content">
+                        <ol>
+                            <li>"White player excluded—power play for 20 seconds!"</li>
+                            <li>"Score is now tied with 90 seconds left—next goal wins!"</li>
+                            <li>"Blue must press—you're down 1 with 1 minute left!"</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Coaching Intervention Protocol</div>
+                    <div class="drill-content">
+                        <strong>When to stop play (max 8 stoppages across all quarters):</strong>
+                        <ul style="margin-top: 8px;">
+                            <li><strong>Teachable moment:</strong> Team executes concept perfectly → freeze, highlight, resume</li>
+                            <li><strong>Correctible error:</strong> Repeated mistake (e.g., defensive bunching, poor spacing) → stop, quick fix, resume</li>
+                            <li><strong>Decision-point failure:</strong> Team "guesses" on press/zone instead of reading situation → review cues immediately</li>
+                        </ul>
+                        <br>
+                        <strong>Intervention format (60 seconds max):</strong>
+                        <ol>
+                            <li>"What just happened?" (player explanation)</li>
+                            <li>"What should have happened?" (team discussion)</li>
+                            <li>"Reset and execute correctly" (immediate do-over)</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Assessment Focus Areas</div>
+                    <div class="drill-content">
+                        Track these metrics mentally (or assign assistant/manager):
+                        <ul style="margin-top: 5px;">
+                            <li><strong>Defensive decisions:</strong> Press/zone choices—appropriate for situation? (Target: 80%+ correct)</li>
+                            <li><strong>Counter-attack execution:</strong> How many turnovers converted to fast breaks? (Target: 40%+)</li>
+                            <li><strong>Late-game composure:</strong> Turnovers in final 2 minutes vs. rest of game (should be equal or lower)</li>
+                            <li><strong>Offensive spacing:</strong> Bunching violations per quarter (Target: <3 per quarter by Q4)</li>
+                            <li><strong>GK communication:</strong> Defensive organization calls per possession (Target: 80%+ organized)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="coaching-point">
+                    <strong>Mindset for Scrimmage:</strong> This isn't about winning or losing—it's about demonstrating week's growth. Celebrate execution of concepts even if outcome isn't perfect. Championship teams focus on process; results follow.
+                </div>
+            </div>
+
+            <!-- Cool-down -->
+            <div class="drill">
+                <div class="drill-header">
+                    <div class="drill-name">Week Reflection & Recovery</div>
+                    <div class="drill-time">15 min</div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Physical Recovery</div>
+                    <div class="drill-content">
+                        <ul>
+                            <li>200m easy swim (self-paced, decompression)</li>
+                            <li>Team stretching circle—partner-assisted shoulders, hips, legs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drill-section">
+                    <div class="drill-section-title">Mental/Team Reflection (10 min)</div>
+                    <div class="drill-content">
+                        <strong>Coach-led discussion:</strong>
+                        <ol style="margin-top: 8px;">
+                            <li><strong>"What clicked this week?"</strong> (Players share 2-3 lightbulb moments)</li>
+                            <li><strong>"What still needs work?"</strong> (Honest assessment—seniors lead)</li>
+                            <li><strong>"On scale 1-10, how ready do we feel for Easterns-level competition right now?"</strong> (Individual silent reflection, then share)</li>
+                        </ol>
+                        <br>
+                        <strong>Coach feedback (3 min):</strong>
+                        <ul style="margin-top: 8px;">
+                            <li><strong>Team wins this week:</strong>
+                                <ul>
+                                    <li>"Your defensive decision-making improved 40% from Monday to Friday based on correct press/zone reads."</li>
+                                    <li>"Counter-attack attempts doubled—you're starting to see the game faster."</li>
+                                    <li>"GK communication went from hesitant to assertive—that's leadership growth."</li>
+                                </ul>
+                            </li>
+                            <li><strong>Areas for next week:</strong>
+                                <ul>
+                                    <li>"Offensive spacing still breaks down under pressure—we'll add more constraints."</li>
+                                    <li>"Final-two-minutes composure improved but not championship-level yet—more situational reps coming."</li>
+                                    <li>"Your IQ is high; execution consistency is next frontier. Easterns won't forgive mental errors."</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <br>
+                        <strong>Closing message:</strong><br>
+                        "This week we addressed your 'guessing moment' on defense and started developing counter-attack instincts. Your 'least control' scenario—final 2 minutes—got 20+ practice reps this week. By Easterns, these won't be crisis moments; they'll be opportunities. Championship teams aren't born ready—they're built through weeks like this. See you Monday."
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <h2>📊 Week Summary & Progression Notes</h2>
+
+        <div class="emphasis-box">
+            <h3>🎯 Key Outcomes from Week 1</h3>
+            <p><strong>Defensive Identity Established:</strong> Your team now has a decision-tree framework for press vs. zone. Monday introduced concepts; by Friday they're applying situationally with 80%+ accuracy (projected).</p>
+            <p><strong>Counter-Attack Foundation:</strong> Addressed your identified weakness—defaulting to front-court offense. By Wednesday, team practiced 3-second decision window post-turnover. By Friday, counter attempts should double from Monday baseline.</p>
+            <p><strong>Late-Game Pressure Inoculation:</strong> 20+ reps of "final 2 minutes" scenarios across the week. Your "least control" moment is becoming familiar territory through repetition.</p>
+            <p><strong>Goalkeeper Development:</strong> Underclassman GK received technical work + game-management leadership training every session. Communication confidence should show measurable improvement.</p>
+            <p><strong>Offensive Refinement:</strong> Drive-and-replace offense (confidence: 2/5 entering week) now has clearer spacing principles and finishing skills. Target: 3/5 confidence by week's end, 4/5 by Easterns.</p>
+        </div>
+
+        <h3>📈 Progression Plan for Weeks 2-4</h3>
+
+        <div class="drill">
+            <div class="drill-header">
+                <div class="drill-name">Week 2 Focus: Offensive Tempo & Defensive Versatility</div>
+            </div>
+            <div class="drill-content">
+                <ul>
+                    <li><strong>Offensive:</strong> Increase drive-and-replace speed. Add continuity patterns when initial drive doesn't yield advantage. Target: 3.5/5 confidence.</li>
+                    <li><strong>Defensive:</strong> Practice mid-possession transitions between press and zone (currently you commit to one). Add "read and react" layer.</li>
+                    <li><strong>Counter-Attack:</strong> Introduce secondary break options (what happens when primary break is defended?). Build trailer patterns.</li>
+                    <li><strong>GK:</strong> Add breakaway 1v1 defense situations. Continue communication development.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="drill">
+            <div class="drill-header">
+                <div class="drill-name">Week 3 Focus: Man-Advantage/Disadvantage & Special Situations</div>
+            </div>
+            <div class="drill-content">
+                <ul>
+                    <li><strong>6v5 Offense:</strong> Structured power-play execution (you'll face this at Easterns)</li>
+                    <li><strong>5v6 Defense:</strong> Survival tactics and foul management</li>
+                    <li><strong>Penalty Shot Mastery:</strong> Both offense (shooting) and defense (GK) under championship pressure</li>
+                    <li><strong>Late-Game Situational Library:</strong> Expand beyond "final 2 minutes" to include overtime scenarios, comeback situations</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="drill">
+            <div class="drill-header">
+                <div class="drill-name">Week 4 Focus: Championship Readiness & Mental Toughness</div>
+            </div>
+            <div class="drill-content">
+                <ul>
+                    <li><strong>Adversity Training:</strong> Bad calls, momentum swings, hostile environment simulation</li>
+                    <li><strong>Leadership Activation:</strong> Senior-led practices, peer coaching moments</li>
+                    <li><strong>Offensive Confidence:</strong> Target 4/5 on drive-and-replace system through repetition and refinement</li>
+                    <li><strong>Full Scrimmages:</strong> Easterns-style officiating, tournament-day schedule simulation</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>🔍 Individual Development Tracks</h3>
+
+        <div class="drill">
+            <div class="drill-header">
+                <div class="drill-name">For Your 4 Seniors</div>
+            </div>
+            <div class="drill-content">
+                <strong>Challenge:</strong> "Solid but no game changers" per your intake. This week they got leadership opportunities (Friday warm-up, timeout coaching Thursday). Next weeks: Assign game-management roles (captain decisions on press/zone, timeout strategy, peer mentoring underclassmen).
+            </div>
+        </div>
+
+        <div class="drill">
+            <div class="drill-header">
+                <div class="drill-name">For Your 3 Juniors</div>
+            </div>
+            <div class="drill-content">
+                <strong>GK:</strong> Continue building confidence through consistent communication drills + technical refinement. By Easterns, should be vocal leader of defense.<br>
+                <strong>2 Field Players:</strong> "Took big steps last year"—capitalize on momentum. This week they practiced at varsity pace; next weeks focus on consistency and decision speed.
+            </div>
+        </div>
+
+        <div class="drill">
+            <div class="drill-header">
+                <div class="drill-name">For Underclassmen (Freshmen/Sophomores)</div>
+            </div>
+            <div class="drill-content">
+                <strong>Strength:</strong> High water polo IQ. <strong>Development area:</strong> Physical maturity and experience. This week built pattern recognition; coming weeks add strength/conditioning parallel track + game-speed reps to accelerate physical development.
+            </div>
+        </div>
+
+        <h2>💡 Coach's Toolkit: Addressing Your Specific Concerns</h2>
+
+        <div class="principle" style="background: white; border-left: 4px solid #0066cc; padding: 20px; margin: 20px 0;">
+            <div class="principle-title" style="color: #0066cc;">Your "Guessing Moment" - Press vs. Zone</div>
+            <p><strong>Solution Implemented This Week:</strong></p>
+            <ul style="margin-top: 10px;">
+                <li>Monday: Recognition drill teaching situational cues</li>
+                <li>Tuesday: Constraint-based decision-making under fatigue</li>
+                <li>Wednesday-Friday: Application in game contexts with immediate feedback</li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Metric to Track:</strong> By week 4, target 90%+ correct defensive-choice decisions in practice scrimmages. Film review will validate.</p>
+            <p style="margin-top: 10px;"><strong>Long-term Development:</strong> Weeks 2-3 add offensive counteractions—teach opponents how to exploit wrong defensive choice, forcing your defense to adapt faster.</p>
+        </div>
+
+        <div class="principle" style="background: white; border-left: 4px solid #dc3545; padding: 20px; margin: 20px 0;">
+            <div class="principle-title" style="color: #dc3545;">Your "Least Control" Moment - Final 2 Minutes</div>
+            <p><strong>Solution Implemented This Week:</strong></p>
+            <ul style="margin-top: 10px;">
+                <li>20+ late-game scenario repetitions (Wednesday, Thursday, Friday)</li>
+                <li>Consequence-based training (pressure free throws Tuesday)</li>
+                <li>Mental skills integration (visualization Wednesday cooldown)</li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Why This Works:</strong> Pressure is a skill, not a personality trait. Your team's current struggle isn't talent—it's unfamiliarity. By Easterns, final 2 minutes will feel like any other possession because you've practiced it 100+ times.</p>
+            <p style="margin-top: 10px;"><strong>Next Steps:</strong> Week 2 adds overtime scenarios. Week 3 introduces "adversity moments" (bad calls, injuries, momentum swings). Week 4 simulates full tournament-day pressure.</p>
+        </div>
+
+        <div class="principle" style="background: white; border-left: 4px solid #28a745; padding: 20px; margin: 20px 0;">
+            <div class="principle-title" style="color: #28a745;">Offensive System Confidence: 2/5 → 4/5 by Easterns</div>
+            <p><strong>Week 1 Focus:</strong> Spacing fundamentals and drive recognition (Monday, Wednesday)</p>
+            <p style="margin-top: 10px;"><strong>Week 2-3 Development:</strong></p>
+            <ul style="margin-top: 5px;">
+                <li>Add continuity when primary drive doesn't create advantage</li>
+                <li>Integrate hole-set more effectively (currently perimeter-heavy)</li>
+                <li>Build offensive "packages" for specific defensive looks</li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Target Outcome:</strong> Your team won't have the most complex offense at Easterns, but it will be efficient and trustworthy under pressure. That's championship-level.</p>
+        </div>
+
+        <h2>🎥 Film Study Recommendations</h2>
+
+        <div class="drill">
+            <div class="drill-section">
+                <div class="drill-content">
+                    <p><strong>Suggested Film Sessions (15-20 min, 2x per week outside practice):</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Defensive Decisions:</strong> Compile 10-12 clips from this week's scrimmages showing press/zone choices. Rate each decision (correct/incorrect) and discuss cues team used. By week 4, players should self-correct before you comment.</li>
+                        <li><strong>Counter-Attack Opportunities:</strong> Identify every turnover this week. Ask: "Was this a counter opportunity? Did we see it?" Build recognition library.</li>
+                        <li><strong>Late-Game Composure:</strong> Splice together all "final 2 minutes" reps from Wednesday-Friday. Track turnovers, shot quality, communication breakdowns. Show improvement week-over-week.</li>
+                        <li><strong>External Benchmarking:</strong> Watch 2-3 Easterns games from last year. Freeze-frame defensive sets and ask team: "Press or zone? Why?" Compare their reads to what actually happened.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2>⚙️ Practice Environment Optimizations</h2>
+
+        <div class="emphasis-box" style="background: #e7f3ff; border-color: #0066cc;">
+            <h3>Maximizing Your 5+ Sessions Per Week</h3>
+            <ul style="margin-top: 15px;">
+                <li><strong>Monday (Foundation):</strong> Lowest intensity, highest teaching. Introduce new concepts when minds are fresh.</li>
+                <li><strong>Tuesday (Application):</strong> Moderate-high intensity, constrained environments. Force decision-making under fatigue.</li>
+                <li><strong>Wednesday (Integration):</strong> Moderate intensity, game-realistic flow. Connect isolated skills to full-field execution.</li>
+                <li><strong>Thursday (Testing):</strong> Highest intensity, minimal instruction. Competition-based diagnostics.</li>
+                <li><strong>Friday (Synthesis):</strong> Moderate intensity, strategic coaching. Scrimmage with interventions to refine.</li>
+                <li><strong>Weekend (Optional):</strong> Light captain's practices or film study. Physical recovery priority before next Monday.</li>
+            </ul>
+        </div>
+
+        <h2>📞 Questions for Next Week's Planning</h2>
+
+        <div class="drill">
+            <div class="drill-section">
+                <div class="drill-content">
+                    <p>To ensure week 2 plan addresses your team's evolution, consider:</p>
+                    <ol style="margin-top: 10px;">
+                        <li><strong>Defensive Decision Accuracy:</strong> Did press/zone recognition improve as expected? (Target: 70%+ correct by Friday.)</li>
+                        <li><strong>Counter-Attack Adoption:</strong> Are players actively looking for fast-break opportunities, or still defaulting to front-court? (Behavioral shift is gradual.)</li>
+                        <li><strong>Late-Game Composure:</strong> Subjective assessment—did team look more organized in final 2 minutes Friday vs. Monday?</li>
+                        <li><strong>Offensive Confidence:</strong> Player self-assessment—do they feel clearer about spacing and driving decisions? (Anonymous survey could help.)</li>
+                        <li><strong>GK Development:</strong> Is vocal leadership emerging? Are field players responding to GK organization?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <h2>🏆 The Easterns Roadmap</h2>
+
+        <div class="philosophy-section">
+            <h2>Championship Timeline</h2>
+            <div class="principle">
+                <div class="principle-title">Weeks 1-4: Foundation Phase (Current Week = Week 1)</div>
+                <p><strong>Goal:</strong> Establish core systems, decision-making frameworks, and baseline competency across all game situations. Build pressure tolerance.</p>
+            </div>
+            <div class="principle">
+                <div class="principle-title">Weeks 5-8: Refinement Phase</div>
+                <p><strong>Goal:</strong> Increase execution speed, add complexity to offensive/defensive packages, strengthen special-situations play. Develop mental toughness through adversity training.</p>
+            </div>
+            <div class="principle">
+                <div class="principle-title">Weeks 9-12: Competition Phase</div>
+                <p><strong>Goal:</strong> Tournament simulation, opponent scouting, peak performance training. Practices become shorter, sharper, more game-specific. Taper physical load while maintaining mental intensity.</p>
+            </div>
+            <div class="principle">
+                <div class="principle-title">Week 13+: Easterns Preparation & Execution</div>
+                <p><strong>Goal:</strong> Final tactical adjustments based on bracket/opponents. Team operates with championship confidence—every scenario is familiar, every decision is trained.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; text-align: center;">
+            <h2 style="color: white; border: none; margin-bottom: 15px;">🌊 From Coach Magnus's First Week to Easterns Glory</h2>
+            <p style="font-size: 1.1em; line-height: 1.8;">
+                Your team—4 solid seniors, emerging juniors, high-IQ underclassmen—has championship potential. Week 1 addressed your guessing moments and least-control scenarios. The roadmap is clear: systematic skill development + pressure inoculation + leadership cultivation = Easterns-ready team.
+            </p>
+            <p style="font-size: 1.1em; margin-top: 20px; font-weight: 600;">
+                This isn't hope. This is process. Let's build it together.
+            </p>
+        </div>
+
+        <footer style="margin-top: 50px; padding-top: 30px; border-top: 3px solid #0066cc; text-align: center; color: #666;">
+            <p style="font-size: 1.1em;"><strong>FirstWhistle Water Polo</strong></p>
+            <p style="margin-top: 10px;">Plan generated for Coach Magnus Sims | Malvern Prep Water Polo</p>
+            <p style="margin-top: 5px; font-size: 0.95em;">Questions or adjustments needed? Email: msims@malvernprep.org</p>
+            <p style="margin-top: 20px; font-style: italic; color: #999;">
+                "Championship teams aren't born ready—they're built through weeks like this."
+            </p>
+        </footer>
+
+    </div>
+</body>
+</html>
