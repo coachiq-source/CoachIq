@@ -1,0 +1,15 @@
+{
+  "coach_name": "Jamie Rivera",
+  "coach_email": "jamie@example.com",
+  "team_name": "Riverside 14U Girls",
+  "level": "14U club",
+  "athlete_count": "16",
+  "session_count": "3",
+  "session_length": "90",
+  "pool_setup": "25m, half-court available M/W, full-court F",
+  "focus_areas": "counter-attack speed, perimeter shot selection, defensive pressing",
+  "constraints": "two players returning from shoulder rehab — limit max-effort shooting reps",
+  "week_of": "2026-04-27",
+  "extra": "Tournament the following Saturday — want a sharpening week, not a loading week.",
+  "webhook_secret": "change-me-long-random-string"
+}
