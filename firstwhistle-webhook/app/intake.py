@@ -71,9 +71,11 @@ def parse_formspree_payload(raw: Mapping[str, Any]) -> Dict[str, Any]:
     """
     cleaned = _strip_formspree_meta(raw)
 
-    # Formspree sometimes wraps the payload in a top-level "form" or "data" key
-    # when using webhook forwarders. Flatten that if present.
-    for wrap_key in ("form", "data", "fields"):
+    # Formspree's actual webhook integration wraps the fields under a top-level
+    # "submission" key (with "form" being the form id string). Older / alternate
+    # forwarders use "form" / "data" / "fields" as the wrapper key, so we
+    # accept any of them and flatten.
+    for wrap_key in ("submission", "form", "data", "fields"):
         if wrap_key in cleaned and isinstance(cleaned[wrap_key], Mapping):
             nested = _strip_formspree_meta(cleaned.pop(wrap_key))
             cleaned = {**nested, **cleaned}
