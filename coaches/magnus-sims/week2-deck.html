@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deck Sheet - Magnus Sims - Week 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: letter;
+            margin: 0.5in;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 9pt;
+            line-height: 1.3;
+            color: #000;
+            background: white;
+        }
+        
+        .deck-container {
+            width: 100%;
+            max-width: 7.5in;
+            margin: 0 auto;
+            padding: 0.25in;
+        }
+        
+        .deck-header {
+            text-align: center;
+            border-bottom: 3px solid #000;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .deck-title {
+            font-size: 18pt;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .deck-subtitle {
+            font-size: 10pt;
+            color: #333;
+        }
+        
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            border: 2px solid #000;
+            padding: 8px;
+            background: #f9f9f9;
+        }
+        
+        .meta-item {
+            font-size: 8pt;
+        }
+        
+        .meta-label {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 7pt;
+            color: #555;
+        }
+        
+        .meta-value {
+            font-size: 9pt;
+            margin-top: 2px;
+        }
+        
+        .focus-box {
+            background: #000;
+            color: #fff;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .focus-title {
+            font-size: 11pt;
+            font-weight: bold;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        
+        .focus-content {
+            font-size: 8pt;
+            line-height: 1.4;
+        }
+        
+        .weekly-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .day-box {
+            border: 2px solid #000;
+            padding: 6px;
+            min-height: 120px;
+        }
+        
+        .day-name {
+            font-weight: bold;
+            font-size: 10pt;
+            border-bottom: 1px solid #000;
+            padding-bottom: 3px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .day-theme {
+            font-size: 8pt;
+            font-style: italic;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .day-drills {
+            font-size: 7pt;
+            line-height: 1.3;
+        }
+        
+        .day-drills li {
+            margin: 2px 0;
+        }
+        
+        .key-points {
+            border: 2px solid #000;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .key-points-title {
+            font-weight: bold;
+            font-size: 10pt;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        
+        .key-points-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .key-point {
+            font-size: 7pt;
+            padding: 4px;
+            background: #f0f0f0;
+            border-left: 3px solid #000;
+        }
+        
+        .key-point-label {
+            font-weight: bold;
+            font-size: 8pt;
+        }
+        
+        .metrics-section {
+            border: 2px solid #000;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .metrics-title {
+            font-weight: bold;
+            font-size: 10pt;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+        
+        .metric-box {
+            text-align: center;
+            padding: 6px;
+            border: 1px solid #000;
+            background: #fff;
+        }
+        
+        .metric-label {
+            font-size: 7pt;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .metric-target {
+            font-size: 11pt;
+            font-weight: bold;
+        }
+        
+        .coaching-notes {
+            border: 2px dashed #000;
+            padding: 8px;
+            background: #fffbea;
+        }
+        
+        .coaching-notes-title {
+            font-weight: bold;
+            font-size: 9pt;
+            margin-bottom: 5px;
+        }
+        
+        .coaching-notes-content {
+            font-size: 7pt;
+            line-height: 1.4;
+        }
+        
+        .coaching-notes ul {
+            margin-left: 12px;
+            margin-top: 4px;
+        }
+        
+        .coaching-notes li {
+            margin: 3px 0;
+        }
+        
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            .deck-container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="deck-container">
+        
+        <div class="deck-header">
+            <div class="deck-title">⚡ WEEK 1 PRACTICE DECK ⚡</div>
+            <div class="deck-subtitle">Magnus Sims | Malvern Prep Varsity Boys | Road to Easterns 2025</div>
+        </div>
+
+        <div class="meta-grid">
+            <div class="meta-item">
+                <div class="meta-label">Team Level</div>
+                <div class="meta-value">Varsity Boys (0-2 yrs exp)</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Roster</div>
+                <div class="meta-value">15 athletes (mixed dev)</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Sessions</div>
+                <div class="meta-value">5x/week, 2+ hours</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Offense System</div>
+                <div class="meta-value">Drive-Replace (2/5 conf.)</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Defense System</div>
+                <div class="meta-value">Situational (2/5 conf.)</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Primary Goal</div>
+                <div class="meta-value">Easterns 2025</div>
+            </div>
+        </div>
+
+        <div class="focus-box">
+            <div class="focus-title">🎯 WEEK 1 MISSION: Build Decision-Making Foundations</div>
+            <div class="focus-content">
+                <strong>Challenge Addressed:</strong> "When to press vs. drop into zone" (guessing moment) + "Final 2 minutes of close game" (least control)<br>
+                <strong>Approach:</strong> Establish recognition patterns for defensive decisions + inoculate team against late-game pressure through 20+ scenario repetitions<br>
+                <strong>Counter-Attack Focus:</strong> Currently "underdeveloped"—introduce 3-second decision window and front-court alternatives<br>
+                <strong>GK Development:</strong> Build communication confidence in starting-level underclassman goalkeeper
+            </div>
+        </div>
+
+        <div class="weekly-grid">
+            <!-- MONDAY -->
+            <div class="day-box">
+                <div class="day-name">MONDAY</div>
+                <div class="day-theme">Foundation Day</div>
+                <div class="day-drills">
+                    <strong>130 min total</strong>
+                    <ul style="margin-top: 4px;">
+                        <li><strong>15m:</strong> Ball handling warm-up</li>
+                        <li><strong>20m:</strong> Press/Zone recognition drill (4v4)</li>
+                        <li><strong>25m:</strong> Drive-replace spacing (3-man weave)</li>
+                        <li><strong>15m:</strong> GK communication integration</li>
+                        <li><strong>35m:</strong> 6v6 situational scrimmage</li>
+                        <li><strong>10m:</strong> Film preview cooldown</li>
+                    </ul>
+                    <strong style="display: block; margin-top: 6px; font-size: 7pt;">Focus:</strong>
+                    <div style="font-size: 7pt;">Teach cues for defensive decisions. Establish spacing principles.</div>
+                </div>
+            </div>
+
+            <!-- TUESDAY -->
+            <div class="day-box">
+                <div class="day-name">TUESDAY</div>
+                <div class="day-theme">Application Day</div>
+                <div class="day-drills">
+                    <strong>130 min total</strong>
+                    <ul style="margin-top: 4px;">
+                        <li><strong>15m:</strong> Sprint transitions warm-up</li>
+                        <li><strong>25m:</strong> "Pressure Cooker" defense (fatigue + decisions)</li>
+                        <li><strong>30m:</strong> Counter-attack foundations (3-sec rule)</li>
+                        <li><strong>15m:</strong> Consequence shooting (pressure FTs)</li>
+                        <li><strong>35m:</strong> Adaptive defense tournament</li>
+                        <li><strong>10m:</strong> Recovery & reflection</li>
+                    </ul>
+                    <strong style="display: block; margin-top: 6px; font-size: 7pt;">Focus:</strong>
+                    <div style="font-size: 7pt;">Stress-test decisions under constraints. Build counter instincts.</div>
+                </div>
+            </div>
+
+            <!-- WEDNESDAY -->
+            <div class="day-box">
+                <div class="day-name">WEDNESDAY</div>
+                <div class="day-theme">Integration Day</div>
+                <div class="day-drills">
+                    <strong>130 min total</strong>
+                    <ul style="margin-top: 4px;">
+                        <li><strong>12m:</strong> Passing ladders warm-up</li>
+                        <li><strong>28m:</strong> Live rebound breaks (counter integration)</li>
+                        <li><strong>40m:</strong> "Final Two Minutes" 6v6 scenarios</li>
+                        <li><strong>20m:</strong> Drive finishing technique</li>
+                        <li><strong>10m:</strong> Mental prep visualization</li>
+                    </ul>
+                    <strong style="display: block; margin-top: 6px; font-size: 7pt;">Focus:</strong>
+                    <div style="font-size: 7pt;">Connect skills to game flow. Practice exact late-game scenarios.</div>
+                </div>
+            </div>
+
+            <!-- THURSDAY -->
+            <div class="day-box">
+                <div class="day-name">THURSDAY</div>
+                <div class="day-theme">Pressure Testing</div>
+                <div class="day-drills">
+                    <strong>130 min total</strong>
+                    <ul style="margin-top: 4px;">
+                        <li><strong>15m:</strong> Sprint medley competition</li>
+                        <li><strong>35m:</strong> "Chaos Ball" multi-situation tournament</li>
+                        <li><strong>20m:</strong> GK battle (high-pressure shots)</li>
+                        <li><strong>40m:</strong> "King of Pool" championship</li>
+                        <li><strong>10m:</strong> Film teaser + recovery</li>
+                    </ul>
+                    <strong style="display: block; margin-top: 6px; font-size: 7pt;">Focus:</strong>
+                    <div style="font-size: 7pt;">Maximum intensity. Minimal coaching. Test week's learning.</div>
+                </div>
+            </div>
+
+            <!-- FRIDAY -->
+            <div class="day-box">
+                <div class="day-name">FRIDAY</div>
+                <div class="day-theme">Synthesis Day</div>
+                <div class="day-drills">
+                    <strong>130 min total</strong>
+                    <ul style="margin-top: 4px;">
+                        <li><strong>15m:</strong> Player-led warm-up (seniors)</li>
+                        <li><strong>20m:</strong> Offensive flow shooting review</li>
+                        <li><strong>70m:</strong> Full scrimmage w/ interventions (4 quarters)</li>
+                        <li><strong>15m:</strong> Week reflection & recovery</li>
+                    </ul>
+                    <strong style="display: block; margin-top: 6px; font-size: 7pt;">Focus:</strong>
+                    <div style="font-size: 7pt;">Apply all concepts in game context. Strategic coaching stoppages.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="key-points">
+            <div class="key-points-title">🔑 Critical Teaching Points - Poolside Reference</div>
+            <div class="key-points-grid">
+                <div class="key-point">
+                    <div class="key-point-label">PRESS WHEN:</div>
+                    • Protecting late lead<br>
+                    • Opponent weak ballhandlers<br>
+                    • Need urgent turnover<br>
+                    • Player advantage (exclusion)
+                </div>
+                <div class="key-point">
+                    <div class="key-point-label">ZONE WHEN:</div>
+                    • Opponent skilled drivers<br>
+                    • Foul trouble management<br>
+                    • Conserving energy<br>
+                    • Even/disadvantage situations
+                </div>
+                <div class="key-point">
+                    <div class="key-point-label">COUNTER 3-SEC RULE:</div>
+                    • Outlet to ready player<br>
+                    • Scan for outnumber (3v2, 4v3)<br>
+                    • Attack if advantage exists<br>
+                    • Pull back if even/disadvantage
+                </div>
+                <div class="key-point">
+                    <div class="key-point-label">DRIVE-REPLACE KEYS:</div>
+                    • 4-5m spacing (touchable = too close)<br>
+                    • See gap BEFORE driving<br>
+                    • Non-drivers replace to open spots<br>
+                    • Motion continues when ball inside
+                </div>
+                <div class="key-point">
+                    <div class="key-point-label">GK COMMUNICATION:</div>
+                    • Organize before ball moves<br>
+                    • Key phrases: "Step!", "Ball pressure!", "Help side!"<br>
+                    • Vocal = leadership development<br>
+                    • Praise attempts, refine accuracy
+                </div>
+                <div class="key-point">
+                    <div class="key-point-label">LATE-GAME MINDSET:</div>
+                    • Clock awareness constant<br>
+                    • Shot selection = championship shots only<br>
+                    • Foul management critical<br>
+                    • Composure > urgency
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-section">
+            <div class="metrics-title">📊 Week 1 Success Metrics (Track Friday)</div>
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-label">DEFENSIVE DECISIONS</div>
+                    <div class="metric-target">70%+ Correct</div>
+                    <div style="font-size: 6pt; margin-top: 3px;">Press/zone choices appropriate for situation</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">COUNTER ATTEMPTS</div>
+                    <div class="metric-target">2x Monday</div>
+                    <div style="font-size: 6pt; margin-top: 3px;">Fast-break recognition improving</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">LATE-GAME TURNOVERS</div>
+                    <div class="metric-target">≤ Regular Play</div>
+                    <div style="font-size: 6pt; margin-top: 3px;">Composure under pressure</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">OFFENSIVE SPACING</div>
+                    <div class="metric-target">&lt;3 Violations/Q</div>
+                    <div style="font-size: 6pt; margin-top: 3px;">Bunching errors decreasing</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">GK ORGANIZATION</div>
+                    <div class="metric-target">80%+ Calls</div>
+                    <div style="font-size: 6pt; margin-top: 3px;">Vocal leadership emerging</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">SYSTEM CONFIDENCE</div>
+                    <div class="metric-target">Drive-Replace: 3/5</div>
+                    <div style="font-size: 6pt; margin-top: 3px;">Player self-assessment target</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="coaching-notes">
+            <div class="coaching-notes-title">💭 COACH'S QUICK REFERENCE - Critical Reminders</div>
+            <div class="coaching-notes-content">
+                <strong>Your Team Profile:</strong> 4 solid seniors (no game changers), 3 juniors (1 GK + 2 field developing), multiple underclassmen with high IQ but developing physically. Mixed stage = differentiate teaching.
+                
+                <ul>
+                    <li><strong>Seniors:</strong> Leadership opportunities (Friday warm-up, peer coaching Thursday). "Solid" = maximize through responsibility.</li>
+                    <li><strong>Juniors:</strong> GK needs confidence-building through communication drills. Two field players "took big steps"—capitalize momentum with advanced reps.</li>
+                    <li><strong>Underclassmen:</strong> High IQ + developing physically = praise decisions, be patient with execution. Pattern recognition now, power later.</li>
+                </ul>
+
+                <strong>When to Intervene (Scrimmages):</strong>
+                <ul>
+                    <li>✓ Teachable moment (perfect execution—freeze, highlight, resume)</li>
+                    <li>✓ Repeated mistake (3+ occurrences—stop, fix, immediate do-over)</li>
+                    <li>✓ Decision-point failure (team "guesses" instead of reads situation)</li>
+                    <li>✗ Single execution errors (let them learn from consequences)</li>
+                </ul>
+
+                <strong>Energy Management:</strong> Monday/Wednesday moderate intensity (learning focus). Tuesday/Thursday high intensity (application/testing). Friday moderate-high (synthesis). 5+ sessions/week = manage fatigue carefully.
+
+                <strong>Week 1 → Easterns Path:</strong> Foundation (Wk 1-4) → Refinement (Wk 5-8) → Competition (Wk 9-12) → Peak (Wk 13+). This week = establishing baseline. Perfection not expected; progress required.
+            </div>
+        </div>
+
+        <div style="margin-top: 10px; padding: 10px; border: 2px solid #000; background: #f0f0f0; text-align: center;">
+            <div style="font-weight: bold; font-size: 10pt; margin-bottom: 5px;">📌 POST-WEEK EVALUATION (Complete Friday)</div>
+            <div style="font-size: 7pt; line-height: 1.5;">
+                <strong>Questions to Answer:</strong> (1) Did defensive decision accuracy hit 70%+ target? (2) Are players actively seeking counter opportunities vs. defaulting front-court? (3) Did late-game composure visibly improve Mon→Fri? (4) Offensive confidence player survey: 3/5 target met? (5) GK communication: assertive or still hesitant?<br>
+                <strong>Film Study Priority:</strong> Compile 10 press/zone decisions + 5 counter opportunities + 3 late-game scenarios for Tuesday film session.<br>
+                <strong>Week 2 Adjustments:</strong> Double-down on weakest metric. Add complexity to areas hitting targets.
+            </div>
+        </div>
+
+        <div style="margin-top: 12px; text-align: center; font-size: 8pt; color: #666; border-top: 2px solid #000; padding-top: 8px;">
+            <strong>FirstWhistle</strong> | Magnus Sims | Malvern Prep | Week 1: Foundation Phase | Target: Easterns 2025<br>
+            <em style="font-size: 7pt; margin-top: 4px; display: block;">"Championship teams aren't born ready—they're built through weeks like this."</em>
+        </div>
+
+    </div>
+</body>
+</html>
