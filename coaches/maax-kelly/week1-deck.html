@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 1 Deck Sheet — Maax Kelly · AlphaWP Varsity Boys</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.4;
+  padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.logo-lockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--bg);
+}
+
+.wordmark {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.doc-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink-3);
+}
+
+.meta {
+  text-align: right;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+
+.meta-coach {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+}
+
+.focus-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.focus-outcome {
+  font-size: 11px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 8px 10px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.context-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dual-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.bar-cell {
+  background: var(--bg-off);
+  padding: 10px 12px;
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.bar-label.swim {
+  color: var(--ink-2);
+}
+
+.bar-label.gk {
+  color: var(--accent);
+}
+
+.bar-content {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.bar-content strong {
+  font-weight: 600;
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.day-block {
+  background: var(--bg);
+  padding: 10px 8px;
+}
+
+.day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.day-name {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.day-focus {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #E8E8E8;
+  color: var(--ink-2);
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+}
+
+.day-session {
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.day-session strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.day-decision {
+  font-size: 8px;
+  font-style: italic;
+  color: var(--accent);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--rule-light);
+}
+
+.drill-quick {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.drill-quick th {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 10px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick td {
+  padding: 8px 10px;
+  font-size: 10px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+}
+
+.drill-quick tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-quick td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.info-card {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.info-card-head {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.info-card-body {
+  font-size: 9px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.info-card-body ul {
+  list-style: none;
+}
+
+.info-card-body li {
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.info-card-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.info-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.footer {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 8px;
+  color: var(--ink-3);
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  .day-block {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-lockup">
+    <div class="logo">CQ</div>
+    <div>
+      <div class="wordmark">CoachIQ</div>
+      <div class="doc-title">Week 1 Deck Sheet</div>
+    </div>
+  </div>
+  <div class="meta">
+    <div class="meta-coach">Maax Kelly</div>
+    <div>AlphaWP Varsity Boys</div>
+    <div>Sept 1–5, 2024</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-label">Week 1 Focus</div>
+  <div class="focus-title">Drive-and-replace motion offense requires players to read gaps, attack on time, and trust continuous movement. Splitting defense requires players to read box entry and accept perimeter shots.</div>
+  <div class="focus-outcome">End of Week: Players demonstrate gap recognition in drive-and-replace (3-on-3 live). Defenders identify box entry triggers and communicate defensive shape adjustments. Team executes 3-3 power play with first-look recognition. GK consistently calls defensive shape and outlet direction during counter attack transitions.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">Sept 5</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">Conference Title</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Pool</div>
+    <div class="context-value">25 yards</div>
+  </div>
+</div>
+
+<div class="dual-bar">
+  <div class="bar-cell">
+    <div class="bar-label swim">Swim Conditioning</div>
+    <div class="bar-content">
+      <strong>Mon/Thu:</strong> 20×25y<br>
+      <strong>Tue:</strong> 10×50y · :60 rest<br>
+      <strong>Wed:</strong> 5×75y · 90s rest<br>
+      <strong>Fri:</strong> 8×25y · full recovery<br>
+      All: head-up · no walls · 1:1 work:rest · time every rep
+    </div>
+  </div>
+  <div class="bar-cell">
+    <div class="bar-label gk">GK Track (0–40 min)</div>
+    <div class="bar-content">
+      All days: 200y warm-up + 3×100y technical<br>
+      <strong>Mon/Wed:</strong> Positional (GP + lunges + glide)<br>
+      <strong>Tue/Thu:</strong> Heavy ball (forehead + lunges + catapult)<br>
+      <strong>Fri:</strong> Activation only · joins all special teams reps
+    </div>
+  </div>
+</div>
+
+<div class="day-grid">
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Monday</div>
+      <span class="day-focus focus-off">Drive</span>
+    </div>
+    <div class="day-session"><strong>0–20:</strong> Spidering + Swim (20×25y)</div>
+    <div class="day-session"><strong>20–50:</strong> Drive-and-replace (entry level, 3-on-3)</div>
+    <div class="day-session"><strong>50–75:</strong> Drive-and-replace (live pressure)</div>
+    <div class="day-session"><strong>75–95:</strong> Counter attack lanes</div>
+    <div class="day-session"><strong>95–120:</strong> Scrimmage (gap recognition focus)</div>
+    <div class="day-decision">Decision: Name top 3 gap-recognition players</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Tuesday</div>
+      <span class="day-focus focus-def">Split D</span>
+    </div>
+    <div class="day-session"><strong>0–20:</strong> Spidering + Swim (10×50y)</div>
+    <div class="day-session"><strong>20–50:</strong> Splitting defense (dry passing)</div>
+    <div class="day-session"><strong>50–75:</strong> Splitting defense (live attack)</div>
+    <div class="day-session"><strong>75–95:</strong> Center defender ball-side positioning</div>
+    <div class="day-session"><strong>95–120:</strong> Scrimmage (shape communication focus)</div>
+    <div class="day-decision">Decision: Select first-line counter group (4 players)</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Wednesday</div>
+      <span class="day-focus focus-off">6x5</span>
+    </div>
+    <div class="day-session"><strong>0–20:</strong> Spidering + Swim (5×75y)</div>
+    <div class="day-session"><strong>20–50:</strong> 3-3 primary look (entry level)</div>
+    <div class="day-session"><strong>50–75:</strong> 3-3 second look (rotation)</div>
+    <div class="day-session"><strong>75–95:</strong> Live 6x5 (shot clock running)</div>
+    <div class="day-session"><strong>95–120:</strong> Scrimmage (6x5 integration)</div>
+    <div class="day-decision">Decision: Lock primary 6x5 unit (6 players)</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Thursday</div>
+      <span class="day-focus focus-def">5x6</span>
+    </div>
+    <div class="day-session"><strong>0–20:</strong> Spidering + Swim (20×25y)</div>
+    <div class="day-session"><strong>20–50:</strong> 5x6 post protection (positional)</div>
+    <div class="day-session"><strong>50–75:</strong> 5x6 live (GK shape calls)</div>
+    <div class="day-session"><strong>75–95:</strong> Transition counter (3v2/4v3)</div>
+    <div class="day-session"><strong>95–120:</strong> Scrimmage (5x6 + counter integration)</div>
+    <div class="day-decision">Decision: Name center defender starter</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Friday</div>
+      <span class="day-focus focus-int">Game</span>
+    </div>
+    <div class="day-session"><strong>0–15:</strong> Activation (8×25y, no fatigue)</div>
+    <div class="day-session"><strong>15–40:</strong> Special teams rehearsal (6x5 + 5x6)</div>
+    <div class="day-session"><strong>40–60:</strong> Counter attack speed runs</div>
+    <div class="day-session"><strong>60–90:</strong> Full scrimmage (shot clock, full rules)</div>
+    <div class="day-session"><strong>90–105:</strong> Timeout protocol (3 reps)</div>
+    <div class="day-session"><strong>105–120:</strong> Opponent preview (2 points only)</div>
+    <div class="day-decision">Decision: Name opponent preview focus (2 points)</div>
+  </div>
+</div>
+
+<table class="drill-quick">
+  <thead>
+    <tr>
+      <th style="width:30%;">Drill</th>
+      <th style="width:15%;">Day</th>
+      <th style="width:55%;">Key Cue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Drive-and-Replace (3-on-3)</td>
+      <td>Mon</td>
+      <td>Verbalize gap before driving. Replace immediately when gap closes.</td>
+    </tr>
+    <tr>
+      <td>Splitting Defense (Pressure Passing)</td>
+      <td>Tue</td>
+      <td>Call shape before movement. Accept perimeter shots — protect the box.</td>
+    </tr>
+    <tr>
+      <td>3-3 Primary Look</td>
+      <td>Wed</td>
+      <td>Timing and spacing. Wing receives and drives immediately.</td>
+    </tr>
+    <tr>
+      <td>Primary Closed (6x5 second-look)</td>
+      <td>Wed</td>
+      <td>When first look closes, rotate immediately. Second look must open within 5 seconds.</td>
+    </tr>
+    <tr>
+      <td>5x6 Post Protection + GK Call</td>
+      <td>Thu</td>
+      <td>GK owns the shape. Defenders don't move until GK calls "set".</td>
+    </tr>
+    <tr>
+      <td>Counter Attack Lanes</td>
+      <td>Mon/Thu/Fri</td>
+      <td>GK calls outlet direction. Establish lanes before attacking. Lane discipline = conversion.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="info-cards">
+  <div class="info-card">
+    <div class="info-card-head">Tracking Priorities</div>
+    <div class="info-card-body">
+      <ul>
+        <li>Gap recognition instances (Mon/Wed/Fri)</li>
+        <li>Box entry reads + shape breaks (Tue/Thu/Fri)</li>
+        <li>Counter conversions (every session)</li>
+        <li>6x5 first vs. second look (Wed/Fri)</li>
+        <li>5x6 post protection breaks (Thu/Fri)</li>
+        <li>GK communication clarity (all sessions)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-head">Coach Decisions</div>
+    <div class="info-card-body">
+      <ul>
+        <li>Mon: Name top 3 gap-recognition players</li>
+        <li>Tue: Select first-line counter group (4)</li>
+        <li>Wed: Lock primary 6x5 unit (6)</li>
+        <li>Thu: Name center defender starter</li>
+        <li>Fri: Name opponent preview focus (2 points)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-head">Watch For</div>
+    <div class="info-card-body">
+      <ul>
+        <li>Drive-and-replace: Players driving before gap opens</li>
+        <li>Splitting D: Defenders chasing ball vs. reading box entry</li>
+        <li>6x5: Offense forcing first look when defended</li>
+        <li>5x6: Defenders collapsing on perimeter</li>
+        <li>Counter: GK not calling outlet direction</li>
+        <li>Movement: Players walking (not sprint-swimming)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;">
+  <div style="background:var(--bg);padding:10px 12px;">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">Session notes</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Mon</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Tue</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Wed</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Thu</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Fri</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+  <div style="background:var(--bg);padding:10px 12px;border-left:1px solid var(--rule);">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">KPI log</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Gap recognition</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Shape breaks</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Counter conversion</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">GK communication</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  CoachIQ v6 · Week 1 Deck Sheet · Maax Kelly · AlphaWP Varsity Boys · Print and bring on deck
+</div>
+
+</body>
+</html>
