@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CoachIQ — Coach Intake</title>
+<title>CoachPrep — Coach Intake</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -305,8 +305,8 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
   <!-- HEADER -->
   <div class="cq-header">
     <div class="cq-brand">
-      <span class="cq-logo">CQ</span>
-      <span class="cq-wordmark">Coach<span>IQ</span></span>
+      <span class="cq-logo">CP</span>
+      <span class="cq-wordmark">Coach<span>Prep</span></span>
     </div>
     <span class="cq-doc-type">Coach Intake</span>
   </div>
@@ -520,6 +520,16 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
     </div>
 
     <div class="field">
+      <label>Key player breakdown <span style="font-weight:400;color:var(--ink-3)">(optional but highly recommended)</span>
+        <span class="hint">Describe your 5–8 most important players by name. For each: position, strengths (shooting, passing, driving, ball protection, press, shot blocking), and weaknesses. The more specific, the sharper the plan.</span>
+      </label>
+      <textarea id="playerBreakdown" style="min-height:140px;" placeholder="Example:
+Marcus (#5, point/2): Elite driver, strong outside shot, tends to force passes under pressure. Poor on ball defense — gets beat off the dribble.
+Jamie (#2, wing): Elite eggbeater, physical defender, weak shooter from outside. Will run the press all day.
+GK (#1): Makes the easy saves, occasionally beaten near-side on direct shots. Excellent outlet pass."></textarea>
+    </div>
+
+    <div class="field">
       <label>Where is your team in their development?
         <span class="hint">This shapes whether Week 1 builds fundamentals or installs scheme.</span>
       </label>
@@ -556,7 +566,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
   <div class="section" id="s2">
     <div class="section-label">03 / 05</div>
     <div class="section-title">System & Playing Style</div>
-    <p class="section-desc">What you actually run — not the ideal. CoachIQ optimizes around real constraints.</p>
+    <p class="section-desc">What you actually run — not the ideal. CoachPrep optimizes around real constraints.</p>
 
     <div class="context-badge" id="ctxBadge2">
       <span class="cb-dot"></span>
@@ -572,6 +582,16 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         <div class="chip" data-val="Isolation / pick — create 2v1 advantage on one side">Isolation / pick — create 2v1 on one side</div>
         <div class="chip" data-val="Counter-attack primary — transition before front-court set">Counter-attack primary — transition before front-court set</div>
       </div>
+      <div class="conf-scale" id="offenseConfScale" style="display:none;">
+        <span class="conf-label">How well do you execute this?</span>
+        <button class="conf-btn" data-val="1" onclick="setConf('offenseConf',this)">1</button>
+        <button class="conf-btn" data-val="2" onclick="setConf('offenseConf',this)">2</button>
+        <button class="conf-btn" data-val="3" onclick="setConf('offenseConf',this)">3</button>
+        <button class="conf-btn" data-val="4" onclick="setConf('offenseConf',this)">4</button>
+        <button class="conf-btn" data-val="5" onclick="setConf('offenseConf',this)">5</button>
+        <span class="conf-desc" id="offenseConfDesc">1 = we can't execute it · 5 = we own it</span>
+      </div>
+      <input type="hidden" id="offenseConf" value="">
     </div>
 
     <div class="field">
@@ -598,6 +618,16 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         <div class="chip" data-val="3-4 zone (pistoning) — funnel to GK, double-block from 3 & 4">3-4 zone (pistoning) — funnel to GK</div>
         <div class="chip" data-val="Situation-dependent — press or zone by opponent and game state">Situation-dependent</div>
       </div>
+      <div class="conf-scale" id="defenseConfScale" style="display:none;">
+        <span class="conf-label">How well do you execute this?</span>
+        <button class="conf-btn" data-val="1" onclick="setConf('defenseConf',this)">1</button>
+        <button class="conf-btn" data-val="2" onclick="setConf('defenseConf',this)">2</button>
+        <button class="conf-btn" data-val="3" onclick="setConf('defenseConf',this)">3</button>
+        <button class="conf-btn" data-val="4" onclick="setConf('defenseConf',this)">4</button>
+        <button class="conf-btn" data-val="5" onclick="setConf('defenseConf',this)">5</button>
+        <span class="conf-desc" id="defenseConfDesc">1 = we struggle to hold shape · 5 = it's automatic</span>
+      </div>
+      <input type="hidden" id="defenseConf" value="">
     </div>
 
     <div class="field">
@@ -616,7 +646,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       <div class="chip-group" id="md5Chips">
         <div class="chip" data-val="Protect the posts — heavy on center-forward, concede perimeter">Protect the posts — heavy on center-forward</div>
         <div class="chip" data-val="Baseline holds, top three press — disrupt quick entry">Baseline holds, top three press — disrupt quick entry</div>
-        <div class="chip" data-val="Double-block from x3 — take away cross-cage, trust GK near side">Double-block from x3 — take away cross-cage</div>
+        <div class="chip" data-val="Double-block from x3 — take away cross-cage shot, trust GK near side">Double-block from x3 — take away cross-cage shot</div>
         <div class="chip" data-val="Splitting / gap — take away post entry, allow perimeter shot">Splitting / gap — take away post entry</div>
         <div class="chip" data-val="No defined 5x6 baseline priority yet">No defined priority yet</div>
       </div>
@@ -725,7 +755,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
   <div class="section" id="s4">
     <div class="section-label">05 / 05</div>
     <div class="section-title">Schedule & Season Structure</div>
-    <p class="section-desc">Every phase of your season gets different CoachIQ support. Map it out once.</p>
+    <p class="section-desc">Every phase of your season gets different CoachPrep support. Map it out once.</p>
 
     <div class="context-badge visible" id="ctxBadge4">
       <span class="cb-dot"></span>
@@ -815,7 +845,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
     <div class="phase-block">
       <div class="phase-label">Major Tournaments & Championships</div>
       <div class="callout">
-        <strong>List every tournament you're building toward.</strong> These get the deepest prep packages and define how CoachIQ sequences your season.
+        <strong>List every tournament you're building toward.</strong> These get the deepest prep packages and define how CoachPrep sequences your season.
       </div>
       <div id="tournamentList">
         <div class="tournament-row">
@@ -994,7 +1024,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
     </div>
 
     <div class="field">
-      <label>What does a successful CoachIQ season look like to you?</label>
+      <label>What does a successful season look like to you?</label>
       <div class="chip-group" id="successChips">
         <div class="chip" data-val="Win the league title">Win the league title</div>
         <div class="chip" data-val="Win a major tournament (Easterns / JONO / CWPA / CIF)">Win a major tournament</div>
@@ -1010,7 +1040,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
     <div class="phase-block" style="margin-top: 28px;">
       <div class="phase-label">Confidentiality & Data Use</div>
       <p style="font-size: 13px; color: var(--ink-2); line-height: 1.65; margin-bottom: 18px;">
-        CoachIQ treats all team data, notes, and performance information as confidential.
+        CoachPrep treats all team data, notes, and performance information as confidential.
         Information you provide is used only to generate your team's practice plans, analysis, and coaching recommendations.
         Your data will not be shared, published, or used outside your program without your explicit permission.
       </p>
@@ -1028,7 +1058,7 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
           <input type="checkbox" id="consentAnonymized"
             style="margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); width: 15px; height: 15px;">
           <span style="font-size: 13px; color: var(--ink-3); line-height: 1.5;">
-            I allow CoachIQ to use anonymized insights (no names, teams, or identifying details) to improve the system.
+            I allow CoachPrep to use anonymized insights (no names, teams, or identifying details) to improve the system.
           </span>
         </label>
       </div>
@@ -1042,16 +1072,18 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
 
   <!-- SUCCESS -->
   <div class="success" id="successScreen">
-    <div class="success-icon">●</div>
-    <h2>You're in the system.</h2>
-    <p>Intake received. Week 1 Practice Plan delivered within 24 hours — starting with your biggest decision-point problem.</p>
+    <div class="success-icon">✓</div>
+    <h2>Intake received.</h2>
+    <p>Your Week 1 Practice Plan and Pool Deck One-Pager will be in your inbox within 24 hours — built around your system, your roster, and your biggest decision problem right now.</p>
+    <p style="font-size:13px;color:var(--ink-3);margin-top:12px;">Two links will arrive by email. The full plan is your coaching reference. The deck sheet is for the pool — open it on your phone or print it.</p>
+    <p style="font-size:13px;color:var(--ink-3);margin-top:8px;">Questions? Email <strong>maxkelly@episcopalacademy.org</strong></p>
     <div class="summary-box" id="summaryBox">
       <h4>Intake Summary</h4>
     </div>
   </div>
 
   <div class="cq-footer">
-    <span>CoachIQ · Max Kelly</span>
+    <span>CoachPrep · Max Kelly</span>
     <span>Confidential</span>
   </div>
 
@@ -1308,6 +1340,9 @@ async function submitForm() {
     gk: chips('gkChips'),
     thinAt: chips('depthChips'),
     bestPlayer: val('bestPlayer'),
+    playerBreakdown: val('playerBreakdown'),
+    offenseConfidence: val('offenseConf'),
+    defenseConfidence: val('defenseConf'),
     rosterDescription: val('rosterDescription'),
     devStage: chips('devStageChips'),
     gkPronoun: chips('gkPronounChips'),
