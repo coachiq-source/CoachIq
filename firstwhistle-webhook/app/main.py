@@ -118,6 +118,15 @@ async def webhook_formspree(
     background: BackgroundTasks,
     x_webhook_secret: str | None = Header(default=None, alias="X-Webhook-Secret"),
 ) -> JSONResponse:
+    # TEMPORARY (Session 4): capture raw headers + raw body so we can learn
+    # Formspree's HMAC signature format empirically. Remove once HMAC
+    # verification is implemented.
+    raw_body_bytes = await request.body()
+    log.info(
+        "DEBUG_FORMSPREE headers=%s body_preview=%s",
+        dict(request.headers),
+        raw_body_bytes[:600].decode("utf-8", errors="replace"),
+    )
     body = await _parse_request_body(request)
     _verify_secret(x_webhook_secret, str(body.get("webhook_secret", "")) or None)
 
