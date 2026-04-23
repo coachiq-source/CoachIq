@@ -133,6 +133,52 @@ def test_parse_plans_one_block_raises():
         raise AssertionError("should have raised")
 
 
+def test_parse_plans_strict_part10_format():
+    """Exact format the Part 10 contract in the master system prompt requires.
+
+    No preamble. No fences. No trailing text. Just the two marker-wrapped
+    HTML documents separated by a blank line.
+    """
+    response = (
+        "<!-- ===== FULL PLAN START ===== -->\n"
+        "<!DOCTYPE html><html><head><title>Magnus Sims — Week 1</title></head>"
+        "<body><h1>Full Practice Plan</h1></body></html>\n"
+        "<!-- ===== FULL PLAN END ===== -->\n"
+        "\n"
+        "<!-- ===== DECK SHEET START ===== -->\n"
+        "<!DOCTYPE html><html><head><title>Magnus Sims — Deck</title></head>"
+        "<body><h1>Deck Sheet</h1></body></html>\n"
+        "<!-- ===== DECK SHEET END ===== -->"
+    )
+    parsed = parse_plans(response)
+    assert "Full Practice Plan" in parsed.full_plan_html
+    assert "Deck Sheet" in parsed.deck_sheet_html
+    assert parsed.full_plan_html.lstrip().lower().startswith("<!doctype html>")
+    assert parsed.deck_sheet_html.lstrip().lower().startswith("<!doctype html>")
+
+
+def test_parse_plans_markers_survive_model_drift():
+    """Even if the model adds chat-style preamble and trailing text, the
+    marker-based extractor should still recover the two documents cleanly."""
+    response = (
+        "Sure! Here are the two plans you requested.\n\n"
+        "<!-- ===== FULL PLAN START ===== -->\n"
+        "<!DOCTYPE html><html><body><h1>Full</h1></body></html>\n"
+        "<!-- ===== FULL PLAN END ===== -->\n\n"
+        "And the deck sheet:\n\n"
+        "<!-- ===== DECK SHEET START ===== -->\n"
+        "<!DOCTYPE html><html><body><h1>Deck</h1></body></html>\n"
+        "<!-- ===== DECK SHEET END ===== -->\n\n"
+        "Let me know if you'd like any adjustments!"
+    )
+    parsed = parse_plans(response)
+    assert "<h1>Full</h1>" in parsed.full_plan_html
+    assert "<h1>Deck</h1>" in parsed.deck_sheet_html
+    # Preamble and trailing must be stripped out of the extracted content.
+    assert "Sure!" not in parsed.full_plan_html
+    assert "Let me know" not in parsed.deck_sheet_html
+
+
 if __name__ == "__main__":
     # Crude runner so `python tests/test_intake.py` works without pytest.
     tests = [v for k, v in list(globals().items()) if k.startswith("test_") and callable(v)]

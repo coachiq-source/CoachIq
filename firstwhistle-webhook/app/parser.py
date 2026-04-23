@@ -1,25 +1,36 @@
 """Extract the two HTML documents from Claude's response.
 
-Supports three delimiter conventions, in this priority order:
+**Contract (as of Session 3).** The master system prompt's Part 10 instructs
+Claude to return exactly this structure with no preamble, no fences, and no
+trailing text::
 
-  1. Explicit HTML comment markers (most reliable if the system prompt enforces them):
-       <!-- ===== FULL PLAN START ===== -->
-       ...
-       <!-- ===== FULL PLAN END ===== -->
-       <!-- ===== DECK SHEET START ===== -->
-       ...
-       <!-- ===== DECK SHEET END ===== -->
+    <!-- ===== FULL PLAN START ===== -->
+    ...HTML...
+    <!-- ===== FULL PLAN END ===== -->
 
-  2. Labelled fenced code blocks, where a line like `### Full Plan` or
-     `**Deck Sheet**` precedes a ```html ... ``` block.
+    <!-- ===== DECK SHEET START ===== -->
+    ...HTML...
+    <!-- ===== DECK SHEET END ===== -->
 
-  3. Positional fenced code blocks: first ```html block = full plan,
-     second ```html block = deck sheet.
+The marker-based extractor (path 1 below) is therefore the canonical path and
+should succeed on every well-formed response. Paths 2 and 3 remain as
+resilience nets in case the model drifts back to fenced code blocks — they
+are logged so we can catch drift early.
+
+Priority order:
+
+  1. Explicit HTML comment markers (canonical).
+  2. Labelled fenced code blocks (``` ... ```) where a heading like
+     ``### Full Plan`` precedes the fence.
+  3. Positional fenced code blocks: first ```html = full plan, second = deck.
 """
 from __future__ import annotations
 
+import logging
 import re
 from dataclasses import dataclass
+
+log = logging.getLogger("firstwhistle.parser")
 
 
 class PlanParseError(ValueError):
@@ -112,15 +123,28 @@ def _extract_by_fences(text: str) -> ParsedPlans | None:
 
 
 def parse_plans(response_text: str) -> ParsedPlans:
-    """Pull both HTML documents out of a Claude response. Raise PlanParseError on failure."""
+    """Pull both HTML documents out of a Claude response. Raise PlanParseError on failure.
+
+    The master system prompt requires the marker-based format, so the
+    canonical path should always succeed. If we fall through to the fence
+    fallback, log a warning so drift is visible in Railway logs.
+    """
     if not response_text or not response_text.strip():
         raise PlanParseError("empty response")
 
-    parsed = _extract_by_markers(response_text) or _extract_by_fences(response_text)
+    parsed = _extract_by_markers(response_text)
+    if parsed is None:
+        log.warning(
+            "marker extraction failed — falling back to fenced code blocks. "
+            "This usually means the model ignored the Part 10 output contract."
+        )
+        parsed = _extract_by_fences(response_text)
+
     if parsed is None:
         raise PlanParseError(
             "could not locate both HTML documents in response "
-            "(expected comment markers or two ```html fenced blocks)"
+            "(expected FULL PLAN / DECK SHEET comment markers from Part 10 "
+            "of the system prompt; fenced code blocks also not found)"
         )
 
     # Final sanity check: each document should look like HTML.

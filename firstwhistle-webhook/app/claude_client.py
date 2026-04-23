@@ -53,8 +53,9 @@ def generate_plan(intake: Mapping[str, object]) -> str:
     user_msg = (
         "A new coach intake has been submitted. Produce the two HTML deliverables "
         "described in the system prompt (Full Practice Plan and One-Page Deck Sheet). "
-        "Return each document either inside a ```html fenced code block or delimited "
-        "with the exact comment markers specified in the system prompt.\n\n"
+        "Return them using the exact HTML comment markers specified in Part 10 of "
+        "the system prompt — no JSON wrapper, no markdown fences, no preamble, "
+        "no trailing commentary.\n\n"
         "INTAKE JSON:\n"
         f"```json\n{intake_json}\n```"
     )
