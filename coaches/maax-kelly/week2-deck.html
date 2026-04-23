@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 1 Deck Sheet — Maax Kelly · AlphaWP Varsity Boys</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
+}
+
+.logo-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: white;
+  font-size: 15px;
+}
+
+.wordmark {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+}
+
+.doc-meta {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.5px;
+}
+
+.doc-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-2);
+  margin-bottom: 3px;
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.focus-outcome {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg-off);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.swim-gk-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.swim-gk-cell {
+  background: var(--bg-off);
+  padding: 10px 12px;
+}
+
+.swim-gk-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.swim-gk-label.swim {
+  color: var(--ink-3);
+}
+
+.swim-gk-label.gk {
+  color: var(--accent);
+}
+
+.swim-gk-text {
+  font-size: 11px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.day-block {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.day-name {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.day-focus {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #E8E8E8;
+  color: var(--ink-2);
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+}
+
+.time-block {
+  font-size: 10px;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.time-block:last-child {
+  margin-bottom: 0;
+}
+
+.time {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-3);
+  margin-right: 4px;
+}
+
+.drill-quick {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 11px;
+}
+
+.drill-quick th {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule-light);
+  color: var(--ink);
+  line-height: 1.4;
+  vertical-align: top;
+}
+
+.drill-quick tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-quick td:first-child {
+  font-weight: 600;
+}
+
+.drill-quick td:nth-child(2) {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-3);
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.card {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.card-head {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card li {
+  font-size: 10px;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.card li:last-child {
+  margin-bottom: 0;
+}
+
+.card li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  
+  .day-block, .card {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-wordmark">
+    <div class="logo">CQ</div>
+    <div class="wordmark">CoachIQ</div>
+  </div>
+  <div class="doc-meta">
+    <div class="doc-title">Week 1 Deck Sheet</div>
+    <div>Maax Kelly · AlphaWP Varsity Boys · Sept 1–5</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-title">Drive-and-Replace Motion with Gap Defense Principles</div>
+  <div class="focus-outcome">End of Week: Players execute drive-and-replace motion with correct spacing (3 & 4 wide vs. zone), defense forces 3+ perimeter passes before box entry in 5x6, and counter attack shows clear Create/Read/Attack phases in transition situations.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">Sept 5 (4 days)</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">Conference Title</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Pool</div>
+    <div class="context-value">25y · 16 players</div>
+  </div>
+</div>
+
+<div class="swim-gk-row">
+  <div class="swim-gk-cell">
+    <div class="swim-gk-label swim">Swim Conditioning</div>
+    <div class="swim-gk-text">
+      <strong>Mon/Thu:</strong> 20×25y · 1:1 rest<br>
+      <strong>Tue:</strong> 10×50y · :60 rest<br>
+      <strong>Wed:</strong> 5×75y · 90s rest<br>
+      <strong>Fri:</strong> 8×25y · full recovery
+    </div>
+  </div>
+  <div class="swim-gk-cell">
+    <div class="swim-gk-label gk">GK Track (0–40 min parallel)</div>
+    <div class="swim-gk-text">
+      <strong>Mon/Wed:</strong> Day 1 Positional (GP holds, glide series)<br>
+      <strong>Tue/Thu:</strong> Day 2 Heavy Ball (forehead holds, lunges, catapults)<br>
+      <strong>Fri:</strong> Activation only, joins all special teams
+    </div>
+  </div>
+</div>
+
+<div class="day-grid">
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Mon</div>
+      <div class="day-focus focus-off">Attack</div>
+    </div>
+    <div class="time-block"><span class="time">0–20</span> Spidering + Swim</div>
+    <div class="time-block"><span class="time">20–50</span> Drive-and-Replace Footwork</div>
+    <div class="time-block"><span class="time">50–75</span> Splitting Defense Base</div>
+    <div class="time-block"><span class="time">75–95</span> Counter Attack Lanes</div>
+    <div class="time-block"><span class="time">95–120</span> Scrimmage (drive focus)</div>
+  </div>
+  
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Tue</div>
+      <div class="day-focus focus-off">6x5</div>
+    </div>
+    <div class="time-block"><span class="time">0–20</span> Elbows Out + Swim</div>
+    <div class="time-block"><span class="time">20–50</span> 3-3 Primary Look</div>
+    <div class="time-block"><span class="time">50–75</span> Live 6x5 (shot clock)</div>
+    <div class="time-block"><span class="time">75–95</span> 5x6 Post Protection</div>
+    <div class="time-block"><span class="time">95–120</span> Special Teams Scrimmage</div>
+  </div>
+  
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Wed</div>
+      <div class="day-focus focus-def">Defense</div>
+    </div>
+    <div class="time-block"><span class="time">0–20</span> Reverse Scull + Swim</div>
+    <div class="time-block"><span class="time">20–50</span> Center D Ball-Side</div>
+    <div class="time-block"><span class="time">50–75</span> Drive and Defend</div>
+    <div class="time-block"><span class="time">75–95</span> Advantage Rules (3v2/4v3)</div>
+    <div class="time-block"><span class="time">95–120</span> Full Scrimmage (def focus)</div>
+  </div>
+  
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Thu</div>
+      <div class="day-focus focus-off">Polish</div>
+    </div>
+    <div class="time-block"><span class="time">0–20</span> Wrestle and React + Swim</div>
+    <div class="time-block"><span class="time">20–50</span> Drive-Replace Live Tempo</div>
+    <div class="time-block"><span class="time">50–75</span> Grab-and-Go Prevention</div>
+    <div class="time-block"><span class="time">75–95</span> Primary Closed (2nd look)</div>
+    <div class="time-block"><span class="time">95–120</span> Pre-Game Scrimmage</div>
+  </div>
+  
+  <div class="day-block">
+    <div class="day-head">
+      <div class="day-name">Fri</div>
+      <div class="day-focus focus-int">Rehearsal</div>
+    </div>
+    <div class="time-block"><span class="time">0–15</span> Short Activation</div>
+    <div class="time-block"><span class="time">15–40</span> Special Teams Rehearsal</div>
+    <div class="time-block"><span class="time">40–60</span> Counter Speed Runs</div>
+    <div class="time-block"><span class="time">60–90</span> Full Scrimmage</div>
+    <div class="time-block"><span class="time">90–105</span> Timeout Protocol</div>
+    <div class="time-block"><span class="time">105–120</span> Game Day Preview</div>
+  </div>
+</div>
+
+<table class="drill-quick">
+  <thead>
+    <tr>
+      <th style="width:30%;">Drill</th>
+      <th style="width:15%;">Day</th>
+      <th style="width:55%;">Key Cue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Drive-and-Replace Motion</td>
+      <td>Mon, Thu</td>
+      <td>Wide spacing stresses zone — replace behind every drive</td>
+    </tr>
+    <tr>
+      <td>Center Defender Ball-Side</td>
+      <td>Mon, Wed</td>
+      <td>Ball / Player / Area — take away box entry, force perimeter</td>
+    </tr>
+    <tr>
+      <td>Counter Attack Lanes</td>
+      <td>Mon, Wed</td>
+      <td>Create (GK outlet) · Read (numbers) · Attack (finish or pull out)</td>
+    </tr>
+    <tr>
+      <td>3-3 Primary Look (6x5)</td>
+      <td>Tue</td>
+      <td>Read center-forward first, wing second — pull out if both closed</td>
+    </tr>
+    <tr>
+      <td>5x6 Post Protection</td>
+      <td>Tue, Fri</td>
+      <td>GK calls "set" on every rep — louder when shape breaks</td>
+    </tr>
+    <tr>
+      <td>Grab-and-Go Prevention</td>
+      <td>Thu</td>
+      <td>Absorb contact without grabbing — recover to press base</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="card-row">
+  <div class="card">
+    <div class="card-head">Tracking Priorities</div>
+    <ul>
+      <li>Drive timing: creates open look vs. stalls in congestion</li>
+      <li>Replace behavior: behind drive vs. standing and watching</li>
+      <li>Box entries allowed vs. forced perimeter passes</li>
+      <li>Counter attack phases visible (Create / Read / Attack)</li>
+      <li>GK "set" calls on 5x6 reps</li>
+    </ul>
+  </div>
+  
+  <div class="card">
+    <div class="card-head">Coach Decisions</div>
+    <ul>
+      <li>Mon: Identify top 3 drive-timing players by name</li>
+      <li>Tue: Lock primary 6x5 unit</li>
+      <li>Wed: Name center defender starter</li>
+      <li>Thu: Review KPI log, identify 2 adjustments for Friday</li>
+      <li>Fri: Finalize starting lineup + special teams units</li>
+    </ul>
+  </div>
+  
+  <div class="card">
+    <div class="card-head">Watch For</div>
+    <ul>
+      <li>Drives without reading zone stress points (congestion)</li>
+      <li>Standing after drive instead of replacing (motion dies)</li>
+      <li>Center D ball-watching (clean box entries result)</li>
+      <li>GK silent on 5x6 (shape breaks without ownership)</li>
+      <li>Counter attack Create phase failure (GK outlet quality)</li>
+      <li>6x5 forcing first look when closed (teach pull-out discipline)</li>
+    </ul>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;">
+  <div style="background:var(--bg);padding:10px 12px;">
+    <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;font-weight:600;">Session notes</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Mon</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Tue</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Wed</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Thu</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Fri</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+  <div style="background:var(--bg);padding:10px 12px;border-left:1px solid var(--rule);">
+    <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;font-weight:600;">KPI log</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Drive timing</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Box entries</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Counter phases</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">GK "set" calls</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
