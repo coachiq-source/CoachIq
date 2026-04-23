@@ -10,13 +10,16 @@ Railway-aligned env var layout (5 required + a few optional):
 
 Optional overrides:
 
-    CLAUDE_MODEL          (default "claude-sonnet-4-20250514")
-    CLAUDE_MAX_TOKENS     (default 16000)
-    GITHUB_BRANCH         (default "main")
-    PUBLIC_BASE_URL       (default https://<owner>.github.io/<repo>)
-    WEBHOOK_SECRET        (optional for now; auth skipped if unset)
-    EMAIL_REPLY_TO        (optional reply-to header)
-    OPS_NOTIFY_EMAIL      (default "johnmaxwell.kelly@gmail.com")
+    CLAUDE_MODEL                    (default "claude-sonnet-4-20250514")
+    CLAUDE_MAX_TOKENS               (default 16000)
+    GITHUB_BRANCH                   (default "main")
+    PUBLIC_BASE_URL                 (default https://<owner>.github.io/<repo>)
+    FORMSPREE_SECRET_WATERPOLO      HMAC signing secret for the water polo form
+    FORMSPREE_SECRET_LACROSSE       HMAC signing secret for the lacrosse form
+    WEBHOOK_SECRET                  (legacy, deprecated endpoint only)
+    EMAIL_REPLY_TO                  (optional reply-to header)
+    OPS_NOTIFY_EMAIL                (default "johnmaxwell.kelly@gmail.com")
+    LACROSSE_HOLDING_HOURS          (default 48)
     HOST / PORT / LOG_LEVEL / SYSTEM_PROMPT_PATH
 """
 from __future__ import annotations
@@ -81,8 +84,17 @@ class Settings:
     claude_model: str
     claude_max_tokens: int
 
-    # Webhook auth (optional; empty string means auth is disabled for Session 1)
+    # Legacy single-secret auth (used by the deprecated /webhook/formspree
+    # endpoint). Kept so the old endpoint still refuses to silently accept
+    # traffic; new sport-specific endpoints use HMAC instead.
     webhook_secret: str
+
+    # Per-sport Formspree HMAC signing secrets (one per Formspree form).
+    formspree_secret_waterpolo: str
+    formspree_secret_lacrosse: str
+
+    # Lacrosse holding-email wording knob (SLA we promise the coach).
+    lacrosse_holding_hours: int
 
     # GitHub — owner/repo split from a single GITHUB_REPO env var.
     github_token: str
@@ -120,6 +132,9 @@ def get_settings() -> Settings:
         claude_model=_optional("CLAUDE_MODEL", "claude-sonnet-4-20250514"),
         claude_max_tokens=int(_optional("CLAUDE_MAX_TOKENS", "16000")),
         webhook_secret=_optional("WEBHOOK_SECRET", ""),
+        formspree_secret_waterpolo=_optional("FORMSPREE_SECRET_WATERPOLO", ""),
+        formspree_secret_lacrosse=_optional("FORMSPREE_SECRET_LACROSSE", ""),
+        lacrosse_holding_hours=int(_optional("LACROSSE_HOLDING_HOURS", "48")),
         github_token=_require("GITHUB_TOKEN"),
         github_owner=gh_owner,
         github_repo=gh_repo,
