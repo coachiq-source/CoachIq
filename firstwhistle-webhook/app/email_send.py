@@ -117,6 +117,112 @@ def send_coach_email(
     return EmailResult(message_id=msg_id or "", to=coach_email)
 
 
+def _lacrosse_coach_html(coach_name: str, holding_hours: int) -> str:
+    name = escape(_first_name(coach_name))
+    hrs = int(holding_hours)
+    return f"""\
+<!doctype html>
+<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;max-width:560px;margin:0 auto;padding:24px;line-height:1.55">
+  <h1 style="font-size:22px;margin:0 0 16px 0;">We've got your intake — plan on the way</h1>
+  <p>Hi {name},</p>
+  <p>Thanks for sending through your team info. Your personalized lacrosse
+  practice plan is being prepared and you'll receive it within the next
+  {hrs} hours.</p>
+  <p>If anything changes on your end before then (injuries, schedule shifts,
+  new priorities), just reply to this email and I'll fold it in.</p>
+  <p style="margin-top:32px;">— FirstWhistle Coaching</p>
+</body></html>
+"""
+
+
+def _lacrosse_coach_text(coach_name: str, holding_hours: int) -> str:
+    first = _first_name(coach_name)
+    return (
+        f"Hi {first},\n\n"
+        "Thanks for sending through your team info. Your personalized "
+        f"lacrosse practice plan is being prepared and you'll receive it "
+        f"within the next {int(holding_hours)} hours.\n\n"
+        "If anything changes on your end before then — injuries, schedule "
+        "shifts, new priorities — just reply to this email and I'll fold "
+        "it in.\n\n"
+        "— FirstWhistle Coaching\n"
+    )
+
+
+def send_lacrosse_holding_email(
+    coach_name: str,
+    coach_email: str,
+    holding_hours: int,
+) -> EmailResult:
+    """Coach-facing holding email for the lacrosse intake path.
+
+    Lacrosse auto-generation isn't live yet; this email reassures the
+    coach that we received their submission and will deliver manually.
+    """
+    _init()
+    s = get_settings()
+    subject = (
+        f"FirstWhistle — We've got your intake, {_first_name(coach_name)}"
+    )
+    params: dict = {
+        "from": s.email_from,
+        "to": [coach_email],
+        "subject": subject,
+        "html": _lacrosse_coach_html(coach_name, holding_hours),
+        "text": _lacrosse_coach_text(coach_name, holding_hours),
+    }
+    if s.email_reply_to:
+        params["reply_to"] = [s.email_reply_to]
+
+    try:
+        resp = resend.Emails.send(params)
+    except Exception as exc:
+        log.exception("lacrosse holding email failed")
+        raise EmailSendError(f"resend send failed: {exc}") from exc
+
+    msg_id = (resp or {}).get("id", "") if isinstance(resp, dict) else getattr(resp, "id", "")
+    log.info(
+        "lacrosse holding email sent to=%s id=%s hours=%d",
+        coach_email, msg_id, int(holding_hours),
+    )
+    return EmailResult(message_id=msg_id or "", to=coach_email)
+
+
+def send_ops_lacrosse_manual_email(
+    intake_id: str,
+    coach_name: str,
+    coach_email: str,
+    intake_summary: str,
+) -> Optional[EmailResult]:
+    """Tell ops to manually fulfill a lacrosse intake."""
+    _init()
+    s = get_settings()
+    if not s.ops_notify_email:
+        return None
+
+    subject = f"[FirstWhistle] lacrosse intake — manual plan needed ({coach_name})"
+    body_text = (
+        f"A lacrosse intake was just received. Auto-generation is not live "
+        f"for lacrosse yet; please prepare and send the plan manually.\n\n"
+        f"Intake: {intake_id}\n"
+        f"Coach:  {coach_name} <{coach_email}>\n\n"
+        f"Intake summary:\n{intake_summary[:4000]}\n"
+    )
+    try:
+        resp = resend.Emails.send({
+            "from": s.email_from,
+            "to": [s.ops_notify_email],
+            "subject": subject,
+            "text": body_text,
+        })
+    except Exception as exc:
+        log.exception("ops lacrosse manual email failed: %s", exc)
+        return None
+
+    msg_id = (resp or {}).get("id", "") if isinstance(resp, dict) else getattr(resp, "id", "")
+    return EmailResult(message_id=msg_id or "", to=s.ops_notify_email)
+
+
 def send_ops_failure_email(
     intake_id: str,
     coach_name: str,
