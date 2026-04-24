@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Deck Sheet — Max K</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+  letter-spacing: -0.5px;
+}
+
+.brand {
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.3px;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.cq-doc-meta {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.focus-outcome {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.bars-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.bar {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  background: var(--bg);
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.bar-content {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.bar-content strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.day-block {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.day-name {
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.day-focus {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.focus-def {
+  background: #E8E8E8;
+  color: #555555;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+}
+
+.day-blocks-list {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.day-blocks-list div {
+  margin-bottom: 4px;
+  padding-left: 8px;
+  position: relative;
+}
+
+.day-blocks-list div:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--ink-3);
+}
+
+.drill-quick-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.drill-quick-table th {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick-table td {
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+}
+
+.drill-quick-table tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-quick-table td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.mini-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.mini-card-head {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.mini-card-title {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.mini-card-body {
+  padding: 10px;
+}
+
+.mini-card-body ul {
+  list-style: none;
+}
+
+.mini-card-body li {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.mini-card-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+.mini-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  .day-grid {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">CP</div>
+    <div class="brand">CoachPrep</div>
+  </div>
+  <div class="header-right">
+    <div class="cq-doc-type">Week 1 Deck Sheet</div>
+    <div class="cq-doc-meta">Max K · EA Varsity Boys</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-title">Week 1 Focus: Establish Wing-Driven Counter Attack System</div>
+  <div class="focus-outcome">By Friday's scrimmage, wings recognize and convert 7/10 primary counter opportunities (1v0 or 2v1), and the starting GK consistently delivers the outlet pass to the correct wing within 2 seconds of possession.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">Sept 1</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">Inter-AC Title</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Pool</div>
+    <div class="context-value">25y</div>
+  </div>
+</div>
+
+<div class="bars-row">
+  <div class="bar">
+    <div class="bar-label">Swim Conditioning</div>
+    <div class="bar-content">
+      <strong>Mon/Thu:</strong> 20×25y · 1:1 rest<br>
+      <strong>Tue:</strong> 10×50y · :60 rest<br>
+      <strong>Wed:</strong> 5×75y · 90s rest<br>
+      <strong>Fri:</strong> 8×25y · full recovery
+    </div>
+  </div>
+  <div class="bar">
+    <div class="bar-label">GK Track (0–40 min)</div>
+    <div class="bar-content">
+      <strong>Warm-up:</strong> 200y + 3×100y technical<br>
+      <strong>Mon/Wed:</strong> Positional (4×7min)<br>
+      <strong>Tue/Thu:</strong> Heavy Ball (4×7min)<br>
+      <strong>Fri:</strong> Activation only + special teams
+    </div>
+  </div>
+</div>
+
+<div class="day-grid">
+  <div class="day-block">
+    <div class="day-name">Monday</div>
+    <span class="day-focus focus-tran">Counter Attack</span>
+    <div class="day-blocks-list">
+      <div>0–20: Spidering + Swim (20×25y)</div>
+      <div>20–50: Counter Attack Lanes</div>
+      <div>50–75: Advantage Rules (3v2)</div>
+      <div>75–95: GK Outlet Integration</div>
+      <div>95–120: Scrimmage (Counter emphasis)</div>
+    </div>
+  </div>
+  <div class="day-block">
+    <div class="day-name">Tuesday</div>
+    <span class="day-focus focus-def">Defense</span>
+    <div class="day-blocks-list">
+      <div>0–20: Spidering + Swim (10×50y)</div>
+      <div>20–50: Center Defender Ball-Side</div>
+      <div>50–75: Drive & Defend (M-zone)</div>
+      <div>75–95: 5x6 Post Protection</div>
+      <div>95–120: Scrimmage (Defense track)</div>
+    </div>
+  </div>
+  <div class="day-block">
+    <div class="day-name">Wednesday</div>
+    <span class="day-focus focus-off">Front-Court Attack</span>
+    <div class="day-blocks-list">
+      <div>0–20: Spidering + Swim (5×75y)</div>
+      <div>20–50: 3-3 Primary Look</div>
+      <div>50–75: Monkey in the Middle</div>
+      <div>75–95: Live 6x5 (4-2 set)</div>
+      <div>95–120: Scrimmage (Offense flow)</div>
+    </div>
+  </div>
+  <div class="day-block">
+    <div class="day-name">Thursday</div>
+    <span class="day-focus focus-tran">Counter Finishing</span>
+    <div class="day-blocks-list">
+      <div>0–20: Spidering + Swim (20×25y)</div>
+      <div>20–50: 2v2 Canada GB → Counter</div>
+      <div>50–75: Advantage Rules (4v3)</div>
+      <div>75–95: Primary Counter Speed Runs</div>
+      <div>95–120: Scrimmage (Counter live)</div>
+    </div>
+  </div>
+  <div class="day-block">
+    <div class="day-name">Friday</div>
+    <span class="day-focus focus-int">Rehearsal</span>
+    <div class="day-blocks-list">
+      <div>0–15: Activation (8×25y)</div>
+      <div>15–40: Special Teams Rehearsal</div>
+      <div>40–60: Counter Speed Runs</div>
+      <div>60–90: Full Scrimmage (3×10min)</div>
+      <div>90–105: Timeout Protocol</div>
+      <div>105–120: Opponent Preview (Sept 1)</div>
+    </div>
+  </div>
+</div>
+
+<table class="drill-quick-table">
+  <thead>
+    <tr>
+      <th style="width:30%;">Drill</th>
+      <th style="width:12%;">Day</th>
+      <th style="width:58%;">Key Cue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Counter Attack Lanes</td>
+      <td>Mon</td>
+      <td>Sprint-swim to your lane before the GK turns — outlet is a race.</td>
+    </tr>
+    <tr>
+      <td>Advantage Rules (3v2 / 4v3)</td>
+      <td>Mon, Thu</td>
+      <td>Wings wide, center reads — make the defense choose.</td>
+    </tr>
+    <tr>
+      <td>Center Defender Ball-Side</td>
+      <td>Tue</td>
+      <td>Ball / Player / Area — say it before every rep. Deny the entry.</td>
+    </tr>
+    <tr>
+      <td>Drive and Defend (M-Zone)</td>
+      <td>Tue</td>
+      <td>Stay in your gap — don't chase to the perimeter. Box entry is the only failure.</td>
+    </tr>
+    <tr>
+      <td>3-3 Primary Look</td>
+      <td>Wed</td>
+      <td>Read the defender's hips — if they turn to ball, skip it. If they sag to post, direct entry.</td>
+    </tr>
+    <tr>
+      <td>2v2 Canada GB → Counter</td>
+      <td>Thu</td>
+      <td>Scoop through it, turn, find the outlet — one motion.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="cards-row">
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Tracking Priorities</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li><strong>Primary Counter Conversion:</strong> 1v0 & 2v1 attempts vs. shots (≥70%)</li>
+        <li><strong>GK Outlet Speed:</strong> Save to outlet in ≤2 sec</li>
+        <li><strong>Wing Separation:</strong> Clean outlets without defender contact</li>
+        <li><strong>Center-Forward Entry:</strong> Possessions reaching post (≥60%)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Coach Decisions</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li><strong>Mon:</strong> ID top 3 wings by name</li>
+        <li><strong>Tue:</strong> Select starting center defender</li>
+        <li><strong>Wed:</strong> Lock primary 6x5 unit (6 players)</li>
+        <li><strong>Thu:</strong> Name first-line counter unit (4 players + GK)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Watch For</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li>Wings breaking too early → defender intercepts outlet</li>
+        <li>GK holding ball too long (≥3 sec) → counter window closes</li>
+        <li>Center defender chasing perimeter → box-entry lane opens</li>
+        <li>Wings drifting to center → eliminates numbers-up advantage</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;">
+  <div style="background:var(--bg);padding:10px 12px;">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">Session notes</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Mon</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Tue</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Wed</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Thu</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Fri</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+  <div style="background:var(--bg);padding:10px 12px;border-left:1px solid var(--rule);">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">KPI log</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Counter Conv %</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">GK Outlet ≤2s</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Wing Separation</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">CF Entry Rate</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:20px;padding-top:12px;border-top:1px solid var(--rule);text-align:center;font-size:10px;color:var(--ink-3);">
+  CoachPrep — Week 1 Deck Sheet — Max K · EA Varsity Boys<br>
+  Print this deck sheet and bring it on deck · First game Sept 1
+</div>
+
+</body>
+</html>
