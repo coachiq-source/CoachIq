@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 3 Practice Plan — Max K</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 32px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 28px;
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cq-logo-mark {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.cq-meta {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 12px;
+}
+
+.info-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.info-cell {
+  background: var(--bg);
+  padding: 12px 14px;
+}
+
+.info-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.focal-bar {
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 28px;
+}
+
+.fl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+
+.ft {
+  font-family: var(--font-head);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.fs {
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.outcome-bar {
+  border-left: 3px solid var(--ink);
+  padding-left: 16px;
+  margin-bottom: 28px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.swim-bar {
+  border-left: 3px solid var(--ink-3);
+  padding-left: 16px;
+  margin-bottom: 28px;
+}
+
+.sl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.sc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 32px 0 14px 0;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.kpi-cell {
+  background: var(--bg);
+  padding: 14px 16px;
+}
+
+.kpi-cell.accent {
+  background: var(--accent-bg);
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.kpi-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.kpi-if {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.adjustment-trigger {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  margin-bottom: 28px;
+}
+
+.adjustment-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.adjustment-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.season-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.season-cell {
+  background: var(--bg);
+  padding: 12px 14px;
+}
+
+.season-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.season-value {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.session-grid .friday {
+  grid-column: 1 / -1;
+}
+
+.session {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.session-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+}
+
+.session-day {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.session-focus {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.focus-off { background: var(--accent-bg); color: var(--accent); }
+.focus-def { background: #E8E8E8; color: var(--ink-2); }
+.focus-tran { background: #E6F4EA; color: #1E7E34; }
+.focus-int { background: var(--bg-off); color: var(--ink-2); border: 1px solid var(--rule); }
+
+.session-priority {
+  padding: 10px 16px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-2);
+  background: #FFFEF8;
+  border-bottom: 1px solid var(--rule);
+}
+
+.session-body {
+  padding: 16px;
+}
+
+.block {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.block:last-child {
+  margin-bottom: 0;
+}
+
+.block-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-3);
+  min-width: 45px;
+  padding-top: 2px;
+}
+
+.block-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.block-detail {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.block-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 3px;
+  margin-right: 6px;
+  margin-top: 4px;
+}
+
+.tag-focal { background: var(--accent-bg); color: var(--accent); }
+.tag-swim { background: #E8E8E8; color: var(--ink-2); }
+.tag-tech { background: #FFF4E6; color: #C77700; }
+.tag-scrim { background: #E6F4EA; color: #1E7E34; }
+
+.drill-ref {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--accent);
+  margin-left: 4px;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+.coach-decision {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  margin-top: 12px;
+}
+
+.coach-decision-icon {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.coach-decision-text {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.friday-success {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #E6F4EA;
+  border-left: 3px solid #1E7E34;
+  border-radius: var(--radius);
+  margin-top: 12px;
+}
+
+.friday-success-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #1E7E34;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.friday-success-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.drill-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.drill-table th {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+  font-weight: 500;
+}
+
+.drill-table td {
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+}
+
+.drill-table tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-table td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.progression {
+  margin-top: 8px;
+}
+
+.prog-level {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.prog-desc {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.note-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.note-card-head {
+  padding: 10px 14px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.note-card-head.accent {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.note-card-body {
+  padding: 14px;
+}
+
+.note-card-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.note-card-body li {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.note-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.note-card-body li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .info-strip { grid-template-columns: 1fr 1fr; }
+  .session-grid { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .season-bar { grid-template-columns: 1fr 1fr; }
+  .notes-grid { grid-template-columns: 1fr; }
+}
+
+@media print {
+  body { padding: 0; }
+  .session { page-break-inside: avoid; }
+  .note-card { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="cq-header">
+  <div class="cq-logo">
+    <div class="cq-logo-mark">CP</div>
+    <div class="cq-wordmark">CoachPrep</div>
+  </div>
+  <div class="cq-doc-type">Week 3 Practice Plan</div>
+  <div class="cq-meta">
+    <span><strong>Max K</strong></span>
+    <span>·</span>
+    <span>U12 Boys' Lacrosse</span>
+  </div>
+</div>
+
+<div class="info-strip">
+  <div class="info-cell">
+    <div class="info-label">Program</div>
+    <div class="info-value">U12 Boys</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Practices</div>
+    <div class="info-value">4–5 per week · 45 min</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">First Game</div>
+    <div class="info-value">Not specified</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Primary Target</div>
+    <div class="info-value">First winning season</div>
+  </div>
+</div>
+
+<div class="focal-bar">
+  <div class="fl">Week 3 Focus — From Your Intake</div>
+  <div class="ft">Transition Game + Ground Ball Fundamentals</div>
+  <div class="fs">Team wants to move the ball fast and attack before the defense sets up — but struggles with ground balls (rated 3/5) and lacks answers when the other team adjusts. Same root cause: players are thinking about the ball, not reading the field. This week resolves it by building automatic scoop-to-outlet habits and teaching a simple 3v2 read structure that works under pressure.</div>
+</div>
+
+<div class="outcome-bar">
+  <strong>End of Week Outcome:</strong> Players scoop ground balls cleanly and immediately look for an outlet pass. The transition unit (top 4) reads a 3v2 advantage without hesitation and finishes with a quality shot 7 out of 10 times.
+</div>
+
+<div class="swim-bar">
+  <div class="sl">Conditioning — Field Lacrosse Standard</div>
+  <div class="sc">
+    <strong>Mon / Wed:</strong> 4 × 40y shuttle sprints · full recovery between reps · two groups.<br>
+    <strong>Tue / Thu:</strong> 6 × 20y acceleration sprints · focus on first three steps · full recovery.<br>
+    <strong>Fri:</strong> No conditioning load — activation only (partner passing warm-up).<br>
+    <strong>Week 4:</strong> Add 2 reps to Mon/Wed shuttles.
+  </div>
+</div>
+
+<div class="swim-bar" style="border-left-color: var(--accent);">
+  <div class="sl" style="color: var(--accent);">Goalie Track — Parallel Focus (0–15 min) &nbsp;·&nbsp; <span style="font-weight:400;letter-spacing:0;">Strong returning goalie — continue building consistency</span></div>
+  <div class="sc">
+    <strong>All days:</strong> Dynamic warm-up (high knees, butt kicks, carioca, backpedal) + partner passing (stick side, off-stick side, high, low).<br>
+    <strong>Mon / Wed (Positioning + Angle Work):</strong> 4 × 5-min blocks — Arc positioning drills (coach moves ball around the arc, goalie mirrors), Step-to-the-shot drill (no saves, just footwork), Angle cuts (coach shoots from different spots, goalie works top-hand positioning).<br>
+    <strong>Tue / Thu (Save Technique):</strong> 4 × 5-min blocks — High save reps (forehead holds, two hands on the stick), Low save reps (stick to the ground, hips back), Rapid-fire close-range (coach 5 yards out, soft feeds, volume over power).<br>
+    <strong>Fri (Game Prep):</strong> Warm-up only. Joins team for all live scrimmage reps. Notes where every shot goes (high/low, stick-side/off-stick).
+  </div>
+</div>
+
+<div class="section-label">WEEK 3 TRACKING PRIORITIES</div>
+
+<div class="kpi-grid">
+  <div class="kpi-cell accent">
+    <div class="kpi-label">GB Win Rate</div>
+    <div class="kpi-value">Clean scoops / contested GBs</div>
+    <div class="kpi-if">If below 60% in Friday scrimmage → repeat Noodle Scooping and 1v1 GB's in Week 4 with reduced complexity</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Transition Shot Rate</div>
+    <div class="kpi-value">Shots taken in first 10 sec / total possessions</div>
+    <div class="kpi-if">If below 40% → offense is stalling; press the tempo in Week 4</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Outlet Pass Completion</div>
+    <div class="kpi-value">Successful GB-to-outlet passes / GB scoops</div>
+    <div class="kpi-if">If below 50% → scoop mechanics are clean but vision is missing; add "eyes up before you turn" cue</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">3v2 Finish Rate</div>
+    <div class="kpi-value">Goals or quality shots / 3v2 opportunities</div>
+    <div class="kpi-if">If below 60% → players are forcing; revisit Create/Read/Attack structure in Week 4</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Shot Quality</div>
+    <div class="kpi-value">Shots on cage / total shots</div>
+    <div class="kpi-if">If below 70% → players are shooting with feet moving or off-balance; drill catch-and-shoot mechanics</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Midfield Rest Rotation</div>
+    <div class="kpi-value">Number of full-speed reps before fatigue visible</div>
+    <div class="kpi-if">If fewer than 4 consecutive possessions → shorten shifts and rotate more frequently</div>
+  </div>
+</div>
+
+<div class="adjustment-trigger">
+  <div class="adjustment-label">Week 4 Adjustment Trigger</div>
+  <div class="adjustment-text">If 2 or more KPIs fall below target at Friday scrimmage → repeat the Week 3 focal theme in Week 4 with reduced complexity. Add no new concepts until ground-ball scooping, outlet passing, and 3v2 finishing are consistent under live pressure.</div>
+</div>
+
+<div class="section-label">SEASON CONTEXT</div>
+
+<div class="season-bar">
+  <div class="season-cell">
+    <div class="season-label">First League</div>
+    <div class="season-value">Not specified</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">Priority Opponent</div>
+    <div class="season-value">Not specified</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">Major Tournament</div>
+    <div class="season-value">Not specified</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">Primary Target</div>
+    <div class="season-value">First winning season</div>
+  </div>
+</div>
+
+<div class="section-label">SESSION BREAKDOWN</div>
+
+<div class="session-grid">
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Monday</div>
+      <span class="session-focus focus-tran">Transition Basics</span>
+    </div>
+    <div class="session-priority">Priority: Clean ground-ball scooping with immediate outlet vision</div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–8</div>
+        <div>
+          <div class="block-name">Arrival & Activation</div>
+          <div class="block-detail">Dynamic warm-up (high knees, butt kicks, carioca down and back) + partner passing lines (10 catches each, stick side and off-stick side).</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">8–18</div>
+        <div>
+          <div class="block-name">Stick-Skill Foundation: Scooping</div>
+          <div class="block-detail">Noodle Scooping — coach rolls ball out, player scoops through, fish-hooks away from pressure. Cue: "Butt down, top hand down, scoop through it." 20 reps per player.</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">Noodle Scooping</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">18–30</div>
+        <div>
+          <div class="block-name">Small-Sided: 1v1 GB's</div>
+          <div class="block-detail">1v1 ground ball box drill. Two players, loose ball between them. Winner scoops + completes outlet pass to coach 10 yards away. Cue: "Box out with your hips, then scoop away from pressure." 10 reps, rotate pairs.</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">1v1 GB's</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">30–38</div>
+        <div>
+          <div class="block-name">Team Concept: Outlet Passing</div>
+          <div class="block-detail">4v3 Box (clearing drill, no ride). Goalie + 3 defenders spread wide. Outlet to a wing, swing through the middle, carry over midline. Cue: "Goalie looks wing first; defenders spread wide." 10 reps.</div>
+          <span class="drill-ref">4v3 Box</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">38–45</div>
+        <div>
+          <div class="block-name">Competitive Play: 3v3 Groundballs</div>
+          <div class="block-detail">3v3 in a 20×20 box. Coach rolls ball in, teams compete for possession, score in mini goals. Constraint: Must complete one pass after the scoop before shooting. 5 rounds, 90 seconds each.</div>
+          <span class="block-tag tag-scrim">Live</span>
+        </div>
+      </div>
+      <div class="coach-decision">
+        <span class="coach-decision-icon">Decision</span>
+        <span class="coach-decision-text">Identify your top 3 ground-ball players by name — they start every GB battle in Tuesday's session.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Tuesday</div>
+      <span class="session-focus focus-tran">Fast Break Reads</span>
+    </div>
+    <div class="session-priority">Priority: Teach the 3v2 read structure — create space, read the defense, attack the goal</div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–8</div>
+        <div>
+          <div class="block-name">Arrival & Activation</div>
+          <div class="block-detail">Dynamic warm-up + partner passing (add one bounce pass drill: 10 reps each).</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">8–18</div>
+        <div>
+          <div class="block-name">Stick-Skill Foundation: Catching on the Run</div>
+          <div class="block-detail">Triangle Lines — three lines, continuous passing while jogging. Cue: "See the ball into the pocket." 3 minutes, then add speed (light jog to half-speed run). 3 more minutes.</div>
+          <span class="drill-ref">Triangle Lines</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">18–33</div>
+        <div>
+          <div class="block-name">Small-Sided: 3v2 West Genny</div>
+          <div class="block-detail">3 offensive players, 2 defenders. Offense starts at midfield, breaks toward goal. Cue: "Spread wide, pass to the open man, attack the cage when you have space." 15 reps (5 per group).</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">3v2 West Genny</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">33–40</div>
+        <div>
+          <div class="block-name">Team Concept: Fast Breaks</div>
+          <div class="block-detail">Full-field fast break drill. Goalie makes save, outlets to wing, 4v3 up the field. Cue: "Ball-carrier pushes, wings spread, trailer fills the middle." 8 reps.</div>
+          <span class="drill-ref">Fast Breaks</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">40–45</div>
+        <div>
+          <div class="block-name">Competitive Play: Numbers Drill</div>
+          <div class="block-detail">Coach calls out numbers (3v2, 4v3, 2v1). Players sprint to the ball and play live. Constraint: Must take a shot within 10 seconds of possession. 6 rounds.</div>
+          <span class="block-tag tag-scrim">Live</span>
+        </div>
+      </div>
+      <div class="coach-decision">
+        <span class="coach-decision-icon">Decision</span>
+        <span class="coach-decision-text">Pick the first-line transition unit (top 4 players for 4v3 / 3v2) — they run every fast-break drill in Wednesday's session.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Wednesday</div>
+      <span class="session-focus focus-off">Settled Offense Intro</span>
+    </div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–8</div>
+        <div>
+          <div class="block-name">Arrival & Activation</div>
+          <div class="block-detail">Dynamic warm-up + 4 Corners Pass (3v0 passing around the horn). Cue: "Catch two hands, look at the goal, then pass." 5 minutes.</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">8–18</div>
+        <div>
+          <div class="block-name">Stick-Skill Foundation: Cradle Ring</div>
+          <div class="block-detail">Players form a circle, coach in the middle. Players cradle while moving around the circle. Coach calls "switch" and players change direction, protecting stick on the outside. 3 minutes each direction.</div>
+          <span class="drill-ref">Cradle Ring</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">18–30</div>
+        <div>
+          <div class="block-name">Small-Sided: 3v3 Triangle</div>
+          <div class="block-detail">3v3 in a triangle formation (one at X, two up top). Offense works the ball, looking for a dodge or a feed. Constraint: Must make 3 passes before shooting. 8 reps, 60 seconds each.</div>
+          <span class="drill-ref">3v3 Triangle</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">30–38</div>
+        <div>
+          <div class="block-name">Team Concept: 2-Man Game</div>
+          <div class="block-detail">2v2 on the wing. One player sets a pick (feet set, stationary), second player uses the pick and rolls to the ball. Cue: "Set the pick with feet set, roll to the ball." 12 reps (6 per side).</div>
+          <span class="drill-ref">2-Man Game (Pick & Roll)</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">38–45</div>
+        <div>
+          <div class="block-name">Competitive Play: 6v6 Handball</div>
+          <div class="block-detail">6v6 in a confined space, no sticks. Players pass a ball, score by getting it into a mini goal. Teaches movement without the ball. Constraint: No player can hold the ball for more than 2 seconds. 7 minutes.</div>
+        </div>
+      </div>
+      <div class="coach-decision">
+        <span class="coach-decision-icon">Decision</span>
+        <span class="coach-decision-text">Name your starting attack line (3 players) — they run the settled offense reps in Thursday's session.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Thursday</div>
+      <span class="session-focus focus-def">Defensive Basics</span>
+    </div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–8</div>
+        <div>
+          <div class="block-name">Arrival & Activation</div>
+          <div class="block-detail">Dynamic warm-up + defensive footwork drill (shuffle left, shuffle right, backpedal, sprint forward). 2 minutes each direction.</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">8–18</div>
+        <div>
+          <div class="block-name">Stick-Skill Foundation: Poke Checks</div>
+          <div class="block-detail">Partner drill — one player cradles slowly, the other practices controlled poke checks (no slashing). Cue: "Quick hands, short jab, pull back." 5 minutes, then switch.</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">18–30</div>
+        <div>
+          <div class="block-name">Small-Sided: 1v1 Defense</div>
+          <div class="block-detail">Run the Arc — defender practices forcing the ball-carrier to one side. Set up cones in an arc. Cue: "Stay between your player and the goal, force them to the outside." 12 reps (6 per player).</div>
+          <span class="drill-ref">Run the Arc</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">30–38</div>
+        <div>
+          <div class="block-name">Team Concept: Help Defense</div>
+          <div class="block-detail">3v3 defense drill. Offense passes the ball, defense communicates who has ball and who is helping. Cue: "Ball, Help Left, Help Right." 10 reps.</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">38–45</div>
+        <div>
+          <div class="block-name">Competitive Play: 4v4 Short Field</div>
+          <div class="block-detail">4v4 live in a shortened field (half field). Constraint: Defense must communicate out loud on every possession. 3 rounds, 2 minutes each.</div>
+          <span class="block-tag tag-scrim">Live</span>
+        </div>
+      </div>
+      <div class="coach-decision">
+        <span class="coach-decision-icon">Decision</span>
+        <span class="coach-decision-text">Identify which defenders will match up against the fastest opposing players — they get extra 1v1 reps in Friday's scrimmage warm-up.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="session friday">
+    <div class="session-head">
+      <div class="session-day">Friday</div>
+      <span class="session-focus focus-int">Scrimmage & Integration</span>
+    </div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–8</div>
+        <div>
+          <div class="block-name">Short Activation</div>
+          <div class="block-detail">Partner passing warm-up (5 min) + ground ball review (5 quick Noodle Scooping reps per player). No fatigue load.</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">8–20</div>
+        <div>
+          <div class="block-name">Transition Rehearsal</div>
+          <div class="block-detail">Fast break speed runs — 3v2 and 4v3 live reps with shot clock (10 sec to shoot). First-line transition unit runs 8 reps, second line runs 4 reps.</div>
+          <span class="block-tag tag-focal">Focal</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">20–40</div>
+        <div>
+          <div class="block-name">Full Scrimmage</div>
+          <div class="block-detail">6v6 live, running clock, full rules. Constraint: Every ground ball must result in an immediate outlet pass (no solo carries). Track GB win rate, outlet completion, and transition shot rate.</div>
+          <span class="block-tag tag-scrim">Scrimmage</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">40–45</div>
+        <div>
+          <div class="block-name">Cool-Down & Message</div>
+          <div class="block-detail">Walk-through, water, one teach point (best ground ball of the day by name), one callout (player who communicated loudest on defense).</div>
+        </div>
+      </div>
+      <div class="friday-success">
+        <div class="friday-success-label">Session Success =</div>
+        <div class="friday-success-text"><strong>GB win rate above 60%</strong> · <strong>Transition unit finishes 7/10 3v2 opportunities</strong> · <strong>Outlet passes completed within 2 seconds of scoop on 8/10 GBs</strong></div>
+      </div>
+      <div class="coach-decision">
+        <span class="coach-decision-icon">Decision</span>
+        <span class="coach-decision-text">Review scrimmage KPI log after session — if any metric falls below target, adjust Week 4 practice allocation to reinforce that skill at entry level.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">FOCAL DRILLS — FULL DETAIL</div>
+
+<table class="drill-table">
+  <thead>
+    <tr>
+      <th style="width:18%;">Drill</th>
+      <th style="width:20%;">Setup</th>
+      <th style="width:12%;">Reps/Duration</th>
+      <th style="width:18%;">Coaching Cue</th>
+      <th style="width:18%;">What This Teaches</th>
+      <th style="width:14%;">Progression</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Noodle Scooping</td>
+      <td>Two lines, coach rolls ball out, player scoops through, fish-hooks away from pressure.</td>
+      <td>20 reps per player</td>
+      <td>"Butt down, top hand down, scoop through it."</td>
+      <td>Ground balls are the foundation of possession — every game is won or lost on clean scoops.</td>
+      <td>
+        <div class="progression">
+          <div class="prog-level">Entry (U10/U12 Default)</div>
+          <div class="prog-desc">Coach rolls ball slowly, player scoops with no pressure. Focus: body position and hand placement.</div>
+        </div>
+        <div class="progression">
+          <div class="prog-level">Full (U14+)</div>
+          <div class="prog-desc">Add a passive defender trailing 3 yards behind. Player must fish-hook away from pressure after scoop.</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>1v1 GB's</td>
+      <td>1v1 box drill, loose ball between two players. Winner scoops + completes outlet to coach.</td>
+      <td>10 reps, rotate pairs</td>
+      <td>"Box out with your hips, then scoop away from pressure."</td>
+      <td>Contested ground balls require body positioning first, scoop second — you can't scoop what you don't have space for.</td>
+      <td>
+        <div class="progression">
+          <div class="prog-level">Entry</div>
+          <div class="prog-desc">Start players 5 yards apart, roll ball between them. First to the ball wins.</div>
+        </div>
+        <div class="progression">
+          <div class="prog-level">Full</div>
+          <div class="prog-desc">Start players shoulder-to-shoulder, roll ball 3 yards in front. Winner must complete outlet pass under pressure.</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>3v2 West Genny</td>
+      <td>3 offensive players, 2 defenders. Offense starts at midfield, breaks toward goal.</td>
+      <td>15 reps (5 per group)</td>
+      <td>"Spread wide, pass to the open man, attack the cage when you have space."</td>
+      <td>Numbers advantages only matter if players spread the field and make the defense choose — bunching kills the advantage.</td>
+      <td>
+        <div class="progression">
+          <div class="prog-level">Entry</div>
+          <div class="prog-desc">Defenders stand still (no pressure). Offense walks through spacing and passing lanes.</div>
+        </div>
+        <div class="progression">
+          <div class="prog-level">Full</div>
+          <div class="prog-desc">Live defenders, full speed. Add 10-second shot clock to force quick decisions.</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>4v3 Box</td>
+      <td>Goalie + 3 defenders, no ride. Outlet to wing, swing middle, carry over midline.</td>
+      <td>10 reps</td>
+      <td>"Goalie looks wing first; defenders spread wide."</td>
+      <td>Clearing is how a stopped shot becomes offense — every turnover prevented in the defensive half is worth more than a made shot.</td>
+      <td>
+        <div class="progression">
+          <div class="prog-level">Entry</div>
+          <div class="prog-desc">No opposition. Goalie outlets, defenders pass around the perimeter, carry over midline uncontested.</div>
+        </div>
+        <div class="progression">
+          <div class="prog-level">Full (U14+)</div>
+          <div class="prog-desc">Add 3-man ride. Defenders must read pressure and swing the ball back through the goalie if the first outlet is covered.</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Fast Breaks</td>
+      <td>Goalie makes save, outlets to wing, 4v3 up the field.</td>
+      <td>8 reps</td>
+      <td>"Ball-carrier pushes, wings spread, trailer fills the middle."</td>
+      <td>The transition from defense to offense happens in the first 3 seconds — every delayed outlet is a lost advantage.</td>
+      <td>
+        <div class="progression">
+          <div class="prog-level">Entry</div>
+          <div class="prog-desc">Walk through the break at half speed. No defenders. Focus on spacing and lane discipline.</div>
+        </div>
+        <div class="progression">
+          <div class="prog-level">Full</div>
+          <div class="prog-desc">Full speed with live defenders recovering. Add constraint: must take a shot within 8 seconds of the save.</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>2-Man Game (Pick & Roll)</td>
+      <td>2v2 on the wing. One player sets a pick (feet set, stationary), second player uses the pick and rolls.</td>
+      <td>12 reps (6 per side)</td>
+      <td>"Set the pick with feet set, roll to the ball."</td>
+      <td>Settled offense requires creating space when the defense is set — the pick-and-roll is the simplest way to force a defender to choose.</td>
+      <td>
+        <div class="progression">
+          <div class="prog-level">Entry</div>
+          <div class="prog-desc">Offense runs the action with no defenders. Picker sets, roller cuts, ball-carrier makes the pass.</div>
+        </div>
+        <div class="progression">
+          <div class="prog-level">Full</div>
+          <div class="prog-desc">Live 2v2. Defenders must communicate the switch or stay decision out loud.</div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-label">COACHING NOTES</div>
+
+<div class="notes-grid">
+  <div class="note-card">
+    <div class="note-card-head accent">This Week's Priorities</div>
+    <div class="note-card-body">
+      <ul>
+        <li><strong>Monday:</strong> Establish clean ground-ball mechanics. Every player leaves Monday knowing "butt down, top hand down, scoop through it."</li>
+        <li><strong>Tuesday:</strong> Teach the 3v2 read structure. Players must understand: spread wide, pass to the open man, attack when you have space.</li>
+        <li><strong>Wednesday:</strong> Introduce settled offense concepts (pick-and-roll) without stalling the transition-first identity.</li>
+        <li><strong>Thursday:</strong> Build defensive communication habits. Every possession should have a verbal "Ball, Help Left, Help Right" call.</li>
+        <li><strong>Friday:</strong> Measure Week 3's two core outcomes: GB win rate and transition finish rate. Log every metric.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-card-head">Evaluation Notes</div>
+    <div class="note-card-body">
+      <ul>
+        <li>Track which players consistently scoop cleanly under pressure — these are your primary GB battle starters.</li>
+        <li>Log outlet pass completion rate by player. If a player scoops well but doesn't look up, they need "eyes before you turn" cue.</li>
+        <li>Note which players finish 3v2 opportunities vs. which ones force bad shots. The finishers are your first-line transition unit.</li>
+        <li>Watch for defensive players who communicate out loud — reward them with callouts in Friday's cool-down.</li>
+        <li>Identify any player who consistently shoots off-balance or with feet moving. They need catch-and-shoot drills in Week 4.</li>
+        <li>Monitor midfield rotation fatigue. If players are gassed after 3 possessions, shorten shifts starting Thursday.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-card-head">Watch For (U12-Specific Failure Modes)</div>
+    <div class="note-card-body">
+      <ul>
+        <li>Players bend at the waist instead of dropping the hips on ground balls — cue "butt down" every rep until it's automatic.</li>
+        <li>Ball-carrier scoops and immediately looks down at the ball instead of finding an outlet — this kills the transition game.</li>
+        <li>On 3v2 breaks, players bunch together instead of spreading wide — the advantage disappears if all three are within 5 yards.</li>
+        <li>Goalie clears too late — outlets should be available the moment the save is made, not 3 seconds later.</li>
+        <li>Defenders stop short of the ball-carrier on help defense and give a free shooting lane.</li>
+        <li>Players cradle with the top hand choked up on the plastic instead of down the shaft — this limits reach and control.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="adjustment-trigger">
+  <div class="adjustment-label">Week 4 Adjustment Trigger</div>
+  <div class="adjustment-text">If 2 or more KPIs fall below target at Friday scrimmage → repeat the Week 3 focal theme in Week 4 with reduced complexity. Add no new concepts until ground-ball scooping, outlet passing, and 3v2 finishing are consistent under live pressure.</div>
+</div>
+
+<div class="footer">
+  CoachPrep — Week 3 Practice Plan — Max K<br>
+  Generated by CoachIQ v6
+</div>
+
+</body>
+</html>
