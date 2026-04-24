@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 1 Deck Sheet — Max</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 14px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  border-radius: var(--radius);
+}
+
+.wordmark {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.header-right {
+  text-align: right;
+}
+
+.doc-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.coach-date {
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-top: 2px;
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.focus-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.focus-outcome {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 8px 10px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.bars-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.bar-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.bar-label.swim {
+  color: var(--ink-3);
+}
+
+.bar-label.gk {
+  color: var(--accent);
+}
+
+.bar-content {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.five-day-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.day-block {
+  background: var(--bg);
+  padding: 10px 8px;
+}
+
+.day-head {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.day-focus {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.day-item {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.day-item:last-child {
+  margin-bottom: 0;
+}
+
+.quick-ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.quick-ref-table thead {
+  background: var(--bg-off);
+}
+
+.quick-ref-table th {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.quick-ref-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink);
+  vertical-align: top;
+}
+
+.quick-ref-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.mini-card {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.mini-head {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.mini-body {
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.mini-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mini-body li {
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.mini-body li:last-child {
+  margin-bottom: 0;
+}
+
+.mini-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  
+  .five-day-grid,
+  .quick-ref-table,
+  .cards-row {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo"></div>
+    <div class="wordmark">CoachIQ</div>
+  </div>
+  <div class="header-right">
+    <div class="doc-title">Week 1 Deck Sheet</div>
+    <div class="coach-date">Max · U10</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-label">Week 1 Focus</div>
+  <div class="focus-title">Attack depth and transition confusion — players reacting instead of reading the field</div>
+  <div class="focus-outcome"><strong>End of Week:</strong> Players recognize transition lanes and attack windows before the defense sets. Three transition counter attacks executed in Friday scrimmage with correct outlet reads. Players verbalize "outlet left / outlet right / hold" before the GK releases the ball.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">Not specified</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">Fun and learning</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Pool</div>
+    <div class="context-value">25 yards</div>
+  </div>
+</div>
+
+<div class="bars-row">
+  <div class="bar-cell">
+    <div class="bar-label swim">Swim Conditioning</div>
+    <div class="bar-content">
+      <strong>Mon/Thu:</strong> 10 × 25y · 1:1 rest<br>
+      <strong>Tue:</strong> 6 × 25y · full recovery<br>
+      Head-up · no walls · two groups
+    </div>
+  </div>
+  <div class="bar-cell">
+    <div class="bar-label gk">GK Track (0–15 min)</div>
+    <div class="bar-content">
+      All days: 100y warm-up + 2 × 50y technical<br>
+      Mon/Thu: Positional (GP · Glide · Lateral)<br>
+      Tue: Activation only — joins all transition reps
+    </div>
+  </div>
+</div>
+
+<div class="five-day-grid">
+  <div class="day-block">
+    <div class="day-head">Monday</div>
+    <div class="day-focus">Counter Attack</div>
+    <div class="day-item">0–5: Spidering + Activation</div>
+    <div class="day-item">5–15: Swim (10 × 25y)</div>
+    <div class="day-item">15–30: Counter Attack Lanes</div>
+    <div class="day-item">30–40: Advantage Rules (2v1)</div>
+    <div class="day-item">40–45: 3v3 Scrimmage</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">Thursday</div>
+    <div class="day-focus">Zone Defense</div>
+    <div class="day-item">0–5: Spidering + Ball Handling</div>
+    <div class="day-item">5–15: Swim (10 × 25y)</div>
+    <div class="day-item">15–28: Pressure Passing</div>
+    <div class="day-item">28–38: Monkey in the Middle</div>
+    <div class="day-item">38–45: 4v4 Scrimmage</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">Tuesday</div>
+    <div class="day-focus">6x5 Power Play</div>
+    <div class="day-item">0–5: Spidering + Vertical</div>
+    <div class="day-item">5–13: Swim (6 × 25y)</div>
+    <div class="day-item">13–28: GK Outlet + Lanes</div>
+    <div class="day-item">28–38: 3-3 Primary Look</div>
+    <div class="day-item">38–45: Full Scrimmage</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">Friday</div>
+    <div class="day-focus">Rehearsal</div>
+    <div class="day-item">0–5: Light Activation</div>
+    <div class="day-item">5–18: 6x5 Live Reps</div>
+    <div class="day-item">18–28: Counter Speed Runs</div>
+    <div class="day-item">28–43: Full Scrimmage</div>
+    <div class="day-item">43–45: Cool Down</div>
+  </div>
+  <div class="day-block" style="background: var(--bg-off);">
+    <div class="day-head">Success =</div>
+    <div class="day-item" style="color: var(--ink); font-weight: 600;">3+ counter attacks with correct outlet calls</div>
+    <div class="day-item" style="color: var(--ink); font-weight: 600;">GK verbalizes read before release</div>
+    <div class="day-item" style="color: var(--ink); font-weight: 600;">Zone shape holds 4+ possessions</div>
+  </div>
+</div>
+
+<table class="quick-ref-table">
+  <thead>
+    <tr>
+      <th style="width: 30%;">Drill</th>
+      <th style="width: 15%;">Day</th>
+      <th style="width: 55%;">Key Cue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Counter Attack Lanes</strong></td>
+      <td>Mon, Tue</td>
+      <td>Call outlet before you release — players create lanes on your voice</td>
+    </tr>
+    <tr>
+      <td><strong>Advantage Rules (2v1)</strong></td>
+      <td>Mon, Fri</td>
+      <td>Attack before the defense recovers — read the defender's position, not the goal</td>
+    </tr>
+    <tr>
+      <td><strong>Pressure Passing</strong></td>
+      <td>Thu</td>
+      <td>Dry pass: hands ready, ball to chest. Wet pass: no ball drop, eggbeater stable</td>
+    </tr>
+    <tr>
+      <td><strong>Monkey in the Middle</strong></td>
+      <td>Thu</td>
+      <td>Ball / Player / Area — call it before every pass. Hold your position, force outside</td>
+    </tr>
+    <tr>
+      <td><strong>3-3 Primary Look</strong></td>
+      <td>Tue</td>
+      <td>Move the ball, find the open shooter. GK calls shape before every rep</td>
+    </tr>
+    <tr>
+      <td><strong>Spidering</strong></td>
+      <td>All days</td>
+      <td>Core tight, legs together, breathe steady — this is your foundation position</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="cards-row">
+  <div class="mini-card">
+    <div class="mini-head">Tracking Priorities</div>
+    <div class="mini-body">
+      <ul>
+        <li>Transition lane recognition (outlet calls by player)</li>
+        <li>Counter conversions vs. attempts</li>
+        <li>Zone shape breaks (player name + moment)</li>
+        <li>GK outlet accuracy (correct read vs. rushed)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mini-card">
+    <div class="mini-head">Coach Decisions</div>
+    <div class="mini-body">
+      <ul>
+        <li>Mon: ID top 3 outlet readers</li>
+        <li>Thu: Name center defender starter</li>
+        <li>Tue: Lock primary 6x5 unit</li>
+        <li>Fri: Log scrimmage KPIs by player</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mini-card">
+    <div class="mini-head">Watch For</div>
+    <div class="mini-body">
+      <ul>
+        <li>Players guessing outlet vs. reading GK call</li>
+        <li>Counter speed exceeding reading ability</li>
+        <li>Zone defenders collapsing to ball</li>
+        <li>GK releasing before lanes form</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;">
+  <div style="background:var(--bg);padding:10px 12px;">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">Session notes</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Mon</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Tue</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Thu</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Fri</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+  <div style="background:var(--bg);padding:10px 12px;border-left:1px solid var(--rule);">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">KPI log</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Outlet calls</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Counter conversions</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Zone shape breaks</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">GK outlet accuracy</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
