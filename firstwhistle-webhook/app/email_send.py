@@ -49,6 +49,7 @@ def _coach_html(
     <a href="{escape(deck_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;">Deck sheet (printable)</a>
   </p>
   <p style="font-size:14px;color:#444;">Open these on deck from your phone, or print the deck sheet and tape it to the wall. The full plan is the coach-facing version with rationale, progressions, and coaching cues.</p>
+  <p style="font-size:13px;color:#777777;margin-top:8px;">Links go live within 5 minutes of receiving this email.</p>
   <p style="font-size:14px;color:#444;">When you've run the week, please share a quick note on how it went — it shapes next week's plan:<br>
     <a href="{escape(FEEDBACK_FORM_URL)}">{escape(FEEDBACK_FORM_URL)}</a>
   </p>
@@ -75,7 +76,8 @@ def _coach_text(
         f"Your Week {week_number} CoachPrep practice plan is ready.\n\n"
         f"Full practice plan: {plan_url}\n"
         f"Deck sheet (printable): {deck_url}\n\n"
-        "Open the full plan on your phone, print the deck sheet for the wall.\n\n"
+        "Open the full plan on your phone, print the deck sheet for the wall.\n"
+        "Links go live within 5 minutes of receiving this email.\n\n"
         "When you've run the week, please share a quick note on how it went — "
         "it shapes next week's plan:\n"
         f"{FEEDBACK_FORM_URL}\n\n"
