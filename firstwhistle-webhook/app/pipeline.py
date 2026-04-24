@@ -99,6 +99,7 @@ def run_pipeline(intake: Mapping[str, Any]) -> dict:
             plan_url=deploy.plan_url,
             deck_url=deploy.deck_url,
             sport=sport,
+            coach_code=coach_code or None,
         )
 
         log.info(
