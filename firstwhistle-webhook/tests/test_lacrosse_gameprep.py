@@ -1,23 +1,26 @@
 """Tests for the lacrosse game-prep pipeline (Session 12).
 
 Water-polo game prep (Session 7) and lacrosse game prep share a pipeline
-core; these tests cover the lacrosse-specific behavior on top of the
-water-polo tests in `test_gameprep.py`. In particular:
+core. Lacrosse game-prep intakes submit to the same Formspree form as
+weekly lacrosse intakes; the webhook branches on `formType` server-side
+(same shape as the waterpolo route). These tests cover the lacrosse-
+specific behavior on top of the water-polo tests in `test_gameprep.py`:
 
-  1. Config exposes a dedicated FORMSPREE_SECRET_LACROSSE_GAMEPREP field.
-  2. `deploy_gameprep` accepts a `file_prefix` and the lacrosse pipeline
+  1. `deploy_gameprep` accepts a `file_prefix` and the lacrosse pipeline
      passes `"lacrosse-gameprep"` so files land at
      `coaches/<slug>/lacrosse-gameprep-<opponent-slug>.html`.
-  3. `run_lacrosse_gameprep_pipeline` stamps `sport=lacrosse` + `form_type=
-     gameprep`, forwards `sport="lacrosse"` to `generate_gameprep` and
-     `send_gameprep_email`, and uses the lacrosse file prefix on deploy.
-  4. Ops-notify on stage failure uses the `lax-gameprep:<stage>` label so
+  2. `run_lacrosse_gameprep_pipeline` stamps `sport=lacrosse` + `form_type=
+     gameprep`, forwards `sport="lacrosse"` to `send_gameprep_email`, and
+     uses the lacrosse file prefix on deploy.
+  3. Ops-notify on stage failure uses the `lax-gameprep:<stage>` label so
      Railway log greps can tell water-polo from lacrosse failures.
+  4. `generate_gameprep` reads `intake["sport"]` and points the user
+     message at Section LAX-G for lacrosse vs Section WP-G for water polo.
   5. `send_gameprep_email` with `sport="lacrosse"` renders lacrosse-specific
      body copy (EMO/EMD, goalie, field) — no water-polo terminology leaks.
-  6. `main.py` registers a `/webhook/formspree/lacrosse-gameprep` route
-     wired to `run_lacrosse_gameprep_pipeline` and uses the dedicated
-     signing secret.
+  6. `main.py`'s lacrosse dispatcher branches on `form_type == "gameprep"`
+     and routes to `run_lacrosse_gameprep_pipeline` (the same pattern the
+     waterpolo dispatcher already uses for its game-prep branch).
   7. Master system prompt contains the required SECTION LAX-G anchors.
 """
 from __future__ import annotations
@@ -85,29 +88,7 @@ def _patched_env(**overrides):
 
 
 # ---------------------------------------------------------------------------
-# 1. Config
-# ---------------------------------------------------------------------------
-
-def test_config_exposes_lacrosse_gameprep_secret_field():
-    """`get_settings()` must surface the lacrosse gameprep HMAC secret."""
-    with _patched_env(FORMSPREE_SECRET_LACROSSE_GAMEPREP="lax-gp-secret"):
-        from app.config import get_settings
-
-        s = get_settings()
-        assert s.formspree_secret_lacrosse_gameprep == "lax-gp-secret"
-
-
-def test_config_lacrosse_gameprep_secret_defaults_to_empty():
-    """Missing env → empty string (route returns 503, never crashes boot)."""
-    with _patched_env():
-        from app.config import get_settings
-
-        s = get_settings()
-        assert s.formspree_secret_lacrosse_gameprep == ""
-
-
-# ---------------------------------------------------------------------------
-# 2. deploy_gameprep file_prefix
+# 1. deploy_gameprep file_prefix
 # ---------------------------------------------------------------------------
 
 def test_deploy_gameprep_uses_lacrosse_file_prefix_when_supplied():
@@ -503,25 +484,152 @@ def test_send_gameprep_email_waterpolo_default_still_uses_deck_terminology():
 # 6. main.py routing
 # ---------------------------------------------------------------------------
 
-def test_main_registers_lacrosse_gameprep_route():
-    """Regression guard: main.py must import
-    `run_lacrosse_gameprep_pipeline`, register
-    `/webhook/formspree/lacrosse-gameprep`, and verify against the
-    dedicated `FORMSPREE_SECRET_LACROSSE_GAMEPREP` secret."""
+def test_main_lacrosse_dispatcher_branches_on_form_type():
+    """Regression guard: main.py must import `run_lacrosse_gameprep_
+    pipeline` and dispatch lacrosse intakes with `form_type == "gameprep"`
+    to it (same pattern the waterpolo dispatcher already uses). Lacrosse
+    weekly intakes must still route to `run_lacrosse_pipeline`. There
+    must be NO dedicated `/webhook/formspree/lacrosse-gameprep` route and
+    NO reference to a lacrosse-gameprep signing secret — lacrosse uses
+    one Formspree form for both weekly and game prep, keyed by the
+    single `FORMSPREE_SECRET_LACROSSE` secret."""
     main_src = (ROOT / "app" / "main.py").read_text(encoding="utf-8")
     assert "from .gameprep import run_gameprep_pipeline, run_lacrosse_gameprep_pipeline" in main_src, (
         "main.py must import run_lacrosse_gameprep_pipeline"
     )
-    assert '@app.post("/webhook/formspree/lacrosse-gameprep")' in main_src, (
-        "main.py must register /webhook/formspree/lacrosse-gameprep"
-    )
+    # The lacrosse dispatch path dispatches gameprep intakes to the
+    # lacrosse gameprep pipeline — this is the substance of the change.
     assert "background.add_task(run_lacrosse_gameprep_pipeline, intake)" in main_src, (
         "main.py must dispatch lacrosse gameprep intakes to "
         "run_lacrosse_gameprep_pipeline"
     )
-    assert "formspree_secret_lacrosse_gameprep" in main_src, (
-        "main.py must reference the lacrosse gameprep signing secret"
+    # Weekly lacrosse dispatch must still be present.
+    assert "background.add_task(run_lacrosse_pipeline, intake)" in main_src, (
+        "main.py must still dispatch lacrosse weekly intakes to "
+        "run_lacrosse_pipeline"
     )
+    # The dedicated sub-route / sub-secret must be GONE — lacrosse uses
+    # the same dispatcher-on-form_type shape as water polo.
+    assert "/webhook/formspree/lacrosse-gameprep" not in main_src, (
+        "main.py must NOT register a dedicated /webhook/formspree/"
+        "lacrosse-gameprep route — the /webhook/formspree/lacrosse route "
+        "branches on form_type instead"
+    )
+    assert "formspree_secret_lacrosse_gameprep" not in main_src, (
+        "main.py must NOT reference a dedicated lacrosse gameprep "
+        "signing secret — lacrosse uses FORMSPREE_SECRET_LACROSSE for "
+        "every form type (weekly + gameprep)"
+    )
+    # Verify both waterpolo and lacrosse branch on form_type == "gameprep".
+    assert main_src.count('form_type == "gameprep"') >= 2, (
+        "main.py must branch on form_type == \"gameprep\" in both the "
+        "waterpolo and lacrosse dispatch paths"
+    )
+
+
+def test_webhook_lacrosse_routes_gameprep_to_lacrosse_gameprep_pipeline():
+    """End-to-end routing via the FastAPI TestClient: a lacrosse intake
+    with `formType: gameprep` submitted to /webhook/formspree/lacrosse
+    must dispatch to `run_lacrosse_gameprep_pipeline` (and a weekly
+    lacrosse intake with no formType must still dispatch to
+    `run_lacrosse_pipeline`)."""
+    import hashlib
+    import hmac
+    import json
+    import time
+
+    # Use a separate env so the HMAC secret is deterministic for this test,
+    # and keep the cache isolated.
+    with _patched_env(FORMSPREE_SECRET_LACROSSE="test-lacrosse-secret"):
+        from fastapi.testclient import TestClient
+        from app import main as main_mod
+
+        client = TestClient(main_mod.app)
+
+        def _sign(raw: bytes) -> str:
+            ts = int(time.time())
+            digest = hmac.new(
+                b"test-lacrosse-secret",
+                str(ts).encode("ascii") + b"." + raw,
+                hashlib.sha256,
+            ).hexdigest()
+            return f"t={ts},v1={digest}"
+
+        # Case A — formType=gameprep → run_lacrosse_gameprep_pipeline.
+        body_gp = json.dumps({
+            "sport": "lacrosse",
+            "formType": "gameprep",
+            "name": "Jamie Rivera",
+            "email": "jamie@example.com",
+            "opponent": "St. Mary's Prep",
+        }).encode("utf-8")
+        with patch.object(main_mod, "run_lacrosse_gameprep_pipeline") as gp, \
+             patch.object(main_mod, "run_lacrosse_pipeline") as wk:
+            resp = client.post(
+                "/webhook/formspree/lacrosse",
+                data=body_gp,
+                headers={
+                    "Content-Type": "application/json",
+                    "Formspree-Signature": _sign(body_gp),
+                },
+            )
+        assert resp.status_code == 202, resp.text
+        assert resp.json()["form_type"] == "gameprep"
+        gp.assert_called_once()
+        wk.assert_not_called()
+        scheduled = gp.call_args.args[0]
+        assert scheduled["coach_name"] == "Jamie Rivera"
+        assert scheduled["form_type"] == "gameprep"
+        assert scheduled["sport"] == "lacrosse"
+
+        # Case B — no formType → run_lacrosse_pipeline (weekly).
+        body_wk = json.dumps({
+            "sport": "lacrosse",
+            "name": "Jamie Rivera",
+            "email": "jamie@example.com",
+            "level": "U14",
+        }).encode("utf-8")
+        with patch.object(main_mod, "run_lacrosse_gameprep_pipeline") as gp, \
+             patch.object(main_mod, "run_lacrosse_pipeline") as wk:
+            resp = client.post(
+                "/webhook/formspree/lacrosse",
+                data=body_wk,
+                headers={
+                    "Content-Type": "application/json",
+                    "Formspree-Signature": _sign(body_wk),
+                },
+            )
+        assert resp.status_code == 202, resp.text
+        assert resp.json()["form_type"] == "week"
+        wk.assert_called_once()
+        gp.assert_not_called()
+
+
+def test_dedicated_lacrosse_gameprep_route_is_removed():
+    """The /webhook/formspree/lacrosse-gameprep route must 404 — if it
+    ever comes back, Formspree traffic would split between two URLs and
+    we'd have two signing secrets to juggle."""
+    with _patched_env():
+        from fastapi.testclient import TestClient
+        from app.main import app
+
+        client = TestClient(app)
+        resp = client.post(
+            "/webhook/formspree/lacrosse-gameprep",
+            json={"name": "X"},
+        )
+        # FastAPI returns 404 for unregistered POST paths.
+        assert resp.status_code == 404
+
+
+def test_config_has_no_lacrosse_gameprep_secret_field():
+    """Settings must NOT expose formspree_secret_lacrosse_gameprep —
+    lacrosse uses one secret per sport now, not one per pipeline."""
+    with _patched_env():
+        from app.config import get_settings
+
+        s = get_settings()
+        assert not hasattr(s, "formspree_secret_lacrosse_gameprep")
 
 
 # ---------------------------------------------------------------------------
