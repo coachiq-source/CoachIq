@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Game Prep vs NorCo — Max</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 24px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cq-logo-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+  letter-spacing: -0.5px;
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.3px;
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.game-banner {
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+
+.game-opponent {
+  font-family: var(--font-head);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.game-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.game-chip {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  background: var(--accent-bg);
+  color: var(--accent);
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.game-pool {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 32px 0 14px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.system-block {
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.system-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.system-name {
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.system-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.danger-line {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+}
+
+.danger-line strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.gk-card {
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.gk-card ul {
+  list-style: none;
+  margin-top: 8px;
+}
+
+.gk-card li {
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.gk-card li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.threat-card {
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.threat-header {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.threat-position {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+.threat-section {
+  margin-top: 12px;
+}
+
+.threat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.threat-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.threat-text ul {
+  list-style: none;
+  margin-top: 6px;
+}
+
+.threat-text li {
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.threat-text li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.matchup-text {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.assignment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.assignment-cell {
+  background: var(--bg);
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+.assignment-cell.header {
+  background: var(--bg-off);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.assignment-takeaway {
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-top: 16px;
+}
+
+.offensive-section {
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.offensive-section h3 {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.offensive-section p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+}
+
+.possession-script {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+
+.possession-script div {
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.possession-label {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.plan-56 {
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.plan-shape {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.plan-priorities {
+  list-style: none;
+}
+
+.plan-priorities li {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.plan-priorities li:before {
+  content: attr(data-num);
+  position: absolute;
+  left: 0;
+  font-weight: 600;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.timeout-card {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.timeout-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.timeout-script {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.trigger-list {
+  list-style: none;
+}
+
+.trigger-list li {
+  background: var(--bg-off);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.trigger-if {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.trigger-then {
+  color: var(--ink-2);
+}
+
+.pool-notes {
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.pool-notes ul {
+  list-style: none;
+}
+
+.pool-notes li {
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.pool-notes li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+  .assignment-grid {
+    grid-template-columns: 1fr;
+  }
+  .game-opponent {
+    font-size: 24px;
+  }
+}
+
+@media print {
+  body {
+    padding: 0;
+    max-width: none;
+  }
+  .cq-header {
+    page-break-after: avoid;
+  }
+  .threat-card, .timeout-card, .offensive-section, .plan-56 {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cq-header">
+  <div class="cq-logo">
+    <div class="cq-logo-mark">CP</div>
+    <div class="cq-wordmark">CoachPrep</div>
+  </div>
+  <div class="cq-doc-type">Game Prep</div>
+</div>
+
+<div class="game-banner">
+  <div class="game-opponent">vs NorCo</div>
+  <div class="game-meta">
+    <span><strong>April 26</strong></span>
+    <span>•</span>
+    <span class="game-chip">HOME</span>
+    <span class="game-chip">NON-LEAGUE</span>
+    <span class="game-chip">FIRST MATCHUP</span>
+  </div>
+  <div class="game-pool">Deep / Deep — deep at both ends</div>
+</div>
+
+<div class="section-label">Their System</div>
+
+<div class="two-col">
+  <div class="system-block">
+    <div class="system-title">Defensive Base</div>
+    <div class="system-name">Heavy press — deny passing lanes</div>
+    <div class="system-desc">They pressure every perimeter player and deny outlets. This demands patience from your ball-carriers — no forced passes under pressure. Use counter-side skip passes and GK outlets to break the press.</div>
+  </div>
+  <div class="system-block">
+    <div class="system-title">Offensive Identity</div>
+    <div class="system-name">Perimeter-based — outside shooting, drive and kick</div>
+    <div class="system-desc">They hunt perimeter shots and drive-and-kick opportunities. Your wings must stay tight on shooters; your center defender must communicate rotation loudly when drivers penetrate.</div>
+  </div>
+</div>
+
+<div class="danger-line">
+  <strong>6x5 danger:</strong> Medium — they will run structured sets and look for the skip pass. Expect rotation and high-percentage looks if you give them clean ball movement. Your 5x6 shape needs to deny the skip and force contested outside shots.
+</div>
+
+<div class="section-label">GK Tendencies</div>
+
+<div class="gk-card">
+  <div class="system-title">Unknown — no read on their GK</div>
+  <ul>
+    <li>Test early with a variety of looks — high corner, low corner, skip shot, bad-angle shot from the wing. You need a read on reaction time and positioning tendencies by the end of Q1.</li>
+    <li>Watch where they set up on the initial save — if they flash high, go low on the second possession. If they hold center, aim for far-post corners.</li>
+    <li>Note their outlet preference — do they look long immediately, or do they reset through the defense? This tells you whether to press the outlet or drop back into shape.</li>
+    <li>If they stop your first two shots, change the angle — cross-cage or inside-water. Force them to adjust.</li>
+  </ul>
+</div>
+
+<div class="section-label">Top Threats</div>
+
+<div class="threat-card">
+  <div class="threat-header">
+    <span>John / #2</span>
+    <span class="threat-position">Center-forward</span>
+  </div>
+  
+  <div class="threat-section">
+    <div class="threat-label">Why Dangerous</div>
+    <div class="threat-text">"Physical 2-meter — hard to move off the post."</div>
+  </div>
+  
+  <div class="threat-section">
+    <div class="threat-label">How to Defend</div>
+    <div class="threat-text">
+      <ul>
+        <li>Front-front positioning — no free passes from the flat. Your center defender must take away the direct feed before it arrives.</li>
+        <li>Weakside double-down when the ball is on the perimeter — collapse from the help side to deny the post-up seal. Do not let him establish deep water position.</li>
+        <li>Communicate rotation loudly — if he seals and the ball swings, the weakside wing must collapse immediately. Your center defender calls "help" before the pass arrives.</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="threat-section">
+    <div class="threat-label">Your Match-Up</div>
+    <div class="threat-text">
+      <span class="matchup-text">Your strongest center defender with the best body position discipline.</span> This is a 60-minute grind — rotating a second center defender after two quarters keeps your primary fresh for the fourth quarter.
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Your Defensive Assignment</div>
+
+<div class="assignment-grid">
+  <div class="assignment-cell header">Their Threat</div>
+  <div class="assignment-cell header">Your Defender</div>
+  
+  <div class="assignment-cell">John / #2 (Center-forward)</div>
+  <div class="assignment-cell">Your strongest center defender with the best body position discipline</div>
+  
+  <div class="assignment-cell"><strong>Weakside Help Responsibility</strong></div>
+  <div class="assignment-cell">When the ball is on the perimeter (wings or point), your weakside wing collapses to the post to double John. When the ball enters the corner, your field-side driver drops to deny the cross-cage feed. Center defender calls "help" before every rotation.</div>
+</div>
+
+<div class="assignment-takeaway">
+  <strong>This game is about containing John at the post.</strong> Everything else is triage. If you take away the direct feed and force them to their second option, you control the tempo.
+</div>
+
+<div class="section-label">Your Offensive Answer</div>
+
+<div class="offensive-section">
+  <h3>What to Run</h3>
+  <p><strong>Against their heavy press:</strong> Counter-side skip passes and GK outlets. Do not force passes into pressure — swing it back through your goalie, reset, and attack the weakside. Your wings must create separation before calling for the ball.</p>
+  <p><strong>Change-up:</strong> Hole-set post-up when their press breaks down. If they over-commit to denying perimeter outlets, your center-forward can seal deep and receive the direct feed from your driver or point.</p>
+  <p><strong>Adjustment from intake:</strong> Slow down your counter attack — do not rush and lose the ball. Complete the outlet pass before you sprint-swim forward. Quality possession beats speed in this matchup.</p>
+  
+  <div class="possession-script">
+    <div><span class="possession-label">Possession 1 (feeler):</span> Walk it up against their press. Probe their positioning. No shot from outside 7m — just test their shape and see where they overcommit.</div>
+    <div><span class="possession-label">Possession 2 (planned action):</span> Run your counter-side skip pass from the wing. If it breaks down, reset through your goalie and run hole-set post-up. Do not force a bad shot.</div>
+  </div>
+</div>
+
+<div class="section-label">5x6 Game Plan</div>
+
+<div class="plan-56">
+  <div class="plan-shape">5x6 shape: Aggressive M-drop with rotation — deny their first look, force them to their second option.</div>
+  
+  <ul class="plan-priorities">
+    <li data-num="1.">Deny the skip pass. Their 6x5 is built on rotation and skip passes to open shooters. Your M-drop must stay tight to the perimeter — no daylight between you and their wings.</li>
+    <li data-num="2.">Force contested outside shots. Accept that they will get looks — your job is to make those looks come from 8m+ with a hand in their face.</li>
+    <li data-num="3.">Communicate rotation before the pass. Your center defender calls "skip" when they see the rotation coming. Your weakside wing shifts one spot before the ball arrives.</li>
+  </ul>
+</div>
+
+<div class="section-label">Timeout Scripts</div>
+
+<div class="timeout-card">
+  <div class="timeout-label">Timeout A — Protecting a Lead</div>
+  <div class="timeout-script">
+    "We're up. That's because we're executing — patience on offense, discipline on defense. Don't change anything. Next possession: burn clock, no shot before 20 seconds. Make them chase. Do your job. Next whistle."
+  </div>
+</div>
+
+<div class="timeout-card">
+  <div class="timeout-label">Timeout B — Chasing a Deficit</div>
+  <div class="timeout-script">
+    "We're not playing our game. We're rushing on offense and giving them easy looks. Here's the fix: slow down your outlets, complete the pass before you move. On defense, stay tight to their shooters — no daylight. Two stops, two goals. Go."
+  </div>
+</div>
+
+<div class="section-label">Halftime Adjustment Triggers</div>
+
+<ul class="trigger-list">
+  <li>
+    <span class="trigger-if">IF John / #2 has scored twice by halftime</span> →
+    <span class="trigger-then">switch to front-front with weakside double-down starting possession 1 of Q3. No more solo coverage on the post.</span>
+  </li>
+  <li>
+    <span class="trigger-if">IF their press has forced three or more turnovers</span> →
+    <span class="trigger-then">go exclusively through your goalie on the outlet. Do not attempt perimeter-to-perimeter passes under pressure — reset every possession.</span>
+  </li>
+  <li>
+    <span class="trigger-if">IF your center defender picks up a third exclusion</span> →
+    <span class="trigger-then">slide your strongest driver to center defender and move your second-line center defender to driver. Your priority is keeping your best post defender in the water.</span>
+  </li>
+  <li>
+    <span class="trigger-if">IF you're winning on counters but losing on set offense</span> →
+    <span class="trigger-then">extend possessions, burn clock, turn the game into a transition contest where you have the speed advantage. Do not settle into 6x6 sets.</span>
+  </li>
+</ul>
+
+<div class="section-label">Pool Notes</div>
+
+<div class="pool-notes">
+  <ul>
+    <li>Deep / Deep at both ends — leg endurance matters. Your counter attack speed is not limited by shallow-end footing; use that advantage. Their press will fatigue if you make them chase for 60 minutes.</li>
+    <li>Deep water throughout — your center defender must stay low on John. No standing — swim low, press low, maintain deep-water body position to deny the seal.</li>
+    <li>Home pool advantage — you control deck noise and warm-up timing. Use your full 20-minute warm-up to test their GK early; get a read before tipoff.</li>
+  </ul>
+</div>
+
+<footer>
+  CoachPrep — Generated for Max · Alpha · Game Prep vs NorCo · April 26
+</footer>
+
+</body>
+</html>
