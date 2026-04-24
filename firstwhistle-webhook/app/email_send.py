@@ -55,18 +55,31 @@ def _sheet_label(sport: Optional[str]) -> str:
     return _SHEET_LABEL_BY_SPORT.get(sport.strip().lower(), "Deck sheet")
 
 
-# Base URL for the standalone game-prep intake form. When a coach_code is
+# Sport -> standalone game-prep intake form URL. When a coach_code is
 # known for the intake, we append it as a query parameter so the form can
 # prefill the returning-coach fields; otherwise the plain URL is used.
-_GAMEPREP_INTAKE_BASE_URL = "https://coachiq-source.github.io/CoachIq/gameprep/"
+# Water polo keeps the original sport-less URL as the default so any
+# caller that doesn't pass a sport (or passes one we don't recognise)
+# gets the same link it did before this change.
+_GAMEPREP_INTAKE_DEFAULT_URL = "https://coachiq-source.github.io/CoachIq/gameprep/"
+_GAMEPREP_INTAKE_URLS_BY_SPORT: dict[str, str] = {
+    "waterpolo": _GAMEPREP_INTAKE_DEFAULT_URL,
+    "water_polo": _GAMEPREP_INTAKE_DEFAULT_URL,
+    "lacrosse": "https://coachiq-source.github.io/CoachIq/gameprep/lacrosse.html",
+}
 
 
-def _gameprep_intake_url(coach_code: Optional[str]) -> str:
+def _gameprep_intake_url(
+    sport: Optional[str],
+    coach_code: Optional[str],
+) -> str:
+    key = (sport or "").strip().lower()
+    base = _GAMEPREP_INTAKE_URLS_BY_SPORT.get(key, _GAMEPREP_INTAKE_DEFAULT_URL)
     code = (coach_code or "").strip()
     if not code:
-        return _GAMEPREP_INTAKE_BASE_URL
+        return base
     from urllib.parse import quote
-    return f"{_GAMEPREP_INTAKE_BASE_URL}?code={quote(code, safe='')}"
+    return f"{base}?code={quote(code, safe='')}"
 
 
 # Sport -> standalone post-game / Week in Review intake form URL.
@@ -116,7 +129,7 @@ def _coach_html(
     # short form for the plain-links footer ("Deck: <url>").
     sheet_lower = sheet_label.lower()
     sheet_short = sheet_label.split()[0]  # "Deck" / "Field" / "Court"
-    gameprep_url = _gameprep_intake_url(coach_code)
+    gameprep_url = _gameprep_intake_url(sport, coach_code)
     postgame_url = _postgame_intake_url(sport, coach_code)
 
     # Optional fourth button + footer line for the Week-in-Review intake.
@@ -182,7 +195,7 @@ def _coach_text(
     first = _first_name(coach_name)
     sheet_label = _sheet_label(sport)
     sheet_lower = sheet_label.lower()
-    gameprep_url = _gameprep_intake_url(coach_code)
+    gameprep_url = _gameprep_intake_url(sport, coach_code)
     postgame_url = _postgame_intake_url(sport, coach_code)
 
     # Week-in-Review line only renders for sports with a matching form.
