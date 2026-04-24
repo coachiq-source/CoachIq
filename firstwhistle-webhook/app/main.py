@@ -24,6 +24,17 @@ Routes:
       coach language). The legacy holding-email path is preserved in
       `app.lacrosse.run_lacrosse_holding` for emergency rollback.
 
+  POST /webhook/formspree/lacrosse-gameprep
+      Verified via HMAC against FORMSPREE_SECRET_LACROSSE_GAMEPREP (a
+      separate Formspree form id from the weekly lacrosse intake — the
+      game-prep form has its own signing secret). Triggers the lacrosse
+      game-prep single-document pipeline: the intake is stamped with
+      `sport=lacrosse` and `form_type=gameprep` before generation so the
+      master prompt routes to SECTION LAX-G (Parts LG1–LG10 + LG-Field),
+      the file lands at `coaches/<slug>/lacrosse-gameprep-<opponent-
+      slug>.html`, and the coach email uses lacrosse terminology
+      (EMO/EMD, goalie, field sheet).
+
   POST /webhook/formspree  (deprecated)
       Returns 410 Gone; kept so legacy Formspree integrations fail loudly
       instead of silently disappearing.
@@ -43,7 +54,7 @@ from pydantic import BaseModel, Field
 from . import __version__
 from .coach_store import CoachStoreError, get_coach_profile, upsert_coach_profile
 from .config import configure_logging, get_settings, load_system_prompt
-from .gameprep import run_gameprep_pipeline
+from .gameprep import run_gameprep_pipeline, run_lacrosse_gameprep_pipeline
 from .intake import (
     IntakeValidationError,
     parse_formspree_payload,
@@ -92,10 +103,11 @@ def _startup() -> None:
         raise
     log.info(
         "firstwhistle webhook starting v%s model=%s prompt_chars=%d public_base=%s "
-        "waterpolo_secret=%s lacrosse_secret=%s",
+        "waterpolo_secret=%s lacrosse_secret=%s lacrosse_gameprep_secret=%s",
         __version__, settings.claude_model, prompt_len, settings.public_base_url,
         "SET" if settings.formspree_secret_waterpolo else "MISSING",
         "SET" if settings.formspree_secret_lacrosse else "MISSING",
+        "SET" if settings.formspree_secret_lacrosse_gameprep else "MISSING",
     )
 
 
@@ -113,6 +125,9 @@ def health() -> Dict[str, Any]:
         "prompt_loaded": prompt_ok,
         "waterpolo_secret_configured": bool(settings.formspree_secret_waterpolo),
         "lacrosse_secret_configured": bool(settings.formspree_secret_lacrosse),
+        "lacrosse_gameprep_secret_configured": bool(
+            settings.formspree_secret_lacrosse_gameprep
+        ),
     }
 
 
@@ -305,6 +320,76 @@ async def webhook_lacrosse(
     )
 
 
+@app.post("/webhook/formspree/lacrosse-gameprep")
+async def webhook_lacrosse_gameprep(
+    request: Request,
+    background: BackgroundTasks,
+    formspree_signature: str | None = Header(default=None, alias="Formspree-Signature"),
+) -> JSONResponse:
+    """Dedicated endpoint for the lacrosse game-prep Formspree form.
+
+    The lacrosse game-prep form is a separate Formspree form id from the
+    weekly lacrosse intake (Max creates each one manually in Formspree),
+    and therefore has its own signing secret. We treat the URL as the
+    authoritative signal: any submission that HMAC-verifies against
+    `FORMSPREE_SECRET_LACROSSE_GAMEPREP` is a lacrosse game-prep intake,
+    regardless of whatever `sport` / `form_type` the form actually sent.
+
+    This is a deliberate departure from the water-polo dispatcher (which
+    branches on `form_type` because water polo uses ONE Formspree form id
+    for weekly + game prep + post-game). Splitting game prep onto its own
+    Formspree form id for lacrosse lets us skip the form_type branch and
+    makes routing fully URL-driven.
+    """
+    settings = get_settings()
+    secret = settings.formspree_secret_lacrosse_gameprep
+
+    # 1. Read raw body for HMAC verification.
+    raw_body = await request.body()
+
+    # 2. Verify Formspree HMAC signature BEFORE parsing, spending Claude
+    #    credits, or touching the pipeline.
+    _verify_hmac_or_401(
+        "lacrosse-gameprep", raw_body, formspree_signature, secret
+    )
+
+    # 3. Flatten the body and run the strict parser. Game-prep intakes
+    #    always include `coach_name` + `coach_email`, so the strict parser
+    #    is the right call here (as it is for water-polo game prep).
+    body = await _parse_body_flex(request, raw_body)
+    try:
+        intake = parse_formspree_payload(body)
+    except IntakeValidationError as exc:
+        log.warning("lacrosse-gameprep intake rejected: %s", exc)
+        raise HTTPException(422, detail=str(exc))
+
+    # 4. Stamp sport + form_type authoritatively — even if the form
+    #    forgot to set them, the URL itself is the contract.
+    intake["sport"] = "lacrosse"
+    intake["form_type"] = "gameprep"
+
+    log.info(
+        "lacrosse-gameprep intake accepted id=%s slug=%s coach=%s email=%s "
+        "opponent=%s",
+        intake["intake_id"], intake["slug"],
+        intake["coach_name"], intake["coach_email"],
+        (intake.get("extras") or {}).get("opponent", "(none)"),
+    )
+
+    background.add_task(run_lacrosse_gameprep_pipeline, intake)
+
+    return JSONResponse(
+        status_code=202,
+        content={
+            "accepted": True,
+            "sport": "lacrosse",
+            "form_type": "gameprep",
+            "intake_id": intake["intake_id"],
+            "slug": intake["slug"],
+        },
+    )
+
+
 @app.post("/webhook/formspree")
 async def webhook_formspree_deprecated(request: Request) -> JSONResponse:
     """Deprecated endpoint. Returns 410 Gone with a pointer to the new URLs.
@@ -322,8 +407,9 @@ async def webhook_formspree_deprecated(request: Request) -> JSONResponse:
         content={
             "error": "deprecated",
             "message": (
-                "Use /webhook/formspree/waterpolo or /webhook/formspree/lacrosse. "
-                "Each form has its own signing secret."
+                "Use /webhook/formspree/waterpolo, /webhook/formspree/lacrosse, "
+                "or /webhook/formspree/lacrosse-gameprep. Each form has its "
+                "own signing secret."
             ),
         },
     )

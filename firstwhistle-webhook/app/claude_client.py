@@ -361,10 +361,7 @@ _GAMEPREP_SECTION_HINT_BY_SPORT: dict[str, str] = {
 }
 
 
-def generate_gameprep(
-    intake: Mapping[str, object],
-    sport: str = "waterpolo",
-) -> str:
+def generate_gameprep(intake: Mapping[str, object]) -> str:
     """Call Claude for a game-prep single-document output.
 
     Uses the same master system prompt as `generate_plan`, but the user
@@ -372,18 +369,25 @@ def generate_gameprep(
     GAME PREP START / END markers — not the two-document FULL PLAN / DECK
     SHEET format used for the weekly pipeline.
 
-    The ``sport`` argument selects which game-prep section of the master
-    prompt is authoritative for the response. Water polo (default) points
-    at Section WP-G (Parts G1–G10 + G-Pool). Lacrosse points at Section
+    The pipeline is responsible for stamping ``intake["sport"]`` before
+    calling this function (see `_run_gameprep_core` in app.gameprep). The
+    `sport` value on the intake selects which game-prep section of the
+    master prompt is authoritative for the response. Water polo points at
+    Section WP-G (Parts G1–G10 + G-Pool). Lacrosse points at Section
     LAX-G (Parts LG1–LG10 + LG-Field). Both sections share the same
     output contract (Part 10.3) and the same marker pair —
     `parse_gameprep` handles either.
+
+    Intakes that arrive with no sport (replay scripts, hand-rolled tests)
+    default to water polo so Session 7's original behavior is preserved.
     """
     settings = get_settings()
     system_prompt = load_system_prompt()
     intake_json = intake_to_prompt_json(intake)
 
-    sport_key = (sport or "waterpolo").strip().lower() or "waterpolo"
+    sport_raw = intake.get("sport")
+    sport_key = (str(sport_raw).strip().lower()
+                 if sport_raw is not None else "") or "waterpolo"
     section_hint = _GAMEPREP_SECTION_HINT_BY_SPORT.get(
         sport_key, _GAMEPREP_SECTION_HINT_BY_SPORT["waterpolo"]
     )

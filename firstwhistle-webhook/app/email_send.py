@@ -325,24 +325,71 @@ def send_lacrosse_holding_email(
     return EmailResult(message_id=msg_id or "", to=coach_email)
 
 
+# Per-sport surface noun used in the game-prep email copy ("bring it on
+# deck" vs "bring it to the field"). Water polo is the default so any
+# caller that doesn't pass a sport keeps the original wording.
+_GAMEPREP_SURFACE_BY_SPORT: dict[str, str] = {
+    "waterpolo": "on deck",
+    "water_polo": "on deck",
+    "lacrosse": "to the field",
+    "basketball": "to the bench",
+}
+
+# Per-sport "what the package covers" summary line. Mirrors the ten
+# mandatory sections in the master prompt's game-prep part, phrased in
+# the terminology of that sport.
+_GAMEPREP_COVERS_BY_SPORT: dict[str, str] = {
+    "waterpolo": (
+        "their system, GK tendencies, top threats, your defensive "
+        "assignments, your offensive answer, 5x6 shape, timeout scripts, "
+        "and halftime triggers"
+    ),
+    "water_polo": (
+        "their system, GK tendencies, top threats, your defensive "
+        "assignments, your offensive answer, 5x6 shape, timeout scripts, "
+        "and halftime triggers"
+    ),
+    "lacrosse": (
+        "their system, goalie tendencies, top threats, your defensive "
+        "matchups, your offensive answer, EMO shape, EMD plan, face-off "
+        "and clearing cues, timeout scripts, and halftime triggers"
+    ),
+}
+
+
+def _gameprep_surface(sport: Optional[str]) -> str:
+    key = (sport or "").strip().lower()
+    return _GAMEPREP_SURFACE_BY_SPORT.get(key, "on deck")
+
+
+def _gameprep_covers(sport: Optional[str]) -> str:
+    key = (sport or "").strip().lower()
+    return _GAMEPREP_COVERS_BY_SPORT.get(
+        key, _GAMEPREP_COVERS_BY_SPORT["waterpolo"]
+    )
+
+
 def _gameprep_coach_html(
     coach_name: str,
     opponent: str,
     gameprep_url: str,
+    sport: Optional[str] = None,
 ) -> str:
     name = escape(_first_name(coach_name))
     opp = escape(opponent)
+    surface = _gameprep_surface(sport)
+    covers = _gameprep_covers(sport)
     return f"""\
 <!doctype html>
 <html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;max-width:560px;margin:0 auto;padding:24px;line-height:1.55">
   <h1 style="font-size:22px;margin:0 0 16px 0;">Your game prep vs {opp} is ready</h1>
   <p>Hi {name},</p>
   <p>The game prep package for your match against <strong>{opp}</strong> is live.
-  Open it on your phone on the way to the pool, or print it and bring it on deck.</p>
+  Open it on your phone on the way to the game, or print it and bring it {escape(surface)}.</p>
   <p style="margin:24px 0;">
     <a href="{escape(gameprep_url)}" style="display:inline-block;background:#0b3d91;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;">View game prep package</a>
   </p>
-  <p style="font-size:14px;color:#444;">It covers their system, GK tendencies, top threats, your defensive assignments, your offensive answer, 5x6 shape, timeout scripts, and halftime triggers.</p>
+  <p style="font-size:14px;color:#444;">It covers {escape(covers)}.</p>
   <p style="font-size:13px;color:#777777;margin-top:8px;">The link goes live within 5 minutes of receiving this email.</p>
   <p style="margin-top:32px;">— CoachPrep</p>
   <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
@@ -357,16 +404,17 @@ def _gameprep_coach_text(
     coach_name: str,
     opponent: str,
     gameprep_url: str,
+    sport: Optional[str] = None,
 ) -> str:
     first = _first_name(coach_name)
+    surface = _gameprep_surface(sport)
+    covers = _gameprep_covers(sport)
     return (
         f"Hi {first},\n\n"
         f"Your game prep package for the match against {opponent} is ready.\n\n"
         f"View game prep package: {gameprep_url}\n\n"
-        "Open it on your phone on the way to the pool, or print it and bring "
-        "it on deck. It covers their system, GK tendencies, top threats, "
-        "your defensive assignments, your offensive answer, 5x6 shape, "
-        "timeout scripts, and halftime triggers.\n\n"
+        "Open it on your phone on the way to the game, or print it and bring "
+        f"it {surface}. It covers {covers}.\n\n"
         "The link goes live within 5 minutes of receiving this email.\n\n"
         "— CoachPrep\n"
     )
@@ -377,11 +425,20 @@ def send_gameprep_email(
     coach_email: str,
     opponent: str,
     gameprep_url: str,
+    sport: Optional[str] = None,
 ) -> EmailResult:
     """Send the game-prep coach email.
 
-    Subject: ``CoachPrep — Game Prep vs <opponent> is ready``.
-    Body: a single "View game prep package" link. Sign-off: "— CoachPrep".
+    Subject: ``CoachPrep — Game Prep vs <opponent> is ready`` (same for every
+    sport). Body: a single "View game prep package" link plus a one-line
+    summary of what the package covers, phrased in the terminology of the
+    sport. Sign-off: "— CoachPrep".
+
+    The ``sport`` argument drives two pieces of copy: the surface noun
+    ("bring it on deck" for water polo, "bring it to the field" for
+    lacrosse) and the "what it covers" one-liner (5x6 vs EMD, GK vs goalie,
+    etc.). Defaults to water polo wording if unspecified so existing
+    callers keep the original behavior.
     """
     _init()
     s = get_settings()
@@ -391,8 +448,8 @@ def send_gameprep_email(
         "from": s.email_from,
         "to": [coach_email],
         "subject": subject,
-        "html": _gameprep_coach_html(coach_name, opp_display, gameprep_url),
-        "text": _gameprep_coach_text(coach_name, opp_display, gameprep_url),
+        "html": _gameprep_coach_html(coach_name, opp_display, gameprep_url, sport),
+        "text": _gameprep_coach_text(coach_name, opp_display, gameprep_url, sport),
     }
     if s.email_reply_to:
         params["reply_to"] = [s.email_reply_to]
@@ -405,8 +462,8 @@ def send_gameprep_email(
 
     msg_id = (resp or {}).get("id", "") if isinstance(resp, dict) else getattr(resp, "id", "")
     log.info(
-        "gameprep email sent to=%s opponent=%s id=%s",
-        coach_email, opp_display, msg_id,
+        "gameprep email sent to=%s opponent=%s sport=%s id=%s",
+        coach_email, opp_display, (sport or "waterpolo"), msg_id,
     )
     return EmailResult(message_id=msg_id or "", to=coach_email)
 

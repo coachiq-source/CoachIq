@@ -14,9 +14,12 @@ Optional overrides:
     CLAUDE_MAX_TOKENS               (default 16000)
     GITHUB_BRANCH                   (default "main")
     PUBLIC_BASE_URL                 (default https://<owner>.github.io/<repo>)
-    FORMSPREE_SECRET_WATERPOLO      HMAC signing secret for the water polo form
-    FORMSPREE_SECRET_LACROSSE       HMAC signing secret for the lacrosse form
-    WEBHOOK_SECRET                  (legacy, deprecated endpoint only)
+    FORMSPREE_SECRET_WATERPOLO          HMAC signing secret for the water polo form
+    FORMSPREE_SECRET_LACROSSE           HMAC signing secret for the lacrosse form
+    FORMSPREE_SECRET_LACROSSE_GAMEPREP  HMAC signing secret for the lacrosse
+                                        game-prep form (separate Formspree form
+                                        from the weekly lacrosse intake)
+    WEBHOOK_SECRET                      (legacy, deprecated endpoint only)
     EMAIL_REPLY_TO                  (optional reply-to header)
     OPS_NOTIFY_EMAIL                (default "johnmaxwell.kelly@gmail.com")
     LACROSSE_HOLDING_HOURS          (default 48)
@@ -90,8 +93,14 @@ class Settings:
     webhook_secret: str
 
     # Per-sport Formspree HMAC signing secrets (one per Formspree form).
+    # Game-prep forms run under separate Formspree ids from the weekly intake
+    # forms, so they need their own secrets. Water polo's game-prep secret
+    # has been historically reused from `formspree_secret_waterpolo` (both
+    # live on the same Formspree form id `myklwjnp`); lacrosse game prep
+    # lives on its own Formspree form and therefore gets its own secret.
     formspree_secret_waterpolo: str
     formspree_secret_lacrosse: str
+    formspree_secret_lacrosse_gameprep: str
 
     # Lacrosse holding-email wording knob (SLA we promise the coach).
     lacrosse_holding_hours: int
@@ -134,6 +143,9 @@ def get_settings() -> Settings:
         webhook_secret=_optional("WEBHOOK_SECRET", ""),
         formspree_secret_waterpolo=_optional("FORMSPREE_SECRET_WATERPOLO", ""),
         formspree_secret_lacrosse=_optional("FORMSPREE_SECRET_LACROSSE", ""),
+        formspree_secret_lacrosse_gameprep=_optional(
+            "FORMSPREE_SECRET_LACROSSE_GAMEPREP", ""
+        ),
         lacrosse_holding_hours=int(_optional("LACROSSE_HOLDING_HOURS", "48")),
         github_token=_require("GITHUB_TOKEN"),
         github_owner=gh_owner,

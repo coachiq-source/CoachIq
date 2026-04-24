@@ -10,12 +10,19 @@ and finding the highest existing `week<n>-plan.html` (fallback: `week<n>-deck.ht
 The new deploy is that max + 1. If the directory doesn't exist yet, we start
 at week 1.
 
-Game-prep deploys (added Session 7) write a single file per opponent:
+Game-prep deploys (added Session 7) write a single file per opponent. Water
+polo uses the default file prefix ``gameprep``:
 
     coaches/<slug>/gameprep-<opponent-slug>.html
 
-No deck sheet; the game-prep package is a single self-contained HTML document.
-See `deploy_gameprep` below.
+Lacrosse game prep (added Session 12) uses a sport-namespaced prefix so
+lacrosse game prep files can never collide with water-polo game prep files
+for a coach who programs both sports:
+
+    coaches/<slug>/lacrosse-gameprep-<opponent-slug>.html
+
+No deck sheet in either case; the game-prep package is a single
+self-contained HTML document. See `deploy_gameprep` below.
 """
 from __future__ import annotations
 
@@ -269,12 +276,19 @@ def deploy_gameprep(
     gameprep_html: str,
     coach_name: str,
     intake_id: str,
+    file_prefix: str = "gameprep",
 ) -> GamePrepDeployResult:
     """Commit a single game-prep HTML document under coaches/<slug>/.
 
     File lives at:
 
-        coaches/<slug>/gameprep-<opponent-slug>.html
+        coaches/<slug>/<file_prefix>-<opponent-slug>.html
+
+    With the default ``file_prefix="gameprep"`` this is the water-polo path
+    (`coaches/<slug>/gameprep-<opponent-slug>.html`). The lacrosse game-prep
+    pipeline passes ``file_prefix="lacrosse-gameprep"`` so lacrosse files
+    land under a distinct name and can coexist with water-polo game-prep
+    files for the same coach (the URL the email links to differs).
 
     The opponent slug is derived with the shared `slugify` helper, so
     "St. Mary's Prep" → `st-marys-prep`. If two intakes target the same
@@ -283,7 +297,7 @@ def deploy_gameprep(
     """
     s = get_settings()
     opp_slug = slugify(opponent, fallback="opponent")
-    path = f"coaches/{slug}/gameprep-{opp_slug}.html"
+    path = f"coaches/{slug}/{file_prefix}-{opp_slug}.html"
 
     log.info(
         "deploying gameprep slug=%s opponent_slug=%s path=%s",
