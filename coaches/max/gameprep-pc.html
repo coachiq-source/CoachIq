@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Game Prep vs PC — Max</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--rule);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cp-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-radius: var(--radius);
+}
+
+.cp-wordmark {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.game-title {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.game-title h1 {
+  font-family: var(--font-head);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.game-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.game-date {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.chip {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.chip-home {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.chip-context {
+  background: var(--rule-light);
+  color: var(--ink-2);
+}
+
+.field-conditions {
+  font-size: 14px;
+  color: var(--ink-3);
+  margin-top: 6px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 32px 0 14px 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.system-block {
+  padding: 16px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.system-block h3 {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.system-block p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+}
+
+.danger-line {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.danger-line strong {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.card-list {
+  list-style: none;
+  margin-bottom: 24px;
+}
+
+.card-list li {
+  padding: 12px 14px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.card-list li::before {
+  content: "•";
+  color: var(--accent);
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.threat-card {
+  padding: 16px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  border-left: 3px solid var(--accent);
+}
+
+.threat-card h3 {
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.threat-why {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.threat-how {
+  margin-bottom: 12px;
+}
+
+.threat-how h4 {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.threat-how ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.threat-how li {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 4px;
+  padding-left: 12px;
+  position: relative;
+}
+
+.threat-how li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.threat-matchup {
+  font-size: 13px;
+  color: var(--ink-3);
+  padding-top: 8px;
+  border-top: 1px solid var(--rule);
+}
+
+.threat-matchup strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.assignment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.assignment-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.assignment-cell strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.assignment-takeaway {
+  padding: 12px 14px;
+  background: var(--accent-bg);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--ink);
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+.offensive-answer {
+  margin-bottom: 24px;
+}
+
+.offensive-answer h3 {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.offensive-answer p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-bottom: 12px;
+}
+
+.timeout-script {
+  padding: 16px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  border-left: 3px solid var(--accent);
+}
+
+.timeout-script h3 {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.timeout-script p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.trigger-list {
+  list-style: none;
+  margin-bottom: 24px;
+}
+
+.trigger-list li {
+  padding: 12px 14px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.trigger-if {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.emd-plan {
+  margin-bottom: 24px;
+}
+
+.emd-shape {
+  padding: 12px 14px;
+  background: var(--accent-bg);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.emd-priorities {
+  list-style: none;
+  padding-left: 0;
+}
+
+.emd-priorities li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.emd-priorities li::before {
+  content: counter(item) ".";
+  counter-increment: item;
+  position: absolute;
+  left: 0;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.emd-priorities {
+  counter-reset: item;
+}
+
+@media (max-width: 640px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+  
+  .assignment-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .game-title h1 {
+    font-size: 26px;
+  }
+}
+
+@media print {
+  body {
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  .section-label {
+    page-break-after: avoid;
+  }
+  
+  .threat-card,
+  .timeout-script {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cq-header">
+  <div class="cq-logo">
+    <div class="cp-mark">CP</div>
+    <div class="cp-wordmark">CoachPrep</div>
+  </div>
+  <div class="cq-doc-type">Game Prep</div>
+  <div class="game-title">
+    <h1>vs PC</h1>
+    <div class="game-meta">
+      <span class="game-date">April 26</span>
+      <span class="chip chip-home">HOME</span>
+      <span class="chip chip-context">NON-LEAGUE</span>
+    </div>
+    <div class="field-conditions">Full turf, 110 x 60 yards — artificial surface</div>
+  </div>
+</div>
+
+<div class="section-label">Their System</div>
+
+<div class="two-col">
+  <div class="system-block">
+    <h3>Defensive Base</h3>
+    <p>Man-to-man — they press the ball carrier everywhere on the field. Expect tight on-ball pressure from the moment you catch the clear. Their defense is built to deny easy outlets and force turnovers under pressure.</p>
+  </div>
+  
+  <div class="system-block">
+    <h3>Offensive Identity</h3>
+    <p>Inside game — their crease attack is dominant. They will feed the crease relentlessly and look to finish close-range. Expect dodges from up top to set up inside feeds, with secondary looks coming from two-man games around X.</p>
+  </div>
+</div>
+
+<div class="danger-line">
+  <strong>EMO danger:</strong> Medium-high (4/5) — They run a disciplined EMO set with a patient approach. Their crease finisher is their primary look, with skip passes to the wings as the release valve. Expect them to probe for 20+ seconds before forcing a shot.
+</div>
+
+<div class="section-label">Goalie Tendencies</div>
+
+<ul class="card-list">
+  <li>Strong shot-reader — he tracks the ball deep and closes angles early. Fake-shoot-then-relocate will beat his early commitment.</li>
+  <li>Shuts down close range — his positioning at the crease is elite. Take him from distance first to test his range; if he's covering the pipes, go low and hard off-hip.</li>
+  <li>Hesitation shot forces him to drop his stick — he anticipates the release. Pump fake high, shoot low on the recovery.</li>
+  <li>Expect quick outlet on saves — he's an outlet-starter. Wings need to check their slide man before the shot; he will look long the second he sees clear ice.</li>
+  <li>Test him early with a bad-angle wing shot — we need a read on whether he drops his stick early or tracks the ball late into his hip.</li>
+</ul>
+
+<div class="section-label">Top Threats</div>
+
+<div class="threat-card">
+  <h3>John / #1 — FOGO</h3>
+  <div class="threat-why">"Face-off specialist — wins possession every draw."</div>
+  
+  <div class="threat-how">
+    <h4>How to Defend</h4>
+    <ul>
+      <li>Wings read his clamp. If he clamps, counter-body immediately; if he rakes, split forward and scoop ahead of him.</li>
+      <li>Don't concede the ground ball — #1 is winning possession, not the 50/50. Your wings need to be aggressive on the release, not passive.</li>
+      <li>After he wins, expect a quick push to their offensive end — your clear unit needs to be in position before he crosses midfield.</li>
+    </ul>
+  </div>
+  
+  <div class="threat-matchup">
+    <strong>Your match-up:</strong> Your best face-off midfielder takes the draw. Wings are your two fastest ground-ball players — they own the scoop battle, not the clamp race.
+  </div>
+</div>
+
+<div class="section-label">Your Defensive Assignment</div>
+
+<div class="assignment-grid">
+  <div class="assignment-cell"><strong>Their threat</strong></div>
+  <div class="assignment-cell"><strong>Your defender</strong></div>
+  
+  <div class="assignment-cell">John / #1 (FOGO)</div>
+  <div class="assignment-cell">Your best face-off midfielder</div>
+  
+  <div class="assignment-cell">Crease attack (primary finisher)</div>
+  <div class="assignment-cell">Your longpole with the longest reach — body-on at the crease, stick under, deny the feed</div>
+  
+  <div class="assignment-cell">Top-side dodger (feeds crease)</div>
+  <div class="assignment-cell">Your SSDM with the best footwork — topside him to the weak hand, force the drive away from the crease</div>
+  
+  <div class="assignment-cell"><strong>Slide responsibility</strong></div>
+  <div class="assignment-cell">Adjacent defender slides on dodge from up top; crease longpole sinks but does NOT leave the crease unmarked. Recovery is to the weak-side attackman.</div>
+</div>
+
+<div class="assignment-takeaway">
+  This game is about denying the inside feed. Body-on at the crease, stick under. No free hands at X. Our slide is late by design — we protect the crease first, chase the dodge second.
+</div>
+
+<div class="section-label">Your Offensive Answer</div>
+
+<div class="offensive-answer">
+  <h3>What to Run</h3>
+  <p><strong>Primary:</strong> Motion offense with quick ball movement — against their tight man-to-man press, you need to move the ball faster than they can shift. Skip passes and quick releases punish over-aggressive slides. <strong>Change-up:</strong> Invert and two-man game from X. If their defense locks off the perimeter, send an attackman up top and run a midfielder behind — their defense will be caught between chasing the ball and protecting the crease.</p>
+  
+  <h3>Face-off Keys</h3>
+  <p>Expect to lose the possession battle 60-40 or worse — #1 is dominant. Wings go for denial, not the ground ball; force the 50/50 and be disciplined on the recovery. Every possession you win is a bonus; do not give it away on a bad clear.</p>
+  
+  <h3>Clearing Key</h3>
+  <p><strong>Critical adjustment from intake:</strong> Tighten your clearing — you turned it over under pressure last time out. Against their 10-man ride: goalie to the crease defender, first pass up-field to the strong-side midfielder, second look is the skip to the weak-side wing. If the first outlet is covered, swing it back through the goalie and reset. Do not force a pass into traffic — their defense is built to capitalize on turnovers under pressure.</p>
+</div>
+
+<div class="section-label">EMD (Man-Down) Game Plan</div>
+
+<div class="emd-plan">
+  <div class="emd-shape">
+    EMD shape: Disciplined rotating box-plus-one, with scout-specific denial on their crease finisher. Double-team the inside feed; force them to shoot from outside.
+  </div>
+  
+  <ul class="emd-priorities">
+    <li>Protect the crease — their crease attack is their primary EMO look. Adjacent defender sinks to deny the feed; do not chase the ball-carrier and leave the crease open.</li>
+    <li>Communicate the skip — when the ball moves wing-to-wing, everybody rotates one spot and calls it out loud. No silent rotations.</li>
+    <li>Force the outside shot — accept that they will get a shot off; the job is to make it low-percentage (outside, strong-hand-covered, feet moving).</li>
+  </ul>
+</div>
+
+<div class="section-label">Timeout Scripts</div>
+
+<div class="timeout-script">
+  <h3>Timeout A — Protecting a Lead</h3>
+  <p>"We're up. That's because we're executing. Don't change anything. Burn 30 seconds on this next possession — make them chase. Your longpole at the crease has been dominant — rest him for 90 seconds, then bring him back in for their next possession. Do your job. Next whistle."</p>
+</div>
+
+<div class="timeout-script">
+  <h3>Timeout B — Chasing a Deficit</h3>
+  <p>"We're not playing our game. We're turning it over on clears under their press. Here's the fix: goalie swings it back if the first outlet is covered — do not force the pass. On offense, we're settling for outside shots when their goalie is shutting that down — go inside, feed the crease, make them slide. Two ground balls. Two goals. Go."</p>
+</div>
+
+<div class="section-label">Halftime Adjustment Triggers</div>
+
+<ul class="trigger-list">
+  <li><span class="trigger-if">IF</span> their crease attack has scored twice by halftime <strong>→</strong> switch to body-first-no-stick-checks on the crease starting possession 1 of Q3; adjacent defender plays adjacent slide and does NOT leave the crease unmarked.</li>
+  
+  <li><span class="trigger-if">IF</span> you're losing the face-off / draw battle 70-30 or worse <strong>→</strong> send the wings in denial mode on the scoop, accept the turnover if necessary, and re-ride the clear. Do not let them walk it up uncontested after #1 wins the draw.</li>
+  
+  <li><span class="trigger-if">IF</span> you're turning it over on clears more than twice per quarter <strong>→</strong> slow down the outlet. Goalie holds for 3 seconds, defenders spread wide to the restraining line, and the first pass is a safe dump to the crease defender. No long outlets until the ride pressure drops.</li>
+  
+  <li><span class="trigger-if">IF</span> their goalie has saved more than 60% of your outside shots <strong>→</strong> go exclusively inside-finisher dodges for two possessions. Attackmen drive from X, midfielders cut to the crease, force him to defend the crease lane instead of sitting back and reading your release.</li>
+  
+  <li><span class="trigger-if">IF</span> your longpole picks up two personals <strong>→</strong> slide your SSDM to longpole coverage on their crease attack and move your second longpole to SSDM. Do not leave their crease finisher with a short-stick matchup.</li>
+</ul>
+
+<div class="section-label">Field Notes</div>
+
+<ul class="card-list">
+  <li>Full turf, artificial surface — ground balls will skid on the turf, especially if it's been wet down before the game. Get low, stop the ball with your body before scooping.</li>
+  
+  <li>110 x 60 yards (regulation field) — transition lanes are full-length. Clearing passes should be chest-level and in-stride, not floated skip passes that give their ride time to recover.</li>
+  
+  <li>Home game — you control the sideline noise. Use hand signals from the bench for EMD rotations; vocal calls will be drowned out when their parents are loud.</li>
+  
+  <li>April 26 start — expect late-afternoon sun if the game is at 4pm or later. Check the field orientation during warm-up; if you're shooting into the sun in Q2/Q4, shooters wear visors and take the south cage at warm-up to test depth of field on high shots.</li>
+  
+  <li>Non-league game, first time playing PC this season — treat this as a scouting opportunity. Their crease attack and #1's face-off dominance are the two things to log for future matchups. If you see them again in the playoffs, you'll have the read.</li>
+</ul>
+
+</body>
+</html>
