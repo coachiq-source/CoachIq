@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Lacrosse Week in Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#111111; --ink-2:#444444; --ink-3:#777777;
+  --rule:#DEDEDE; --rule-light:#F0F0F0;
+  --bg:#FFFFFF; --bg-off:#F8F8F6;
+  --accent:#1E7F3F; --accent-bg:#E8F4EC; --accent-dark:#155E2E;
+  --font-head:'Libre Baskerville',Georgia,serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --font-mono:'Source Code Pro',monospace;
+  --r:4px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg-off);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+.page{max-width:640px;margin:0 auto;padding:36px 20px 80px;}
+
+/* HEADER */
+.header{padding-bottom:16px;border-bottom:2px solid var(--ink);margin-bottom:28px;}
+.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.logo{font-family:var(--font-mono);font-size:11px;background:var(--accent);color:#fff;padding:4px 10px;border-radius:var(--r);letter-spacing:0.5px;font-weight:600;}
+.wordmark{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--ink);}
+.sport-tag{font-family:var(--font-mono);font-size:9px;background:var(--ink);color:#fff;padding:2px 8px;border-radius:2px;letter-spacing:1px;text-transform:uppercase;margin-left:auto;}
+.header-desc{font-size:13px;color:var(--ink-3);line-height:1.5;}
+.header-desc strong{color:var(--ink);}
+
+/* PROGRESS */
+.progress{display:flex;gap:5px;margin-bottom:24px;}
+.prog-step{flex:1;height:3px;background:var(--rule);border-radius:2px;transition:background 0.2s;}
+.prog-step.done{background:var(--accent);}
+.prog-step.active{background:var(--accent);opacity:0.45;}
+
+/* STEP HEADER */
+.step-header{margin-bottom:22px;}
+.step-eyebrow{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
+.step-title{font-family:var(--font-head);font-size:19px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:5px;}
+.step-sub{font-size:13px;color:var(--ink-2);}
+
+/* FIELDS */
+.field{margin-bottom:20px;}
+.field-label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px;}
+.field-hint{display:block;font-size:11px;color:var(--ink-3);margin-top:3px;font-style:italic;}
+.req{color:var(--accent);}
+input[type=text],input[type=email],input[type=number],textarea,select{
+  width:100%;background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);
+  padding:11px 13px;color:var(--ink);font-family:var(--font-body);font-size:14px;
+  outline:none;transition:border-color 0.15s;appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,127,63,0.12);}
+input::placeholder,textarea::placeholder{color:var(--ink-3);}
+textarea{resize:vertical;min-height:80px;line-height:1.55;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+
+/* CHIPS */
+.chip-group{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{border:1px solid var(--rule);border-radius:20px;padding:6px 13px;font-size:13px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;background:var(--bg);user-select:none;line-height:1.4;}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.chip.selected{border-color:var(--accent);background:var(--accent-bg);color:var(--accent-dark);font-weight:600;}
+
+/* SCALE */
+.scale-row{display:flex;gap:8px;align-items:center;}
+.scale-btn{width:36px;height:36px;border:1px solid var(--rule);border-radius:var(--r);background:var(--bg);color:var(--ink-3);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.12s;display:flex;align-items:center;justify-content:center;}
+.scale-btn:hover{border-color:var(--accent);color:var(--accent);}
+.scale-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff;}
+.scale-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:4px;padding:0 2px;}
+
+/* STAT GROUP */
+.stat-group{background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;}
+.stat-group-title{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--rule);margin:22px 0;}
+
+/* NAV */
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--rule);}
+.btn-back{background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:11px 20px;font-family:var(--font-body);font-size:14px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;}
+.btn-back:hover{border-color:var(--ink);color:var(--ink);}
+.btn-next,.btn-submit{background:var(--accent);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.btn-next:hover,.btn-submit:hover{opacity:0.88;}
+
+/* STEPS */
+.step{display:none;}
+.step.active{display:block;}
+
+/* CONDITIONAL HIDE */
+.gender-only{display:none;}
+
+/* SUCCESS */
+.success{display:none;text-align:center;padding:48px 20px;}
+.success.active{display:block;}
+.success-icon{font-size:52px;margin-bottom:16px;}
+.success-title{font-family:var(--font-head);font-size:22px;font-weight:700;margin-bottom:10px;color:var(--accent-dark);}
+.success-desc{font-size:14px;color:var(--ink-2);margin-bottom:28px;line-height:1.6;max-width:420px;margin-left:auto;margin-right:auto;}
+.summary-box{background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);padding:16px 20px;text-align:left;max-width:400px;margin:0 auto 24px;}
+.summary-row{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--rule-light);font-size:13px;}
+.summary-row:last-child{border-bottom:none;}
+.summary-label{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);min-width:100px;padding-top:1px;}
+.summary-value{color:var(--ink-2);}
+
+@media(max-width:520px){.two-col,.three-col{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="brand-row">
+      <span class="logo">CP</span>
+      <span class="wordmark">CoachPrep</span>
+      <span class="sport-tag">Lacrosse</span>
+    </div>
+    <p class="header-desc"><strong>Week in Review — 3 minutes max.</strong> Chip through what happened this week; your next plan will be built around it.</p>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="prog-step active" id="ps0"></div>
+    <div class="prog-step" id="ps1"></div>
+    <div class="prog-step" id="ps2"></div>
+    <div class="prog-step" id="ps3"></div>
+  </div>
+
+  <!-- ═══════════════════════════ -->
+  <!-- STEP 0 — THE WEEK          -->
+  <!-- ═══════════════════════════ -->
+  <div class="step active" id="step0">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 1 of 4</div>
+      <div class="step-title">The week</div>
+      <div class="step-sub">A few quick things so we know what kind of week you had.</div>
+    </div>
+
+    <!-- RETURNING COACH CODE -->
+    <div class="field" style="background:var(--accent-bg);border:1px solid rgba(30,127,63,0.25);border-radius:var(--r);padding:14px 16px;margin-bottom:22px;">
+      <label class="field-label" style="color:var(--accent-dark);margin-bottom:8px;">Returning coach? Enter your CoachPrep code to auto-fill your info.</label>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="coachCode" placeholder="e.g. EA2026" style="flex:1;" autocapitalize="off" autocorrect="off" spellcheck="false">
+        <button type="button" onclick="applyCode()" style="background:var(--accent);color:#fff;border:none;border-radius:var(--r);padding:11px 18px;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Apply</button>
+      </div>
+      <span class="field-hint" id="codeStatus"></span>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Your name<span class="req">*</span></label>
+        <input type="text" id="name" placeholder="First Last">
+      </div>
+      <div class="field">
+        <label class="field-label">Email<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@school.edu">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Your program<span class="req">*</span></label>
+      <input type="text" id="program" placeholder="e.g. Episcopal Academy Varsity Boys Lacrosse">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Boys or Girls program?<span class="req">*</span></label>
+      <div class="chip-group" id="genderChips">
+        <div class="chip" data-val="Boys">Boys</div>
+        <div class="chip" data-val="Girls">Girls</div>
+      </div>
+      <span class="field-hint">Face-off vs. draw control stats adjust based on this.</span>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Which week is this?<span class="req">*</span></label>
+      <input type="text" id="weekLabel" placeholder="e.g. Week 5 · April 20–26">
+      <span class="field-hint">A label that helps you keep track — we'll use it in your next plan.</span>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Did you have a game this week?<span class="req">*</span></label>
+      <div class="chip-group" id="hadGameChips">
+        <div class="chip" data-val="Yes">Yes</div>
+        <div class="chip" data-val="No">No — practice only</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <span></span>
+      <button class="btn-next" onclick="next(0)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ -->
+  <!-- STEP 1 — THE GAME          -->
+  <!-- ═══════════════════════════ -->
+  <div class="step" id="step1">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 2 of 4</div>
+      <div class="step-title">The game</div>
+      <div class="step-sub">Quick chip through — stat lines help your next plan target the right things.</div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Opponent<span class="req">*</span></label>
+        <input type="text" id="opponent" placeholder="e.g. Penn Charter">
+      </div>
+      <div class="field">
+        <label class="field-label">Result<span class="req">*</span></label>
+        <div class="chip-group" id="resultChips">
+          <div class="chip" data-val="Win">Win</div>
+          <div class="chip" data-val="Loss">Loss</div>
+          <div class="chip" data-val="Tie">Tie</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Goals for<span class="req">*</span></label>
+        <input type="number" id="goalsFor" min="0" placeholder="0">
+      </div>
+      <div class="field">
+        <label class="field-label">Goals against<span class="req">*</span></label>
+        <input type="number" id="goalsAgainst" min="0" placeholder="0">
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+      <label class="field-label" style="font-size:14px;">Key stats</label>
+      <span class="field-hint" style="margin-top:0;margin-bottom:10px;font-style:normal;">Ballpark is fine — exact if you have it.</span>
+    </div>
+
+    <div class="stat-group">
+      <div class="stat-group-title">Shooting &amp; possessions</div>
+      <div class="two-col">
+        <div class="field" style="margin-bottom:10px;">
+          <label class="field-label" style="font-size:12px;">Shot total</label>
+          <input type="number" id="shots" min="0" placeholder="e.g. 28">
+        </div>
+        <div class="field" style="margin-bottom:10px;">
+          <label class="field-label" style="font-size:12px;">Goals scored</label>
+          <input type="number" id="goalsScored" min="0" placeholder="auto from score">
+          <span class="field-hint">Defaults to Goals For.</span>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Ground balls won</label>
+          <input type="number" id="gbWon" min="0" placeholder="e.g. 22">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Turnovers</label>
+          <input type="number" id="turnovers" min="0" placeholder="e.g. 14">
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-group">
+      <div class="stat-group-title">Clearing</div>
+      <div class="two-col">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Clears successful</label>
+          <input type="number" id="clearsSucc" min="0" placeholder="e.g. 14">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Clears attempted</label>
+          <input type="number" id="clearsAtt" min="0" placeholder="e.g. 18">
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-group">
+      <div class="stat-group-title">Man-up (EMO) conversion</div>
+      <div class="two-col">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Goals</label>
+          <input type="number" id="emoGoals" min="0" placeholder="e.g. 2">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Attempts</label>
+          <input type="number" id="emoAtt" min="0" placeholder="e.g. 4">
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-group">
+      <div class="stat-group-title">Man-down (EMD) stops</div>
+      <div class="two-col">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Stops</label>
+          <input type="number" id="emdStops" min="0" placeholder="e.g. 3">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Attempts faced</label>
+          <input type="number" id="emdAtt" min="0" placeholder="e.g. 5">
+        </div>
+      </div>
+    </div>
+
+    <!-- BOYS: Face-offs -->
+    <div class="stat-group gender-only" id="boysStats">
+      <div class="stat-group-title">Face-offs <span style="color:var(--ink-3);font-weight:400;">· FOGO</span></div>
+      <div class="two-col">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Face-offs won</label>
+          <input type="number" id="foWon" min="0" placeholder="e.g. 12">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Face-offs lost</label>
+          <input type="number" id="foLost" min="0" placeholder="e.g. 8">
+        </div>
+      </div>
+    </div>
+
+    <!-- GIRLS: Draw controls -->
+    <div class="stat-group gender-only" id="girlsStats">
+      <div class="stat-group-title">Draw controls</div>
+      <div class="two-col">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Draws won</label>
+          <input type="number" id="drawWon" min="0" placeholder="e.g. 11">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Draws lost</label>
+          <input type="number" id="drawLost" min="0" placeholder="e.g. 9">
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+      <label class="field-label">Result feel — what does the scoreline say vs. what you saw?<span class="req">*</span></label>
+      <div class="chip-group" id="resultFeelChips">
+        <div class="chip" data-val="Scoreline flatters us">Scoreline flatters us</div>
+        <div class="chip" data-val="Scoreline reflects the game">Scoreline reflects the game</div>
+        <div class="chip" data-val="We deserved more">We deserved more</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(1)">← Back</button>
+      <button class="btn-next" onclick="next(1)">Practice Week →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ -->
+  <!-- STEP 2 — PRACTICE WEEK     -->
+  <!-- ═══════════════════════════ -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 3 of 4</div>
+      <div class="step-title">Practice week</div>
+      <div class="step-sub">What clicked, what didn't, who stood out.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Best moment this week <span style="font-weight:400;color:var(--ink-3)">(pick any)</span></label>
+      <div class="chip-group multi" id="bestMomentChips">
+        <div class="chip" data-val="A drill clicked">A drill clicked</div>
+        <div class="chip" data-val="Ground ball culture improved">Ground ball culture improved</div>
+        <div class="chip" data-val="Clearing cleaned up">Clearing cleaned up</div>
+        <div class="chip" data-val="Player breakthrough">Player breakthrough</div>
+        <div class="chip" data-val="Team competed hard">Team competed hard</div>
+        <div class="chip" data-val="EMO connected">EMO connected</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">What didn't land <span style="font-weight:400;color:var(--ink-3)">(pick any)</span></label>
+      <div class="chip-group multi" id="didntLandChips">
+        <div class="chip" data-val="Ground balls poor">Ground balls poor</div>
+        <div class="chip" data-val="Clearing broke down">Clearing broke down</div>
+        <div class="chip" data-val="EMO regressed">EMO regressed</div>
+        <div class="chip" data-val="EMD broke shape">EMD broke shape</div>
+        <div class="chip" data-val="Face-offs lost majority">Face-offs lost majority</div>
+        <div class="chip" data-val="Nothing major">Nothing major</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Player who stood out <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <input type="text" id="playerStandout" placeholder="e.g. #14 — quiet week before, took over the second half">
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(2)">← Back</button>
+      <button class="btn-next" onclick="next(2)">Next Week →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ -->
+  <!-- STEP 3 — NEXT WEEK         -->
+  <!-- ═══════════════════════════ -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 4 of 4</div>
+      <div class="step-title">Next week</div>
+      <div class="step-sub">Where to aim — and what to protect.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Confidence going into next week</label>
+      <div style="margin-top:4px;">
+        <div class="scale-row" id="confScale">
+          <button class="scale-btn" onclick="setScale('conf','1',this)">1</button>
+          <button class="scale-btn" onclick="setScale('conf','2',this)">2</button>
+          <button class="scale-btn" onclick="setScale('conf','3',this)">3</button>
+          <button class="scale-btn" onclick="setScale('conf','4',this)">4</button>
+          <button class="scale-btn" onclick="setScale('conf','5',this)">5</button>
+        </div>
+        <div class="scale-labels"><span>Shaky</span><span>Rolling</span></div>
+      </div>
+      <input type="hidden" id="conf" value="">
+    </div>
+
+    <div class="field">
+      <label class="field-label">One thing to fix<span class="req">*</span></label>
+      <div class="chip-group" id="fixChips">
+        <div class="chip" data-val="Ground balls">Ground balls</div>
+        <div class="chip" data-val="Clearing">Clearing</div>
+        <div class="chip" data-val="EMO">EMO</div>
+        <div class="chip" data-val="EMD">EMD</div>
+        <div class="chip" data-val="Transition">Transition</div>
+        <div class="chip" data-val="Settled offense">Settled offense</div>
+        <div class="chip" data-val="Face-offs">Face-offs</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One thing to protect<span class="req">*</span></label>
+      <div class="chip-group" id="protectChips">
+        <div class="chip" data-val="Ground ball culture">Ground ball culture</div>
+        <div class="chip" data-val="Transition speed">Transition speed</div>
+        <div class="chip" data-val="EMO first look">EMO first look</div>
+        <div class="chip" data-val="Team energy">Team energy</div>
+        <div class="chip" data-val="Clearing confidence">Clearing confidence</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Any extra notes <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <textarea id="extraNotes" placeholder="e.g. Starting attackman tweaked a hamstring — may sit early next week. Ref talk was hot, be careful with bench language."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(3)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">Send Week in Review →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success">
+    <div class="success-icon">🥍</div>
+    <div class="success-title">Week in Review received.</div>
+    <div class="success-desc">Your Week <strong id="nextWeekLabel">[N+1]</strong> plan will incorporate this — we'll build around what clicked, what didn't, and the one thing you want to fix.</div>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:24px;">Expect it in your inbox within 2 hours.</p>
+    <div class="summary-box" id="summaryBox"></div>
+    <p style="font-size:13px;color:var(--ink-3);">Questions? Email <strong>hello@coachprep.co</strong></p>
+  </div>
+
+</div>
+
+<script>
+let currentStep = 0;
+const totalSteps = 4;
+let hadGame = '';
+let gender = '';
+
+// Auto-apply coach code from URL parameter
+window.addEventListener('load', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if(code) {
+    const codeEl = document.getElementById('coachCode');
+    if(codeEl) {
+      codeEl.value = code;
+      await applyCode();
+    }
+  }
+});
+
+// Single-select chip groups
+const singleGroups = [
+  'genderChips','hadGameChips','resultChips','resultFeelChips',
+  'fixChips','protectChips'
+];
+
+// Multi-select chip groups
+const multiGroups = [
+  'bestMomentChips','didntLandChips'
+];
+
+singleGroups.forEach(id => {
+  const group = document.getElementById(id);
+  if(!group) return;
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      if(id === 'genderChips') applyGender(chip.dataset.val);
+      if(id === 'hadGameChips') hadGame = chip.dataset.val;
+      if(id === 'resultChips') autofillGoalsScored();
+    });
+  });
+});
+
+multiGroups.forEach(id => {
+  const group = document.getElementById(id);
+  if(!group) return;
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('selected'));
+  });
+});
+
+function applyGender(g) {
+  gender = g;
+  const boys = document.getElementById('boysStats');
+  const girls = document.getElementById('girlsStats');
+  if(g === 'Boys') {
+    boys.style.display = 'block';
+    girls.style.display = 'none';
+  } else if(g === 'Girls') {
+    boys.style.display = 'none';
+    girls.style.display = 'block';
+  } else {
+    boys.style.display = 'none';
+    girls.style.display = 'none';
+  }
+}
+
+function autofillGoalsScored() {
+  const gf = document.getElementById('goalsFor').value;
+  const gs = document.getElementById('goalsScored');
+  if(gf && !gs.value) gs.value = gf;
+}
+document.getElementById('goalsFor').addEventListener('blur', autofillGoalsScored);
+
+function setScale(id, val, btn) {
+  const row = btn.closest('.scale-row');
+  row.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById(id).value = val;
+}
+
+function chips(id) {
+  const g = document.getElementById(id);
+  if(!g) return '';
+  const sel = g.querySelector('.chip.selected');
+  return sel ? sel.dataset.val : '';
+}
+
+function multiChips(id) {
+  const g = document.getElementById(id);
+  if(!g) return '';
+  return Array.from(g.querySelectorAll('.chip.selected')).map(c => c.dataset.val).join(', ');
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function updateProgress() {
+  for(let i = 0; i < totalSteps; i++) {
+    const el = document.getElementById('ps' + i);
+    if(!el) continue;
+    el.className = 'prog-step' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+  }
+}
+
+function goToStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  currentStep = n;
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+function next(from) {
+  if(from === 0) {
+    if(!val('name')) { alert('Please enter your name.'); return; }
+    if(!val('email')) { alert('Please enter your email.'); return; }
+    if(!val('program')) { alert('Please enter your program.'); return; }
+    if(!chips('genderChips')) { alert('Please pick Boys or Girls program.'); return; }
+    if(!val('weekLabel')) { alert('Please enter a week label.'); return; }
+    if(!chips('hadGameChips')) { alert('Did you have a game this week?'); return; }
+    // Skip step 1 (the game) if no game
+    if(hadGame === 'No') {
+      goToStep(2);
+      return;
+    }
+  }
+  if(from === 1) {
+    if(!val('opponent')) { alert('Please enter the opponent.'); return; }
+    if(!chips('resultChips')) { alert('Please pick a result.'); return; }
+    if(val('goalsFor') === '') { alert('Please enter Goals For.'); return; }
+    if(val('goalsAgainst') === '') { alert('Please enter Goals Against.'); return; }
+    if(!chips('resultFeelChips')) { alert('Please pick a result feel.'); return; }
+  }
+  if(from === 2) {
+    // Step 2 chips are all optional — no validation needed
+  }
+  goToStep(from + 1);
+}
+
+function prev(from) {
+  // If on step 2 and no game, jump back to 0
+  if(from === 2 && hadGame === 'No') {
+    goToStep(0);
+    return;
+  }
+  goToStep(from - 1);
+}
+
+async function applyCode() {
+  const code = document.getElementById('coachCode').value.trim();
+  if(!code) return;
+  const status = document.getElementById('codeStatus');
+  status.textContent = 'Looking up...';
+  status.style.color = 'var(--ink-3)';
+  try {
+    const res = await fetch(`https://coachiq-production.up.railway.app/coach/${code}`);
+    if(res.ok) {
+      const profile = await res.json();
+      const nameEl = document.getElementById('name');
+      const emailEl = document.getElementById('email');
+      const programEl = document.getElementById('program');
+      if(nameEl && profile.name) { nameEl.value = profile.name; nameEl.style.background = 'var(--accent-bg)'; nameEl.style.color = 'var(--accent-dark)'; }
+      if(emailEl && profile.email) { emailEl.value = profile.email; emailEl.style.background = 'var(--accent-bg)'; emailEl.style.color = 'var(--accent-dark)'; }
+      if(programEl && profile.program) { programEl.value = profile.program; programEl.style.background = 'var(--accent-bg)'; programEl.style.color = 'var(--accent-dark)'; }
+      // If profile has a gender, auto-select it
+      if(profile.gender) {
+        const gEl = document.getElementById('genderChips');
+        gEl.querySelectorAll('.chip').forEach(c => {
+          if(c.dataset.val.toLowerCase() === String(profile.gender).toLowerCase()) {
+            c.classList.add('selected');
+            applyGender(c.dataset.val);
+          }
+        });
+      }
+      status.textContent = '✓ Info loaded — ' + (profile.name || code);
+      status.style.color = 'var(--accent-dark)';
+    } else {
+      status.textContent = 'Code not found — fill in your info below.';
+      status.style.color = 'var(--ink-3)';
+    }
+  } catch(e) {
+    status.textContent = 'Could not connect — fill in your info below.';
+    status.style.color = 'var(--ink-3)';
+  }
+}
+
+function nextWeekFromLabel(label) {
+  if(!label) return 'next week';
+  const m = label.match(/week\s*(\d+)/i);
+  if(m) return 'Week ' + (parseInt(m[1], 10) + 1);
+  return 'next week';
+}
+
+async function submitForm() {
+  if(!chips('fixChips')) { alert('Please pick one thing to fix.'); return; }
+  if(!chips('protectChips')) { alert('Please pick one thing to protect.'); return; }
+
+  const coachCode = val('coachCode');
+  const data = {
+    sport: 'lacrosse',
+    formType: 'postgame',
+    coachCode: coachCode,
+    name: val('name'),
+    email: val('email'),
+    program: val('program'),
+    gender: chips('genderChips'),
+    weekLabel: val('weekLabel'),
+    hadGame: chips('hadGameChips'),
+
+    // Game (may be blank if no game)
+    opponent: val('opponent'),
+    result: chips('resultChips'),
+    goalsFor: val('goalsFor'),
+    goalsAgainst: val('goalsAgainst'),
+    shots: val('shots'),
+    goalsScored: val('goalsScored') || val('goalsFor'),
+    groundBallsWon: val('gbWon'),
+    turnovers: val('turnovers'),
+    clearsSuccessful: val('clearsSucc'),
+    clearsAttempted: val('clearsAtt'),
+    emoGoals: val('emoGoals'),
+    emoAttempts: val('emoAtt'),
+    emdStops: val('emdStops'),
+    emdAttempts: val('emdAtt'),
+    faceoffsWon: val('foWon'),
+    faceoffsLost: val('foLost'),
+    drawsWon: val('drawWon'),
+    drawsLost: val('drawLost'),
+    resultFeel: chips('resultFeelChips'),
+
+    // Practice week
+    bestMoments: multiChips('bestMomentChips'),
+    didntLand: multiChips('didntLandChips'),
+    playerStandout: val('playerStandout'),
+
+    // Next week
+    confidenceLevel: val('conf'),
+    oneThingToFix: chips('fixChips'),
+    oneThingToProtect: chips('protectChips'),
+    extraNotes: val('extraNotes'),
+
+    _subject: `CoachPrep Week in Review — ${val('name')} · ${val('weekLabel')}${chips('hadGameChips') === 'Yes' ? ' · vs ' + val('opponent') : ' · practice only'}`,
+  };
+
+  try {
+    const res = await fetch('https://formspree.io/f/xvzddddr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if(res.ok) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('success').classList.add('active');
+      document.getElementById('nextWeekLabel').textContent = nextWeekFromLabel(data.weekLabel);
+
+      const gameSummary = data.hadGame === 'Yes'
+        ? `${data.result} · ${data.goalsFor}–${data.goalsAgainst} vs ${data.opponent}`
+        : 'Practice only — no game this week';
+
+      document.getElementById('summaryBox').innerHTML = `
+        <div class="summary-row"><span class="summary-label">Coach</span><span class="summary-value">${data.name}</span></div>
+        <div class="summary-row"><span class="summary-label">Program</span><span class="summary-value">${data.program} · ${data.gender}</span></div>
+        <div class="summary-row"><span class="summary-label">Week</span><span class="summary-value">${data.weekLabel}</span></div>
+        <div class="summary-row"><span class="summary-label">Game</span><span class="summary-value">${gameSummary}</span></div>
+        <div class="summary-row"><span class="summary-label">Fix next</span><span class="summary-value">${data.oneThingToFix}</span></div>
+        <div class="summary-row"><span class="summary-label">Protect</span><span class="summary-value">${data.oneThingToProtect}</span></div>
+      `;
+      window.scrollTo(0, 0);
+    } else {
+      alert('Submission failed. Please email hello@coachprep.co directly.');
+    }
+  } catch(e) {
+    alert('Network error. Please try again.');
+  }
+}
+</script>
+</body>
+</html>
