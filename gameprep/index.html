@@ -1,1 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Game Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#111111; --ink-2:#444444; --ink-3:#777777;
+  --rule:#DEDEDE; --rule-light:#F0F0F0;
+  --bg:#FFFFFF; --bg-off:#F8F8F6;
+  --accent:#0057A8; --accent-bg:#EEF4FC;
+  --font-head:'Libre Baskerville',Georgia,serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --font-mono:'Source Code Pro',monospace;
+  --r:4px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg-off);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+.page{max-width:640px;margin:0 auto;padding:36px 20px 80px;}
 
+/* HEADER */
+.header{padding-bottom:16px;border-bottom:2px solid var(--ink);margin-bottom:28px;}
+.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.logo{font-family:var(--font-mono);font-size:11px;background:var(--accent);color:#fff;padding:4px 10px;border-radius:var(--r);letter-spacing:0.5px;}
+.wordmark{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--ink);}
+.sport-tag{font-family:var(--font-mono);font-size:9px;background:var(--ink);color:#fff;padding:2px 8px;border-radius:2px;letter-spacing:1px;text-transform:uppercase;margin-left:auto;}
+.header-desc{font-size:13px;color:var(--ink-3);line-height:1.5;}
+.header-desc strong{color:var(--ink);}
+
+/* PROGRESS */
+.progress{display:flex;gap:5px;margin-bottom:24px;}
+.prog-step{flex:1;height:3px;background:var(--rule);border-radius:2px;transition:background 0.2s;}
+.prog-step.done{background:var(--accent);}
+.prog-step.active{background:var(--accent);opacity:0.45;}
+
+/* STEP HEADER */
+.step-header{margin-bottom:22px;}
+.step-eyebrow{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
+.step-title{font-family:var(--font-head);font-size:19px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:5px;}
+.step-sub{font-size:13px;color:var(--ink-2);}
+
+/* FIELDS */
+.field{margin-bottom:20px;}
+.field-label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px;}
+.field-hint{display:block;font-size:11px;color:var(--ink-3);margin-top:3px;font-style:italic;}
+.req{color:var(--accent);}
+input[type=text],input[type=email],input[type=number],textarea,select{
+  width:100%;background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);
+  padding:11px 13px;color:var(--ink);font-family:var(--font-body);font-size:14px;
+  outline:none;transition:border-color 0.15s;appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,87,168,0.1);}
+input::placeholder,textarea::placeholder{color:var(--ink-3);}
+textarea{resize:vertical;min-height:80px;line-height:1.55;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* CHIPS */
+.chip-group{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{border:1px solid var(--rule);border-radius:20px;padding:6px 13px;font-size:13px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;background:var(--bg);user-select:none;line-height:1.4;}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.chip.selected{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);font-weight:600;}
+
+/* THREAT CARDS */
+.threat-card{border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;background:var(--bg);}
+.threat-num{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+
+/* SCALE */
+.scale-row{display:flex;gap:8px;align-items:center;}
+.scale-btn{width:36px;height:36px;border:1px solid var(--rule);border-radius:var(--r);background:var(--bg);color:var(--ink-3);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.12s;display:flex;align-items:center;justify-content:center;}
+.scale-btn:hover{border-color:var(--accent);color:var(--accent);}
+.scale-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff;}
+.scale-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:4px;padding:0 2px;}
+
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--rule);margin:22px 0;}
+
+/* NAV */
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--rule);}
+.btn-back{background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:11px 20px;font-family:var(--font-body);font-size:14px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;}
+.btn-back:hover{border-color:var(--ink);color:var(--ink);}
+.btn-next{background:var(--accent);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.btn-next:hover{opacity:0.88;}
+.btn-submit{background:var(--accent);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.btn-submit:hover{opacity:0.88;}
+
+/* STEPS */
+.step{display:none;}
+.step.active{display:block;}
+
+/* SUCCESS */
+.success{display:none;text-align:center;padding:48px 20px;}
+.success.active{display:block;}
+.success-icon{font-size:52px;margin-bottom:16px;}
+.success-title{font-family:var(--font-head);font-size:22px;font-weight:700;margin-bottom:10px;}
+.success-desc{font-size:14px;color:var(--ink-2);margin-bottom:28px;line-height:1.6;max-width:400px;margin-left:auto;margin-right:auto;}
+.summary-box{background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);padding:16px 20px;text-align:left;max-width:400px;margin:0 auto 24px;}
+.summary-row{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--rule-light);font-size:13px;}
+.summary-row:last-child{border-bottom:none;}
+.summary-label{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);min-width:100px;padding-top:1px;}
+.summary-value{color:var(--ink-2);}
+
+@media(max-width:520px){.two-col{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="brand-row">
+      <span class="logo">CP</span>
+      <span class="wordmark">CoachPrep</span>
+      <span class="sport-tag">Game Prep · Water Polo</span>
+    </div>
+    <p class="header-desc"><strong>Your game prep package — in your inbox within 2 hours.</strong> Fill this out 2–3 days before the game. Takes about 5 minutes.</p>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="prog-step active" id="ps0"></div>
+    <div class="prog-step" id="ps1"></div>
+    <div class="prog-step" id="ps2"></div>
+    <div class="prog-step" id="ps3"></div>
+  </div>
+
+  <!-- ═══════════════════════════ -->
+  <!-- STEP 0 — THE GAME          -->
+  <!-- ═══════════════════════════ -->
+  <div class="step active" id="step0">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 1 of 4</div>
+      <div class="step-title">The game</div>
+      <div class="step-sub">Basic context — who, when, where.</div>
+    </div>
+
+    <!-- RETURNING COACH CODE -->
+    <div class="field" style="background:var(--accent-bg);border:1px solid rgba(0,87,168,0.2);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;">
+      <label class="field-label" style="color:var(--accent);margin-bottom:8px;">Returning coach? Enter your CoachPrep code to auto-fill your info.</label>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="coachCode" placeholder="e.g. EA2026" style="flex:1;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+        <button type="button" onclick="applyCode()" style="background:var(--accent);color:#fff;border:none;border-radius:var(--r);padding:11px 18px;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Apply</button>
+      </div>
+      <span class="field-hint" id="codeStatus"></span>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Your name<span class="req">*</span></label>
+        <input type="text" id="name" placeholder="First Last">
+      </div>
+      <div class="field">
+        <label class="field-label">Email<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@school.edu">
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Your program<span class="req">*</span></label>
+        <input type="text" id="program" placeholder="Episcopal Academy Varsity Boys">
+      </div>
+      <div class="field">
+        <label class="field-label">Opponent<span class="req">*</span></label>
+        <input type="text" id="opponent" placeholder="Penn Charter">
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Game date<span class="req">*</span></label>
+        <input type="text" id="gameDate" placeholder="Oct 14">
+      </div>
+      <div class="field">
+        <label class="field-label">Home or away?<span class="req">*</span></label>
+        <div class="chip-group" id="homeAwayChips">
+          <div class="chip" data-val="Home">Home</div>
+          <div class="chip" data-val="Away">Away</div>
+          <div class="chip" data-val="Neutral site">Neutral</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Game context<span class="req">*</span></label>
+      <div class="chip-group" id="contextChips">
+        <div class="chip" data-val="Non-league — regular season">Non-league</div>
+        <div class="chip" data-val="League game — counts toward title">League game</div>
+        <div class="chip" data-val="League game — must win to stay in title race">Must-win league game</div>
+        <div class="chip" data-val="Tournament pool play">Tournament pool play</div>
+        <div class="chip" data-val="Tournament bracket — elimination">Tournament elimination</div>
+        <div class="chip" data-val="Playoff game">Playoff game</div>
+        <div class="chip" data-val="Championship">Championship</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Is this a rematch? <span style="font-weight:400;color:var(--ink-3)">(have you played them before?)</span></label>
+      <div class="chip-group" id="rematchChips">
+        <div class="chip" data-val="First time playing them this season">First time this season</div>
+        <div class="chip" data-val="Rematch — we beat them last time">Rematch — we won</div>
+        <div class="chip" data-val="Rematch — they beat us last time">Rematch — they won</div>
+        <div class="chip" data-val="Rematch — split last season">Split last season</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <span></span>
+      <button class="btn-next" onclick="next(0)">The Pool →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ -->
+  <!-- STEP 1 — THE POOL          -->
+  <!-- ═══════════════════════════ -->
+  <div class="step" id="step1">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 2 of 4</div>
+      <div class="step-title">The pool</div>
+      <div class="step-sub">Pool conditions change how you play — especially away games.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Pool depth configuration</label>
+      <div class="chip-group" id="poolDepthChips">
+        <div class="chip" data-val="Shallow / Deep — shallow at shooting end, deep at GK end">Shallow / Deep</div>
+        <div class="chip" data-val="Deep / Deep — deep at both ends">Deep / Deep</div>
+        <div class="chip" data-val="Unknown — haven't played there before">Unknown</div>
+      </div>
+      <span class="field-hint">Shallow end favors strong 2-meter players. Deep end favors GKs with strong footwork.</span>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Pool length</label>
+      <div class="chip-group" id="poolLenChips">
+        <div class="chip" data-val="25 yards">25 yards</div>
+        <div class="chip" data-val="25 meters">25 meters</div>
+        <div class="chip" data-val="Unknown">Unknown</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Any other pool notes? <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <textarea id="poolNotes" placeholder="e.g. Sun glare at the far end in the afternoon. Warm water — affects conditioning. Tight lanes — affects warm-up."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(1)">← Back</button>
+      <button class="btn-next" onclick="next(1)">Their Defense →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ -->
+  <!-- STEP 2 — THEIR SYSTEM      -->
+  <!-- ═══════════════════════════ -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 3 of 4</div>
+      <div class="step-title">How they play</div>
+      <div class="step-sub">What you know about their system and their people. Best guess is fine.</div>
+    </div>
+
+    <!-- THEIR DEFENSE -->
+    <div class="field">
+      <label class="field-label">Their defensive base<span class="req">*</span></label>
+      <div class="chip-group" id="theirDefenseChips">
+        <div class="chip" data-val="Heavy press — deny passing lanes on all perimeter players">Heavy press</div>
+        <div class="chip" data-val="Zone / M-gap — take away 2-meter entry, accept perimeter">Zone / M-gap</div>
+        <div class="chip" data-val="Hybrid — press with zone on center-forward">Hybrid press + zone</div>
+        <div class="chip" data-val="Unknown — haven't seen enough to know">Unknown</div>
+      </div>
+    </div>
+
+    <!-- THEIR OFFENSE -->
+    <div class="field">
+      <label class="field-label">Their offensive identity</label>
+      <div class="chip-group" id="theirOffenseChips">
+        <div class="chip" data-val="Center-forward dominant — post entry first">Center-forward dominant</div>
+        <div class="chip" data-val="Perimeter-based — outside shooting, drive and kick">Perimeter-based</div>
+        <div class="chip" data-val="Counter-attack primary — push transition before set">Counter-attack first</div>
+        <div class="chip" data-val="Balanced — multiple looks, hard to scout">Balanced / hard to read</div>
+        <div class="chip" data-val="Unknown">Unknown</div>
+      </div>
+    </div>
+
+    <!-- THEIR 6x5 -->
+    <div class="field">
+      <label class="field-label">Their 6x5 — how dangerous?</label>
+      <div style="margin-top:4px;">
+        <div class="scale-row" id="pp6Scale">
+          <button class="scale-btn" onclick="setScale('pp6','1',this)">1</button>
+          <button class="scale-btn" onclick="setScale('pp6','2',this)">2</button>
+          <button class="scale-btn" onclick="setScale('pp6','3',this)">3</button>
+          <button class="scale-btn" onclick="setScale('pp6','4',this)">4</button>
+          <button class="scale-btn" onclick="setScale('pp6','5',this)">5</button>
+        </div>
+        <div class="scale-labels"><span>Not a threat</span><span>Automatic</span></div>
+      </div>
+      <input type="hidden" id="pp6" value="">
+    </div>
+
+    <!-- THEIR GK -->
+    <div class="field">
+      <label class="field-label">Their goalkeeper<span class="req">*</span></label>
+      <div class="chip-group" id="theirGKChips">
+        <div class="chip" data-val="Heavy hands — jumps on fakes, aggressive blocker">Heavy hands — jumps on fakes</div>
+        <div class="chip" data-val="Solid base — stays on legs, positionally sound, reads play well">Solid base — stays on legs</div>
+        <div class="chip" data-val="Weak legs — vulnerable on high corners and lateral movement">Weak legs — high corners &amp; lateral</div>
+        <div class="chip" data-val="Aggressive steals — will come out of the cage to steal or create">Aggressive — comes out of cage</div>
+        <div class="chip" data-val="Passive — stays back, not aggressive coming out of the cage">Passive — stays back</div>
+        <div class="chip" data-val="Tends to cheat near-side — vulnerable cross-cage">Cheats near-side</div>
+        <div class="chip" data-val="Inexperienced — first year, inconsistent">Inexperienced / inconsistent</div>
+        <div class="chip" data-val="Unknown — no read on their GK">Unknown</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- TOP THREATS -->
+    <div class="field">
+      <label class="field-label">Top threats — who do we have to shut down?<span class="req">*</span></label>
+      <span class="field-hint">Identify 1–3 players. Other players have to beat us — these ones we take away.</span>
+    </div>
+
+    <div class="threat-card">
+      <div class="threat-num">Threat #1 — Priority</div>
+      <div class="two-col" style="margin-bottom:10px;">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Name / number</label>
+          <input type="text" id="t1name" placeholder="e.g. #7 — Martinez">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Position</label>
+          <div class="chip-group" id="t1posChips">
+            <div class="chip" data-val="Center-forward">Center-forward</div>
+            <div class="chip" data-val="Driver / wing">Driver / wing</div>
+            <div class="chip" data-val="Point / perimeter">Point</div>
+            <div class="chip" data-val="GK">GK</div>
+            <div class="chip" data-val="Left-handed">Left-handed</div>
+          </div>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label class="field-label" style="font-size:12px;">Why they're dangerous</label>
+        <div class="chip-group" id="t1dangerChips">
+          <div class="chip" data-val="Elite shooter — hits from outside">Elite outside shot</div>
+          <div class="chip" data-val="Physical 2-meter — hard to move off the post">Physical 2-meter</div>
+          <div class="chip" data-val="Elite driver — beats defenders off the dribble">Elite driver</div>
+          <div class="chip" data-val="Elite passer — finds the open player every time">Elite passer / IQ</div>
+          <div class="chip" data-val="6x5 specialist — automatic in power play">6x5 specialist</div>
+          <div class="chip" data-val="Counter-attack finisher — dangerous in transition">Counter-attack finisher</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="threat-card">
+      <div class="threat-num">Threat #2</div>
+      <div class="two-col" style="margin-bottom:10px;">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Name / number <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+          <input type="text" id="t2name" placeholder="e.g. #12 — Jones">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Position</label>
+          <div class="chip-group" id="t2posChips">
+            <div class="chip" data-val="Center-forward">Center-forward</div>
+            <div class="chip" data-val="Driver / wing">Driver / wing</div>
+            <div class="chip" data-val="Point / perimeter">Point</div>
+            <div class="chip" data-val="GK">GK</div>
+            <div class="chip" data-val="Left-handed">Left-handed</div>
+          </div>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label class="field-label" style="font-size:12px;">Why they're dangerous</label>
+        <div class="chip-group" id="t2dangerChips">
+          <div class="chip" data-val="Elite shooter — hits from outside">Elite outside shot</div>
+          <div class="chip" data-val="Physical 2-meter — hard to move off the post">Physical 2-meter</div>
+          <div class="chip" data-val="Elite driver — beats defenders off the dribble">Elite driver</div>
+          <div class="chip" data-val="Elite passer — finds the open player every time">Elite passer / IQ</div>
+          <div class="chip" data-val="6x5 specialist — automatic in power play">6x5 specialist</div>
+          <div class="chip" data-val="Counter-attack finisher — dangerous in transition">Counter-attack finisher</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="threat-card">
+      <div class="threat-num">Threat #3</div>
+      <div class="two-col" style="margin-bottom:10px;">
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Name / number <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+          <input type="text" id="t3name" placeholder="e.g. #3 — Williams">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="field-label" style="font-size:12px;">Position</label>
+          <div class="chip-group" id="t3posChips">
+            <div class="chip" data-val="Center-forward">Center-forward</div>
+            <div class="chip" data-val="Driver / wing">Driver / wing</div>
+            <div class="chip" data-val="Point / perimeter">Point</div>
+            <div class="chip" data-val="GK">GK</div>
+            <div class="chip" data-val="Left-handed">Left-handed</div>
+          </div>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label class="field-label" style="font-size:12px;">Why they're dangerous</label>
+        <div class="chip-group" id="t3dangerChips">
+          <div class="chip" data-val="Elite shooter — hits from outside">Elite outside shot</div>
+          <div class="chip" data-val="Physical 2-meter — hard to move off the post">Physical 2-meter</div>
+          <div class="chip" data-val="Elite driver — beats defenders off the dribble">Elite driver</div>
+          <div class="chip" data-val="Elite passer — finds the open player every time">Elite passer / IQ</div>
+          <div class="chip" data-val="6x5 specialist — automatic in power play">6x5 specialist</div>
+          <div class="chip" data-val="Counter-attack finisher — dangerous in transition">Counter-attack finisher</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(2)">← Back</button>
+      <button class="btn-next" onclick="next(2)">Your Game Plan →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ -->
+  <!-- STEP 3 — YOUR GAME PLAN    -->
+  <!-- ═══════════════════════════ -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 4 of 4</div>
+      <div class="step-title">Your game plan</div>
+      <div class="step-sub">What you're thinking going in — and where you need the most help.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Your biggest tactical concern going into this game<span class="req">*</span></label>
+      <div class="chip-group" id="concernChips">
+        <div class="chip" data-val="Containing their center-forward — we get dominated at the post">Containing their center-forward</div>
+        <div class="chip" data-val="Stopping their counter-attack — they convert fast breaks">Stopping their counter-attack</div>
+        <div class="chip" data-val="Handling their press — they pressure all over, we turn it over">Handling their press</div>
+        <div class="chip" data-val="Our 5x6 defense — their 6x5 is dangerous, we break shape">Our 5x6 — we break shape</div>
+        <div class="chip" data-val="Converting our 6x5 — we need to score on power plays">Converting our 6x5</div>
+        <div class="chip" data-val="Late-game management — protecting a lead or chasing one">Late-game management</div>
+        <div class="chip" data-val="Neutralizing their #1 threat — we don't have a good answer">Neutralizing their top player</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One adjustment from your last game you want to make<span class="req">*</span></label>
+      <div class="chip-group" id="adjustChips">
+        <div class="chip" data-val="Tighten our 5x6 shape — we gave up too many quick goals">Tighten 5x6 shape</div>
+        <div class="chip" data-val="Slow down our counter-attack — we were rushing and losing the ball">Slow down counter-attack</div>
+        <div class="chip" data-val="Be more patient in 6x5 — we rushed the first look">Be more patient in 6x5</div>
+        <div class="chip" data-val="Press harder earlier — we waited too long to apply pressure">Press harder earlier</div>
+        <div class="chip" data-val="Better halftime adjustments — I need a clearer message">Clearer halftime message</div>
+        <div class="chip" data-val="Manage exclusions better — we gave away too many">Manage exclusions better</div>
+        <div class="chip" data-val="No major adjustment — last game went well">No major adjustment needed</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Confidence going in — how do you feel about this matchup?</label>
+      <div style="margin-top:4px;">
+        <div class="scale-row" id="confScale">
+          <button class="scale-btn" onclick="setScale('conf','1',this)">1</button>
+          <button class="scale-btn" onclick="setScale('conf','2',this)">2</button>
+          <button class="scale-btn" onclick="setScale('conf','3',this)">3</button>
+          <button class="scale-btn" onclick="setScale('conf','4',this)">4</button>
+          <button class="scale-btn" onclick="setScale('conf','5',this)">5</button>
+        </div>
+        <div class="scale-labels"><span>Worried</span><span>Very confident</span></div>
+      </div>
+      <input type="hidden" id="conf" value="">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Anything else we should know? <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <textarea id="extraNotes" placeholder="e.g. Our starting center-forward is injured — we'll be running a different 2-meter. Their coach is known for switching defense mid-game. We've never beaten them but we're healthy and ready."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(3)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">Get My Game Prep →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success">
+    <div class="success-icon">🤽</div>
+    <div class="success-title">Game prep incoming.</div>
+    <div class="success-desc">Your game prep package will be in your inbox within 2 hours — opponent-specific, built around your biggest concern going in.</div>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:24px;">Links go live within 5 minutes of receiving this email.</p>
+    <div class="summary-box" id="summaryBox"></div>
+    <p style="font-size:13px;color:var(--ink-3);">Questions? Email <strong>hello@coachprep.co</strong></p>
+  </div>
+
+</div>
+
+<script>
+let currentStep = 0;
+const totalSteps = 4;
+
+// Single-select chip groups
+const singleGroups = [
+  'homeAwayChips','contextChips','rematchChips','poolDepthChips','poolLenChips',
+  'theirDefenseChips','theirOffenseChips','theirGKChips',
+  't1posChips','t2posChips','t3posChips',
+  'concernChips','adjustChips'
+];
+
+// Multi-select chip groups
+const multiGroups = [
+  't1dangerChips','t2dangerChips','t3dangerChips'
+];
+
+singleGroups.forEach(id => {
+  const group = document.getElementById(id);
+  if(!group) return;
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+    });
+  });
+});
+
+multiGroups.forEach(id => {
+  const group = document.getElementById(id);
+  if(!group) return;
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('selected'));
+  });
+});
+
+function setScale(id, val, btn) {
+  const row = btn.closest('.scale-row');
+  row.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById(id).value = val;
+}
+
+function chips(id) {
+  const g = document.getElementById(id);
+  if(!g) return '';
+  const sel = g.querySelector('.chip.selected');
+  return sel ? sel.dataset.val : '';
+}
+
+function multiChips(id) {
+  const g = document.getElementById(id);
+  if(!g) return '';
+  return Array.from(g.querySelectorAll('.chip.selected')).map(c => c.dataset.val).join(', ');
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function updateProgress() {
+  for(let i = 0; i < totalSteps; i++) {
+    const el = document.getElementById('ps' + i);
+    if(!el) continue;
+    el.className = 'prog-step' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+  }
+}
+
+function next(from) {
+  if(from === 0) {
+    if(!val('name')) { alert('Please enter your name.'); return; }
+    if(!val('email')) { alert('Please enter your email.'); return; }
+    if(!val('program')) { alert('Please enter your program.'); return; }
+    if(!val('opponent')) { alert('Please enter the opponent.'); return; }
+    if(!val('gameDate')) { alert('Please enter the game date.'); return; }
+    if(!chips('homeAwayChips')) { alert('Please select home or away.'); return; }
+    if(!chips('contextChips')) { alert('Please select the game context.'); return; }
+  }
+  if(from === 2) {
+    if(!chips('theirDefenseChips')) { alert('Please select their defensive base.'); return; }
+    if(!chips('theirGKChips')) { alert('Please select their goalkeeper type.'); return; }
+    if(!val('t1name') && !chips('t1posChips')) { alert('Please identify at least one top threat.'); return; }
+  }
+  if(from === 3) {
+    if(!chips('concernChips')) { alert('Please select your biggest tactical concern.'); return; }
+    if(!chips('adjustChips')) { alert('Please select one adjustment from your last game.'); return; }
+  }
+  document.getElementById('step' + from).classList.remove('active');
+  currentStep = from + 1;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+function prev(from) {
+  document.getElementById('step' + from).classList.remove('active');
+  currentStep = from - 1;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+async function applyCode() {
+  const code = document.getElementById('coachCode').value.trim().toUpperCase();
+  if(!code) return;
+  const status = document.getElementById('codeStatus');
+  status.textContent = 'Looking up...';
+  status.style.color = 'var(--ink-3)';
+  try {
+    const res = await fetch(`https://coachiq-production.up.railway.app/coach/${code}`);
+    if(res.ok) {
+      const profile = await res.json();
+      const nameEl = document.getElementById('name');
+      const emailEl = document.getElementById('email');
+      const programEl = document.getElementById('program');
+      if(nameEl) { nameEl.value = profile.name || ''; nameEl.style.background = 'var(--accent-bg)'; nameEl.readOnly = true; }
+      if(emailEl) { emailEl.value = profile.email || ''; emailEl.style.background = 'var(--accent-bg)'; emailEl.readOnly = true; }
+      if(programEl) { programEl.value = profile.program || ''; programEl.style.background = 'var(--accent-bg)'; programEl.readOnly = true; }
+      status.textContent = '✓ Info loaded — ' + profile.name;
+      status.style.color = 'var(--accent)';
+    } else {
+      status.textContent = 'Code not found — fill in your info below.';
+      status.style.color = 'var(--ink-3)';
+    }
+  } catch(e) {
+    status.textContent = 'Could not connect — fill in your info below.';
+    status.style.color = 'var(--ink-3)';
+  }
+}
+
+async function submitForm() {
+  if(!chips('concernChips')) { alert('Please select your biggest tactical concern.'); return; }
+  if(!chips('adjustChips')) { alert('Please select one adjustment.'); return; }
+
+  const data = {
+    sport: 'waterpolo',
+    formType: 'gameprep',
+    name: val('name'),
+    email: val('email'),
+    program: val('program'),
+    opponent: val('opponent'),
+    gameDate: val('gameDate'),
+    homeAway: chips('homeAwayChips'),
+    gameContext: chips('contextChips'),
+    rematch: chips('rematchChips'),
+    poolDepth: chips('poolDepthChips'),
+    poolLength: chips('poolLenChips'),
+    poolNotes: val('poolNotes'),
+    theirDefense: chips('theirDefenseChips'),
+    theirOffense: chips('theirOffenseChips'),
+    theirPP6Danger: val('pp6'),
+    theirGK: chips('theirGKChips'),
+    threat1Name: val('t1name'),
+    threat1Position: chips('t1posChips'),
+    threat1Why: multiChips('t1dangerChips'),
+    threat2Name: val('t2name'),
+    threat2Position: chips('t2posChips'),
+    threat2Why: multiChips('t2dangerChips'),
+    threat3Name: val('t3name'),
+    threat3Position: chips('t3posChips'),
+    threat3Why: multiChips('t3dangerChips'),
+    biggestConcern: chips('concernChips'),
+    oneAdjustment: chips('adjustChips'),
+    confidenceLevel: val('conf'),
+    extraNotes: val('extraNotes'),
+    _subject: `CoachPrep Game Prep — ${val('name')} vs ${val('opponent')} · ${val('gameDate')}`,
+  };
+
+  try {
+    const res = await fetch('https://formspree.io/f/myklwjnp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if(res.ok) {
+      document.getElementById('step3').classList.remove('active');
+      document.getElementById('success').classList.add('active');
+      document.getElementById('summaryBox').innerHTML = `
+        <div class="summary-row"><span class="summary-label">Coach</span><span class="summary-value">${data.name}</span></div>
+        <div class="summary-row"><span class="summary-label">Program</span><span class="summary-value">${data.program}</span></div>
+        <div class="summary-row"><span class="summary-label">Opponent</span><span class="summary-value">${data.opponent}</span></div>
+        <div class="summary-row"><span class="summary-label">Game date</span><span class="summary-value">${data.gameDate} · ${data.homeAway}</span></div>
+        <div class="summary-row"><span class="summary-label">Prep sent to</span><span class="summary-value">${data.email}</span></div>
+      `;
+      window.scrollTo(0, 0);
+    } else {
+      alert('Submission failed. Please email hello@coachprep.co directly.');
+    }
+  } catch(e) {
+    alert('Network error. Please try again.');
+  }
+}
+</script>
+</body>
+</html>
