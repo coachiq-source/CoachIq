@@ -77,10 +77,17 @@ def run_pipeline(intake: Mapping[str, Any]) -> dict:
         #     Claude as a "WEEK N-1 POST-GAME REVIEW" context block so the
         #     new plan is informed by what actually happened in the game.
         #     Week 1 has nothing to reference, so we skip the lookup there.
+        #
+        #     We pass `sport` to the store so a lacrosse coach only gets
+        #     lacrosse retros (and vice versa for waterpolo). If `sport`
+        #     isn't set on the intake we fall back to "waterpolo" — the
+        #     historical default — to preserve the prior behaviour for
+        #     the legacy waterpolo-only pipeline.
         postgame_context: Any = None
         if week_number > 1:
+            lookup_sport = (sport or "waterpolo").strip().lower()
             try:
-                postgame_context = get_latest_postgame(slug)
+                postgame_context = get_latest_postgame(slug, lookup_sport)
             except Exception:
                 # A bad JSONL row or a flaky volume must not block a coach
                 # from getting their plan. Log and continue with no context.

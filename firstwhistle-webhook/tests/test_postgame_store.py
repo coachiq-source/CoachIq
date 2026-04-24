@@ -733,7 +733,7 @@ def test_pipeline_degrades_gracefully_when_postgame_lookup_raises(caplog):
         captured["postgame_context"] = postgame_context
         return _stub_claude_response(3)
 
-    def explode(_slug):  # pragma: no cover - signature only
+    def explode(_slug, _sport=None):  # pragma: no cover - signature only
         raise RuntimeError("volume not mounted")
 
     fake_deploy = DeployResult("u", "u", "sha", "a", "b", 3)
@@ -757,6 +757,639 @@ def test_pipeline_degrades_gracefully_when_postgame_lookup_raises(caplog):
         "context is a nice-to-have, not a blocker"
     )
     assert captured["postgame_context"] is None
+
+
+# ---------------------------------------------------------------------------
+# 14. Sport filtering — lacrosse/waterpolo must not cross-wire
+# ---------------------------------------------------------------------------
+
+def _make_lax_pg_record(slug: str, *, result: str = "W", gf: str = "11",
+                        ga: str = "7", gender: str = "Boys",
+                        fix: str = "Ground balls",
+                        protect: str = "Ground ball culture",
+                        had_game: str = "Yes", **extra_raw) -> dict:
+    """Build a lacrosse post-game record in the shape lacrosse_postgame.html
+    sends (camelCase keys from the form's submitForm payload)."""
+    raw = {
+        "sport": "lacrosse",
+        "formType": "postgame",
+        "name": "Jordan Alvarez",
+        "email": "jordan@example.com",
+        "program": "Conestoga Varsity",
+        "gender": gender,
+        "weekLabel": "Week 3 · April 13–19",
+        "hadGame": had_game,
+        "opponent": "Penn Charter",
+        "result": result,
+        "goalsFor": gf,
+        "goalsAgainst": ga,
+        "shots": "32",
+        "goalsScored": gf,
+        "groundBallsWon": "24",
+        "turnovers": "12",
+        "clearsSuccessful": "15",
+        "clearsAttempted": "18",
+        "emoGoals": "3",
+        "emoAttempts": "5",
+        "emdStops": "4",
+        "emdAttempts": "6",
+        "faceoffsWon": "13",
+        "faceoffsLost": "9",
+        "drawsWon": "",
+        "drawsLost": "",
+        "resultFeel": "Scoreline reflects the game",
+        "bestMoments": "Ground ball culture improved, Clearing cleaned up",
+        "didntLand": "EMO regressed",
+        "playerStandout": "#14 — quiet week before, took over the second half",
+        "confidenceLevel": "4",
+        "oneThingToFix": fix,
+        "oneThingToProtect": protect,
+        "extraNotes": "Starting attackman tweaked a hamstring.",
+    }
+    raw.update(extra_raw)
+    return {
+        "intake_id": "lax0001",
+        "slug": slug,
+        "coach_name": "Jordan Alvarez",
+        "coach_email": "jordan@example.com",
+        "sport": "lacrosse",
+        "form_type": "postgame",
+        "extras": {"hadGame": had_game, "gender": gender},
+        "raw": raw,
+        "stored_at": "2026-04-24T12:00:00+00:00",
+    }
+
+
+def test_get_latest_postgame_without_sport_filter_is_backcompat():
+    """No sport arg == legacy behaviour: last matching slug wins regardless
+    of sport. Existing callers/fixtures that predate the sport arg must keep
+    working unchanged."""
+    from app.postgame import reset_postgame_store_for_tests
+    from app.postgame_store import get_latest_postgame
+
+    with tempfile.TemporaryDirectory() as td:
+        store_path = Path(td) / "postgame_intakes.jsonl"
+        _write_lines(store_path, [
+            _make_pg_record("shared-slug", result="W", gf="10", ga="7"),
+            _make_lax_pg_record("shared-slug", result="L", gf="6", ga="11"),
+        ])
+        reset_postgame_store_for_tests(store_path)
+        try:
+            raw = get_latest_postgame("shared-slug")  # no sport arg
+        finally:
+            reset_postgame_store_for_tests(None)
+
+    assert raw is not None
+    # Last-in-file wins and that's the lacrosse row.
+    assert raw["result"] == "L"
+
+
+def test_get_latest_postgame_filters_by_sport_lacrosse():
+    """A lacrosse coach must NOT get a water-polo retro even if the slug
+    matches — sport=lacrosse filters out the waterpolo rows."""
+    from app.postgame import reset_postgame_store_for_tests
+    from app.postgame_store import get_latest_postgame
+
+    with tempfile.TemporaryDirectory() as td:
+        store_path = Path(td) / "postgame_intakes.jsonl"
+        _write_lines(store_path, [
+            _make_pg_record("jamie-rivera", result="W", gf="10", ga="7"),
+            _make_lax_pg_record("jamie-rivera", result="L", gf="6", ga="11"),
+            _make_pg_record("jamie-rivera", result="T", gf="8", ga="8"),
+        ])
+        reset_postgame_store_for_tests(store_path)
+        try:
+            raw = get_latest_postgame("jamie-rivera", "lacrosse")
+        finally:
+            reset_postgame_store_for_tests(None)
+
+    assert raw is not None
+    # Only one lacrosse row exists — it must be the one returned regardless
+    # of the trailing water-polo row.
+    assert raw["result"] == "L"
+    assert raw["goalsFor"] == "6"
+    # Lacrosse-only field present.
+    assert raw.get("groundBallsWon") == "24"
+
+
+def test_get_latest_postgame_filters_by_sport_waterpolo():
+    """A water-polo coach must NOT get a lacrosse retro — sport=waterpolo
+    filters out the lacrosse rows."""
+    from app.postgame import reset_postgame_store_for_tests
+    from app.postgame_store import get_latest_postgame
+
+    with tempfile.TemporaryDirectory() as td:
+        store_path = Path(td) / "postgame_intakes.jsonl"
+        _write_lines(store_path, [
+            _make_pg_record("jamie-rivera", result="W", gf="10", ga="7"),
+            _make_lax_pg_record("jamie-rivera", result="L", gf="6", ga="11"),
+            _make_pg_record("jamie-rivera", result="T", gf="8", ga="8"),
+        ])
+        reset_postgame_store_for_tests(store_path)
+        try:
+            raw = get_latest_postgame("jamie-rivera", "waterpolo")
+        finally:
+            reset_postgame_store_for_tests(None)
+
+    assert raw is not None
+    # Last-in-file WATERPOLO row wins (T, 8-8), not the lacrosse L row.
+    assert raw["result"] == "T"
+    # Water-polo-only field present.
+    assert raw.get("pp6Goals") == "2"
+    # Lacrosse-only field absent.
+    assert "groundBallsWon" not in raw
+
+
+def test_get_latest_postgame_sport_filter_is_case_insensitive():
+    from app.postgame import reset_postgame_store_for_tests
+    from app.postgame_store import get_latest_postgame
+
+    with tempfile.TemporaryDirectory() as td:
+        store_path = Path(td) / "postgame_intakes.jsonl"
+        _write_lines(store_path, [_make_lax_pg_record("coach-x")])
+        reset_postgame_store_for_tests(store_path)
+        try:
+            raw_upper = get_latest_postgame("coach-x", "LACROSSE")
+            raw_mixed = get_latest_postgame("coach-x", "Lacrosse")
+        finally:
+            reset_postgame_store_for_tests(None)
+
+    assert raw_upper is not None and raw_upper.get("result") == "W"
+    assert raw_mixed is not None and raw_mixed.get("result") == "W"
+
+
+def test_get_latest_postgame_lacrosse_filter_returns_none_when_only_waterpolo():
+    """If the store has water-polo rows only for this slug, a lacrosse
+    lookup must return None — not silently fall back to water polo."""
+    from app.postgame import reset_postgame_store_for_tests
+    from app.postgame_store import get_latest_postgame
+
+    with tempfile.TemporaryDirectory() as td:
+        store_path = Path(td) / "postgame_intakes.jsonl"
+        _write_lines(store_path, [
+            _make_pg_record("jamie-rivera", result="W"),
+            _make_pg_record("jamie-rivera", result="L"),
+        ])
+        reset_postgame_store_for_tests(store_path)
+        try:
+            raw = get_latest_postgame("jamie-rivera", "lacrosse")
+        finally:
+            reset_postgame_store_for_tests(None)
+
+    assert raw is None
+
+
+# ---------------------------------------------------------------------------
+# 15. Pipeline: lacrosse intake passes sport to the store
+# ---------------------------------------------------------------------------
+
+def test_pipeline_passes_sport_to_postgame_store():
+    """The pipeline must invoke `get_latest_postgame(slug, sport)` with the
+    sport from the intake so cross-sport retros are never pulled in."""
+    from app import pipeline
+    from app.github_deploy import DeployResult
+
+    captured_args = {}
+
+    def fake_get_latest(slug, sport=None):
+        captured_args["slug"] = slug
+        captured_args["sport"] = sport
+        return None  # no context — we only care about the call shape
+
+    def fake_generate_plan(intake, postgame_context=None):
+        return _stub_claude_response(int(intake.get("week") or 1))
+
+    fake_deploy = DeployResult("u", "u", "sha", "a", "b", 2)
+    with patch.object(pipeline, "discover_next_week_number", return_value=2), \
+         patch.object(pipeline, "get_latest_postgame",
+                      side_effect=fake_get_latest), \
+         patch.object(pipeline, "generate_plan",
+                      side_effect=fake_generate_plan), \
+         patch.object(pipeline, "deploy_plans", return_value=fake_deploy), \
+         patch.object(pipeline, "send_coach_email") as mock_email:
+        mock_email.return_value.message_id = "msg-x"
+        pipeline.run_pipeline({
+            "intake_id": "lax-1",
+            "slug": "jordan-alvarez",
+            "coach_name": "Jordan Alvarez",
+            "coach_email": "jordan@example.com",
+            "sport": "lacrosse",
+        })
+
+    assert captured_args["slug"] == "jordan-alvarez"
+    assert captured_args["sport"] == "lacrosse"
+
+
+def test_pipeline_lacrosse_only_pulls_lacrosse_retro():
+    """End-to-end through the real store: a lacrosse intake for a coach who
+    has BOTH a water-polo retro and a lacrosse retro on file must only
+    receive the lacrosse retro's fields in the prompt context."""
+    from app import pipeline
+    from app.github_deploy import DeployResult
+    from app.postgame import reset_postgame_store_for_tests
+
+    captured = {}
+
+    def fake_generate_plan(intake, postgame_context=None):
+        captured["postgame_context"] = postgame_context
+        captured["sport"] = intake.get("sport")
+        return _stub_claude_response(int(intake.get("week") or 1))
+
+    with tempfile.TemporaryDirectory() as td:
+        store_path = Path(td) / "postgame_intakes.jsonl"
+        # Dual-sport slug collision — lacrosse row is NOT last, so the
+        # sport filter (not recency) is what picks the right row.
+        _write_lines(store_path, [
+            _make_lax_pg_record(
+                "dual-sport", result="W", gf="12", ga="9",
+                fix="Clearing", protect="Transition speed",
+            ),
+            _make_pg_record("dual-sport", result="L", gf="4", ga="9"),
+        ])
+        reset_postgame_store_for_tests(store_path)
+        try:
+            fake_deploy = DeployResult("u", "u", "sha", "a", "b", 3)
+            with patch.object(pipeline, "discover_next_week_number", return_value=3), \
+                 patch.object(pipeline, "generate_plan",
+                              side_effect=fake_generate_plan), \
+                 patch.object(pipeline, "deploy_plans", return_value=fake_deploy), \
+                 patch.object(pipeline, "send_coach_email") as mock_email:
+                mock_email.return_value.message_id = "msg-x"
+                result = pipeline.run_pipeline({
+                    "intake_id": "i1",
+                    "slug": "dual-sport",
+                    "coach_name": "Dual Sport",
+                    "coach_email": "d@x.com",
+                    "sport": "lacrosse",
+                })
+        finally:
+            reset_postgame_store_for_tests(None)
+
+    assert result["ok"] is True
+    assert captured["sport"] == "lacrosse"
+    pg = captured["postgame_context"]
+    assert pg is not None, "lacrosse pipeline must receive lacrosse retro"
+    # Lacrosse-specific fields — proves we picked the lacrosse row.
+    assert pg["groundBallsWon"] == "24"
+    assert pg["oneThingToFix"] == "Clearing"
+    assert pg["oneThingToProtect"] == "Transition speed"
+    # And water-polo-only keys must not be present.
+    assert "pp6Goals" not in pg
+    assert "ejectionsDrawnFor" not in pg
+
+
+def test_run_lacrosse_pipeline_gets_lacrosse_retro_injected():
+    """The lacrosse entry point (`run_lacrosse_pipeline`) delegates to
+    `run_pipeline`, so the end-to-end lacrosse path must receive the
+    lacrosse retro on Week 2+ — same as water polo does for its sport."""
+    from app import lacrosse, pipeline
+    from app.github_deploy import DeployResult
+    from app.postgame import reset_postgame_store_for_tests
+
+    captured = {}
+
+    def fake_generate_plan(intake, postgame_context=None):
+        captured["postgame_context"] = postgame_context
+        captured["intake_sport"] = intake.get("sport")
+        return _stub_claude_response(int(intake.get("week") or 1))
+
+    with tempfile.TemporaryDirectory() as td:
+        store_path = Path(td) / "postgame_intakes.jsonl"
+        _write_lines(store_path, [_make_lax_pg_record(
+            "jordan-alvarez", result="L", gf="8", ga="10",
+            fix="EMO", protect="Ground ball culture",
+        )])
+        reset_postgame_store_for_tests(store_path)
+        try:
+            fake_deploy = DeployResult("u", "u", "sha", "a", "b", 2)
+            with patch.object(pipeline, "discover_next_week_number", return_value=2), \
+                 patch.object(pipeline, "generate_plan",
+                              side_effect=fake_generate_plan), \
+                 patch.object(pipeline, "deploy_plans", return_value=fake_deploy), \
+                 patch.object(pipeline, "send_coach_email") as mock_email:
+                mock_email.return_value.message_id = "msg-x"
+                result = lacrosse.run_lacrosse_pipeline({
+                    "intake_id": "lax-2",
+                    "slug": "jordan-alvarez",
+                    "coach_name": "Jordan Alvarez",
+                    "coach_email": "jordan@example.com",
+                    # NOTE: sport missing on purpose — lacrosse.py must
+                    # stamp it so the store filter still works.
+                })
+        finally:
+            reset_postgame_store_for_tests(None)
+
+    assert result["ok"] is True
+    assert captured["intake_sport"] == "lacrosse"
+    pg = captured["postgame_context"]
+    assert pg is not None
+    assert pg["result"] == "L"
+    assert pg["oneThingToFix"] == "EMO"
+    assert pg["oneThingToProtect"] == "Ground ball culture"
+
+
+# ---------------------------------------------------------------------------
+# 16. Lacrosse prompt block — terminology must be lacrosse-flavoured
+# ---------------------------------------------------------------------------
+
+def test_generate_plan_lacrosse_block_uses_lacrosse_terminology():
+    """For sport=lacrosse, the WEEK N-1 REVIEW block must use lacrosse
+    terminology (EMO, EMD, ground balls, clearing, face-offs) and NOT
+    water-polo terminology (6x5, 5x6, ejections)."""
+    from app import claude_client
+
+    intake = {
+        "intake_id": "lax-1",
+        "slug": "jordan-alvarez",
+        "week": 2,
+        "sport": "lacrosse",
+    }
+    postgame = {
+        "hadGame": "Yes",
+        "gender": "Boys",
+        "opponent": "Penn Charter",
+        "result": "L",
+        "goalsFor": "8",
+        "goalsAgainst": "11",
+        "shots": "32",
+        "groundBallsWon": "18",
+        "turnovers": "14",
+        "clearsSuccessful": "12",
+        "clearsAttempted": "17",
+        "emoGoals": "1",
+        "emoAttempts": "4",
+        "emdStops": "2",
+        "emdAttempts": "5",
+        "faceoffsWon": "9",
+        "faceoffsLost": "13",
+        "resultFeel": "Scoreline flatters us",
+        "bestMoments": "Ground ball culture improved, Clearing cleaned up",
+        "didntLand": "EMO regressed",
+        "playerStandout": "#14 Rivera — quiet week before, took over the second half",
+        "confidenceLevel": "3",
+        "oneThingToFix": "Ground balls",
+        "oneThingToProtect": "Ground ball culture",
+        "extraNotes": "Starting attackman tweaked a hamstring.",
+    }
+    captured = {}
+
+    class FakeMsg:
+        content = [type("B", (), {"type": "text",
+                                   "text": _stub_claude_response(2)})()]
+        stop_reason = "end_turn"
+
+    class FakeMessages:
+        def create(self, **kwargs):
+            captured["messages"] = kwargs["messages"]
+            return FakeMsg()
+
+    class FakeClient:
+        messages = FakeMessages()
+
+    with patch.object(claude_client, "_client", return_value=FakeClient()):
+        claude_client.generate_plan(intake, postgame_context=postgame)
+
+    user_msg = captured["messages"][0]["content"]
+
+    # Required lacrosse-flavoured lines.
+    for needle in [
+        "WEEK 1 REVIEW",
+        "Had a game this week: Yes",
+        "Opponent: Penn Charter",
+        "Result (W/L/T): L",
+        "8\u201311",  # en-dash score
+        "Shots (total): 32",
+        "Ground balls won: 18",
+        "Turnovers: 14",
+        "Clearing (successful / attempted): 12 / 17",
+        "EMO (man-up) conversion (goals / attempts): 1 / 4",
+        "EMD (man-down) stops (stops / attempts): 2 / 5",
+        "Face-offs (won / lost): 9 / 13",
+        "Result feel: Scoreline flatters us",
+        "Best moment of the week: Ground ball culture improved, Clearing cleaned up",
+        "What didn't land: EMO regressed",
+        "Player who stood out: #14 Rivera",
+        "Confidence going into Week 2 (1\u20135): 3",
+        "One thing to fix: Ground balls",
+        "One thing to protect: Ground ball culture",
+        "Extra notes: Starting attackman tweaked a hamstring.",
+    ]:
+        assert needle in user_msg, f"missing lacrosse line: {needle!r}"
+
+    # Water-polo terminology MUST NOT appear in a lacrosse block.
+    for forbidden in [
+        "6x5 conversion",
+        "5x6 stops",
+        "Ejections drawn",
+        "Ejections against",
+        "Steals:",
+    ]:
+        assert forbidden not in user_msg, (
+            f"lacrosse block leaked water-polo terminology: {forbidden!r}"
+        )
+
+
+def test_generate_plan_lacrosse_girls_block_uses_draw_controls():
+    """For a girls program, the block must show Draw controls (won/lost)
+    instead of Face-offs."""
+    from app import claude_client
+
+    intake = {
+        "intake_id": "lax-g-1",
+        "slug": "sam-ortiz",
+        "week": 4,
+        "sport": "lacrosse",
+    }
+    postgame = {
+        "hadGame": "Yes",
+        "gender": "Girls",
+        "opponent": "Notre Dame",
+        "result": "W",
+        "goalsFor": "14",
+        "goalsAgainst": "9",
+        "shots": "29",
+        "groundBallsWon": "22",
+        "turnovers": "11",
+        "clearsSuccessful": "14",
+        "clearsAttempted": "16",
+        "emoGoals": "2",
+        "emoAttempts": "3",
+        "emdStops": "3",
+        "emdAttempts": "4",
+        "drawsWon": "15",
+        "drawsLost": "9",
+        "resultFeel": "Scoreline reflects the game",
+        "bestMoments": "Team competed hard",
+        "didntLand": "Nothing major",
+        "playerStandout": "#3 Park",
+        "confidenceLevel": "5",
+        "oneThingToFix": "Settled offense",
+        "oneThingToProtect": "Team energy",
+        "extraNotes": "",
+    }
+    captured = {}
+
+    class FakeMsg:
+        content = [type("B", (), {"type": "text",
+                                   "text": _stub_claude_response(4)})()]
+        stop_reason = "end_turn"
+
+    class FakeMessages:
+        def create(self, **kwargs):
+            captured["messages"] = kwargs["messages"]
+            return FakeMsg()
+
+    class FakeClient:
+        messages = FakeMessages()
+
+    with patch.object(claude_client, "_client", return_value=FakeClient()):
+        claude_client.generate_plan(intake, postgame_context=postgame)
+
+    user_msg = captured["messages"][0]["content"]
+    assert "Draw controls (won / lost): 15 / 9" in user_msg
+    # Face-offs line must not appear for a girls program.
+    assert "Face-offs (won / lost)" not in user_msg
+
+
+def test_generate_plan_lacrosse_no_game_week_still_injects_practice_fields():
+    """Practice-only lacrosse week: the game-stats lines drop out but
+    best-moments / didn't-land / confidence / fix / protect / notes remain,
+    with lacrosse-form field names (`bestMoments`, `playerStandout`,
+    `confidenceLevel`) honoured."""
+    from app import claude_client
+
+    intake = {
+        "intake_id": "lax-1",
+        "slug": "jordan-alvarez",
+        "week": 5,
+        "sport": "lacrosse",
+    }
+    postgame = {
+        "hadGame": "No",
+        "gender": "Boys",
+        "bestMoments": "A drill clicked, Player breakthrough",
+        "didntLand": "Ground balls poor",
+        "playerStandout": "#9 Park (first time on clear)",
+        "confidenceLevel": "4",
+        "oneThingToFix": "Ground balls",
+        "oneThingToProtect": "Ground ball culture",
+        "extraNotes": "Scrimmage cancelled; shifted to a skills block.",
+    }
+    captured = {}
+
+    class FakeMsg:
+        content = [type("B", (), {"type": "text",
+                                   "text": _stub_claude_response(5)})()]
+        stop_reason = "end_turn"
+
+    class FakeMessages:
+        def create(self, **kwargs):
+            captured["messages"] = kwargs["messages"]
+            return FakeMsg()
+
+    class FakeClient:
+        messages = FakeMessages()
+
+    with patch.object(claude_client, "_client", return_value=FakeClient()):
+        claude_client.generate_plan(intake, postgame_context=postgame)
+
+    user_msg = captured["messages"][0]["content"]
+
+    assert "WEEK 4 REVIEW" in user_msg
+    assert "Had a game this week: No" in user_msg
+
+    # Game-stat lines OMITTED in a no-game block.
+    for needle in [
+        "Result (W/L/T)",
+        "Score (GF",
+        "Shots (total)",
+        "Ground balls won:",
+        "Clearing (successful",
+        "EMO (man-up)",
+        "EMD (man-down)",
+        "Face-offs",
+        "Draw controls",
+        "Result feel",
+    ]:
+        assert needle not in user_msg, f"unexpected game-stat line: {needle!r}"
+
+    # Practice-focused lines present, using the LACROSSE field names.
+    for needle in [
+        "Best moment of the week: A drill clicked, Player breakthrough",
+        "What didn't land: Ground balls poor",
+        "Player who stood out: #9 Park (first time on clear)",
+        "Confidence going into Week 5 (1\u20135): 4",
+        "One thing to fix: Ground balls",
+        "One thing to protect: Ground ball culture",
+        "Extra notes: Scrimmage cancelled; shifted to a skills block.",
+    ]:
+        assert needle in user_msg, f"missing practice-focus line: {needle!r}"
+
+
+def test_waterpolo_block_unaffected_by_sport_dispatch():
+    """Regression guard: when sport=waterpolo (or unset), the existing
+    water-polo block must be identical to the Session 10 shape — no
+    lacrosse terminology smuggled in."""
+    from app import claude_client
+
+    intake = {"intake_id": "wp-1", "slug": "x", "week": 2, "sport": "waterpolo"}
+    postgame = {
+        "hadGame": "Yes",
+        "opponent": "St. Mary's Prep",
+        "result": "W",
+        "goalsFor": "12",
+        "goalsAgainst": "9",
+        "shotTotal": "34",
+        "ejectionsDrawnFor": "5",
+        "ejectionsDrawnAgainst": "3",
+        "steals": "8",
+        "turnovers": "11",
+        "pp6Goals": "3",
+        "pp6Attempts": "5",
+        "md5Stops": "2",
+        "md5Attempts": "4",
+        "resultFeel": "earned",
+        "bestMoment": "counter-attack speed",
+        "didntLand": "hole-set entry",
+        "standoutPlayer": "#7 Alex",
+        "confidenceNextWeek": "4",
+        "oneThingToFix": "hole-set entry",
+        "oneThingToProtect": "press defence",
+        "extraNotes": "two starters back from flu",
+    }
+    captured = {}
+
+    class FakeMsg:
+        content = [type("B", (), {"type": "text",
+                                   "text": _stub_claude_response(2)})()]
+        stop_reason = "end_turn"
+
+    class FakeMessages:
+        def create(self, **kwargs):
+            captured["messages"] = kwargs["messages"]
+            return FakeMsg()
+
+    class FakeClient:
+        messages = FakeMessages()
+
+    with patch.object(claude_client, "_client", return_value=FakeClient()):
+        claude_client.generate_plan(intake, postgame_context=postgame)
+
+    user_msg = captured["messages"][0]["content"]
+    # Water polo markers present.
+    assert "6x5 conversion (goals / attempts): 3 / 5" in user_msg
+    assert "5x6 stops (stops / attempts): 2 / 4" in user_msg
+    assert "Ejections drawn for: 5" in user_msg
+    # Lacrosse markers absent.
+    for forbidden in [
+        "EMO (man-up)",
+        "EMD (man-down)",
+        "Ground balls won",
+        "Clearing (successful",
+        "Face-offs (won / lost)",
+        "Draw controls",
+    ]:
+        assert forbidden not in user_msg
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -297,8 +297,9 @@ def test_run_gameprep_pipeline_happy_path():
 
     seen_intake: dict = {}
 
-    def fake_generate(intake):
+    def fake_generate(intake, sport="waterpolo"):
         seen_intake.update(dict(intake))
+        seen_intake["_sport_kwarg"] = sport
         return claude_response
 
     with patch.object(gameprep, "generate_gameprep", side_effect=fake_generate), \
@@ -339,8 +340,9 @@ def test_run_gameprep_pipeline_stamps_sport_and_form_type_defensively():
 
     captured: dict = {}
 
-    def fake_generate(intake):
+    def fake_generate(intake, sport="waterpolo"):
         captured.update(dict(intake))
+        captured["_sport_kwarg"] = sport
         return (
             "<!-- ===== GAME PREP START ===== -->\n"
             "<!DOCTYPE html><html></html>\n"

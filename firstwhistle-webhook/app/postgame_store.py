@@ -64,7 +64,10 @@ def _resolve_store_path() -> Path:
     return _default_store_path()
 
 
-def get_latest_postgame(slug: str) -> Optional[Dict[str, Any]]:
+def get_latest_postgame(
+    slug: str,
+    sport: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
     """Return the most recent post-game raw payload for `slug`, or None.
 
     The JSONL store contains one record per post-game submission. Each
@@ -74,17 +77,30 @@ def get_latest_postgame(slug: str) -> Optional[Dict[str, Any]]:
       * scans the store once;
       * keeps the last matching `slug` line (append-only store, so
         last-in-file == most recent);
+      * if `sport` is provided, only considers records whose stored
+        `sport` matches (case-insensitive) — this keeps a lacrosse
+        coach from getting injected with a stale water-polo retro
+        (and vice versa) if the same slug ever spans sports;
       * returns that row's `raw` dict so callers can read the game stats
         and free-text fields (result, goalsFor, goalsAgainst,
         bestMoment, didntLand, oneThingToFix, oneThingToProtect, …)
         exactly as the coach submitted them;
       * returns None if the store is missing, empty, or has no line
-        matching `slug`.
+        matching `slug` (and, if supplied, `sport`).
+
+    `sport` is optional so existing callers and fixtures continue to
+    work unchanged; production pipeline code should always pass the
+    sport from the intake so retrospectives are never mis-wired across
+    sports.
 
     Malformed lines and non-dict records are skipped silently.
     """
     if not slug:
         return None
+
+    # Normalise the requested sport once so we can do case-insensitive
+    # comparison in the hot loop. Empty / None means "no filter".
+    want_sport = (sport or "").strip().lower() or None
 
     path = _resolve_store_path()
     if not path.exists():
@@ -106,6 +122,13 @@ def get_latest_postgame(slug: str) -> Optional[Dict[str, Any]]:
                     continue
                 if record.get("slug") != slug:
                     continue
+                if want_sport is not None:
+                    rec_sport = str(record.get("sport") or "").strip().lower()
+                    # If the record has no sport stamped (very old row), we
+                    # skip it rather than guess — safer than cross-wiring a
+                    # lacrosse plan to a waterpolo retro.
+                    if rec_sport != want_sport:
+                        continue
                 latest = record
     except OSError as exc:
         log.warning("could not read postgame store %s: %s", path, exc)
