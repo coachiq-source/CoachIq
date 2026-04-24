@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Deck Sheet · Max · U10 Boys Lacrosse</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+  padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+  letter-spacing: -0.5px;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.brand {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-2);
+  letter-spacing: 0.5px;
+}
+
+.doc-title {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.header-meta {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 4px;
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+}
+
+.focus-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.focus-outcome {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 8px 10px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.bars-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.info-bar {
+  border-left: 3px solid var(--ink-3);
+  padding: 8px 10px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.bar-content {
+  font-size: 11px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.session-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.session-compact {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.sc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.sc-day {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.sc-focus {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.focus-tech {
+  background: var(--rule-light);
+  color: var(--ink-3);
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+}
+
+.sc-block {
+  font-size: 10px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.sc-block:last-child {
+  margin-bottom: 0;
+}
+
+.sc-time {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.drill-quick-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 10px;
+}
+
+.drill-quick-table thead {
+  background: var(--bg-off);
+}
+
+.drill-quick-table th {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--rule-light);
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.drill-quick-table tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-quick-table .drill-name-col {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.small-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.small-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.small-card-head {
+  background: var(--bg-off);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.small-card-title {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.small-card-body {
+  padding: 8px;
+}
+
+.small-card-body ul {
+  list-style: none;
+}
+
+.small-card-body li {
+  font-size: 10px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.small-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.small-card-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+.kpi-item {
+  font-size: 10px;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.kpi-item:last-child {
+  margin-bottom: 0;
+}
+
+.kpi-label-inline {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--accent);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 9px;
+  color: var(--ink-3);
+}
+
+@media print {
+  body {
+    padding: 12px;
+  }
+  
+  .session-compact,
+  .small-card {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">CP</div>
+  <div class="header-text">
+    <div class="brand">CoachPrep</div>
+    <div class="doc-title">Week 1 Deck Sheet · U10 Boys Lacrosse</div>
+    <div class="header-meta">Coach Max · March 10–14, 2025</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-label">Week 1 Focus</div>
+  <div class="focus-title">When the other team adjusts and I don't know how to respond</div>
+  <div class="focus-outcome"><strong>Outcome:</strong> Every player can scoop a ground ball cleanly, catch and pass with two hands, and carry the ball while being chased — the three skills that solve 80% of first-year problems.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">March 24</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">Fun and learning</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Sessions</div>
+    <div class="context-value">3× · 45 min</div>
+  </div>
+</div>
+
+<div class="bars-row">
+  <div class="info-bar">
+    <div class="bar-label">Clearing Style</div>
+    <div class="bar-content">Push it up fast before the other team can set their ride — fast clear</div>
+  </div>
+</div>
+
+<div class="session-compact-grid">
+  <div class="session-compact">
+    <div class="sc-head">
+      <div class="sc-day">Mon</div>
+      <span class="sc-focus focus-tech">Stick Skills</span>
+    </div>
+    <div class="sc-block"><span class="sc-time">0–8</span> Arrival + Partner Passing</div>
+    <div class="sc-block"><span class="sc-time">8–18</span> Hand Cradling</div>
+    <div class="sc-block"><span class="sc-time">18–35</span> Noodle Scooping</div>
+    <div class="sc-block"><span class="sc-time">35–45</span> Messy Backyard</div>
+    <div class="sc-block"><span class="sc-time">45–50</span> Cool-Down</div>
+  </div>
+  
+  <div class="session-compact">
+    <div class="sc-head">
+      <div class="sc-day">Wed</div>
+      <span class="sc-focus focus-tech">Catch & Pass</span>
+    </div>
+    <div class="sc-block"><span class="sc-time">0–8</span> Arrival + Partner Passing</div>
+    <div class="sc-block"><span class="sc-time">8–18</span> Water Balloon Toss</div>
+    <div class="sc-block"><span class="sc-time">18–35</span> 1v1 GB's</div>
+    <div class="sc-block"><span class="sc-time">35–45</span> Catch if You Can</div>
+    <div class="sc-block"><span class="sc-time">45–50</span> Cool-Down</div>
+  </div>
+  
+  <div class="session-compact">
+    <div class="sc-head">
+      <div class="sc-day">Fri</div>
+      <span class="sc-focus focus-int">Integration</span>
+    </div>
+    <div class="sc-block"><span class="sc-time">0–5</span> Activation</div>
+    <div class="sc-block"><span class="sc-time">5–15</span> Hungry Hippos</div>
+    <div class="sc-block"><span class="sc-time">15–25</span> 4v3 Box (Fast Clear)</div>
+    <div class="sc-block"><span class="sc-time">25–40</span> 4v4 Scrimmage</div>
+    <div class="sc-block"><span class="sc-time">40–45</span> Cool-Down + Week Summary</div>
+  </div>
+</div>
+
+<table class="drill-quick-table">
+  <thead>
+    <tr>
+      <th style="width:30%;">Drill</th>
+      <th style="width:10%;">Day</th>
+      <th style="width:60%;">Key Cue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="drill-name-col">Hand Cradling</td>
+      <td>Mon</td>
+      <td>Bottom hand at belly button, top hand out in front like a flashlight</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">Noodle Scooping</td>
+      <td>Mon</td>
+      <td>Butt down, top hand down, scoop through it</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">Water Balloon Toss</td>
+      <td>Wed</td>
+      <td>See the ball into the pocket. Soft hands — the ball is an egg.</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">1v1 GB's</td>
+      <td>Wed</td>
+      <td>Box out with your hips, then scoop away from pressure</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">Hungry Hippos</td>
+      <td>Fri</td>
+      <td>Scoop through it, then carry it home</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">4v3 Box</td>
+      <td>Fri</td>
+      <td>Goalie looks wing first; field players spread wide</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="small-cards">
+  <div class="small-card">
+    <div class="small-card-head">
+      <div class="small-card-title">Tracking Priorities</div>
+    </div>
+    <div class="small-card-body">
+      <div class="kpi-item">
+        <span class="kpi-label-inline">GB Win Rate</span>
+        Scooped cleanly / contested GBs
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label-inline">Two-Hand Catches</span>
+        Both hands / total catches
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label-inline">Stick Protection</span>
+        Top hand forward when chased
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label-inline">Fun Check</span>
+        Ask 3 players after Friday
+      </div>
+    </div>
+  </div>
+  
+  <div class="small-card">
+    <div class="small-card-head">
+      <div class="small-card-title">Coach Decisions</div>
+    </div>
+    <div class="small-card-body">
+      <ul>
+        <li><strong>Mon:</strong> Identify top 3 GB players by name</li>
+        <li><strong>Wed:</strong> Pick 4 players who catch with two hands — first-line clear unit</li>
+        <li><strong>Fri:</strong> Name starting goalie for first game (or confirm rotation)</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="small-card">
+    <div class="small-card-head">
+      <div class="small-card-title">Watch For</div>
+    </div>
+    <div class="small-card-body">
+      <ul>
+        <li>Bending at waist on GBs → cue "butt down"</li>
+        <li>Top hand on plastic → cue "hand down the shaft"</li>
+        <li>One-hand catches → reset to two hands</li>
+        <li>Passes too hard → cue "soft hands"</li>
+        <li>No fish-hook after scooping</li>
+        <li>Goalies flat-footed</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;">
+  <div style="background:var(--bg);padding:10px 12px;">
+    <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;font-weight:600;">Session Notes</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Mon</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Wed</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Fri</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+  <div style="background:var(--bg);padding:10px 12px;border-left:1px solid var(--rule);">
+    <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;font-weight:600;">KPI Log</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:90px;">GB Win Rate</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:90px;">Two-Hand %</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:90px;">Fun Check</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  CoachPrep — CoachIQ v6 Deck Sheet · Generated for Max · U10 Boys Lacrosse
+</div>
+
+</body>
+</html>
