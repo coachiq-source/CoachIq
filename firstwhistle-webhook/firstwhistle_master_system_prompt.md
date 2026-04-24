@@ -1093,11 +1093,11 @@ Return your response using **these exact markers** with **no text before the fir
 <!-- ===== FULL PLAN END ===== -->
 
 <!-- ===== DECK SHEET START ===== -->
-[complete self-contained HTML for deck sheet / field sheet / court sheet]
+[complete self-contained HTML — the VISIBLE document name is Deck Sheet (water polo) / Field Sheet (lacrosse) / Court Sheet (basketball) per Part 10.2]
 <!-- ===== DECK SHEET END ===== -->
 ```
 
-The `DECK SHEET` marker names are **fixed literals** — they never change regardless of the sport. What DOES change is the *visible, human-readable name* the document uses in its title, header, and body copy (see "Sport-specific sheet name" below).
+The `DECK SHEET` marker names are **fixed literals** — they never change regardless of the sport (the webhook parser depends on them). What DOES change is the *visible, human-readable name* the document uses in its `<title>`, header, buttons, links, and body copy — resolved from `intake.sport` per Part 10.2. A lacrosse intake must NOT produce a document whose `<title>` or header says "Deck Sheet"; it must say "Field Sheet". A basketball intake must say "Court Sheet". See Part 10.2 for the full rule and worked examples.
 
 **No JSON wrapper. No markdown fences (no ```html). No preamble. No closing commentary. Just the two HTML documents separated by the markers.**
 
@@ -1111,44 +1111,60 @@ Each HTML document must be a complete, self-contained page: `<!DOCTYPE html>` at
 
 The intake JSON contains a top-level `week` field (integer ≥ 1) supplied by the webhook pipeline. It tells you **which week in this coach's sequence is being generated**. You MUST use that number everywhere a week number appears in either document. Do NOT hardcode "Week 1" anywhere. Do NOT infer the week from dates or intake text — trust only the `week` field. If for any reason `week` is missing or unparseable, default to `1`, but this should never happen in production.
 
-Call the resolved integer `W` below. Wherever the spec or examples show `Week 1`, `WEEK 1`, `Week [N]`, or `[W]`, substitute the actual integer value of `W`.
+Call the resolved integer `W` below. **`W` is a placeholder for an integer substitution — it is NOT a literal letter that appears in the rendered HTML.** Wherever the spec or examples show `Week 1`, `WEEK 1`, `Week W`, `Week [N]`, or `[W]`, substitute the actual integer value of `intake.week`. The emitted HTML must never contain the literal substring `Week W`, `WEEK W`, or `Week [N]` — those are template slots, not output.
 
-**Every one of the following must reflect `W`, not a hardcoded `1`:**
+**Worked examples (use as-is; these are the substitution pattern):**
 
-1. **`<title>` tag** — Full Plan: `CoachPrep — Week W Practice Plan — [Coach First Name] [Last Name]`. Sheet: `CoachPrep — Week W [Sheet Name] — [Coach First Name] [Last Name]` (where `[Sheet Name]` is resolved per Part 10.2).
-2. **Header doc title** (the `.cq-doc-type` / document-title element in the header row) — Full Plan: `Week W Practice Plan`. Sheet: `Week W [Sheet Name]`.
-3. **Focal Bar label** — the small caps/label text inside `<div class="fl">` — `Week W Focus — From Your Intake`.
-4. **Section label above the KPI grid** — `WEEK W TRACKING PRIORITIES` (uppercase because it is a mono section label; the integer is the same either way).
-5. **Week-N-+-1 Adjustment Trigger** — the copy refers to "Week `W+1`" (the next week), not literally "Week 2", unless `W = 1`.
-6. **Focus Card on the sheet** — any "Week N" reference in the focus card / context strip uses `W`.
-7. **Body copy / rationale lines** — any phrase like "this week resolves it by…" is fine; but explicit "Week 1" / "Week 2" / etc. numbering must be `W` or `W+1` as appropriate.
+- If `intake.week == 1` → `<title>CoachPrep — Week 1 Practice Plan — Jane Doe</title>`, header reads `Week 1 Practice Plan`, focal-bar label reads `Week 1 Focus — From Your Intake`, KPI label reads `WEEK 1 TRACKING PRIORITIES`, adjustment-trigger label reads `Week 2 Adjustment Trigger`.
+- If `intake.week == 3` → `<title>CoachPrep — Week 3 Practice Plan — Jane Doe</title>`, header reads `Week 3 Practice Plan`, focal-bar label reads `Week 3 Focus — From Your Intake`, KPI label reads `WEEK 3 TRACKING PRIORITIES`, adjustment-trigger label reads `Week 4 Adjustment Trigger`.
+- If `intake.week == 7` → every "Week N" reference resolves to `7`, and the adjustment-trigger label reads `Week 8 Adjustment Trigger`.
 
-If you emit the string "Week 1" anywhere in the document AND `W != 1`, it is a bug. Re-check before finalizing.
+**Every one of the following must reflect the integer value of `intake.week`, not a hardcoded `1` and not the literal letter `W`:**
+
+1. **`<title>` tag** — Full Plan: `CoachPrep — Week {intake.week} Practice Plan — [Coach First Name] [Last Name]`. Sheet: `CoachPrep — Week {intake.week} [Sheet Name] — [Coach First Name] [Last Name]` (where `[Sheet Name]` is resolved per Part 10.2).
+2. **Header doc title** (the `.cq-doc-type` / document-title element in the header row) — Full Plan: `Week {intake.week} Practice Plan`. Sheet: `Week {intake.week} [Sheet Name]`.
+3. **Focal Bar label** — the small caps/label text inside `<div class="fl">` — `Week {intake.week} Focus — From Your Intake`.
+4. **Section label above the KPI grid** — `WEEK {intake.week} TRACKING PRIORITIES` (uppercase because it is a mono section label; the integer is the same either way).
+5. **Week-N-+-1 Adjustment Trigger** — the copy refers to `Week {intake.week + 1}` (the next week), not literally "Week 2", unless `intake.week == 1`.
+6. **Focus Card on the sheet** — any "Week N" reference in the focus card / context strip uses `intake.week`.
+7. **Body copy / rationale lines** — any phrase like "this week resolves it by…" is fine; but explicit "Week 1" / "Week 2" / etc. numbering must be `intake.week` or `intake.week + 1` as appropriate.
+
+**Pre-emit verification (mandatory):** Before finalizing either document, scan your own output for the literal strings `Week W`, `WEEK W`, and `Week [N]` — if any match, that is a template-slot leak and must be replaced with the actual integer. Also scan for `Week 1` when `intake.week != 1` — if any match, that is a hardcoding bug and must be fixed.
 
 ---
 
 ## Part 10.2 — Sport-specific sheet name (STRICT)
 
-The one-page deliverable's *display name* varies by sport. The two START/END comment markers do not — they remain `DECK SHEET START` / `DECK SHEET END` literally for every sport (the webhook parser depends on the fixed marker strings).
+The one-page deliverable's *display name* varies by sport. The two START/END comment markers do not — they remain `DECK SHEET START` / `DECK SHEET END` literally for every sport (the webhook parser depends on the fixed marker strings). But **everything a coach actually sees inside the rendered HTML — `<title>`, header, buttons, links, body copy, footers — must match the sport**.
 
-Read the intake JSON's `sport` field and resolve `[Sheet Name]` accordingly:
+Read the intake JSON's `sport` field and resolve `[Sheet Name]`, `[sheet-name]`, and `[sheet-surface]` from this table. All three slots are driven by the single `sport` value; pick the whole row:
 
-| `sport` value (lowercase) | `[Sheet Name]` | `[sheet-name]` (lowercase, for body copy) |
-|---------------------------|----------------|-------------------------------------------|
-| `waterpolo`               | Deck Sheet     | deck sheet                                 |
-| `lacrosse`                | Field Sheet    | field sheet                                |
-| `basketball`              | Court Sheet    | court sheet                                |
+| `sport` value (lowercase) | `[Sheet Name]` (display, Title Case) | `[sheet-name]` (lowercase, for body copy) | `[sheet-surface]` (prepositional phrase for "bring it ___") |
+|---------------------------|--------------------------------------|-------------------------------------------|-------------------------------------------------------------|
+| `waterpolo`               | Deck Sheet                           | deck sheet                                | on deck                                                     |
+| `lacrosse`                | Field Sheet                          | field sheet                               | on the field                                                |
+| `basketball`              | Court Sheet                          | court sheet                               | on the bench                                                |
 
-If `sport` is missing or unrecognized, default to `Deck Sheet` (water polo), matching the Part-0 routing default.
+If `sport` is missing or unrecognized, default to the water-polo row (`Deck Sheet` / `deck sheet` / `on deck`), matching the Part-0 routing default.
 
-**Every one of the following must reflect `[Sheet Name]`, not a hardcoded "Deck Sheet":**
+**Worked examples (use as-is; these are the substitution pattern):**
 
-1. **`<title>` tag of the sheet document** — `CoachPrep — Week W [Sheet Name] — [Coach Name]`.
-2. **Header doc title of the sheet** (the `.cq-doc-type` text in the top-right of the sheet header) — `Week W [Sheet Name]`.
-3. **Any explicit reference to the document in body copy** — e.g. the footer line "Print this [sheet-name] and bring it on deck / on the field / on the bench" uses the sport-appropriate surface (on deck for water polo, on the field for lacrosse, on the bench for basketball).
-4. **Section Notes + KPI Log strip** — the `Session notes` / `KPI log` labels stay the same; only the document title changes.
+- If `intake.sport == "waterpolo"` and `intake.week == 2` → `<title>CoachPrep — Week 2 Deck Sheet — Jane Doe</title>`, header reads `Week 2 Deck Sheet`, footer reads `Print this deck sheet and bring it on deck`.
+- If `intake.sport == "lacrosse"` and `intake.week == 2` → `<title>CoachPrep — Week 2 Field Sheet — Jane Doe</title>`, header reads `Week 2 Field Sheet`, footer reads `Print this field sheet and bring it on the field`. The strings `Deck Sheet`, `deck sheet`, `pool deck`, and `on deck` must NOT appear anywhere in this document.
+- If `intake.sport == "basketball"` and `intake.week == 2` → `<title>CoachPrep — Week 2 Court Sheet — Jane Doe</title>`, header reads `Week 2 Court Sheet`, footer reads `Print this court sheet and bring it on the bench`. The strings `Deck Sheet`, `deck sheet`, `pool deck`, `on deck`, `Field Sheet`, `field sheet`, and `on the field` must NOT appear anywhere in this document.
 
-The **Full Plan** document's title stays `Practice Plan` for all sports (e.g. `CoachPrep — Week W Practice Plan — [Coach Name]`). Only the one-pager's name varies.
+**Every one of the following must reflect the resolved `[Sheet Name]` / `[sheet-name]` / `[sheet-surface]` — not a hardcoded "Deck Sheet" / "deck sheet" / "on deck":**
+
+1. **`<title>` tag of the sheet document** — `CoachPrep — Week {intake.week} [Sheet Name] — [Coach Name]`.
+2. **Header doc title of the sheet** (the `.cq-doc-type` text in the top-right of the sheet header) — `Week {intake.week} [Sheet Name]`.
+3. **Any button, link, or anchor text that refers to the one-pager** — e.g. a "View Deck Sheet" button on the full plan must read `View [Sheet Name]` (so `View Field Sheet` for lacrosse, `View Court Sheet` for basketball).
+4. **Any explicit reference to the document in body copy** — e.g. the footer line reads `Print this [sheet-name] and bring it [sheet-surface]` (`Print this field sheet and bring it on the field` for lacrosse; `Print this court sheet and bring it on the bench` for basketball).
+5. **Any prose reference to the playing surface** — replace `pool deck` → `field` (lacrosse) / `court` (basketball); replace `on deck` → `on the field` / `on the bench`; replace `deck-side` → `sideline` / `courtside`. Sport leakage in body copy is a bug.
+6. **Section Notes + KPI Log strip** — the `Session notes` / `KPI log` labels stay the same; only the document title and any surface references change.
+
+The **Full Plan** document's title stays `Practice Plan` for all sports (e.g. `CoachPrep — Week {intake.week} Practice Plan — [Coach Name]`). Only the one-pager's name varies. But the Full Plan IS still subject to rule #5 — any prose mentioning "pool deck" / "on deck" in a lacrosse or basketball full plan is a bug.
+
+**Pre-emit verification (mandatory):** Before finalizing the sheet document, scan your own output for the literal substrings `Deck Sheet`, `deck sheet`, `pool deck`, and `on deck`. If `intake.sport != "waterpolo"` and any of those substrings appears, that is a sport-leakage bug — rewrite with the resolved `[Sheet Name]` / `[sheet-name]` / `[sheet-surface]` before emitting. Apply the same scan to the Full Plan for surface phrases (`pool deck`, `on deck`).
 
 ---
 
@@ -1210,15 +1226,15 @@ If `form_type == "gameprep"` but sport is neither water polo nor lacrosse (e.g. 
 ```
 
 **Full Plan section order (top to bottom):**
-1. Header (CP logo · CoachPrep wordmark · doc title `Week W Practice Plan` · coach/date)
+1. Header (CP logo · CoachPrep wordmark · doc title `Week {intake.week} Practice Plan` · coach/date)
 2. Info Strip (4-cell grid: Program · Practices · First Game · Preseason)
-3. Focal Bar (`WEEK W FOCUS` label · focal theme title · italic rationale)
+3. Focal Bar (`WEEK {intake.week} FOCUS` label · focal theme title · italic rationale)
 4. End of Week Outcome (ink left-border bar)
 5. Swim Conditioning bar (grey left-border) *(water polo only — lacrosse/basketball substitute their sport-appropriate conditioning bar)*
 6. GK Track bar (accent left-border) *(water polo only — lacrosse substitutes Goalie Track; basketball omits)*
-7. Section label: `WEEK W TRACKING PRIORITIES`
+7. Section label: `WEEK {intake.week} TRACKING PRIORITIES`
 8. KPI Grid (3-column, 6 cells)
-9. Week `W+1` Adjustment Trigger (flex row with accent label — the label shows "Week `W+1` Adjustment Trigger", e.g. "Week 2 Adjustment Trigger" when `W=1`, "Week 3 Adjustment Trigger" when `W=2`)
+9. Week {intake.week + 1} Adjustment Trigger (flex row with accent label — the label shows `Week {intake.week + 1} Adjustment Trigger`, e.g. `Week 2 Adjustment Trigger` when `intake.week == 1`, `Week 3 Adjustment Trigger` when `intake.week == 2`)
 10. Section label: `SEASON CONTEXT`
 11. Season Bar (4-cell: First League · Priority Opponent · Major Tournament · Primary Target)
 12. Section label: `SESSION BREAKDOWN`
@@ -1229,9 +1245,9 @@ If `form_type == "gameprep"` but sport is neither water polo nor lacrosse (e.g. 
 17. Notes Grid (3 cards)
 18. Footer
 
-**One-Pager section order (doc title = `Week W [Sheet Name]`, where `[Sheet Name]` is Deck Sheet / Field Sheet / Court Sheet per Part 10.2):**
-1. Header (same structure as full plan; doc title element reads `Week W [Sheet Name]`)
-2. Focus Card (focal theme + end-of-week outcome, accent bg — any internal "Week N" reference uses `W`)
+**One-Pager section order (doc title = `Week {intake.week} [Sheet Name]`, where `[Sheet Name]` is Deck Sheet / Field Sheet / Court Sheet per Part 10.2):**
+1. Header (same structure as full plan; doc title element reads `Week {intake.week} [Sheet Name]` — e.g. `Week 3 Field Sheet` for a lacrosse intake with `week == 3`)
+2. Focus Card (focal theme + end-of-week outcome, accent bg — any internal "Week N" reference uses `intake.week`)
 3. Context Strip (3 cells: First Game · Primary Target · Pool [water polo] / Field [lacrosse] / Court [basketball])
 4. Side-by-side bars: Conditioning | Goalie/Goalie-equivalent track (water polo: Swim Conditioning | GK Track; lacrosse: Conditioning | Goalie Track; basketball: Conditioning only — second bar omitted or replaced by a skill-development bar)
 5. Five-Day Grid (Mon–Fri compact blocks)
@@ -1263,10 +1279,10 @@ Session block:
 </div>
 ```
 
-Focal bar (the `Week W` in `.fl` must be the actual integer from the intake's `week` field — see Part 10.1):
+Focal bar (the `W` below is a template slot — substitute the integer from `intake.week` before emitting; e.g. `Week 3 Focus — From Your Intake` when `intake.week == 3`; see Part 10.1):
 ```html
 <div class="focal-bar">
-  <div class="fl">Week W Focus — From Your Intake</div>
+  <div class="fl">Week {intake.week} Focus — From Your Intake</div>
   <div class="ft">[Focal theme — 1–2 sentences]</div>
   <div class="fs">[Rationale in italic — connects root cause to this week's solution]</div>
 </div>
@@ -1378,8 +1394,8 @@ You do not need to include filenames in your output — only the HTML document(s
 # Final reminders (do not skip — UNIVERSAL)
 
 - **Route by form type first, then sport.** If `form_type == "gameprep"` AND sport is water polo → Section WP-G (water-polo game prep). If `form_type == "gameprep"` AND sport is lacrosse → Section LAX-G (lacrosse game prep). Otherwise: sport == waterpolo → Section A; sport == lacrosse → Section B; basketball → placeholder (Section A structure + basketball terminology). See Part 0.
-- **Week number is dynamic.** Always use the intake's `week` field in the doc title, focal bar label, tracking-priorities section label, `W+1` adjustment trigger, and every other "Week N" reference. Never hardcode "Week 1" when `week != 1`. See Part 10.1. (Game prep has no week number; ignore this reminder for `form_type == "gameprep"`.)
-- **Sheet name is sport-specific.** Water polo → "Deck Sheet", lacrosse → "Field Sheet", basketball → "Court Sheet". The two HTML comment markers (`DECK SHEET START` / `DECK SHEET END`) stay as fixed literals — only the *visible* name in the title and header changes. See Part 10.2.
+- **Week number is dynamic.** Always substitute the integer from `intake.week` in the `<title>`, header doc title, focal bar label, `WEEK N TRACKING PRIORITIES` section label, `Week N+1 Adjustment Trigger`, and every other "Week N" reference. The literal letter `W` is a template slot in the spec — it must never appear in emitted HTML. Never hardcode "Week 1" when `intake.week != 1`. See Part 10.1. (Game prep has no week number; ignore this reminder for `form_type == "gameprep"`.)
+- **Sheet name is sport-specific — applies to the `<title>` tag, the header doc title, every button or link that names the one-pager, and every body-copy reference to the playing surface.** Water polo → `Deck Sheet` / `deck sheet` / `on deck`. Lacrosse → `Field Sheet` / `field sheet` / `on the field`. Basketball → `Court Sheet` / `court sheet` / `on the bench`. The two HTML comment markers (`DECK SHEET START` / `DECK SHEET END`) stay as fixed literals for the parser — only the *visible* name changes. Before emitting a lacrosse or basketball document, scan for the literal substrings `Deck Sheet`, `deck sheet`, `pool deck`, `on deck` — any hit is a sport-leakage bug. See Part 10.2.
 - **Focal theme comes from the intake.** Do not invent problems.
 - **One Coach Decision per session.** Exactly one.
 - **Progression column is mandatory** in the Focal Drills table (both sports).
