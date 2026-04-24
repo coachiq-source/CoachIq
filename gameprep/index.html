@@ -613,9 +613,9 @@ async function applyCode() {
       const nameEl = document.getElementById('name');
       const emailEl = document.getElementById('email');
       const programEl = document.getElementById('program');
-      if(nameEl) { nameEl.value = profile.name || ''; nameEl.style.background = 'var(--accent-bg)'; nameEl.readOnly = true; }
-      if(emailEl) { emailEl.value = profile.email || ''; emailEl.style.background = 'var(--accent-bg)'; emailEl.readOnly = true; }
-      if(programEl) { programEl.value = profile.program || ''; programEl.style.background = 'var(--accent-bg)'; programEl.readOnly = true; }
+      if(nameEl) { nameEl.value = profile.name || ''; nameEl.style.background = 'var(--accent-bg)'; nameEl.style.color = 'var(--accent)'; }
+      if(emailEl) { emailEl.value = profile.email || ''; emailEl.style.background = 'var(--accent-bg)'; emailEl.style.color = 'var(--accent)'; }
+      if(programEl) { programEl.value = profile.program || ''; programEl.style.background = 'var(--accent-bg)'; programEl.style.color = 'var(--accent)'; }
       status.textContent = '✓ Info loaded — ' + profile.name;
       status.style.color = 'var(--accent)';
     } else {
