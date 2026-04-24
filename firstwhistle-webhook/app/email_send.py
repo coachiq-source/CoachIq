@@ -52,7 +52,7 @@ def _coach_html(
   <p style="font-size:14px;color:#444;">When you've run the week, please share a quick note on how it went — it shapes next week's plan:<br>
     <a href="{escape(FEEDBACK_FORM_URL)}">{escape(FEEDBACK_FORM_URL)}</a>
   </p>
-  <p style="margin-top:32px;">— FirstWhistle Coaching</p>
+  <p style="margin-top:32px;">— CoachPrep</p>
   <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
   <p style="font-size:12px;color:#888;">Plain links, in case the buttons don't work:<br>
     Plan: <a href="{escape(plan_url)}">{escape(plan_url)}</a><br>
@@ -72,14 +72,14 @@ def _coach_text(
     first = _first_name(coach_name)
     return (
         f"Hi {first},\n\n"
-        f"Your Week {week_number} FirstWhistle practice plan is ready.\n\n"
+        f"Your Week {week_number} CoachPrep practice plan is ready.\n\n"
         f"Full practice plan: {plan_url}\n"
         f"Deck sheet (printable): {deck_url}\n\n"
         "Open the full plan on your phone, print the deck sheet for the wall.\n\n"
         "When you've run the week, please share a quick note on how it went — "
         "it shapes next week's plan:\n"
         f"{FEEDBACK_FORM_URL}\n\n"
-        "— FirstWhistle Coaching\n"
+        "— CoachPrep\n"
     )
 
 
@@ -93,7 +93,7 @@ def send_coach_email(
     _init()
     s = get_settings()
     subject = (
-        f"FirstWhistle — Your Week {week_number} Plan is Ready, "
+        f"CoachPrep — Your Week {week_number} Plan is Ready, "
         f"{_first_name(coach_name)}"
     )
     params: dict = {
@@ -130,7 +130,7 @@ def _lacrosse_coach_html(coach_name: str, holding_hours: int) -> str:
   {hrs} hours.</p>
   <p>If anything changes on your end before then (injuries, schedule shifts,
   new priorities), just reply to this email and I'll fold it in.</p>
-  <p style="margin-top:32px;">— FirstWhistle Coaching</p>
+  <p style="margin-top:32px;">— CoachPrep</p>
 </body></html>
 """
 
@@ -145,7 +145,7 @@ def _lacrosse_coach_text(coach_name: str, holding_hours: int) -> str:
         "If anything changes on your end before then — injuries, schedule "
         "shifts, new priorities — just reply to this email and I'll fold "
         "it in.\n\n"
-        "— FirstWhistle Coaching\n"
+        "— CoachPrep\n"
     )
 
 
@@ -162,7 +162,7 @@ def send_lacrosse_holding_email(
     _init()
     s = get_settings()
     subject = (
-        f"FirstWhistle — We've got your intake, {_first_name(coach_name)}"
+        f"CoachPrep — We've got your intake, {_first_name(coach_name)}"
     )
     params: dict = {
         "from": s.email_from,
@@ -200,7 +200,7 @@ def send_ops_lacrosse_manual_email(
     if not s.ops_notify_email:
         return None
 
-    subject = f"[FirstWhistle] lacrosse intake — manual plan needed ({coach_name})"
+    subject = f"[CoachPrep] lacrosse intake — manual plan needed ({coach_name})"
     body_text = (
         f"A lacrosse intake was just received. Auto-generation is not live "
         f"for lacrosse yet; please prepare and send the plan manually.\n\n"
@@ -237,7 +237,7 @@ def send_ops_failure_email(
     if not s.ops_notify_email:
         return None
 
-    subject = f"[FirstWhistle] pipeline failed at {stage} — {coach_name}"
+    subject = f"[CoachPrep] pipeline failed at {stage} — {coach_name}"
     body_text = (
         f"Intake: {intake_id}\n"
         f"Coach:  {coach_name} <{coach_email}>\n"
