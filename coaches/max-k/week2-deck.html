@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoachPrep — Week 2 Deck Sheet — Max K</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:        #111111;
+      --ink-2:      #444444;
+      --ink-3:      #777777;
+      --rule:       #DEDEDE;
+      --rule-light: #F0F0F0;
+      --bg:         #FFFFFF;
+      --bg-off:     #F8F8F6;
+      --accent:     #0057A8;
+      --accent-bg:  #EEF4FC;
+      --font-head:  'Libre Baskerville', Georgia, serif;
+      --font-body:  'Source Sans 3', system-ui, sans-serif;
+      --font-mono:  'Source Code Pro', monospace;
+      --radius:     4px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--ink);
+      background: var(--bg);
+      padding: 16px;
+    }
+    .deck-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .deck-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--rule);
+      margin-bottom: 20px;
+    }
+    .deck-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .deck-logo {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--bg);
+      letter-spacing: -0.5px;
+    }
+    .deck-brand {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.3px;
+    }
+    .deck-header-right {
+      text-align: right;
+    }
+    .deck-doc-type {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 3px;
+    }
+    .deck-coach-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .focus-card {
+      background: var(--accent-bg);
+      border-left: 4px solid var(--accent);
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+    .focus-title {
+      font-family: var(--font-head);
+      font-size: 16px;
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .focus-outcome {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--ink-2);
+      font-style: italic;
+    }
+    .context-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .context-cell {
+      background: var(--bg-off);
+      padding: 10px 12px;
+    }
+    .context-label {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 4px;
+    }
+    .context-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .side-by-side {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .compact-bar {
+      border-left: 3px solid var(--ink-2);
+      padding: 10px 12px;
+      background: var(--bg-off);
+      border-radius: var(--radius);
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .compact-bar.accent-bar {
+      border-left-color: var(--accent);
+    }
+    .compact-label {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .compact-bar.accent-bar .compact-label {
+      color: var(--accent);
+    }
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .day-cell {
+      background: var(--bg);
+      padding: 10px;
+    }
+    .day-name {
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--ink);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .day-focus {
+      font-family: var(--font-mono);
+      font-size: 7px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 6px;
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .focus-def {
+      background: var(--ink-3);
+      color: var(--bg);
+    }
+    .focus-off {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .focus-tran {
+      background: #2D6A4F;
+      color: var(--bg);
+    }
+    .focus-int {
+      background: var(--bg-off);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+    }
+    .day-blocks {
+      font-size: 10px;
+      line-height: 1.5;
+      color: var(--ink-2);
+    }
+    .day-block {
+      margin-bottom: 6px;
+    }
+    .day-block:last-child {
+      margin-bottom: 0;
+    }
+    .block-time-deck {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--ink-3);
+      font-weight: 600;
+    }
+    .block-name-deck {
+      font-weight: 600;
+      color: var(--ink);
+      font-size: 10px;
+    }
+    .drill-quick-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 11px;
+    }
+    .drill-quick-table th {
+      background: var(--bg-off);
+      padding: 8px 10px;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-weight: 600;
+      border-bottom: 1px solid var(--rule);
+    }
+    .drill-quick-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--rule-light);
+      vertical-align: top;
+    }
+    .drill-quick-table tr:last-child td {
+      border-bottom: none;
+    }
+    .drill-quick-name {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .deck-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .deck-card {
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .deck-card-head {
+      padding: 8px 10px;
+      background: var(--bg-off);
+      border-bottom: 1px solid var(--rule);
+    }
+    .deck-card-title {
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--ink);
+    }
+    .deck-card-body {
+      padding: 10px;
+      font-size: 10px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .deck-card-body ul {
+      list-style: none;
+      padding: 0;
+    }
+    .deck-card-body li {
+      margin-bottom: 6px;
+      padding-left: 10px;
+      position: relative;
+    }
+    .deck-card-body li:before {
+      content: "·";
+      position: absolute;
+      left: 2px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .deck-card-body li:last-child {
+      margin-bottom: 0;
+    }
+    .notes-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 14px;
+    }
+    .notes-strip-cell {
+      background: var(--bg);
+      padding: 10px 12px;
+    }
+    .notes-strip-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 8px;
+    }
+    .note-line {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .note-line:last-child {
+      margin-bottom: 0;
+    }
+    .note-day {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--ink-3);
+      min-width: 24px;
+    }
+    .note-rule {
+      flex: 1;
+      border-bottom: 1px solid var(--rule);
+      display: inline-block;
+    }
+    @media (max-width: 640px) {
+      .day-grid { grid-template-columns: 1fr; }
+      .deck-cards { grid-template-columns: 1fr; }
+      .side-by-side { grid-template-columns: 1fr; }
+      .context-strip { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { padding: 8px; }
+      .deck-container { max-width: 100%; }
+      .day-cell, .deck-card { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck-container">
+    <div class="deck-header">
+      <div class="deck-header-left">
+        <div class="deck-logo">CP</div>
+        <div class="deck-brand">CoachPrep</div>
+      </div>
+      <div class="deck-header-right">
+        <div class="deck-doc-type">Week 2 Deck Sheet</div>
+        <div class="deck-coach-name">Max K — Episcopal Academy</div>
+      </div>
+    </div>
+
+    <div class="focus-card">
+      <div class="focus-title">PC Game Preparation — Containing Their Physical Center-Forward</div>
+      <div class="focus-outcome">End of Week: Center defender holds position on Jacob through the first half, forcing outside shots. Counter attack completion rate improves 20% by controlling tempo. Team executes disciplined help defense without leaving shooters open.</div>
+    </div>
+
+    <div class="context-strip">
+      <div class="context-cell">
+        <div class="context-label">Game</div>
+        <div class="context-value">PC — Oct 10 (Home)</div>
+      </div>
+      <div class="context-cell">
+        <div class="context-label">Context</div>
+        <div class="context-value">League game — counts toward title</div>
+      </div>
+      <div class="context-cell">
+        <div class="context-label">Pool</div>
+        <div class="context-value">25y · Shallow shoot / Deep GK</div>
+      </div>
+    </div>
+
+    <div class="side-by-side">
+      <div class="compact-bar">
+        <div class="compact-label">Swim — Week 2 Overload</div>
+        <strong>Mon/Thu:</strong> 22×25y · 1:1 rest<br>
+        <strong>Tue:</strong> 12×50y · :55 rest<br>
+        <strong>Wed:</strong> 7×75y · 85s rest<br>
+        <strong>Fri:</strong> 8×25y · full recovery
+      </div>
+      <div class="compact-bar accent-bar">
+        <div class="compact-label">GK Track (0–40 min)</div>
+        200y warm-up + 3×100y technical · Mon/Wed: Positional (GP+lunges) · Tue/Thu: Heavy ball · Fri: Activation only · <strong>Scout:</strong> Note shot locations; verbalize outlets
+      </div>
+    </div>
+
+    <div class="day-grid">
+      <div class="day-cell">
+        <div class="day-name">Mon</div>
+        <span class="day-focus focus-def">Post Defense</span>
+        <div class="day-blocks">
+          <div class="day-block">
+            <span class="block-time-deck">0–20</span><br>
+            <span class="block-name-deck">Spidering + 22×25y</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">20–50</span><br>
+            <span class="block-name-deck">Center Defender Ball-Side Positioning</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">50–75</span><br>
+            <span class="block-name-deck">Reverse Scull to Field Block</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">75–95</span><br>
+            <span class="block-name-deck">5x6 Post Protection</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">95–120</span><br>
+            <span class="block-name-deck">Scrimmage — Post Defense Constraint</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-cell">
+        <div class="day-name">Tue</div>
+        <span class="day-focus focus-tran">Counter Tempo</span>
+        <div class="day-blocks">
+          <div class="day-block">
+            <span class="block-time-deck">0–20</span><br>
+            <span class="block-name-deck">Spidering + 12×50y</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">20–50</span><br>
+            <span class="block-name-deck">GK Outlet</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">50–75</span><br>
+            <span class="block-name-deck">Counter Attack Lanes (4v3)</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">75–95</span><br>
+            <span class="block-name-deck">6x5 Primary Look (Live)</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">95–120</span><br>
+            <span class="block-name-deck">Scrimmage — Tempo Constraint</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-cell">
+        <div class="day-name">Wed</div>
+        <span class="day-focus focus-def">Help + Recovery</span>
+        <div class="day-blocks">
+          <div class="day-block">
+            <span class="block-time-deck">0–20</span><br>
+            <span class="block-name-deck">Spidering + 7×75y</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">20–50</span><br>
+            <span class="block-name-deck">Drive and Defend (2v2)</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">50–75</span><br>
+            <span class="block-name-deck">Wrestle and React</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">75–95</span><br>
+            <span class="block-name-deck">5x6 Post + Shape Recovery</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">95–120</span><br>
+            <span class="block-name-deck">Scrimmage — Help + Recovery</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-cell">
+        <div class="day-name">Thu</div>
+        <span class="day-focus focus-off">Perimeter Shooting</span>
+        <div class="day-blocks">
+          <div class="day-block">
+            <span class="block-time-deck">0–20</span><br>
+            <span class="block-name-deck">Spidering + 22×25y</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">20–50</span><br>
+            <span class="block-name-deck">Pressure Passing (Wet & Dry)</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">50–75</span><br>
+            <span class="block-name-deck">Perimeter Shooting Reps</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">75–95</span><br>
+            <span class="block-name-deck">6x5 vs. Zone Shell</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">95–120</span><br>
+            <span class="block-name-deck">Scrimmage — Shooting Efficiency</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-cell">
+        <div class="day-name">Fri</div>
+        <span class="day-focus focus-int">Rehearsal</span>
+        <div class="day-blocks">
+          <div class="day-block">
+            <span class="block-time-deck">0–15</span><br>
+            <span class="block-name-deck">Activation + 8×25y</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">15–40</span><br>
+            <span class="block-name-deck">Special Teams (6x5 + 5x6)</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">40–60</span><br>
+            <span class="block-name-deck">Counter Speed Runs</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">60–90</span><br>
+            <span class="block-name-deck">Full Scrimmage</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">90–105</span><br>
+            <span class="block-name-deck">Timeout Protocol (3 reps)</span>
+          </div>
+          <div class="day-block">
+            <span class="block-time-deck">105–120</span><br>
+            <span class="block-name-deck">PC Preview (≤10 min)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="drill-quick-table">
+      <thead>
+        <tr>
+          <th style="width: 35%;">Drill</th>
+          <th style="width: 15%;">Day</th>
+          <th style="width: 50%;">Key Cue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="drill-quick-name">Center Defender Ball-Side Positioning</span></td>
+          <td>Mon</td>
+          <td>Ball-side before the pass. Hand on the post. Hips square to the ball.</td>
+        </tr>
+        <tr>
+          <td><span class="drill-quick-name">GK Outlet</span></td>
+          <td>Tue</td>
+          <td>Outlet within 2 seconds. Look wing first. Verbalize left or right.</td>
+        </tr>
+        <tr>
+          <td><span class="drill-quick-name">Counter Attack Lanes</span></td>
+          <td>Tue</td>
+          <td>Create the lane. Read the defender. Attack with tempo.</td>
+        </tr>
+        <tr>
+          <td><span class="drill-quick-name">Drive and Defend</span></td>
+          <td>Wed</td>
+          <td>Call help. Slide to the ball. Sprint-swim back to your mark.</td>
+        </tr>
+        <tr>
+          <td><span class="drill-quick-name">Pressure Passing</span></td>
+          <td>Thu</td>
+          <td>Catch two hands. Turn. See your target. Snap the wrist.</td>
+        </tr>
+        <tr>
+          <td><span class="drill-quick-name">5x6 Post Protection</span></td>
+          <td>Mon/Wed</td>
+          <td>Hold position for 6 seconds. GK calls set. Verbalize every slide.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="deck-cards">
+      <div class="deck-card">
+        <div class="deck-card-head">
+          <div class="deck-card-title">Tracking Priorities</div>
+        </div>
+        <div class="deck-card-body">
+          <ul>
+            <li><strong>Post-up defense quality</strong> — Track ball-side positioning on every 2-meter entry</li>
+            <li><strong>Counter tempo control</strong> — 3-pass completions vs. turnovers (target 70%)</li>
+            <li><strong>Help-side recovery</strong> — Verbal "help" + sprint-swim back to perimeter mark</li>
+            <li><strong>GK outlet timing</strong> — Count early (≤2 sec) vs. late (3+ sec) outlets</li>
+          </ul>
+        </div>
+      </div>
+      <div class="deck-card">
+        <div class="deck-card-head">
+          <div class="deck-card-title">Coach Decisions</div>
+        </div>
+        <div class="deck-card-body">
+          <ul>
+            <li><strong>Mon:</strong> Name starting center defender — runs every post rep Wed+Fri</li>
+            <li><strong>Tue:</strong> Select first-line counter group (GK + 3 field players)</li>
+            <li><strong>Wed:</strong> Lock primary 6x5 unit (top 6 players)</li>
+            <li><strong>Fri:</strong> Confirm starting lineup for PC game before team leaves</li>
+          </ul>
+        </div>
+      </div>
+      <div class="deck-card">
+        <div class="deck-card-head">
+          <div class="deck-card-title">Watch For</div>
+        </div>
+        <div class="deck-card-body">
+          <ul>
+            <li>Center defender flat-footed at post instead of feet active</li>
+            <li>GK holding ball too long — outlet must be ≤2 sec</li>
+            <li>Help-side wing sliding but NOT recovering to perimeter mark</li>
+            <li>Counter lanes clogged — must complete outlet-wing-center before drive</li>
+            <li>Perimeter shooters hesitating when open vs. zone</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes-strip">
+      <div class="notes-strip-cell">
+        <div class="notes-strip-label">Session notes</div>
+        <div class="note-line">
+          <span class="note-day">Mon</span>
+          <span class="note-rule"></span>
+        </div>
+        <div class="note-line">
+          <span class="note-day">Tue</span>
+          <span class="note-rule"></span>
+        </div>
+        <div class="note-line">
+          <span class="note-day">Wed</span>
+          <span class="note-rule"></span>
+        </div>
+        <div class="note-line">
+          <span class="note-day">Thu</span>
+          <span class="note-rule"></span>
+        </div>
+        <div class="note-line">
+          <span class="note-day">Fri</span>
+          <span class="note-rule"></span>
+        </div>
+      </div>
+      <div class="notes-strip-cell" style="border-left:1px solid var(--rule);">
+        <div class="notes-strip-label">KPI log</div>
+        <div class="note-line">
+          <span class="note-day" style="min-width:110px;font-size:9px;">Post defense quality</span>
+          <span class="note-rule"></span>
+        </div>
+        <div class="note-line">
+          <span class="note-day" style="min-width:110px;font-size:9px;">Counter completion %</span>
+          <span class="note-rule"></span>
+        </div>
+        <div class="note-line">
+          <span class="note-day" style="min-width:110px;font-size:9px;">Help recovery rate</span>
+          <span class="note-rule"></span>
+        </div>
+        <div class="note-line">
+          <span class="note-day" style="min-width:110px;font-size:9px;">Perimeter shooting %</span>
+          <span class="note-rule"></span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;padding:10px 12px;background:var(--bg-off);border-radius:var(--radius);font-size:10px;line-height:1.5;color:var(--ink-2);text-align:center;">
+      CoachPrep — Week 2 Deck Sheet — Max K, Episcopal Academy · Print this deck sheet and bring it on deck · PC game Oct 10
+    </div>
+  </div>
+</body>
+</html>
