@@ -7,9 +7,12 @@ Routes:
       full Claude + GitHub + coach-email pipeline.
 
   POST /webhook/formspree/lacrosse
-      Verified via HMAC against FORMSPREE_SECRET_LACROSSE. Sends a
-      holding email to the coach and a manual-fulfillment alert to ops.
-      Auto-generation for lacrosse is not yet live.
+      Verified via HMAC against FORMSPREE_SECRET_LACROSSE. Triggers the
+      full Claude + GitHub + coach-email pipeline (same as water polo).
+      The intake is flagged with `sport=lacrosse` so the master system
+      prompt routes to Section B (LADM, USL drill library, 0–3 year
+      coach language). The legacy holding-email path is preserved in
+      `app.lacrosse.run_lacrosse_holding` for emergency rollback.
 
   POST /webhook/formspree  (deprecated)
       Returns 410 Gone; kept so legacy Formspree integrations fail loudly
@@ -28,7 +31,7 @@ from fastapi.responses import JSONResponse
 from . import __version__
 from .config import configure_logging, get_settings, load_system_prompt
 from .intake import IntakeValidationError, parse_formspree_payload
-from .lacrosse import run_lacrosse_holding
+from .lacrosse import run_lacrosse_pipeline
 from .pipeline import run_pipeline
 from .security import SignatureError, verify_formspree_signature
 
@@ -179,7 +182,7 @@ async def _handle_sport_webhook(
     if sport == "waterpolo":
         background.add_task(run_pipeline, intake)
     elif sport == "lacrosse":
-        background.add_task(run_lacrosse_holding, intake)
+        background.add_task(run_lacrosse_pipeline, intake)
     else:  # pragma: no cover — defensive
         raise HTTPException(500, detail=f"unknown sport: {sport}")
 
