@@ -565,9 +565,12 @@ function updateProgress() {
 
 function next(from) {
   if(from === 0) {
-    if(!val('name')) { alert('Please enter your name.'); return; }
-    if(!val('email')) { alert('Please enter your email.'); return; }
-    if(!val('program')) { alert('Please enter your program.'); return; }
+    const nameEl = document.getElementById('name');
+    const emailEl = document.getElementById('email');
+    const programEl = document.getElementById('program');
+    if(!nameEl.value.trim()) { alert('Please enter your name.'); return; }
+    if(!emailEl.value.trim()) { alert('Please enter your email.'); return; }
+    if(!programEl.value.trim()) { alert('Please enter your program.'); return; }
     if(!val('opponent')) { alert('Please enter the opponent.'); return; }
     if(!val('gameDate')) { alert('Please enter the game date.'); return; }
     if(!chips('homeAwayChips')) { alert('Please select home or away.'); return; }
