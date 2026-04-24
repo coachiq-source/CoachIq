@@ -27,6 +27,7 @@ def run_pipeline(intake: Mapping[str, Any]) -> dict:
     slug = str(intake.get("slug", "?"))
     coach_name = str(intake.get("coach_name", ""))
     coach_email = str(intake.get("coach_email", ""))
+    sport = str(intake.get("sport", "") or "")
 
     stage = "start"
 
@@ -57,6 +58,7 @@ def run_pipeline(intake: Mapping[str, Any]) -> dict:
             week_number=deploy.week_number,
             plan_url=deploy.plan_url,
             deck_url=deploy.deck_url,
+            sport=sport,
         )
 
         log.info(
