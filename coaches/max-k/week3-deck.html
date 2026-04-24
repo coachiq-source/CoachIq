@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 3 Field Sheet — Max K</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cq-logo-mark {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.cq-meta {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-top: 8px;
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.focus-outcome {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dual-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.bar {
+  border-left: 3px solid var(--ink-3);
+  padding-left: 12px;
+}
+
+.bar.accent {
+  border-left-color: var(--accent);
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.bar.accent .bar-label {
+  color: var(--accent);
+}
+
+.bar-content {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.day-block {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.day-head {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.day-focus {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
+.focus-off { background: var(--accent-bg); color: var(--accent); }
+.focus-def { background: #E8E8E8; color: var(--ink-2); }
+.focus-tran { background: #E6F4EA; color: #1E7E34; }
+.focus-int { background: var(--bg-off); color: var(--ink-2); border: 1px solid var(--rule); }
+
+.day-item {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.day-item:last-child {
+  margin-bottom: 0;
+}
+
+.day-item strong {
+  color: var(--ink);
+}
+
+.drill-quick {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+  font-size: 11px;
+}
+
+.drill-quick th {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: left;
+  padding: 8px 10px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+  font-weight: 500;
+}
+
+.drill-quick td {
+  padding: 8px 10px;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+}
+
+.drill-quick tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-quick td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.card-head {
+  padding: 8px 10px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.card-body {
+  padding: 10px;
+}
+
+.card-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.card-body li {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.card-body li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.footer {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 10px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .day-grid { grid-template-columns: 1fr; }
+  .dual-bar { grid-template-columns: 1fr; }
+  .context-strip { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+
+@media print {
+  body { padding: 0; font-size: 11px; }
+  .day-block { page-break-inside: avoid; }
+  .card { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="cq-header">
+  <div class="cq-logo">
+    <div class="cq-logo-mark">CP</div>
+    <div class="cq-wordmark">CoachPrep</div>
+  </div>
+  <div class="cq-doc-type">Week 3 Field Sheet</div>
+  <div class="cq-meta">
+    <span><strong>Max K</strong></span>
+    <span>·</span>
+    <span>U12 Boys' Lacrosse</span>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-title">Week 3 Focus: Transition Game + Ground Ball Fundamentals</div>
+  <div class="focus-outcome"><strong>End of Week:</strong> Players scoop ground balls cleanly and immediately look for an outlet pass. The transition unit reads a 3v2 advantage without hesitation and finishes with a quality shot 7 out of 10 times.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">Not specified</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">First winning season</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Field</div>
+    <div class="context-value">Standard field</div>
+  </div>
+</div>
+
+<div class="dual-bar">
+  <div class="bar">
+    <div class="bar-label">Conditioning</div>
+    <div class="bar-content">
+      <strong>Mon/Wed:</strong> 4 × 40y shuttle sprints<br>
+      <strong>Tue/Thu:</strong> 6 × 20y acceleration sprints<br>
+      <strong>Fri:</strong> Activation only
+    </div>
+  </div>
+  <div class="bar accent">
+    <div class="bar-label">Goalie Track</div>
+    <div class="bar-content">
+      <strong>Mon/Wed:</strong> Arc positioning + angle work<br>
+      <strong>Tue/Thu:</strong> Save technique (high/low reps)<br>
+      <strong>Fri:</strong> Warm-up, join scrimmage
+    </div>
+  </div>
+</div>
+
+<div class="day-grid">
+  <div class="day-block">
+    <div class="day-head">
+      <span>MON</span>
+      <span class="day-focus focus-tran">Transition</span>
+    </div>
+    <div class="day-item"><strong>0–8:</strong> Activation + partner passing</div>
+    <div class="day-item"><strong>8–18:</strong> Noodle Scooping (20 reps)</div>
+    <div class="day-item"><strong>18–30:</strong> 1v1 GB's (10 reps)</div>
+    <div class="day-item"><strong>30–38:</strong> 4v3 Box (clearing)</div>
+    <div class="day-item"><strong>38–45:</strong> 3v3 Groundballs live</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">
+      <span>TUE</span>
+      <span class="day-focus focus-tran">Fast Break</span>
+    </div>
+    <div class="day-item"><strong>0–8:</strong> Activation + passing</div>
+    <div class="day-item"><strong>8–18:</strong> Triangle Lines (catching on the run)</div>
+    <div class="day-item"><strong>18–33:</strong> 3v2 West Genny (15 reps)</div>
+    <div class="day-item"><strong>33–40:</strong> Fast Breaks (8 reps)</div>
+    <div class="day-item"><strong>40–45:</strong> Numbers Drill live</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">
+      <span>WED</span>
+      <span class="day-focus focus-off">Offense</span>
+    </div>
+    <div class="day-item"><strong>0–8:</strong> Activation + 4 Corners Pass</div>
+    <div class="day-item"><strong>8–18:</strong> Cradle Ring</div>
+    <div class="day-item"><strong>18–30:</strong> 3v3 Triangle (8 reps)</div>
+    <div class="day-item"><strong>30–38:</strong> 2-Man Game (12 reps)</div>
+    <div class="day-item"><strong>38–45:</strong> 6v6 Handball</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">
+      <span>THU</span>
+      <span class="day-focus focus-def">Defense</span>
+    </div>
+    <div class="day-item"><strong>0–8:</strong> Activation + footwork</div>
+    <div class="day-item"><strong>8–18:</strong> Poke checks (partner drill)</div>
+    <div class="day-item"><strong>18–30:</strong> Run the Arc (1v1 defense)</div>
+    <div class="day-item"><strong>30–38:</strong> Help defense 3v3</div>
+    <div class="day-item"><strong>38–45:</strong> 4v4 Short Field live</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">
+      <span>FRI</span>
+      <span class="day-focus focus-int">Scrimmage</span>
+    </div>
+    <div class="day-item"><strong>0–8:</strong> Short activation</div>
+    <div class="day-item"><strong>8–20:</strong> Transition rehearsal (3v2 / 4v3 live)</div>
+    <div class="day-item"><strong>20–40:</strong> Full 6v6 scrimmage</div>
+    <div class="day-item"><strong>40–45:</strong> Cool-down + message</div>
+    <div class="day-item"><strong>Success:</strong> GB rate >60% · 3v2 finish 7/10 · Outlets in 2 sec</div>
+  </div>
+</div>
+
+<table class="drill-quick">
+  <thead>
+    <tr>
+      <th style="width:25%;">Drill</th>
+      <th style="width:10%;">Day</th>
+      <th style="width:65%;">Key Cue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Noodle Scooping</td>
+      <td>Mon</td>
+      <td>"Butt down, top hand down, scoop through it."</td>
+    </tr>
+    <tr>
+      <td>1v1 GB's</td>
+      <td>Mon</td>
+      <td>"Box out with your hips, then scoop away from pressure."</td>
+    </tr>
+    <tr>
+      <td>3v2 West Genny</td>
+      <td>Tue</td>
+      <td>"Spread wide, pass to the open man, attack the cage when you have space."</td>
+    </tr>
+    <tr>
+      <td>4v3 Box</td>
+      <td>Mon</td>
+      <td>"Goalie looks wing first; defenders spread wide."</td>
+    </tr>
+    <tr>
+      <td>Fast Breaks</td>
+      <td>Tue</td>
+      <td>"Ball-carrier pushes, wings spread, trailer fills the middle."</td>
+    </tr>
+    <tr>
+      <td>2-Man Game (Pick & Roll)</td>
+      <td>Wed</td>
+      <td>"Set the pick with feet set, roll to the ball."</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-head">Tracking Priorities</div>
+    <div class="card-body">
+      <ul>
+        <li><strong>GB Win Rate:</strong> Clean scoops / contested GBs (target: >60%)</li>
+        <li><strong>Transition Shot Rate:</strong> Shots in first 10 sec (target: >40%)</li>
+        <li><strong>Outlet Pass Completion:</strong> GB-to-outlet success (target: >50%)</li>
+        <li><strong>3v2 Finish Rate:</strong> Goals or quality shots (target: >60%)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Coach Decisions</div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Mon:</strong> Identify top 3 GB players by name</li>
+        <li><strong>Tue:</strong> Pick first-line transition unit (top 4)</li>
+        <li><strong>Wed:</strong> Name starting attack line (3 players)</li>
+        <li><strong>Thu:</strong> Match fastest defenders to opponent threats</li>
+        <li><strong>Fri:</strong> Review KPI log — adjust Week 4 if needed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Watch For</div>
+    <div class="card-body">
+      <ul>
+        <li>Players bending at the waist on GBs instead of dropping hips</li>
+        <li>Ball-carrier looks down after scoop (kills outlet vision)</li>
+        <li>On 3v2, players bunch instead of spreading wide</li>
+        <li>Goalie clears too late (outlets should be available at save)</li>
+        <li>Defenders stop short on help — gives free shooting lane</li>
+        <li>Top hand choked up on plastic instead of down the shaft</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;">
+  <div style="background:var(--bg);padding:10px 12px;">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">Session notes</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Mon</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Tue</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Wed</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Thu</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Fri</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+  <div style="background:var(--bg);padding:10px 12px;border-left:1px solid var(--rule);">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">KPI log</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">GB Win Rate</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Transition Shot %</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Outlet Pass %</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">3v2 Finish %</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  CoachPrep — Week 3 Field Sheet — Max K<br>
+  Print this field sheet and bring it on the field
+</div>
+
+</body>
+</html>
