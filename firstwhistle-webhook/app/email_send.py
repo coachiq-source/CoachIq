@@ -69,6 +69,39 @@ def _gameprep_intake_url(coach_code: Optional[str]) -> str:
     return f"{_GAMEPREP_INTAKE_BASE_URL}?code={quote(code, safe='')}"
 
 
+# Sport -> standalone post-game / Week in Review intake form URL.
+# The form takes an optional `code` query parameter to prefill the
+# returning-coach fields, mirroring the game-prep intake behaviour.
+_POSTGAME_INTAKE_URLS_BY_SPORT: dict[str, str] = {
+    "waterpolo": "https://coachiq-source.github.io/CoachIq/postgame/waterpolo.html",
+    "water_polo": "https://coachiq-source.github.io/CoachIq/postgame/waterpolo.html",
+    "lacrosse": "https://coachiq-source.github.io/CoachIq/postgame/lacrosse.html",
+}
+
+
+def _postgame_intake_url(
+    sport: Optional[str],
+    coach_code: Optional[str],
+) -> Optional[str]:
+    """Return the Week-in-Review intake URL for the given sport.
+
+    The sport is already passed to ``send_coach_email``; we use it to
+    pick between the water-polo and lacrosse post-game forms. If the
+    sport is unknown (e.g. basketball or missing), return ``None`` so
+    the caller can skip the Week-in-Review link entirely rather than
+    linking to the wrong form.
+    """
+    key = (sport or "").strip().lower()
+    base = _POSTGAME_INTAKE_URLS_BY_SPORT.get(key)
+    if not base:
+        return None
+    code = (coach_code or "").strip()
+    if not code:
+        return base
+    from urllib.parse import quote
+    return f"{base}?code={quote(code, safe='')}"
+
+
 def _coach_html(
     coach_name: str,
     week_number: int,
@@ -84,6 +117,31 @@ def _coach_html(
     sheet_lower = sheet_label.lower()
     sheet_short = sheet_label.split()[0]  # "Deck" / "Field" / "Court"
     gameprep_url = _gameprep_intake_url(coach_code)
+    postgame_url = _postgame_intake_url(sport, coach_code)
+
+    # Optional fourth button + footer line for the Week-in-Review intake.
+    # We only render it for sports where we actually have a post-game form
+    # (water polo, lacrosse) so we never link a coach to the wrong sport.
+    postgame_button_html = ""
+    postgame_prose_html = ""
+    postgame_footer_html = ""
+    if postgame_url:
+        postgame_button_html = (
+            f'\n    <a href="{escape(postgame_url)}" '
+            'style="display:inline-block;background:#eaeef8;color:#0b3d91;'
+            'text-decoration:none;padding:12px 18px;border-radius:6px;'
+            'font-weight:600;margin-bottom:8px;">Week in Review</a>'
+        )
+        postgame_prose_html = (
+            f'\n  <p style="font-size:14px;color:#444;">Finished the week? '
+            f'Fill in the <a href="{escape(postgame_url)}">Week in Review</a> '
+            "so next week's plan builds on what just happened.</p>"
+        )
+        postgame_footer_html = (
+            f'\n    Week in Review: <a href="{escape(postgame_url)}">'
+            f'{escape(postgame_url)}</a><br>'
+        )
+
     return f"""\
 <!doctype html>
 <html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;max-width:560px;margin:0 auto;padding:24px;line-height:1.55">
@@ -93,10 +151,10 @@ def _coach_html(
   <p style="margin:24px 0;">
     <a href="{escape(plan_url)}" style="display:inline-block;background:#0b3d91;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">View full practice plan</a>
     <a href="{escape(deck_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">{sheet_label} (printable)</a>
-    <a href="{escape(gameprep_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-bottom:8px;">Game prep intake</a>
+    <a href="{escape(gameprep_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">Game prep intake</a>{postgame_button_html}
   </p>
   <p style="font-size:14px;color:#444;">Open these on deck from your phone, or print the {sheet_lower} and tape it to the wall. The full plan is the coach-facing version with rationale, progressions, and coaching cues.</p>
-  <p style="font-size:14px;color:#444;">Got a game coming up? Use the <a href="{escape(gameprep_url)}">game prep intake</a> to request an opponent scout and game-day package.</p>
+  <p style="font-size:14px;color:#444;">Got a game coming up? Use the <a href="{escape(gameprep_url)}">game prep intake</a> to request an opponent scout and game-day package.</p>{postgame_prose_html}
   <p style="font-size:13px;color:#777777;margin-top:8px;">Links go live within 5 minutes of receiving this email.</p>
   <p style="font-size:14px;color:#444;">When you've run the week, please share a quick note on how it went — it shapes next week's plan:<br>
     <a href="{escape(FEEDBACK_FORM_URL)}">{escape(FEEDBACK_FORM_URL)}</a>
@@ -106,7 +164,7 @@ def _coach_html(
   <p style="font-size:12px;color:#888;">Plain links, in case the buttons don't work:<br>
     Plan: <a href="{escape(plan_url)}">{escape(plan_url)}</a><br>
     {sheet_short}: <a href="{escape(deck_url)}">{escape(deck_url)}</a><br>
-    Game prep intake: <a href="{escape(gameprep_url)}">{escape(gameprep_url)}</a><br>
+    Game prep intake: <a href="{escape(gameprep_url)}">{escape(gameprep_url)}</a><br>{postgame_footer_html}
     Feedback: <a href="{escape(FEEDBACK_FORM_URL)}">{escape(FEEDBACK_FORM_URL)}</a>
   </p>
 </body></html>
@@ -125,15 +183,29 @@ def _coach_text(
     sheet_label = _sheet_label(sport)
     sheet_lower = sheet_label.lower()
     gameprep_url = _gameprep_intake_url(coach_code)
+    postgame_url = _postgame_intake_url(sport, coach_code)
+
+    # Week-in-Review line only renders for sports with a matching form.
+    postgame_line = f"Week in Review: {postgame_url}\n" if postgame_url else ""
+    postgame_prose = (
+        "Finished the week? Fill in the Week in Review link above so next "
+        "week's plan builds on what just happened.\n"
+        if postgame_url
+        else ""
+    )
+
     return (
         f"Hi {first},\n\n"
         f"Your Week {week_number} CoachPrep practice plan is ready.\n\n"
         f"Full practice plan: {plan_url}\n"
         f"{sheet_label} (printable): {deck_url}\n"
-        f"Game prep intake: {gameprep_url}\n\n"
+        f"Game prep intake: {gameprep_url}\n"
+        f"{postgame_line}"
+        "\n"
         f"Open the full plan on your phone, print the {sheet_lower} for the wall.\n"
         "Got a game coming up? Use the game prep intake link above to request "
         "an opponent scout and game-day package.\n"
+        f"{postgame_prose}"
         "Links go live within 5 minutes of receiving this email.\n\n"
         "When you've run the week, please share a quick note on how it went — "
         "it shapes next week's plan:\n"
