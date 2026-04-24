@@ -149,6 +149,16 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="step-sub">Start here — the rest of the form adjusts to your program.</div>
     </div>
 
+    <!-- RETURNING COACH CODE -->
+    <div class="field" style="background:var(--accent-bg);border:1px solid rgba(26,107,58,0.2);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;">
+      <label class="field-label" style="color:var(--accent);margin-bottom:8px;">Returning coach? Enter your CoachPrep code to auto-fill your info.</label>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="coachCode" placeholder="e.g. EA2026" style="flex:1;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+        <button type="button" onclick="applyCode()" style="background:var(--accent);color:#fff;border:none;border-radius:var(--r);padding:11px 18px;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Apply</button>
+      </div>
+      <span class="field-hint" id="codeStatus"></span>
+    </div>
+
     <div class="field">
       <label class="field-label">Boys or Girls program?<span class="req">*</span></label>
       <div class="gender-row">
@@ -206,6 +216,12 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <div class="chip" data-val="No — came from another sport">No — another sport</div>
         <div class="chip" data-val="No — new to lacrosse entirely">No — new to lacrosse</div>
       </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Create your CoachPrep code <span style="font-weight:400;color:var(--ink-3)">(optional — use this on future forms to skip re-entering your info)</span></label>
+      <input type="text" id="coachCodeCreate" placeholder="e.g. LACROSSE2026 or SMITH or anything you'll remember" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+      <span class="field-hint">4–12 characters, no spaces. You'll enter this on the game prep and week review forms.</span>
     </div>
 
     <div class="nav">
@@ -506,7 +522,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="success-title">You're in.</div>
     <div class="success-desc">Your Week 1 lacrosse plan will be in your inbox within 24 hours — personalized to your team, your level, and your biggest challenge right now.</div>
     <div class="summary-box" id="summaryBox"></div>
-    <p style="font-size:13px;color:var(--ink-3);">Questions? Email <strong>maxkelly@episcopalacademy.org</strong></p>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:12px;">Have a game coming up? <a href="https://coachiq-source.github.io/CoachIq/gameprep/" style="color:var(--accent);font-weight:600;">Submit your game prep intake →</a></p>
+    <p style="font-size:13px;color:var(--ink-3);">Questions? Email <strong>hello@coachprep.co</strong></p>
   </div>
 
 </div>
@@ -524,6 +541,45 @@ function selectGender(g, el) {
   // Show girls-specific section
   const girlsSec = document.getElementById('girlsRulesSection');
   if(girlsSec) girlsSec.classList.toggle('active', g === 'girls');
+}
+
+// Auto-apply coach code from URL parameter
+window.addEventListener('load', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if(code) {
+    const codeEl = document.getElementById('coachCode');
+    if(codeEl) {
+      codeEl.value = code.toUpperCase();
+      await applyCode();
+    }
+  }
+});
+
+async function applyCode() {
+  const code = document.getElementById('coachCode').value.trim().toUpperCase();
+  if(!code) return;
+  const status = document.getElementById('codeStatus');
+  status.textContent = 'Looking up...';
+  status.style.color = 'var(--ink-3)';
+  try {
+    const res = await fetch(`https://coachiq-production.up.railway.app/coach/${code}`);
+    if(res.ok) {
+      const profile = await res.json();
+      const nameEl = document.getElementById('name');
+      const emailEl = document.getElementById('email');
+      if(nameEl) { nameEl.value = profile.name || ''; nameEl.style.background = 'var(--accent-bg)'; nameEl.style.color = 'var(--accent)'; }
+      if(emailEl) { emailEl.value = profile.email || ''; emailEl.style.background = 'var(--accent-bg)'; emailEl.style.color = 'var(--accent)'; }
+      status.textContent = '✓ Info loaded — ' + profile.name;
+      status.style.color = 'var(--accent)';
+    } else {
+      status.textContent = 'Code not found — fill in your info below.';
+      status.style.color = 'var(--ink-3)';
+    }
+  } catch(e) {
+    status.textContent = 'Could not connect — fill in your info below.';
+    status.style.color = 'var(--ink-3)';
+  }
 }
 
 // ── SINGLE-SELECT CHIPS ──
@@ -662,7 +718,7 @@ async function submitForm() {
   };
 
   try {
-    const res = await fetch('https://formspree.io/f/xvzddddr', {
+    const res = await fetch('https://formspree.io/f/myklwjnp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(data),
@@ -681,7 +737,7 @@ async function submitForm() {
       `;
       window.scrollTo(0,0);
     } else {
-      alert('Submission failed. Please email maxkelly@episcopalacademy.org directly.');
+      alert('Submission failed. Please email hello@coachprep.co directly.');
     }
   } catch(e) {
     alert('Network error. Please try again.');
