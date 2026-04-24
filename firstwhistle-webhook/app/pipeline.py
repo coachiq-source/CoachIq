@@ -14,6 +14,7 @@ from .email_send import (
 )
 from .github_deploy import GitHubDeployError, deploy_plans, discover_next_week_number
 from .parser import PlanParseError, parse_plans
+from .postgame_store import get_latest_postgame
 
 log = logging.getLogger("firstwhistle.pipeline")
 
@@ -71,9 +72,40 @@ def run_pipeline(intake: Mapping[str, Any]) -> dict:
                     coach_code, slug,
                 )
 
+        # 0b. Pre-flight: look for a post-game retrospective from the prior
+        #     week. If we have one AND this isn't Week 1, we'll hand it to
+        #     Claude as a "WEEK N-1 POST-GAME REVIEW" context block so the
+        #     new plan is informed by what actually happened in the game.
+        #     Week 1 has nothing to reference, so we skip the lookup there.
+        postgame_context: Any = None
+        if week_number > 1:
+            try:
+                postgame_context = get_latest_postgame(slug)
+            except Exception:
+                # A bad JSONL row or a flaky volume must not block a coach
+                # from getting their plan. Log and continue with no context.
+                log.exception(
+                    "postgame lookup failed slug=%s (continuing without context)",
+                    slug,
+                )
+                postgame_context = None
+
+            if postgame_context:
+                log.info(
+                    "pipeline preflight — post-game context found for slug=%s week=%d",
+                    slug, week_number,
+                )
+            else:
+                log.info("no post-game context for slug=%s", slug)
+        else:
+            log.info("no post-game context for slug=%s", slug)
+
         # 1. Generate
         stage = "claude"
-        response_text = generate_plan(intake_working)
+        response_text = generate_plan(
+            intake_working,
+            postgame_context=postgame_context,
+        )
 
         # 2. Parse
         stage = "parse"

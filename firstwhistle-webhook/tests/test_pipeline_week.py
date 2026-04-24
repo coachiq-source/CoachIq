@@ -54,7 +54,10 @@ def test_week_is_resolved_before_claude_and_stamped_on_intake():
     """
     seen_intake: dict = {}
 
-    def fake_generate_plan(intake):
+    def fake_generate_plan(intake, postgame_context=None):
+        # Session 10: claude_client.generate_plan now takes an optional
+        # postgame_context kwarg. This test doesn't care about the value —
+        # it's asserting the week-resolution contract — so just accept it.
         seen_intake.update(dict(intake))
         return _stub_claude_response(week=int(intake["week"]))
 
