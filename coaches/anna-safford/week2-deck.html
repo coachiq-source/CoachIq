@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Deck Sheet · Anna Safford</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 20px 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+  background: var(--ink);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+  letter-spacing: -0.5px;
+}
+
+.brand {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.3px;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.doc-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.coach-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  border-radius: var(--radius);
+}
+
+.focus-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.focus-outcome {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.side-bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.side-bar {
+  border-left: 3px solid var(--ink-3);
+  padding: 10px 12px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.side-bar.gk {
+  border-left-color: var(--accent);
+}
+
+.side-bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.side-bar.gk .side-bar-label {
+  color: var(--accent);
+}
+
+.side-bar-text {
+  font-size: 11px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.side-bar-text strong {
+  font-weight: 600;
+}
+
+.five-day-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.day-block {
+  background: var(--bg);
+  padding: 10px 8px;
+}
+
+.day-name {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.day-focus {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #E8E8E8;
+  color: var(--ink-2);
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+}
+
+.day-blocks {
+  font-size: 10px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.day-blocks div {
+  margin-bottom: 4px;
+}
+
+.day-blocks div:last-child {
+  margin-bottom: 0;
+}
+
+.drill-quick-ref {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.drill-quick-ref-head {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick-ref-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.drill-quick-ref-body {
+  padding: 10px;
+  background: var(--bg);
+}
+
+.drill-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 3fr;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 11px;
+}
+
+.drill-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.drill-row-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.drill-row-day {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-3);
+}
+
+.drill-row-cue {
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.mini-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.mini-card-head {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.mini-card-title {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.mini-card-body {
+  padding: 10px;
+  background: var(--bg);
+}
+
+.mini-card-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mini-card-body li {
+  font-size: 10px;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.mini-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.mini-card-body li:before {
+  content: "·";
+  position: absolute;
+  left: 2px;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .five-day-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .side-bars {
+    grid-template-columns: 1fr;
+  }
+  .cards-row {
+    grid-template-columns: 1fr;
+  }
+  .context-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body {
+    padding: 0;
+    font-size: 11px;
+  }
+  .header {
+    page-break-after: avoid;
+  }
+  .focus-card,
+  .drill-quick-ref,
+  .mini-card {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">CP</div>
+    <div class="brand">CoachPrep</div>
+  </div>
+  <div class="header-right">
+    <div class="doc-title">Week 1 Deck Sheet</div>
+    <div class="coach-name">Anna Safford · EA</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-label">Week 1 Focus</div>
+  <div class="focus-title">Players defaulting to set offense when they don't recognize the counter attack opportunity. Front-court attack stalling when the first look is taken away.</div>
+  <div class="focus-outcome"><strong>Outcome:</strong> Players recognize counter attack lanes and attack them without hesitation. When the first look in front-court is denied, they immediately read second and third options instead of stalling.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">Sept. 1 · Lower Merion</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">Beast of the East<br>Sept. 25–26</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Pool</div>
+    <div class="context-value">25y · 90 min sessions</div>
+  </div>
+</div>
+
+<div class="side-bars">
+  <div class="side-bar">
+    <div class="side-bar-label">Swim Conditioning</div>
+    <div class="side-bar-text">
+      <strong>Mon/Thu:</strong> 20×25y<br>
+      <strong>Tue:</strong> 10×50y · :60<br>
+      <strong>Wed:</strong> 5×75y · 90s<br>
+      <strong>Fri:</strong> 8×25y · full recovery
+    </div>
+  </div>
+  <div class="side-bar gk">
+    <div class="side-bar-label">GK Track (0–40)</div>
+    <div class="side-bar-text">
+      Grace Christie — reading offense, calm under pressure<br>
+      <strong>Mon/Wed:</strong> Positional (GP, lunges, glide)<br>
+      <strong>Tue/Thu:</strong> Heavy ball (forehead, lunges, catapult)<br>
+      <strong>Fri:</strong> Activation only
+    </div>
+  </div>
+</div>
+
+<div class="five-day-grid">
+  <div class="day-block">
+    <div class="day-name">Mon</div>
+    <span class="day-focus focus-tran">Counter</span>
+    <div class="day-blocks">
+      <div>0–20: Spider + Swim</div>
+      <div>20–50: Counter Lanes</div>
+      <div>50–75: Advantage 3v2/4v3</div>
+      <div>75–95: GK Outlet</div>
+      <div>95–120: Scrimmage</div>
+    </div>
+  </div>
+  <div class="day-block">
+    <div class="day-name">Tue</div>
+    <span class="day-focus focus-off">Front-Court</span>
+    <div class="day-blocks">
+      <div>0–20: Rev Scull + Swim</div>
+      <div>20–50: Drive-Replace</div>
+      <div>50–75: 3-3 Primary</div>
+      <div>75–95: 5x6 Post Protect</div>
+      <div>95–120: Scrimmage</div>
+    </div>
+  </div>
+  <div class="day-block">
+    <div class="day-name">Wed</div>
+    <span class="day-focus focus-tran">Counter</span>
+    <div class="day-blocks">
+      <div>0–20: Elbows Out + Swim</div>
+      <div>20–50: Counter + Pressure</div>
+      <div>50–75: Advantage Full</div>
+      <div>75–95: Press Pressure Pass</div>
+      <div>95–120: Scrimmage</div>
+    </div>
+  </div>
+  <div class="day-block">
+    <div class="day-name">Thu</div>
+    <span class="day-focus focus-off">6x5</span>
+    <div class="day-blocks">
+      <div>0–20: Wrestle + Swim</div>
+      <div>20–50: Primary Closed</div>
+      <div>50–75: Live 6x5</div>
+      <div>75–95: Center D Position</div>
+      <div>95–120: Scrimmage</div>
+    </div>
+  </div>
+  <div class="day-block">
+    <div class="day-name">Fri</div>
+    <span class="day-focus focus-int">Rehearsal</span>
+    <div class="day-blocks">
+      <div>0–15: Activation</div>
+      <div>15–40: 6x5/5x6 Rehearsal</div>
+      <div>40–60: Counter Speed</div>
+      <div>60–90: Full Scrimmage</div>
+      <div>90–105: Timeout Protocol</div>
+      <div>105–120: LM Preview</div>
+    </div>
+  </div>
+</div>
+
+<div class="drill-quick-ref">
+  <div class="drill-quick-ref-head">
+    <div class="drill-quick-ref-title">Focal Drill Quick-Reference</div>
+  </div>
+  <div class="drill-quick-ref-body">
+    <div class="drill-row">
+      <div class="drill-row-name">Counter Attack Lanes</div>
+      <div class="drill-row-day">Mon / Wed</div>
+      <div class="drill-row-cue">GK calls outlet direction. Sprint-swim to lane before pass. Never walk — recovery swim back.</div>
+    </div>
+    <div class="drill-row">
+      <div class="drill-row-name">Advantage Rules</div>
+      <div class="drill-row-day">Mon / Wed / Fri</div>
+      <div class="drill-row-cue">Attack immediately. No holding. If you see goal, shoot. Defense — sprint-swim to recover.</div>
+    </div>
+    <div class="drill-row">
+      <div class="drill-row-name">3-3 Primary Look</div>
+      <div class="drill-row-day">Tue / Thu</div>
+      <div class="drill-row-cue">Read defender's hip. If drive is closed, cross to pocket or replace. Never force first look.</div>
+    </div>
+    <div class="drill-row">
+      <div class="drill-row-name">"Primary Closed"</div>
+      <div class="drill-row-day">Thu</div>
+      <div class="drill-row-cue">When I call "primary closed," first option is dead. Find second look in 3 seconds or reset.</div>
+    </div>
+    <div class="drill-row">
+      <div class="drill-row-name">Live 6x5</div>
+      <div class="drill-row-day">Thu / Fri</div>
+      <div class="drill-row-cue">First look 1-in/2-down. If not there in 10s, read 5-in/4-down. Shot clock is deadline.</div>
+    </div>
+    <div class="drill-row">
+      <div class="drill-row-name">5x6 Post Protection</div>
+      <div class="drill-row-day">Tue</div>
+      <div class="drill-row-cue">GK owns shape. When you hear "set," check position. Protect posts. Make them shoot outside.</div>
+    </div>
+  </div>
+</div>
+
+<div class="cards-row">
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Tracking Priorities</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li>Counter attack recognition rate (outlet vs. setup) — goal 50%+</li>
+        <li>Counter attack conversion — goal 40%+</li>
+        <li>Front-court stalls — goal < 5 per scrimmage</li>
+        <li>6x5 first vs. second look</li>
+        <li>5x6 shape breaks — goal < 3 per session</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Coach Decisions</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li>Mon: ID top 3 outlet recognizers</li>
+        <li>Tue: Select first-line counter group</li>
+        <li>Wed: Lock primary 6x5 unit</li>
+        <li>Thu: Name center D starter</li>
+        <li>Fri: Name LM preview focus (2 pts)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Watch For</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li>Counter lanes collapsing to center — hold width</li>
+        <li>Motion stopping when first look denied</li>
+        <li>Players walking — verify movement language</li>
+        <li>6x5 forcing first look when not there</li>
+        <li>Team getting snippy after 2+ goals — timeout to reset</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:14px;">
+  <div style="background:var(--bg);padding:10px 12px;">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">Session notes</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Mon</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Tue</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Wed</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Thu</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:24px;">Fri</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+  <div style="background:var(--bg);padding:10px 12px;border-left:1px solid var(--rule);">
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">KPI log</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Counter Recog %</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Counter Conv %</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">Front-Court Stalls</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);min-width:110px;">5x6 Shape Breaks</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
