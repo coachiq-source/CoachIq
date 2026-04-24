@@ -498,6 +498,19 @@ textarea{resize:vertical;min-height:80px;line-height:1.55;}
 let currentStep = 0;
 const totalSteps = 4;
 
+// Auto-apply coach code from URL parameter
+window.addEventListener('load', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if(code) {
+    const codeEl = document.getElementById('coachCode');
+    if(codeEl) {
+      codeEl.value = code.toUpperCase();
+      await applyCode();
+    }
+  }
+});
+
 // Single-select chip groups
 const singleGroups = [
   'homeAwayChips','contextChips','rematchChips','poolDepthChips','poolLenChips',
@@ -565,12 +578,12 @@ function updateProgress() {
 
 function next(from) {
   if(from === 0) {
-    const nameEl = document.getElementById('name');
-    const emailEl = document.getElementById('email');
-    const programEl = document.getElementById('program');
-    if(!nameEl.value.trim()) { alert('Please enter your name.'); return; }
-    if(!emailEl.value.trim()) { alert('Please enter your email.'); return; }
-    if(!programEl.value.trim()) { alert('Please enter your program.'); return; }
+    const nameVal = document.getElementById('name').value.trim();
+    const emailVal = document.getElementById('email').value.trim();
+    const programVal = document.getElementById('program').value.trim();
+    if(!nameVal) { alert('Please enter your name.'); return; }
+    if(!emailVal) { alert('Please enter your email.'); return; }
+    if(!programVal) { alert('Please enter your program.'); return; }
     if(!val('opponent')) { alert('Please enter the opponent.'); return; }
     if(!val('gameDate')) { alert('Please enter the game date.'); return; }
     if(!chips('homeAwayChips')) { alert('Please select home or away.'); return; }
@@ -613,9 +626,9 @@ async function applyCode() {
       const nameEl = document.getElementById('name');
       const emailEl = document.getElementById('email');
       const programEl = document.getElementById('program');
-      if(nameEl) { nameEl.value = profile.name || ''; nameEl.style.background = 'var(--accent-bg)'; nameEl.style.color = 'var(--accent)'; }
-      if(emailEl) { emailEl.value = profile.email || ''; emailEl.style.background = 'var(--accent-bg)'; emailEl.style.color = 'var(--accent)'; }
-      if(programEl) { programEl.value = profile.program || ''; programEl.style.background = 'var(--accent-bg)'; programEl.style.color = 'var(--accent)'; }
+      if(nameEl) { nameEl.value = profile.name || ''; nameEl.style.background = 'var(--accent-bg)'; nameEl.style.color = 'var(--accent)'; nameEl.dispatchEvent(new Event('input')); }
+      if(emailEl) { emailEl.value = profile.email || ''; emailEl.style.background = 'var(--accent-bg)'; emailEl.style.color = 'var(--accent)'; emailEl.dispatchEvent(new Event('input')); }
+      if(programEl) { programEl.value = profile.program || ''; programEl.style.background = 'var(--accent-bg)'; programEl.style.color = 'var(--accent)'; programEl.dispatchEvent(new Event('input')); }
       status.textContent = '✓ Info loaded — ' + profile.name;
       status.style.color = 'var(--accent)';
     } else {
