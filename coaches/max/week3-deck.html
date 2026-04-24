@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — U10 Boys Lacrosse Week 1 Deck Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.4;
+  padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 14px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  background: var(--ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+  flex-shrink: 0;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.wordmark {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 1px;
+}
+
+.doc-title {
+  font-size: 11px;
+  color: var(--ink-2);
+  font-weight: 400;
+}
+
+.header-meta {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: var(--radius);
+}
+
+.focus-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.focus-outcome {
+  font-size: 11px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 8px 10px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.context-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.day-block {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.day-head {
+  padding: 6px 8px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.day-tag {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.day-body {
+  padding: 8px;
+}
+
+.day-block-item {
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.day-block-item:last-child {
+  margin-bottom: 0;
+}
+
+.day-block-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.drill-quick {
+  margin-bottom: 12px;
+}
+
+.drill-quick-head {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.drill-quick-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.drill-quick-table th {
+  background: var(--bg-off);
+  padding: 6px 8px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 9px;
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+
+.drill-quick-table tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-quick-table .drill-name {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.mini-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.mini-head {
+  padding: 6px 8px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.mini-body {
+  padding: 8px;
+}
+
+.mini-body ul {
+  list-style: none;
+}
+
+.mini-body li {
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 5px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.mini-body li:last-child {
+  margin-bottom: 0;
+}
+
+.mini-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+@media print {
+  body {
+    padding: 8px;
+  }
+  
+  .day-block,
+  .mini-card {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">CP</div>
+  <div class="header-text">
+    <div class="wordmark">CoachPrep</div>
+    <div class="doc-title">U10 Boys Lacrosse · Week 1 Deck Sheet</div>
+  </div>
+  <div class="header-meta">
+    Max<br>
+    March 10, 2025
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-label">Week 1 Focus</div>
+  <div class="focus-title">Learning to scoop cleanly and move the ball up the field before pressure arrives</div>
+  <div class="focus-outcome"><strong>End of Week:</strong> Players scoop 8/10 GBs cleanly · Goalie outlets within 3 sec · Players know their position and where to stand for subs</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">March 24 (14 days)</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Season Target</div>
+    <div class="context-value">Fun & Learning</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Sessions</div>
+    <div class="context-value">3× weekly · 45 min</div>
+  </div>
+</div>
+
+<div class="day-grid">
+  <div class="day-block">
+    <div class="day-head">
+      <span>Session 1</span>
+      <span class="day-tag focus-off">Stick Skills</span>
+    </div>
+    <div class="day-body">
+      <div class="day-block-item"><strong>0–8:</strong> Warmup + partner passing</div>
+      <div class="day-block-item"><strong>8–18:</strong> Cradling + Noodle Scooping</div>
+      <div class="day-block-item"><strong>18–28:</strong> 1v1 Ground Balls (entry)</div>
+      <div class="day-block-item"><strong>28–38:</strong> Partner Passing (Box Position)</div>
+      <div class="day-block-item"><strong>38–43:</strong> Cool-down + position intro</div>
+      <div class="day-block-item" style="margin-top:6px;padding-top:6px;border-top:1px solid var(--rule-light);"><strong>Priority:</strong> Every player completes 10 clean scoops and learns their position name.</div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-head">
+      <span>Session 2</span>
+      <span class="day-tag focus-tran">Transition</span>
+    </div>
+    <div class="day-body">
+      <div class="day-block-item"><strong>0–8:</strong> Warmup + goalie outlet reps</div>
+      <div class="day-block-item"><strong>8–18:</strong> 1v1 GB's + 2v1 GB's</div>
+      <div class="day-block-item"><strong>18–30:</strong> 4v3 Box Clear (entry)</div>
+      <div class="day-block-item"><strong>30–40:</strong> 3v2 Transition</div>
+      <div class="day-block-item"><strong>40–45:</strong> Cool-down + callout</div>
+      <div class="day-block-item" style="margin-top:6px;padding-top:6px;border-top:1px solid var(--rule-light);"><strong>Priority:</strong> Goalie outlets ≤ 3 sec · 7/10 clears to offensive box.</div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-head">
+      <span>Session 3</span>
+      <span class="day-tag focus-off">Shooting + Live</span>
+    </div>
+    <div class="day-body">
+      <div class="day-block-item"><strong>0–8:</strong> Warmup + goalie outlet reps</div>
+      <div class="day-block-item"><strong>8–15:</strong> Scoop and Shoot</div>
+      <div class="day-block-item"><strong>15–27:</strong> Partner Passing + Shooting Lines</div>
+      <div class="day-block-item"><strong>27–40:</strong> 3v3 Scrimmage (GB constraint)</div>
+      <div class="day-block-item"><strong>40–45:</strong> Cool-down + callout</div>
+    </div>
+  </div>
+</div>
+
+<div class="drill-quick">
+  <div class="drill-quick-head">Focal Drill Quick Reference</div>
+  <table class="drill-quick-table">
+    <thead>
+      <tr>
+        <th style="width: 28%;">Drill</th>
+        <th style="width: 15%;">Session</th>
+        <th style="width: 57%;">Key Cue</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="drill-name">Noodle Scooping</td>
+        <td>1</td>
+        <td><em>"Butt down, top hand down, scoop through it."</em></td>
+      </tr>
+      <tr>
+        <td class="drill-name">1v1 GB's</td>
+        <td>1, 2</td>
+        <td><em>"Box out with your hips, then scoop away from pressure."</em></td>
+      </tr>
+      <tr>
+        <td class="drill-name">2v1 GB's</td>
+        <td>2</td>
+        <td><em>"Scoop, turn, find the outlet in one motion."</em></td>
+      </tr>
+      <tr>
+        <td class="drill-name">4v3 Box Clear</td>
+        <td>2</td>
+        <td><em>"Goalie looks wing first; defenders spread wide."</em></td>
+      </tr>
+      <tr>
+        <td class="drill-name">Scoop and Shoot</td>
+        <td>3</td>
+        <td><em>"Scoop through it, look at the goal, then shoot."</em></td>
+      </tr>
+      <tr>
+        <td class="drill-name">Partner Passing</td>
+        <td>1, 3</td>
+        <td><em>"Catch two hands, look at your partner, then pass."</em></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card-row">
+  <div class="mini-card">
+    <div class="mini-head">Tracking Priorities</div>
+    <div class="mini-body">
+      <ul>
+        <li><strong>GB win rate:</strong> 60%+ target</li>
+        <li><strong>Clear completion:</strong> 50%+ to O box</li>
+        <li><strong>Shots on cage:</strong> 40%+ target</li>
+        <li><strong>Goalie outlet:</strong> ≤ 3 sec</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mini-card">
+    <div class="mini-head">Coach Decisions</div>
+    <div class="mini-body">
+      <ul>
+        <li><strong>S1:</strong> Name top 3 GB players</li>
+        <li><strong>S2:</strong> Pick first-line clearing unit (G + 3D)</li>
+        <li><strong>S3:</strong> Name starting transition unit (top 4)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mini-card">
+    <div class="mini-head">Watch For</div>
+    <div class="mini-body">
+      <ul>
+        <li>Choking up on stick — cue "hand down"</li>
+        <li>Bending at waist — cue "butt down"</li>
+        <li>Goalie clears late — teach "look wing first"</li>
+        <li>Players bunching up — spread them wide</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:12px;">
+  <div style="background:var(--bg);padding:10px 12px;">
+    <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;font-weight:600;">Session notes</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);min-width:20px;">S1</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);min-width:20px;">S2</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);min-width:20px;">S3</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+  <div style="background:var(--bg);padding:10px 12px;border-left:1px solid var(--rule);">
+    <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;font-weight:600;">KPI log</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);min-width:80px;">GB win rate</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+      <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);min-width:80px;">Clear %</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);min-width:80px;">Shots on cage</span>
+      <span style="flex:1;border-bottom:1px solid var(--rule);display:inline-block;"></span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
