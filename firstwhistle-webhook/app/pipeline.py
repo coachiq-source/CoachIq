@@ -6,12 +6,13 @@ import traceback
 from typing import Any, Mapping
 
 from .claude_client import ClaudeGenerationError, generate_plan
+from .coach_store import upsert_coach_profile
 from .email_send import (
     EmailSendError,
     send_coach_email,
     send_ops_failure_email,
 )
-from .github_deploy import GitHubDeployError, deploy_plans
+from .github_deploy import GitHubDeployError, deploy_plans, discover_next_week_number
 from .parser import PlanParseError, parse_plans
 
 log = logging.getLogger("firstwhistle.pipeline")
@@ -31,10 +32,48 @@ def run_pipeline(intake: Mapping[str, Any]) -> dict:
 
     stage = "start"
 
+    # Mutable working copy so we can stamp the resolved week number onto
+    # the intake before Claude sees it.
+    intake_working: dict[str, Any] = dict(intake)
+
     try:
+        # 0. Pre-flight: discover which week this is for this coach so Claude
+        #    can title the documents correctly (Part 10.1 of the master prompt).
+        #    Also upsert the coach profile into the CoachPrep returning-coach
+        #    store if the intake included a code.
+        stage = "preflight"
+        week_number = discover_next_week_number(slug)
+        intake_working["week"] = week_number
+        log.info(
+            "preflight intake_id=%s slug=%s week=%d sport=%s",
+            intake_id, slug, week_number, sport or "(none)",
+        )
+
+        coach_code = str(intake_working.get("coach_code") or "").strip()
+        if coach_code:
+            try:
+                upsert_coach_profile(
+                    code=coach_code,
+                    name=coach_name,
+                    email=coach_email,
+                    program=str(intake_working.get("team_name") or ""),
+                    sport=sport or "waterpolo",
+                )
+                log.info(
+                    "coach profile upserted code=%s slug=%s", coach_code, slug,
+                )
+            except Exception:
+                # Never block the pipeline on the profile store — log and
+                # continue. The worst case is a returning coach has to retype
+                # their info next time.
+                log.exception(
+                    "coach profile upsert failed code=%s slug=%s (continuing)",
+                    coach_code, slug,
+                )
+
         # 1. Generate
         stage = "claude"
-        response_text = generate_plan(intake)
+        response_text = generate_plan(intake_working)
 
         # 2. Parse
         stage = "parse"
@@ -48,6 +87,7 @@ def run_pipeline(intake: Mapping[str, Any]) -> dict:
             deck_sheet_html=parsed.deck_sheet_html,
             coach_name=coach_name,
             intake_id=intake_id,
+            week_number=week_number,
         )
 
         # 4. Email

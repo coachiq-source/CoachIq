@@ -625,7 +625,7 @@ Use these terms; always define any one the first time it appears in a plan for a
 
 # PART 10 — Output Format (STRICT, UNIVERSAL)
 
-*Applies to both water polo and lacrosse. Do not deviate for sport.*
+*Applies to water polo, lacrosse, and basketball. Do not deviate for sport.*
 
 Return your response using **these exact markers** with **no text before the first marker or after the last marker**:
 
@@ -635,15 +635,62 @@ Return your response using **these exact markers** with **no text before the fir
 <!-- ===== FULL PLAN END ===== -->
 
 <!-- ===== DECK SHEET START ===== -->
-[complete self-contained HTML for deck sheet]
+[complete self-contained HTML for deck sheet / field sheet / court sheet]
 <!-- ===== DECK SHEET END ===== -->
 ```
+
+The `DECK SHEET` marker names are **fixed literals** — they never change regardless of the sport. What DOES change is the *visible, human-readable name* the document uses in its title, header, and body copy (see "Sport-specific sheet name" below).
 
 **No JSON wrapper. No markdown fences (no ```html). No preamble. No closing commentary. Just the two HTML documents separated by the markers.**
 
 Each HTML document must be a complete, self-contained page: `<!DOCTYPE html>` at the top, `<html>`, `<head>` with title + viewport + Google Fonts link + an inline `<style>` block containing every CSS rule the page uses, and `<body>` containing the full content. No external JS, no external CSS, no external images.
 
-**Branding (mandatory — applies to water polo, lacrosse, and basketball):** The product brand is **CoachPrep**. The logo mark is **CP**. The header of both the Full Plan and the Deck Sheet must render the "CP" logo mark and the "CoachPrep" wordmark — never "FirstWhistle", "Cross Cage", "CQ", or any other legacy brand. The `<title>` tag must begin with "CoachPrep — ". No sport-specific brand substitutions; CoachPrep is the brand across every sport the pipeline serves.
+**Branding (mandatory — applies to water polo, lacrosse, and basketball):** The product brand is **CoachPrep**. The logo mark is **CP**. The header of both the Full Plan and the Deck/Field/Court Sheet must render the "CP" logo mark and the "CoachPrep" wordmark — never "FirstWhistle", "Cross Cage", "CQ", or any other legacy brand. The `<title>` tag must begin with "CoachPrep — ". No sport-specific brand substitutions; CoachPrep is the brand across every sport the pipeline serves.
+
+---
+
+## Part 10.1 — Week number (STRICT)
+
+The intake JSON contains a top-level `week` field (integer ≥ 1) supplied by the webhook pipeline. It tells you **which week in this coach's sequence is being generated**. You MUST use that number everywhere a week number appears in either document. Do NOT hardcode "Week 1" anywhere. Do NOT infer the week from dates or intake text — trust only the `week` field. If for any reason `week` is missing or unparseable, default to `1`, but this should never happen in production.
+
+Call the resolved integer `W` below. Wherever the spec or examples show `Week 1`, `WEEK 1`, `Week [N]`, or `[W]`, substitute the actual integer value of `W`.
+
+**Every one of the following must reflect `W`, not a hardcoded `1`:**
+
+1. **`<title>` tag** — Full Plan: `CoachPrep — Week W Practice Plan — [Coach First Name] [Last Name]`. Sheet: `CoachPrep — Week W [Sheet Name] — [Coach First Name] [Last Name]` (where `[Sheet Name]` is resolved per Part 10.2).
+2. **Header doc title** (the `.cq-doc-type` / document-title element in the header row) — Full Plan: `Week W Practice Plan`. Sheet: `Week W [Sheet Name]`.
+3. **Focal Bar label** — the small caps/label text inside `<div class="fl">` — `Week W Focus — From Your Intake`.
+4. **Section label above the KPI grid** — `WEEK W TRACKING PRIORITIES` (uppercase because it is a mono section label; the integer is the same either way).
+5. **Week-N-+-1 Adjustment Trigger** — the copy refers to "Week `W+1`" (the next week), not literally "Week 2", unless `W = 1`.
+6. **Focus Card on the sheet** — any "Week N" reference in the focus card / context strip uses `W`.
+7. **Body copy / rationale lines** — any phrase like "this week resolves it by…" is fine; but explicit "Week 1" / "Week 2" / etc. numbering must be `W` or `W+1` as appropriate.
+
+If you emit the string "Week 1" anywhere in the document AND `W != 1`, it is a bug. Re-check before finalizing.
+
+---
+
+## Part 10.2 — Sport-specific sheet name (STRICT)
+
+The one-page deliverable's *display name* varies by sport. The two START/END comment markers do not — they remain `DECK SHEET START` / `DECK SHEET END` literally for every sport (the webhook parser depends on the fixed marker strings).
+
+Read the intake JSON's `sport` field and resolve `[Sheet Name]` accordingly:
+
+| `sport` value (lowercase) | `[Sheet Name]` | `[sheet-name]` (lowercase, for body copy) |
+|---------------------------|----------------|-------------------------------------------|
+| `waterpolo`               | Deck Sheet     | deck sheet                                 |
+| `lacrosse`                | Field Sheet    | field sheet                                |
+| `basketball`              | Court Sheet    | court sheet                                |
+
+If `sport` is missing or unrecognized, default to `Deck Sheet` (water polo), matching the Part-0 routing default.
+
+**Every one of the following must reflect `[Sheet Name]`, not a hardcoded "Deck Sheet":**
+
+1. **`<title>` tag of the sheet document** — `CoachPrep — Week W [Sheet Name] — [Coach Name]`.
+2. **Header doc title of the sheet** (the `.cq-doc-type` text in the top-right of the sheet header) — `Week W [Sheet Name]`.
+3. **Any explicit reference to the document in body copy** — e.g. the footer line "Print this [sheet-name] and bring it on deck / on the field / on the bench" uses the sport-appropriate surface (on deck for water polo, on the field for lacrosse, on the bench for basketball).
+4. **Section Notes + KPI Log strip** — the `Session notes` / `KPI log` labels stay the same; only the document title changes.
+
+The **Full Plan** document's title stays `Practice Plan` for all sports (e.g. `CoachPrep — Week W Practice Plan — [Coach Name]`). Only the one-pager's name varies.
 
 ---
 
@@ -674,15 +721,15 @@ Each HTML document must be a complete, self-contained page: `<!DOCTYPE html>` at
 ```
 
 **Full Plan section order (top to bottom):**
-1. Header (CP logo · CoachPrep wordmark · doc title · coach/date)
+1. Header (CP logo · CoachPrep wordmark · doc title `Week W Practice Plan` · coach/date)
 2. Info Strip (4-cell grid: Program · Practices · First Game · Preseason)
-3. Focal Bar (`WEEK 1 FOCUS` label · focal theme title · italic rationale)
+3. Focal Bar (`WEEK W FOCUS` label · focal theme title · italic rationale)
 4. End of Week Outcome (ink left-border bar)
-5. Swim Conditioning bar (grey left-border)
-6. GK Track bar (accent left-border)
-7. Section label: `WEEK 1 TRACKING PRIORITIES`
+5. Swim Conditioning bar (grey left-border) *(water polo only — lacrosse/basketball substitute their sport-appropriate conditioning bar)*
+6. GK Track bar (accent left-border) *(water polo only — lacrosse substitutes Goalie Track; basketball omits)*
+7. Section label: `WEEK W TRACKING PRIORITIES`
 8. KPI Grid (3-column, 6 cells)
-9. Week 2 Adjustment Trigger (flex row with accent label)
+9. Week `W+1` Adjustment Trigger (flex row with accent label — the label shows "Week `W+1` Adjustment Trigger", e.g. "Week 2 Adjustment Trigger" when `W=1`, "Week 3 Adjustment Trigger" when `W=2`)
 10. Section label: `SEASON CONTEXT`
 11. Season Bar (4-cell: First League · Priority Opponent · Major Tournament · Primary Target)
 12. Section label: `SESSION BREAKDOWN`
@@ -693,11 +740,11 @@ Each HTML document must be a complete, self-contained page: `<!DOCTYPE html>` at
 17. Notes Grid (3 cards)
 18. Footer
 
-**One-Pager section order:**
-1. Header (same as full plan)
-2. Focus Card (focal theme + end-of-week outcome, accent bg)
-3. Context Strip (3 cells: First Game · Primary Target · Pool)
-4. Side-by-side bars: Swim Conditioning | GK Track
+**One-Pager section order (doc title = `Week W [Sheet Name]`, where `[Sheet Name]` is Deck Sheet / Field Sheet / Court Sheet per Part 10.2):**
+1. Header (same structure as full plan; doc title element reads `Week W [Sheet Name]`)
+2. Focus Card (focal theme + end-of-week outcome, accent bg — any internal "Week N" reference uses `W`)
+3. Context Strip (3 cells: First Game · Primary Target · Pool [water polo] / Field [lacrosse] / Court [basketball])
+4. Side-by-side bars: Conditioning | Goalie/Goalie-equivalent track (water polo: Swim Conditioning | GK Track; lacrosse: Conditioning | Goalie Track; basketball: Conditioning only — second bar omitted or replaced by a skill-development bar)
 5. Five-Day Grid (Mon–Fri compact blocks)
 6. Focal Drill Quick-Ref Table (drill name · day · key cue only)
 7. Tracking Priorities · Coach Decisions · Watch For cards
@@ -727,10 +774,10 @@ Session block:
 </div>
 ```
 
-Focal bar:
+Focal bar (the `Week W` in `.fl` must be the actual integer from the intake's `week` field — see Part 10.1):
 ```html
 <div class="focal-bar">
-  <div class="fl">Week 1 Focus — From Your Intake</div>
+  <div class="fl">Week W Focus — From Your Intake</div>
   <div class="ft">[Focal theme — 1–2 sentences]</div>
   <div class="fs">[Rationale in italic — connects root cause to this week's solution]</div>
 </div>
@@ -836,7 +883,9 @@ The webhook server writes the two HTML documents to GitHub at `coaches/<slug>/we
 
 # Final reminders (do not skip — UNIVERSAL)
 
-- **Route by sport first.** Read the `sport` field. Water polo → Section A. Lacrosse → Section B. Do not mix.
+- **Route by sport first.** Read the `sport` field. Water polo → Section A. Lacrosse → Section B. Basketball → treat as placeholder routing (Section A structure, basketball terminology) until Section C ships. Do not mix.
+- **Week number is dynamic.** Always use the intake's `week` field in the doc title, focal bar label, tracking-priorities section label, `W+1` adjustment trigger, and every other "Week N" reference. Never hardcode "Week 1" when `week != 1`. See Part 10.1.
+- **Sheet name is sport-specific.** Water polo → "Deck Sheet", lacrosse → "Field Sheet", basketball → "Court Sheet". The two HTML comment markers (`DECK SHEET START` / `DECK SHEET END`) stay as fixed literals — only the *visible* name in the title and header changes. See Part 10.2.
 - **Focal theme comes from the intake.** Do not invent problems.
 - **One Coach Decision per session.** Exactly one.
 - **Progression column is mandatory** in the Focal Drills table (both sports).

@@ -26,9 +26,12 @@ import logging
 from typing import Any, Dict
 
 from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
 
 from . import __version__
+from .coach_store import CoachStoreError, get_coach_profile, upsert_coach_profile
 from .config import configure_logging, get_settings, load_system_prompt
 from .intake import IntakeValidationError, parse_formspree_payload
 from .lacrosse import run_lacrosse_pipeline
@@ -42,6 +45,23 @@ app = FastAPI(
     version=__version__,
     docs_url="/docs",
     redoc_url=None,
+)
+
+# CORS: the CoachPrep returning-coach endpoints are called directly from the
+# GitHub-Pages-hosted intake forms (same-origin with the pipeline is not an
+# option — the forms live at coachiq-source.github.io). We intentionally
+# allow any origin for the `/coach*` routes because the payload is low-value
+# (a pseudo-public code → four non-secret fields) and the endpoints are
+# rate-limited by Railway at the infra layer. Webhook routes stay
+# HMAC-verified regardless of CORS — an attacker can't forge Formspree
+# signatures from a browser.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
+    allow_credentials=False,
+    max_age=600,
 )
 
 
@@ -251,6 +271,74 @@ async def webhook_formspree_deprecated(request: Request) -> JSONResponse:
             ),
         },
     )
+
+
+# ---------------------------------------------------------------------------
+# CoachPrep returning-coach profile store
+# ---------------------------------------------------------------------------
+
+class CoachProfileIn(BaseModel):
+    """Body accepted by POST /coach."""
+    code: str = Field(..., description="4–12 chars, letters/digits/._-, no spaces.")
+    name: str = Field(..., min_length=1)
+    email: str = Field(..., min_length=3)
+    program: str = Field("", description="School / Club / Program name.")
+    sport: str = Field("waterpolo", description="waterpolo | lacrosse | basketball")
+
+
+class CoachProfileOut(BaseModel):
+    code: str
+    name: str
+    email: str
+    program: str
+    sport: str
+    created_at: str
+    updated_at: str
+
+
+@app.post("/coach", response_model=CoachProfileOut)
+def post_coach(body: CoachProfileIn) -> CoachProfileOut:
+    """Upsert a coach profile indexed by the coach-chosen code.
+
+    Called on every intake submission when the coach provided a code — the
+    pipeline itself also writes to this store from the background task, but
+    we expose the endpoint directly so frontends can "pre-register" a code
+    without a full intake if we ever need that.
+    """
+    try:
+        profile = upsert_coach_profile(
+            code=body.code,
+            name=body.name,
+            email=body.email,
+            program=body.program,
+            sport=body.sport,
+        )
+    except CoachStoreError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    log.info(
+        "coach upsert via POST /coach code=%s sport=%s",
+        profile.code, profile.sport,
+    )
+    return CoachProfileOut(**profile.__dict__)
+
+
+@app.get("/coach/{code}", response_model=CoachProfileOut)
+def get_coach(code: str) -> CoachProfileOut:
+    """Look up a coach profile by code. 404 if the code isn't registered.
+
+    Used by the intake forms to auto-fill name / email / program / sport
+    when a returning coach types their code and hits "Apply."
+    """
+    try:
+        profile = get_coach_profile(code)
+    except CoachStoreError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    if profile is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No CoachPrep profile found for code {code!r}.",
+        )
+    return CoachProfileOut(**profile.__dict__)
 
 
 @app.get("/")

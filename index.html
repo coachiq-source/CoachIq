@@ -98,6 +98,68 @@ body {
 .level-card.selected .lc-title { color: var(--accent); }
 .level-card .lc-sub { font-size: 11px; color: var(--ink-3); line-height: 1.4; }
 
+/* RETURNING COACH LOOKUP */
+.returning-wrap {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 14px 16px;
+  margin-bottom: 26px;
+}
+.returning-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+.returning-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.returning-row input {
+  flex: 1;
+  min-width: 0;
+}
+.returning-row .btn-apply {
+  padding: 10px 18px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.returning-row .btn-apply:hover { opacity: 0.88; }
+.returning-row .btn-apply:disabled { opacity: 0.5; cursor: default; }
+.returning-msg {
+  margin-top: 8px;
+  font-size: 12px;
+  min-height: 16px;
+  color: var(--ink-3);
+}
+.returning-msg.err { color: #B01C14; }
+.returning-msg.ok { color: var(--accent); }
+
+/* LOCKED FIELDS (after a returning-coach apply) */
+input.locked, textarea.locked {
+  background: var(--bg-off);
+  color: var(--ink-2);
+  cursor: not-allowed;
+}
+
+/* CODE FIELD STATUS MESSAGE */
+.code-msg { margin-top: 6px; font-size: 12px; min-height: 16px; color: var(--ink-3); }
+.code-msg.err { color: #B01C14; }
+.code-msg.ok { color: var(--accent); }
+
 /* DYNAMIC CONTEXT BADGE */
 .context-badge {
   display: none;
@@ -331,6 +393,16 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
     <div class="section-title">Who are you coaching?</div>
     <p class="section-desc">Start here — your program level shapes everything that follows.</p>
 
+    <!-- RETURNING COACH — code lookup. Auto-fills + locks name/email/program. -->
+    <div class="returning-wrap" id="returningWrap">
+      <div class="returning-label">Returning coach? Enter your CoachPrep code.</div>
+      <div class="returning-row">
+        <input type="text" id="returningCode" maxlength="12" autocomplete="off" spellcheck="false" placeholder="e.g. JR2026">
+        <button type="button" class="btn-apply" id="returningApplyBtn" onclick="applyReturningCode()">Apply</button>
+      </div>
+      <div class="returning-msg" id="returningMsg"></div>
+    </div>
+
     <div class="field">
       <label>Program Level<span class="req">*</span></label>
       <div class="level-cards" id="levelCards">
@@ -447,6 +519,16 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         <div class="chip" data-val="6–10 years">6–10 years</div>
         <div class="chip" data-val="10+ years">10+ years</div>
       </div>
+    </div>
+
+    <!-- Coach-chosen CoachPrep code. Required for new coaches; pre-filled
+         (and disabled) if the coach applied a returning-code above. -->
+    <div class="field" id="coachCodeField">
+      <label>Pick your CoachPrep code<span class="req">*</span>
+        <span class="hint">4–12 characters, letters and digits only (no spaces). This is how we'll recognise you on game-prep and post-game forms — pick something you'll remember.</span>
+      </label>
+      <input type="text" id="coachCode" maxlength="12" autocomplete="off" spellcheck="false" placeholder="e.g. JR2026">
+      <div class="code-msg" id="coachCodeMsg"></div>
     </div>
 
     <div class="nav">
@@ -1291,6 +1373,137 @@ function updateRankNumbers(listId) {
 initDrag('hsRankList');
 initDrag('collegeRankList');
 
+// =====================================================================
+// COACHPREP RETURNING-COACH CODE
+// =====================================================================
+//
+// - Code shape: 4–12 chars, letters/digits/._- (no spaces). Enforced
+//   client-side for fast feedback and again server-side in app/coach_store.
+// - Apply flow: GET https://<api>/coach/<code> → if 200, pre-fill and
+//   LOCK name/email/program fields. If 404, leave them blank and editable
+//   so the coach can register this code by completing the intake.
+// - New-coach flow: coach picks any valid code at the end of Step 1. On
+//   submit we pass it through so the webhook can write it to the store.
+// - Switching API base: set window.COACHPREP_API_BASE before this script
+//   runs (or edit the default below). GitHub Pages → Railway is cross-
+//   origin, so the API has permissive CORS on /coach*.
+
+const COACHPREP_API_BASE = (window.COACHPREP_API_BASE || 'https://coachiq-production.up.railway.app').replace(/\/+$/, '');
+const CODE_RE = /^[A-Za-z0-9._-]{4,12}$/;
+
+function setReturningMsg(text, cls) {
+  const el = document.getElementById('returningMsg');
+  if (!el) return;
+  el.className = 'returning-msg' + (cls ? ' ' + cls : '');
+  el.textContent = text || '';
+}
+
+function lockProfileFields(locked) {
+  ['firstName', 'lastName', 'email', 'school'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.readOnly = !!locked;
+    el.classList.toggle('locked', !!locked);
+  });
+  const codeField = document.getElementById('coachCode');
+  if (codeField) {
+    codeField.readOnly = !!locked;
+    codeField.classList.toggle('locked', !!locked);
+  }
+}
+
+function splitFullName(full) {
+  const parts = (full || '').trim().split(/\s+/);
+  if (parts.length <= 1) return { first: parts[0] || '', last: '' };
+  return { first: parts[0], last: parts.slice(1).join(' ') };
+}
+
+function applyReturningProfile(profile) {
+  // Pre-fill profile fields. Fire change events so any dependent JS updates.
+  const { first, last } = splitFullName(profile.name);
+  const set = (id, v) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = v || '';
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  };
+  set('firstName', first);
+  set('lastName', last);
+  set('email', profile.email);
+  set('school', profile.program);
+  // Also stash the code in the picker field so the form submits it.
+  const codeField = document.getElementById('coachCode');
+  if (codeField) codeField.value = profile.code;
+  lockProfileFields(true);
+}
+
+async function applyReturningCode() {
+  const input = document.getElementById('returningCode');
+  const btn = document.getElementById('returningApplyBtn');
+  if (!input || !btn) return;
+  const code = (input.value || '').trim();
+  if (!code) {
+    setReturningMsg('Enter your CoachPrep code first.', 'err');
+    return;
+  }
+  if (!CODE_RE.test(code)) {
+    setReturningMsg('Code must be 4–12 chars, letters/digits/._- only.', 'err');
+    return;
+  }
+  btn.disabled = true;
+  const prevLabel = btn.textContent;
+  btn.textContent = 'Looking up…';
+  setReturningMsg('Looking up your CoachPrep profile…');
+  try {
+    const resp = await fetch(COACHPREP_API_BASE + '/coach/' + encodeURIComponent(code), {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+      mode: 'cors',
+    });
+    if (resp.status === 404) {
+      // Not found — leave fields blank + editable. Stash the code so new-
+      // coach submission uses it and the pipeline registers this coach.
+      lockProfileFields(false);
+      const codeField = document.getElementById('coachCode');
+      if (codeField) codeField.value = code;
+      setReturningMsg(
+        "We don't recognise that code yet — finish the intake and we'll save it to this code for next time.",
+        'err'
+      );
+      return;
+    }
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const profile = await resp.json();
+    applyReturningProfile(profile);
+    setReturningMsg('Welcome back, ' + profile.name + ' — we\u2019ve pre-filled your profile.', 'ok');
+  } catch (err) {
+    console.error('CoachPrep lookup failed', err);
+    setReturningMsg('Lookup failed — check your connection and try again, or continue without a code.', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = prevLabel;
+  }
+}
+
+// Live-validate the coach-chosen code at the end of Step 1.
+document.addEventListener('DOMContentLoaded', () => {
+  const codeInput = document.getElementById('coachCode');
+  if (!codeInput) return;
+  codeInput.addEventListener('input', () => {
+    const v = (codeInput.value || '').trim();
+    const msg = document.getElementById('coachCodeMsg');
+    if (!msg) return;
+    if (!v) { msg.className = 'code-msg'; msg.textContent = ''; return; }
+    if (CODE_RE.test(v)) {
+      msg.className = 'code-msg ok';
+      msg.textContent = 'Looks good.';
+    } else {
+      msg.className = 'code-msg err';
+      msg.textContent = '4–12 chars, letters/digits/._- only (no spaces).';
+    }
+  });
+});
+
 async function submitForm() {
   const consent = document.getElementById('consentRequired');
   if (!consent.checked) {
@@ -1298,6 +1511,28 @@ async function submitForm() {
     consent.focus();
     consent.style.outline = '2px solid var(--accent)';
     setTimeout(() => { consent.style.outline = ''; }, 2000);
+    return;
+  }
+
+  // Coach-chosen CoachPrep code — required and must match the shape
+  // contract. If it's missing or malformed we bounce back to Step 1 so
+  // the coach can fix it before anything goes to Formspree.
+  const codeInputEl = document.getElementById('coachCode');
+  const codeVal = ((codeInputEl && codeInputEl.value) || '').trim();
+  if (!codeVal || !CODE_RE.test(codeVal)) {
+    const msg = document.getElementById('coachCodeMsg');
+    if (msg) {
+      msg.className = 'code-msg err';
+      msg.textContent = codeVal
+        ? '4–12 chars, letters/digits/._- only (no spaces).'
+        : 'Pick a CoachPrep code before submitting.';
+    }
+    // Jump back to Step 1 and focus the input.
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const s0 = document.getElementById('s0');
+    if (s0) s0.classList.add('active');
+    updateProgress(0);
+    if (codeInputEl) { codeInputEl.focus(); codeInputEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     return;
   }
 
@@ -1325,6 +1560,8 @@ async function submitForm() {
   const gm = document.getElementById('guessingMoment').value || '';
 
   const data = {
+    sport: 'waterpolo',
+    coach_code: codeVal,
     level: selectedLevel,
     name:  val('firstName') + ' ' + val('lastName'),
     email: val('email'),

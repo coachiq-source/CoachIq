@@ -54,6 +54,43 @@ def test_intake_invalid_email_rejected():
         raise AssertionError("should have raised")
 
 
+def test_intake_accepts_coach_code():
+    body = {
+        "name": "Jamie Rivera",
+        "email": "jamie@example.com",
+        "coach_code": "JR2026",
+    }
+    intake = parse_formspree_payload(body)
+    assert intake["coach_code"] == "JR2026"
+
+
+def test_intake_coach_code_accepts_aliases():
+    body = {
+        "name": "Jamie Rivera",
+        "email": "jamie@example.com",
+        "cp_code": "  jamie.r  ",  # alias + whitespace
+    }
+    intake = parse_formspree_payload(body)
+    assert intake["coach_code"] == "jamie.r"
+
+
+def test_intake_coach_code_malformed_dropped_silently():
+    """A bad code shouldn't 422 the whole intake — strip it and keep going."""
+    body = {
+        "name": "Jamie Rivera",
+        "email": "jamie@example.com",
+        "coach_code": "has spaces!!",
+    }
+    intake = parse_formspree_payload(body)
+    assert intake["coach_code"] == ""
+
+
+def test_intake_coach_code_optional():
+    body = {"name": "Jamie Rivera", "email": "jamie@example.com"}
+    intake = parse_formspree_payload(body)
+    assert intake.get("coach_code", "") == ""
+
+
 def test_intake_drops_formspree_meta():
     body = {
         "name": "x",

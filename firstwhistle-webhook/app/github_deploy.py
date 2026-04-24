@@ -118,6 +118,27 @@ def _next_week_number(client: httpx.Client, slug: str) -> int:
     return highest + 1 if highest >= 1 else 1
 
 
+def discover_next_week_number(slug: str) -> int:
+    """Public wrapper around the internal week-discovery logic.
+
+    Runs BEFORE Claude generation so the week number can be embedded in the
+    intake JSON and referenced by the master prompt (Part 10.1). If the
+    lookup fails for any transport reason, fall back to 1 — the Claude call
+    must not be blocked by a GitHub hiccup, and the worst case is a doc
+    titled "Week 1" on what should be a later week.
+    """
+    try:
+        with httpx.Client(timeout=20.0) as client:
+            return _next_week_number(client, slug)
+    except Exception:
+        log.warning(
+            "discover_next_week_number failed for slug=%s — defaulting to 1",
+            slug,
+            exc_info=True,
+        )
+        return 1
+
+
 def _put_file(
     client: httpx.Client,
     path: str,
@@ -147,11 +168,17 @@ def deploy_plans(
     deck_sheet_html: str,
     coach_name: str,
     intake_id: str,
+    week_number: Optional[int] = None,
 ) -> DeployResult:
     """Commit both HTML files under coaches/<slug>/ and return their public URLs.
 
-    Discovers the next week number for this coach by listing the existing
-    directory, then writes:
+    If `week_number` is supplied (the recommended path since Session 6), it is
+    used verbatim — this is what the webhook pipeline passes in so the number
+    Claude saw when generating the document matches the filename on disk.
+
+    If `week_number` is None, the function falls back to discovering the next
+    week number by listing the existing `coaches/<slug>/` directory. The new
+    deploy is then written to:
 
         coaches/<slug>/week<n>-plan.html
         coaches/<slug>/week<n>-deck.html
@@ -162,7 +189,8 @@ def deploy_plans(
     s = get_settings()
 
     with httpx.Client(timeout=30.0) as client:
-        week_number = _next_week_number(client, slug)
+        if week_number is None:
+            week_number = _next_week_number(client, slug)
         plan_path = f"coaches/{slug}/week{week_number}-plan.html"
         deck_path = f"coaches/{slug}/week{week_number}-deck.html"
 

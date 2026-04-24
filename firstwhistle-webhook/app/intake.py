@@ -17,6 +17,10 @@ from .config import slugify
 FIELD_ALIASES: Dict[str, tuple[str, ...]] = {
     "coach_name":    ("coach_name", "name", "full_name", "coach"),
     "coach_email":   ("coach_email", "email", "e-mail"),
+    # CoachPrep returning-coach code: short opaque string the coach picked on
+    # their first intake. Used to auto-fill later forms. Accepts a handful of
+    # aliases so Formspree form authors don't have to stick to one field name.
+    "coach_code":    ("coach_code", "coachprep_code", "cp_code", "code"),
     "team_name":     ("team_name", "team", "club", "program"),
     "level":         ("level", "age_group", "age_level", "division"),
     "athlete_count": ("athlete_count", "athletes", "roster_size", "num_athletes"),
@@ -25,9 +29,13 @@ FIELD_ALIASES: Dict[str, tuple[str, ...]] = {
     "pool_setup":    ("pool_setup", "pool", "facility", "pool_size"),
     "focus_areas":   ("focus_areas", "focus", "priorities", "goals"),
     "constraints":   ("constraints", "notes", "injuries", "limitations"),
-    "week_of":       ("week_of", "week", "start_date", "date"),
+    "week_of":       ("week_of", "week_label", "start_date", "date"),
     "extra":         ("extra", "additional", "anything_else", "message"),
 }
+
+# Accepted coach-code shape: 4–12 chars, letters/digits/._- only. Whitespace
+# is stripped before validation; case is preserved (coaches can pick MixedCase).
+CODE_RE = re.compile(r"^[A-Za-z0-9._-]{4,12}$")
 
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
@@ -99,6 +107,17 @@ def parse_formspree_payload(raw: Mapping[str, Any]) -> Dict[str, Any]:
         raise IntakeValidationError(
             f"coach_email is not a valid email: {canonical['coach_email']}"
         )
+
+    # coach_code is optional. If present, validate shape; if malformed, drop
+    # it silently and log — a bad code shouldn't 422 the whole intake because
+    # the coach misclicked somewhere. Whitespace is stripped.
+    raw_code = canonical.get("coach_code") or ""
+    if raw_code:
+        stripped = raw_code.strip()
+        if CODE_RE.match(stripped):
+            canonical["coach_code"] = stripped
+        else:
+            canonical["coach_code"] = ""
 
     # Keep any unknown-but-non-empty fields alongside canonical ones so the
     # model has access to everything the coach wrote.
