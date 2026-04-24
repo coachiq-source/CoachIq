@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Practice Plan — John Kelly</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.6;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--rule);
+  margin-bottom: 24px;
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cq-logo-mark {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--accent);
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.cq-meta {
+  text-align: right;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.info-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.info-cell {
+  background: var(--bg);
+  padding: 12px 14px;
+}
+
+.info-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.focal-bar {
+  background: var(--bg-off);
+  border-left: 4px solid var(--accent);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  border-radius: var(--radius);
+}
+
+.fl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+
+.ft {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.fs {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.outcome-bar {
+  border-left: 3px solid var(--ink);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  background: var(--bg);
+}
+
+.outcome-bar p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.swim-bar {
+  border-left: 3px solid var(--ink-3);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  background: var(--bg-off);
+}
+
+.sl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+
+.sc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.sc strong {
+  font-weight: 600;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 32px 0 16px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.kpi-cell {
+  background: var(--bg);
+  padding: 14px 16px;
+}
+
+.kpi-cell.accent {
+  background: var(--accent-bg);
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.kpi-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.kpi-if {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.adjustment-trigger {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+}
+
+.adjustment-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.adjustment-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.season-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.season-cell {
+  background: var(--bg);
+  padding: 12px 14px;
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.session {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.session.full-width {
+  grid-column: 1 / -1;
+}
+
+.session-head {
+  background: var(--bg-off);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+}
+
+.session-day {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.session-focus {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #E8E8E8;
+  color: var(--ink-2);
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+}
+
+.session-priority {
+  padding: 10px 16px;
+  background: #FFFBEA;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.session-body {
+  padding: 16px;
+}
+
+.block {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.block:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.block-time {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.block-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.block-detail {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.block-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 2px;
+  margin-right: 6px;
+  margin-top: 6px;
+}
+
+.tag-focal {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.tag-swim {
+  background: #E8E8E8;
+  color: var(--ink-2);
+}
+
+.tag-tech {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.tag-scrim {
+  background: #F3E5F5;
+  color: #7B1FA2;
+}
+
+.tag-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.drill-ref {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 6px;
+  margin-right: 8px;
+}
+
+.swim-set {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.swim-intent {
+  display: block;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-2);
+}
+
+.coach-decision {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  margin-top: 12px;
+}
+
+.coach-decision-icon {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.coach-decision-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.friday-success {
+  padding: 12px 16px;
+  background: #E8F5E9;
+  border-left: 3px solid #2E7D32;
+  margin-top: 12px;
+  border-radius: var(--radius);
+}
+
+.friday-success-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #2E7D32;
+  margin-bottom: 6px;
+}
+
+.friday-success-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.focal-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.focal-table th {
+  background: var(--bg-off);
+  padding: 10px 12px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.focal-table td {
+  padding: 12px;
+  font-size: 14px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.focal-table tr:last-child td {
+  border-bottom: none;
+}
+
+.focal-table td strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.prog-entry {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink-2);
+}
+
+.prog-full {
+  display: block;
+  color: var(--ink);
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.note-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.note-head {
+  padding: 10px 14px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+}
+
+.note-head.accent {
+  background: var(--accent-bg);
+}
+
+.note-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.note-head.accent .note-title {
+  color: var(--accent);
+}
+
+.note-body {
+  padding: 14px;
+}
+
+.note-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.note-body li {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 10px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.note-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.note-body li:last-child {
+  margin-bottom: 0;
+}
+
+footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .session-grid {
+    grid-template-columns: 1fr;
+  }
+  .info-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .season-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  .session {
+    page-break-inside: avoid;
+  }
+  .note-card {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cq-header">
+  <div class="cq-logo">
+    <div class="cq-logo-mark">CP</div>
+    <div class="cq-wordmark">CoachPrep</div>
+  </div>
+  <div class="cq-meta">
+    <div class="cq-doc-type">Week 1 Practice Plan</div>
+    <div><strong>John Kelly</strong></div>
+    <div>AlphaWP · Varsity Boys</div>
+  </div>
+</div>
+
+<div class="info-strip">
+  <div class="info-cell">
+    <div class="info-label">Program</div>
+    <div class="info-value">AlphaWP Varsity Boys</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Practices</div>
+    <div class="info-value">5x+ per week · 75 min</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">First Game</div>
+    <div class="info-value">Not specified</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Preseason</div>
+    <div class="info-value">3 weeks</div>
+  </div>
+</div>
+
+<div class="focal-bar">
+  <div class="fl">Week 1 Focus — From Your Intake</div>
+  <div class="ft">Building Center-Forward Entry Under Pressure</div>
+  <div class="fs">You're running a center-forward-dominant offense with only two seniors who can play, a thin 2-meter offense, and a roster that's building fundamentals. The gap is clear: your entire front-court attack depends on clean entry passes to post, but your GK is a liability (can't start the counter) and your press defense forces you to win possessions in transition. Same problem: your offense stalls when entry passes don't arrive, and your defense can't afford long possessions. This week resolves it by teaching your wings and drivers to create passing windows under press coverage, establishing a counter-attack rhythm that doesn't depend on GK reads, and drilling your center-forward to seal position and hold the ball when the entry arrives under pressure.</div>
+</div>
+
+<div class="outcome-bar">
+  <p><strong>End of Week 1 Outcome:</strong> Your center-forward receives the ball cleanly in 7 out of 10 possessions by Friday's scrimmage. Wings create entry windows by pulling their defender high, then cutting backdoor. Drivers recognize when to skip the post and attack directly. Counter attack produces 3+ goals per scrimmage without depending on GK outlet reads.</p>
+</div>
+
+<div class="swim-bar">
+  <div class="sl">Swim Conditioning — 25-Yard Pool Standard &nbsp;·&nbsp; <span style="font-weight:400;letter-spacing:0;">Dante/Dettamanti Philosophy</span></div>
+  <div class="sc">
+    <strong>All sets:</strong> head-up · no walls · 1:1 work:rest · two groups (Group 2 leaves when Group 1 touches far end). Time every rep.<br>
+    <strong>Mon / Thu:</strong> 20 × 25y | <strong>Tue:</strong> 10 × 50y · :60 rest | <strong>Wed:</strong> 5 × 75y · 90s rest | <strong>Fri:</strong> 8 × 25y · full recovery<br>
+    <strong>Week 2:</strong> add 2 reps, tighten rest 5s. Friday never overloads.
+  </div>
+</div>
+
+<div class="swim-bar" style="border-left-color: var(--accent); margin-bottom: 28px;">
+  <div class="sl" style="color: var(--accent);">GK Track — Parallel Focus (0–40 min) &nbsp;·&nbsp; <span style="font-weight:400;letter-spacing:0;">Building positional base + outlet awareness despite developmental gap</span></div>
+  <div class="sc">
+    <strong>All days:</strong> 200y warm-up (25 free / 25 backstroke / 25 eggbeater / 25 vertical backstroke) + 3 × 100y technical block (GP · Lateral · Glide · Quick Hands · Cherry Pickers · Gravity Drill).<br>
+    <strong>Mon / Wed (Day 1 — Positional):</strong> 4 × 7-min blocks · 20s work / 10s rest — (1) GP hold, (2) GP + corner lunges, (3) Near-side glide series, (4) Cross-cage glide series.<br>
+    <strong>Tue / Thu (Day 2 — Heavy Ball):</strong> 4 × 7-min blocks · heavy ball throughout — (1) Forehead holds, (2) Med ball two-handed lunges, (3) Lateral lunges (heavy ball), (4) 25 catapult throws.<br>
+    <strong>Fri (Activation only):</strong> 100y warm-up + 1 × 100y technical set. Joins team for all special teams reps. Notes where every shot goes — high/low, near/far.<br>
+    <strong>GK communication priorities:</strong> Call "set" on every 5x6 rep (GK owns the shape). Louder when shape breaks, not quieter. Verbalize counter attack read: "outlet left / outlet right / hold".
+  </div>
+</div>
+
+<div class="section-label">WEEK 1 TRACKING PRIORITIES</div>
+
+<div class="kpi-grid">
+  <div class="kpi-cell accent">
+    <div class="kpi-label">Clean Entry Passes to Post</div>
+    <div class="kpi-value">Track by session — Mon through Fri scrimmage</div>
+    <div class="kpi-if">If under 50% by Thursday → dedicate Friday's 60–90 window to entry-pass live reps only (no scrimmage variance)</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Counter Attack Attempts vs. Conversions</div>
+    <div class="kpi-value">Log every counter opportunity — 1v0, 2v1, 3v2</div>
+    <div class="kpi-if">If conversion rate under 60% → add a Thursday counter-speed block (15 min, no defense)</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">6x5 First Look vs. Second Look</div>
+    <div class="kpi-value">Mark which shot the power play takes — primary or reset</div>
+    <div class="kpi-if">If 70%+ second-look shots → your 4-2 isn't creating the initial 2v1; simplify the rotation in Week 2</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">5x6 Shape Breaks</div>
+    <div class="kpi-value">Count how many times your man-down collapses early or slides late</div>
+    <div class="kpi-if">If more than 3 per scrimmage → drill GK "set" call timing on Friday; shape is GK-owned</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Press Defense Overcommits</div>
+    <div class="kpi-value">Track which perimeter defenders leave their assignment to chase the ball</div>
+    <div class="kpi-if">If same 2 players appear in all sessions → pull them aside Thursday; teach "deny the lane, don't chase the pass"</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">GK Outlet Accuracy</div>
+    <div class="kpi-value">Successful outlets / attempted outlets (any pass that reaches a field player cleanly)</div>
+    <div class="kpi-if">If under 40% → switch to a two-touch counter protocol (GK to nearest wing, wing to driver) instead of direct long balls</div>
+  </div>
+</div>
+
+<div class="adjustment-trigger">
+  <div class="adjustment-label">Week 2 Adjustment Trigger</div>
+  <div class="adjustment-text">If 2 or more KPIs fall below target at Friday's scrimmage → repeat the Week 1 focal theme in Week 2 with reduced complexity. Add no new concepts until <strong>entry-pass windows</strong>, <strong>post seal positioning</strong>, and <strong>counter-attack lane discipline</strong> are consistent under live pressure.</div>
+</div>
+
+<div class="section-label">SEASON CONTEXT</div>
+
+<div class="season-bar">
+  <div class="season-cell">
+    <div class="info-label">First League</div>
+    <div class="info-value">Not specified</div>
+  </div>
+  <div class="season-cell">
+    <div class="info-label">Priority Opponent</div>
+    <div class="info-value">League TBD</div>
+  </div>
+  <div class="season-cell">
+    <div class="info-label">Major Tournament</div>
+    <div class="info-value">None listed</div>
+  </div>
+  <div class="season-cell">
+    <div class="info-label">Primary Target</div>
+    <div class="info-value">State championship tournament</div>
+  </div>
+</div>
+
+<div class="section-label">SESSION BREAKDOWN</div>
+
+<div class="session-grid">
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Monday</div>
+      <span class="session-focus focus-off">Center-Forward Entry</span>
+    </div>
+    <div class="session-priority">Priority: Teach wings to create passing windows — high pull, backdoor cut, eye contact with passer before moving</div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–20</div>
+        <div>
+          <div class="block-name">Spidering + Swim Activation</div>
+          <div class="block-detail">8 min Spidering (2-meter defender press base position drill) + 12 min swim set.</div>
+          <span class="swim-set">20 × 25y · 1:1 rest · two groups</span>
+          <span class="swim-intent">Intent: Explosive transition speed + repeat sprint recovery</span>
+          <span class="drill-ref">Spidering</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">20–50</div>
+        <div>
+          <div class="block-name">Wing Window Creation (3v2 Entry Drill)</div>
+          <div class="block-detail">Three perimeter passers (point + two wings), two center-forwards, two press defenders. Wing pulls defender high, cuts backdoor, receives entry pass. Center-forward seals. 8 min per side, rotate. Teach: eye contact before cut, create separation with hips.</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">Entry Window Creation</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">50–75</div>
+        <div>
+          <div class="block-name">Post Seal + Hold Under Pressure</div>
+          <div class="block-detail">Center-forward vs. 2-meter defender, live. Wing delivers entry pass. Post must seal, receive, and hold for 3 seconds before kicking out. Rotate every 5 reps. Teach: butt into defender's hips, top hand protects stick, eyes on the passer.</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">Post Seal Positioning</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">75–95</div>
+        <div>
+          <div class="block-name">Counter Attack Lanes (Create / Read / Attack)</div>
+          <div class="block-detail">GK makes a save, outlets to nearest wing (no long balls). Wing sprint-swims to center, reads numbers (1v0, 2v1, 3v2). Attack or hold. 15 reps. Teach: GK calls "outlet left" or "outlet right" before releasing.</div>
+          <span class="block-tag tag-tran">Transition</span>
+          <span class="drill-ref">Counter Attack Lanes</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">95–120</div>
+        <div>
+          <div class="block-name">6v6 Live Scrimmage — Entry Pass Constraint</div>
+          <div class="block-detail">Full scrimmage. Constraint: Offense must attempt an entry pass to center-forward on every possession. If entry is denied, reset and try again (no perimeter shots until post has been fed once). Shot clock: 30 sec.</div>
+          <span class="block-tag tag-scrim">Scrimmage</span>
+        </div>
+      </div>
+    </div>
+    <div class="coach-decision">
+      <span class="coach-decision-icon">Decision</span>
+      <span class="coach-decision-text">Identify your top 3 entry-pass creators by name — players who can read press coverage and deliver accurate passes under pressure. They run every entry drill in Tuesday's session.</span>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Tuesday</div>
+      <span class="session-focus focus-tran">Counter Attack</span>
+    </div>
+    <div class="session-priority">Priority: Establish a two-touch counter protocol that doesn't depend on GK long-ball accuracy</div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–20</div>
+        <div>
+          <div class="block-name">Reverse Sculling + Swim Set</div>
+          <div class="block-detail">8 min Reverse Sculling (press base position, sculling backward to maintain gap). 12 min swim set.</div>
+          <span class="swim-set">10 × 50y · :60 rest · two groups · every other rep fully head-up</span>
+          <span class="swim-intent">Intent: Speed endurance at game-tempo distances</span>
+          <span class="drill-ref">Reverse Sculling</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">20–50</div>
+        <div>
+          <div class="block-name">Advantage Rules (3v2, 4v3)</div>
+          <div class="block-detail">GK outlets to wing. Wing sprint-swims center, reads advantage. 3v2: shoot within 8 seconds. 4v3: shoot within 12 seconds. 20 reps total. Teach: sprint first, read second, never slow down to "set up."</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">Advantage Rules</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">50–75</div>
+        <div>
+          <div class="block-name">GK Outlet Decision Drill</div>
+          <div class="block-detail">GK makes save. Two wings check shoulders and call "left" or "right." GK must hit the called outlet within 2 seconds. Wing receives, turns, and sprint-swims to half. 15 reps. Teach: GK eyes on wings before releasing; wings call LOUD.</div>
+          <span class="block-tag tag-tran">Transition</span>
+          <span class="drill-ref">GK Outlet</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">75–95</div>
+        <div>
+          <div class="block-name">Drive and Defend (1v1 Press Live)</div>
+          <div class="block-detail">Driver vs. press defender, half pool. Driver attacks from wing, defender maintains press gap. Live to goal. 10 reps per side. Teach: strong-hand drive beats weak-hand press; if press overcommits, skip to center-forward.</div>
+          <span class="block-tag tag-tech">Technique</span>
+          <span class="drill-ref">Drive and Defend</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">95–120</div>
+        <div>
+          <div class="block-name">Scrimmage — Counter Attack Emphasis</div>
+          <div class="block-detail">6v6 live. Constraint: Every possession starts with a GK save (coach shoots on GK to begin). Track counter attempts vs. conversions. Shot clock: 30 sec.</div>
+          <span class="block-tag tag-scrim">Scrimmage</span>
+        </div>
+      </div>
+    </div>
+    <div class="coach-decision">
+      <span class="coach-decision-icon">Decision</span>
+      <span class="coach-decision-text">Select first-line counter attack group (4 players: 2 wings, 2 drivers). They start every counter drill Wednesday and run the opening counter sequence in Friday's scrimmage.</span>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Wednesday</div>
+      <span class="session-focus focus-off">6x5 Power Play</span>
+    </div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–20</div>
+        <div>
+          <div class="block-name">Elbows Out Walking Forward + Swim Set</div>
+          <div class="block-detail">8 min Elbows Out (press base position, walking forward with elbows wide to deny passing lane). 12 min swim.</div>
+          <span class="swim-set">5 × 75y · 90s rest · two groups · head-up every other length</span>
+          <span class="swim-intent">Intent: Anaerobic capacity under game tempo</span>
+          <span class="drill-ref">Elbows Out Walking Forward</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">20–50</div>
+        <div>
+          <div class="block-name">4-2 Power Play — Rotation to Create 2v1</div>
+          <div class="block-detail">Your 4-2 shape: 4 perimeter (point, two wings, one driver), 2 posts. Drill: wing rotates behind to create 2v1 at weak-side post. Pass, rotate, shoot. 8 min walkthroughs, 12 min live vs. 5 defenders. Teach: rotate AFTER pass, not before.</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">4-2 Power Play Rotation</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">50–75</div>
+        <div>
+          <div class="block-name">Live 6x5 (Shot Clock Running)</div>
+          <div class="block-detail">Full 6x5, 30-sec shot clock. Run your 4-2. Defense can slide. Track: first-look shot vs. second-look shot. 15 reps. Teach: if first look is covered, reset to point and rotate opposite side.</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">Live 6x5</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">75–95</div>
+        <div>
+          <div class="block-name">5x6 Post Protection + GK Shape Call</div>
+          <div class="block-detail">Your man-down vs. 6-man power play. GK calls "set" when shape is correct. Defenders protect posts, concede perimeter. 15 reps. Teach: no one leaves the crease area until GK calls "break."</div>
+          <span class="block-tag tag-tech">Man-Down</span>
+          <span class="drill-ref">5x6 Post Protection</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">95–120</div>
+        <div>
+          <div class="block-name">Scrimmage — Special Teams Live</div>
+          <div class="block-detail">6v6 with random 6x5 and 5x6 calls (coach whistles exclusions). Track power-play conversion rate and man-down stops.</div>
+          <span class="block-tag tag-scrim">Scrimmage</span>
+        </div>
+      </div>
+    </div>
+    <div class="coach-decision">
+      <span class="coach-decision-icon">Decision</span>
+      <span class="coach-decision-text">Lock primary 6x5 unit (your top 6 for power play). They run all Thursday and Friday power-play reps. Name backups for each position.</span>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Thursday</div>
+      <span class="session-focus focus-def">Press Defense</span>
+    </div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–20</div>
+        <div>
+          <div class="block-name">Wrestle and React + Swim Set</div>
+          <div class="block-detail">8 min Wrestle and React (2-meter defender pressing center-forward with live physicality, no ball). 12 min swim.</div>
+          <span class="swim-set">20 × 25y · 1:1 rest · two groups · time every rep</span>
+          <span class="swim-intent">Intent: Explosive transition speed + repeat sprint recovery</span>
+          <span class="drill-ref">Wrestle and React</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">20–50</div>
+        <div>
+          <div class="block-name">Pressure Passing (Wet & Dry)</div>
+          <div class="block-detail">Two lines, 5m apart. Wet pass (ball on water), pressure defender swims between. Dry pass (overhead), defender jumps to deflect. 10 min wet, 10 min dry. Teach: deny the lane with your chest, not your hands.</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">Pressure Passing</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">50–75</div>
+        <div>
+          <div class="block-name">Center Defender Ball-Side Positioning</div>
+          <div class="block-detail">2-meter defender vs. center-forward, live. Ball is at point, wings, driver (coach moves it). Defender adjusts position: ball-side fronting when ball is at wing, straight front when ball is at point. 20 reps. Teach: hips into post, eyes on ball.</div>
+          <span class="block-tag tag-focal">Focal</span>
+          <span class="drill-ref">Center Defender Ball-Side Positioning</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">75–95</div>
+        <div>
+          <div class="block-name">Monkey in the Middle (Press Denial Drill)</div>
+          <div class="block-detail">Three offensive players in a triangle, one press defender in middle. Offense tries to complete 10 passes; defender tries to deflect or steal. Rotate every 2 min. Teach: defender maintains gap, never chases.</div>
+          <span class="block-tag tag-tech">Press Drill</span>
+          <span class="drill-ref">Monkey in the Middle</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">95–120</div>
+        <div>
+          <div class="block-name">Scrimmage — Press Discipline</div>
+          <div class="block-detail">6v6 live. Constraint: Defense must maintain press gaps (no chasing ball). Track press overcommits by player name. Shot clock: 30 sec.</div>
+          <span class="block-tag tag-scrim">Scrimmage</span>
+        </div>
+      </div>
+    </div>
+    <div class="coach-decision">
+      <span class="coach-decision-icon">Decision</span>
+      <span class="coach-decision-text">Name center defender starter (runs all 2-meter defense reps Friday). If your two seniors are both field players, one must own this role.</span>
+    </div>
+  </div>
+
+  <div class="session full-width">
+    <div class="session-head">
+      <div class="session-day">Friday</div>
+      <span class="session-focus focus-int">Rehearsal + Scrimmage</span>
+    </div>
+    <div class="session-body">
+      <div class="block">
+        <div class="block-time">0–15</div>
+        <div>
+          <div class="block-name">Short Activation (No Fatigue Load)</div>
+          <div class="block-detail">5 min dynamic warm-up + partner passing. 10 min swim.</div>
+          <span class="swim-set">8 × 25y · full recovery · two groups</span>
+          <span class="swim-intent">Intent: System activation only — no fatigue before game day</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">15–40</div>
+        <div>
+          <div class="block-name">Special Teams Rehearsal (6x5 + 5x6 Live Reps)</div>
+          <div class="block-detail">10 min: 6x5 live (your 4-2 vs. scout defense). 10 min: 5x6 live (your post-protection shape vs. scout power play). 5 min: situational reps (you're up 1 goal, 2 min left, they pull GK for 7v6).</div>
+          <span class="block-tag tag-focal">Special Teams</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">40–60</div>
+        <div>
+          <div class="block-name">Counter Attack Speed Runs</div>
+          <div class="block-detail">15 live counter attacks: GK save → outlet → 3v2 or 4v3 → finish. Time each one (goal: under 10 sec from save to shot). Your first-line counter group runs first 10; backups run last 5.</div>
+          <span class="block-tag tag-tran">Transition</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">60–90</div>
+        <div>
+          <div class="block-name">Full Scrimmage (Shot Clock, Full Rules)</div>
+          <div class="block-detail">Two 12-min halves, 30-sec shot clock, full exclusion rules. Starters vs. reserves first half; mix second half. Track all six KPIs live.</div>
+          <span class="block-tag tag-scrim">Scrimmage</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">90–105</div>
+        <div>
+          <div class="block-name">Timeout Protocol (3 Reps)</div>
+          <div class="block-detail">Simulate three timeout scenarios: (1) You're down 2, 3 min left. (2) You're up 1, 90 sec left. (3) Tied, you have the ball, 45 sec left. Teach: sprint to bench, listen, return in under 60 sec.</div>
+          <span class="block-tag tag-tech">Timeout Drill</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-time">105–120</div>
+        <div>
+          <div class="block-name">Cool-Down + Week 1 Review</div>
+          <div class="block-detail">5 min easy swimming. 10 min team circle: call out top 3 performers by name (entry-pass accuracy, counter-attack speed, press discipline). Preview Week 2 focal theme.</div>
+        </div>
+      </div>
+    </div>
+    <div class="friday-success">
+      <div class="friday-success-label">Session Success =</div>
+      <div class="friday-success-text"><strong>7/10 clean entry passes to post in full scrimmage</strong> · <strong>3+ counter-attack goals without depending on GK long balls</strong> · <strong>Press defense holds opponents to outside shots (no easy post feeds)</strong></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">FOCAL DRILLS — FULL DETAIL</div>
+
+<table class="focal-table">
+  <thead>
+    <tr>
+      <th style="width: 18%;">Drill</th>
+      <th style="width: 20%;">Setup</th>
+      <th style="width: 12%;">Reps/Duration</th>
+      <th style="width: 18%;">Coaching Cue</th>
+      <th style="width: 20%;">Progression</th>
+      <th style="width: 12%;">Success Metric</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Wing Window Creation</strong></td>
+      <td>Three perimeter passers (point + two wings), two center-forwards, two press defenders. Ball starts at point.</td>
+      <td>8 min per side, rotate groups</td>
+      <td>"Eye contact with passer BEFORE you move. Pull high, cut backdoor."</td>
+      <td>
+        <span class="prog-entry"><strong>Entry:</strong> No defenders — wings walk through the cut pattern, focus on timing and eye contact.</span>
+        <span class="prog-full"><strong>Full:</strong> Live press defenders — wings must create separation with speed and read defender's hips.</span>
+      </td>
+      <td>8/10 clean entry passes arrive at center-forward</td>
+    </tr>
+    <tr>
+      <td><strong>Post Seal + Hold Under Pressure</strong></td>
+      <td>Center-forward vs. 2-meter defender, one-on-one. Wing (or coach) delivers entry pass from 4m out.</td>
+      <td>5 reps per player, rotate</td>
+      <td>"Butt into their hips, top hand protects stick, eyes on the passer."</td>
+      <td>
+        <span class="prog-entry"><strong>Entry:</strong> Defender applies 50% pressure — focus on seal position and clean catch.</span>
+        <span class="prog-full"><strong>Full:</strong> Defender applies full physicality — center-forward must hold ball for 3 sec before kicking out.</span>
+      </td>
+      <td>Center-forward holds ball cleanly 7/10 reps</td>
+    </tr>
+    <tr>
+      <td><strong>Advantage Rules (3v2, 4v3)</strong></td>
+      <td>GK outlets to wing. Wing sprint-swims to center, reads advantage (coach controls number of defenders).</td>
+      <td>20 total reps (10 × 3v2, 10 × 4v3)</td>
+      <td>"Sprint first, read second, never slow down to 'set up.'"</td>
+      <td>
+        <span class="prog-entry"><strong>Entry:</strong> 2v1 only — simplest advantage, focus on sprint speed and finish within 5 sec.</span>
+        <span class="prog-full"><strong>Full:</strong> 3v2 and 4v3 mixed — read requires decision: shoot, pass, or draw-and-dump.</span>
+      </td>
+      <td>3v2 converts 8/10; 4v3 converts 6/10</td>
+    </tr>
+    <tr>
+      <td><strong>GK Outlet Decision Drill</strong></td>
+      <td>GK makes save (coach shoots). Two wings check shoulders and call "left" or "right." GK must hit the called outlet.</td>
+      <td>15 reps</td>
+      <td>"GK eyes on wings before releasing. Wings call LOUD."</td>
+      <td>
+        <span class="prog-entry"><strong>Entry:</strong> Wings stationary — GK practices accuracy with no movement read.</span>
+        <span class="prog-full"><strong>Full:</strong> Wings sprint-swim after calling — GK must lead the pass to a moving target.</span>
+      </td>
+      <td>Outlet connects cleanly 12/15</td>
+    </tr>
+    <tr>
+      <td><strong>4-2 Power Play Rotation</strong></td>
+      <td>4 perimeter players (point, two wings, one driver) + 2 posts. Defense: 5 players. Ball starts at point.</td>
+      <td>8 min walkthrough, 12 min live</td>
+      <td>"Rotate AFTER the pass, not before. Create 2v1 at weak-side post."</td>
+      <td>
+        <span class="prog-entry"><strong>Entry:</strong> No defense — walk through rotation pattern at half speed, focus on spacing and timing.</span>
+        <span class="prog-full"><strong>Full:</strong> Live 6x5 with 30-sec shot clock — defense slides, offense adjusts rotation based on slide.</span>
+      </td>
+      <td>First-look shot 7/10 live reps</td>
+    </tr>
+    <tr>
+      <td><strong>Pressure Passing (Wet & Dry)</strong></td>
+      <td>Two lines 5m apart. Pressure defender swims between passer and receiver.</td>
+      <td>10 min wet pass, 10 min dry pass</td>
+      <td>"Deny the lane with your chest, not your hands."</td>
+      <td>
+        <span class="prog-entry"><strong>Entry:</strong> Defender swims slowly, focus on body positioning and gap maintenance.</span>
+        <span class="prog-full"><strong>Full:</strong> Defender swims game speed, attempts deflections — passer must read and adjust release point.</span>
+      </td>
+      <td>Defender deflects or forces reset 6/10</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-label">COACHING NOTES</div>
+
+<div class="notes-grid">
+  <div class="note-card">
+    <div class="note-head accent">
+      <div class="note-title">Preseason Priorities</div>
+    </div>
+    <div class="note-body">
+      <ul>
+        <li><strong>Monday decision:</strong> Identify your 3 best entry-pass creators. They anchor every offensive possession this week.</li>
+        <li><strong>Teaching sequence:</strong> Wing cuts → Post seal → Counter outlet. In that order. Don't teach counter reads until post positioning is clean.</li>
+        <li><strong>GK development path:</strong> Your GK is a liability right now. Accept it. Build a two-touch counter protocol (GK to wing to driver) that removes the long-ball dependency. GK's job this week: accurate 5m outlets only.</li>
+        <li><strong>Roster reality:</strong> You have 2 seniors who can play and 16 players building fundamentals. Every drill starts at the entry level. Do not progress to full versions until the entry version is clean 8/10 reps.</li>
+        <li><strong>Friday outcome bar:</strong> 7/10 clean entry passes + 3+ counter goals + press holds outside shots. If you hit all three, Week 2 adds secondary counter reads and 6x5 second-look options. If you miss two, repeat Week 1 with no new concepts.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-head">
+      <div class="note-title">Scrimmage / Evaluation Notes</div>
+    </div>
+    <div class="note-body">
+      <ul>
+        <li><strong>Entry-pass windows:</strong> Watch which wings create clean passing lanes. Log by name. The wings who pull-and-cut consistently are your starters.</li>
+        <li><strong>Post seal quality:</strong> Does your center-forward's butt stay in the defender's hips when the pass arrives? If not, the entry pass is wasted.</li>
+        <li><strong>Counter conversion rate:</strong> Track every 2v1, 3v2, 4v3. If under 60% conversion, your players are slowing down instead of attacking. Reteach: sprint first, finish fast.</li>
+        <li><strong>Press overcommits:</strong> Count how many times a perimeter defender leaves their mark to chase the ball. Same 2 players? Pull them aside Thursday.</li>
+        <li><strong>GK outlet accuracy:</strong> Is your GK hitting the called outlet, or guessing? If guessing, add 5 min of GK-to-wing outlet reps before every session next week.</li>
+        <li><strong>Special teams execution:</strong> Your 4-2 power play only works if the wing rotates AFTER the pass. If they rotate early, the defense reads it and slides. Watch rotation timing Friday.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-head">
+      <div class="note-title">Watch For</div>
+    </div>
+    <div class="note-body">
+      <ul>
+        <li><strong>Wing cuts with no eye contact:</strong> If the wing cuts before looking at the passer, the entry pass is late or forced. Cue: "Look first, then move."</li>
+        <li><strong>Center-forward receives with weak top hand:</strong> Ball arrives, defender strips it immediately. Teach: top hand grips the stick at throat height, not down on the shaft.</li>
+        <li><strong>Counter attack slows at half pool:</strong> Players sprint to center, then stop to "set up." No. Cue: "Read on the move — never stop sprinting until you shoot."</li>
+        <li><strong>Press defenders chase passes instead of denying lanes:</strong> Defender swims after the ball, leaves their mark open. Cue: "Stay between your player and the ball. Don't chase."</li>
+        <li><strong>GK outlets go long when a short pass is open:</strong> GK tries to be a hero. Reteach: short outlet to wing is safer and faster than a contested long ball.</li>
+        <li><strong>Power-play rotation happens before the pass:</strong> Defense reads it, slides early, rotation creates no advantage. Cue: "Pass first. Rotate second."</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><strong>CoachPrep</strong> — Week 1 Practice Plan — John Kelly, AlphaWP Varsity Boys</p>
+  <p style="margin-top: 8px; font-size: 12px;">Generated for the week starting April 24. Pool: 25y standard. Season target: State championship tournament.</p>
+</footer>
+
+</body>
+</html>
