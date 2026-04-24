@@ -51,6 +51,13 @@ _MARKER_RE_DECK = re.compile(
     r"<!--\s*=+\s*DECK\s*SHEET\s*START\s*=+\s*-->(.*?)<!--\s*=+\s*DECK\s*SHEET\s*END\s*=+\s*-->",
     re.IGNORECASE | re.DOTALL,
 )
+# Game-prep output is a SINGLE document, not two. Introduced Session 7 for
+# the water-polo opponent-scouting pipeline. Keyed on a distinct marker pair
+# so the same Claude response can never silently land on the weekly pipeline.
+_MARKER_RE_GAMEPREP = re.compile(
+    r"<!--\s*=+\s*GAME\s*PREP\s*START\s*=+\s*-->(.*?)<!--\s*=+\s*GAME\s*PREP\s*END\s*=+\s*-->",
+    re.IGNORECASE | re.DOTALL,
+)
 
 # ```html ... ``` or ``` ... ``` (optionally with a language tag)
 _FENCE_RE = re.compile(
@@ -154,3 +161,50 @@ def parse_plans(response_text: str) -> ParsedPlans:
         raise PlanParseError("deck sheet does not look like HTML")
 
     return parsed
+
+
+def parse_gameprep(response_text: str) -> str:
+    """Pull a single game-prep HTML document out of a Claude response.
+
+    Contract (master prompt Part G output format): the response consists of
+    exactly one marker-wrapped block::
+
+        <!-- ===== GAME PREP START ===== -->
+        ...HTML...
+        <!-- ===== GAME PREP END ===== -->
+
+    Falls back to a single fenced ``` ... ``` HTML block if the markers are
+    missing (with a warning logged) — same resilience pattern as
+    `parse_plans`. Raises `PlanParseError` on empty/unusable input.
+    """
+    if not response_text or not response_text.strip():
+        raise PlanParseError("empty response")
+
+    m = _MARKER_RE_GAMEPREP.search(response_text)
+    if m is not None:
+        html = m.group(1).strip()
+    else:
+        log.warning(
+            "gameprep marker extraction failed — falling back to first fenced "
+            "code block. This usually means the model ignored the Part G output "
+            "contract."
+        )
+        fences = [
+            (match.group("lang").lower(), match.group("body").strip())
+            for match in _FENCE_RE.finditer(response_text)
+        ]
+        html_fences = [
+            body for (lang, body) in fences
+            if lang in ("html", "htm", "") and _looks_like_html(body)
+        ]
+        if not html_fences:
+            raise PlanParseError(
+                "could not locate the game-prep HTML document in response "
+                "(expected GAME PREP comment markers from Part G of the "
+                "system prompt; fenced code blocks also not found)"
+            )
+        html = html_fences[0]
+
+    if not _looks_like_html(html):
+        raise PlanParseError("game prep document does not look like HTML")
+    return html

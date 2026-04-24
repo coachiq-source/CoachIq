@@ -224,6 +224,92 @@ def send_lacrosse_holding_email(
     return EmailResult(message_id=msg_id or "", to=coach_email)
 
 
+def _gameprep_coach_html(
+    coach_name: str,
+    opponent: str,
+    gameprep_url: str,
+) -> str:
+    name = escape(_first_name(coach_name))
+    opp = escape(opponent)
+    return f"""\
+<!doctype html>
+<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;max-width:560px;margin:0 auto;padding:24px;line-height:1.55">
+  <h1 style="font-size:22px;margin:0 0 16px 0;">Your game prep vs {opp} is ready</h1>
+  <p>Hi {name},</p>
+  <p>The game prep package for your match against <strong>{opp}</strong> is live.
+  Open it on your phone on the way to the pool, or print it and bring it on deck.</p>
+  <p style="margin:24px 0;">
+    <a href="{escape(gameprep_url)}" style="display:inline-block;background:#0b3d91;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;">View game prep package</a>
+  </p>
+  <p style="font-size:14px;color:#444;">It covers their system, GK tendencies, top threats, your defensive assignments, your offensive answer, 5x6 shape, timeout scripts, and halftime triggers.</p>
+  <p style="font-size:13px;color:#777777;margin-top:8px;">The link goes live within 5 minutes of receiving this email.</p>
+  <p style="margin-top:32px;">— CoachPrep</p>
+  <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+  <p style="font-size:12px;color:#888;">Plain link, in case the button doesn't work:<br>
+    {escape(gameprep_url)}
+  </p>
+</body></html>
+"""
+
+
+def _gameprep_coach_text(
+    coach_name: str,
+    opponent: str,
+    gameprep_url: str,
+) -> str:
+    first = _first_name(coach_name)
+    return (
+        f"Hi {first},\n\n"
+        f"Your game prep package for the match against {opponent} is ready.\n\n"
+        f"View game prep package: {gameprep_url}\n\n"
+        "Open it on your phone on the way to the pool, or print it and bring "
+        "it on deck. It covers their system, GK tendencies, top threats, "
+        "your defensive assignments, your offensive answer, 5x6 shape, "
+        "timeout scripts, and halftime triggers.\n\n"
+        "The link goes live within 5 minutes of receiving this email.\n\n"
+        "— CoachPrep\n"
+    )
+
+
+def send_gameprep_email(
+    coach_name: str,
+    coach_email: str,
+    opponent: str,
+    gameprep_url: str,
+) -> EmailResult:
+    """Send the game-prep coach email.
+
+    Subject: ``CoachPrep — Game Prep vs <opponent> is ready``.
+    Body: a single "View game prep package" link. Sign-off: "— CoachPrep".
+    """
+    _init()
+    s = get_settings()
+    opp_display = (opponent or "Opponent").strip() or "Opponent"
+    subject = f"CoachPrep — Game Prep vs {opp_display} is ready"
+    params: dict = {
+        "from": s.email_from,
+        "to": [coach_email],
+        "subject": subject,
+        "html": _gameprep_coach_html(coach_name, opp_display, gameprep_url),
+        "text": _gameprep_coach_text(coach_name, opp_display, gameprep_url),
+    }
+    if s.email_reply_to:
+        params["reply_to"] = [s.email_reply_to]
+
+    try:
+        resp = resend.Emails.send(params)
+    except Exception as exc:
+        log.exception("resend gameprep send failed")
+        raise EmailSendError(f"resend send failed: {exc}") from exc
+
+    msg_id = (resp or {}).get("id", "") if isinstance(resp, dict) else getattr(resp, "id", "")
+    log.info(
+        "gameprep email sent to=%s opponent=%s id=%s",
+        coach_email, opp_display, msg_id,
+    )
+    return EmailResult(message_id=msg_id or "", to=coach_email)
+
+
 def send_ops_lacrosse_manual_email(
     intake_id: str,
     coach_name: str,

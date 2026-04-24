@@ -3,8 +3,13 @@
 Routes:
 
   POST /webhook/formspree/waterpolo
-      Verified via HMAC against FORMSPREE_SECRET_WATERPOLO. Triggers the
-      full Claude + GitHub + coach-email pipeline.
+      Verified via HMAC against FORMSPREE_SECRET_WATERPOLO. Branches on the
+      intake's `form_type` field:
+        * `form_type == "gameprep"` → the single-document game-prep pipeline
+          (Part G of the master prompt, file `coaches/<slug>/gameprep-<
+          opponent-slug>.html`, single-link coach email).
+        * anything else → the regular weekly two-document pipeline
+          (full plan + deck sheet).
 
   POST /webhook/formspree/lacrosse
       Verified via HMAC against FORMSPREE_SECRET_LACROSSE. Triggers the
@@ -33,6 +38,7 @@ from pydantic import BaseModel, Field
 from . import __version__
 from .coach_store import CoachStoreError, get_coach_profile, upsert_coach_profile
 from .config import configure_logging, get_settings, load_system_prompt
+from .gameprep import run_gameprep_pipeline
 from .intake import IntakeValidationError, parse_formspree_payload
 from .lacrosse import run_lacrosse_pipeline
 from .pipeline import run_pipeline
@@ -194,13 +200,19 @@ async def _handle_sport_webhook(
 
     # 4. Dispatch to sport-specific background work.
     intake["sport"] = sport
+    form_type = str(intake.get("form_type") or "").strip().lower()
     log.info(
-        "%s intake accepted id=%s slug=%s coach=%s email=%s",
+        "%s intake accepted id=%s slug=%s coach=%s email=%s form_type=%s",
         sport, intake["intake_id"], intake["slug"],
         intake["coach_name"], intake["coach_email"],
+        form_type or "(none)",
     )
     if sport == "waterpolo":
-        background.add_task(run_pipeline, intake)
+        if form_type == "gameprep":
+            background.add_task(run_gameprep_pipeline, intake)
+        else:
+            # Default / "week" / anything else → regular weekly pipeline.
+            background.add_task(run_pipeline, intake)
     elif sport == "lacrosse":
         background.add_task(run_lacrosse_pipeline, intake)
     else:  # pragma: no cover — defensive
@@ -211,6 +223,7 @@ async def _handle_sport_webhook(
         content={
             "accepted": True,
             "sport": sport,
+            "form_type": form_type or "week",
             "intake_id": intake["intake_id"],
             "slug": intake["slug"],
         },

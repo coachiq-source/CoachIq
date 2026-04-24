@@ -1,6 +1,6 @@
 """Commit the two generated HTML files to GitHub via the Contents API.
 
-Layout written on every deploy:
+Layout written on every weekly deploy:
 
     coaches/<slug>/week<n>-plan.html
     coaches/<slug>/week<n>-deck.html
@@ -9,6 +9,13 @@ The week number is discovered at deploy time by listing the coach's directory
 and finding the highest existing `week<n>-plan.html` (fallback: `week<n>-deck.html`).
 The new deploy is that max + 1. If the directory doesn't exist yet, we start
 at week 1.
+
+Game-prep deploys (added Session 7) write a single file per opponent:
+
+    coaches/<slug>/gameprep-<opponent-slug>.html
+
+No deck sheet; the game-prep package is a single self-contained HTML document.
+See `deploy_gameprep` below.
 """
 from __future__ import annotations
 
@@ -20,7 +27,7 @@ from typing import Optional
 
 import httpx
 
-from .config import get_settings
+from .config import get_settings, slugify
 
 log = logging.getLogger("firstwhistle.github")
 
@@ -245,4 +252,65 @@ def deploy_plans(
         plan_path=plan_path,
         deck_path=deck_path,
         week_number=week_number,
+    )
+
+
+@dataclass(frozen=True)
+class GamePrepDeployResult:
+    url: str
+    commit_sha: str
+    path: str
+    opponent_slug: str
+
+
+def deploy_gameprep(
+    slug: str,
+    opponent: str,
+    gameprep_html: str,
+    coach_name: str,
+    intake_id: str,
+) -> GamePrepDeployResult:
+    """Commit a single game-prep HTML document under coaches/<slug>/.
+
+    File lives at:
+
+        coaches/<slug>/gameprep-<opponent-slug>.html
+
+    The opponent slug is derived with the shared `slugify` helper, so
+    "St. Mary's Prep" → `st-marys-prep`. If two intakes target the same
+    opponent, the second deploy overwrites the first — by design; coaches
+    iterating on the same scout send two submissions deliberately.
+    """
+    s = get_settings()
+    opp_slug = slugify(opponent, fallback="opponent")
+    path = f"coaches/{slug}/gameprep-{opp_slug}.html"
+
+    log.info(
+        "deploying gameprep slug=%s opponent_slug=%s path=%s",
+        slug, opp_slug, path,
+    )
+
+    commit_msg = (
+        f"coach:{slug} gameprep:{opp_slug} intake:{intake_id} ({coach_name})"
+    )
+
+    with httpx.Client(timeout=30.0) as client:
+        existing_sha = _get_existing_sha(client, path)
+        resp = _put_file(client, path, gameprep_html, commit_msg, existing_sha)
+
+    commit_sha = (resp.get("commit") or {}).get("sha", "")
+    url = f"{s.public_base_url}/{path}"
+
+    log.info(
+        "gameprep deploy ok slug=%s opponent=%s commit=%s url=%s",
+        slug, opp_slug,
+        commit_sha[:7] if commit_sha else "?",
+        url,
+    )
+
+    return GamePrepDeployResult(
+        url=url,
+        commit_sha=commit_sha,
+        path=path,
+        opponent_slug=opp_slug,
     )

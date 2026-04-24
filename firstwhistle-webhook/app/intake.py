@@ -20,7 +20,7 @@ FIELD_ALIASES: Dict[str, tuple[str, ...]] = {
     # CoachPrep returning-coach code: short opaque string the coach picked on
     # their first intake. Used to auto-fill later forms. Accepts a handful of
     # aliases so Formspree form authors don't have to stick to one field name.
-    "coach_code":    ("coach_code", "coachprep_code", "cp_code", "code"),
+    "coach_code":    ("coach_code", "coachCode", "coachprep_code", "cp_code", "code"),
     "team_name":     ("team_name", "team", "club", "program"),
     "level":         ("level", "age_group", "age_level", "division"),
     "athlete_count": ("athlete_count", "athletes", "roster_size", "num_athletes"),
@@ -31,6 +31,14 @@ FIELD_ALIASES: Dict[str, tuple[str, ...]] = {
     "constraints":   ("constraints", "notes", "injuries", "limitations"),
     "week_of":       ("week_of", "week_label", "start_date", "date"),
     "extra":         ("extra", "additional", "anything_else", "message"),
+    # Form-type selector. Set by the intake form itself to tell the webhook
+    # which pipeline to run. Currently: "" or "week" → regular weekly-plan
+    # pipeline; "gameprep" → the game-prep single-document pipeline. Missing
+    # or unknown values default to the weekly pipeline so existing intakes
+    # keep working. NOTE: we intentionally do NOT alias the bare key "form"
+    # here because Formspree posts `{"form": "myklwjnp", "submission": {...}}`
+    # where `form` is the form id, not a form-type selector.
+    "form_type":     ("form_type", "formType", "formtype"),
 }
 
 # Accepted coach-code shape: 4–12 chars, letters/digits/._- only. Whitespace

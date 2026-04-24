@@ -89,3 +89,59 @@ def generate_plan(intake: Mapping[str, object]) -> str:
         getattr(msg, "stop_reason", "?"),
     )
     return text
+
+
+def generate_gameprep(intake: Mapping[str, object]) -> str:
+    """Call Claude for the water-polo game-prep single-document output (Part G).
+
+    Uses the same master system prompt as `generate_plan`, but the user
+    message tells the model to return a SINGLE HTML document wrapped in the
+    GAME PREP START / END markers specified in Part G — not the two-document
+    FULL PLAN / DECK SHEET format used for the weekly pipeline.
+    """
+    settings = get_settings()
+    system_prompt = load_system_prompt()
+    intake_json = intake_to_prompt_json(intake)
+
+    user_msg = (
+        "A coach has submitted a game-prep intake. Produce the single HTML "
+        "game-prep document described in Part G of the system prompt (water "
+        "polo only). Return it using the exact HTML comment markers "
+        "`<!-- ===== GAME PREP START ===== -->` and "
+        "`<!-- ===== GAME PREP END ===== -->` — no JSON wrapper, no markdown "
+        "fences, no preamble, no trailing commentary. Do not produce a weekly "
+        "practice plan or deck sheet for this intake.\n\n"
+        "INTAKE JSON:\n"
+        f"```json\n{intake_json}\n```"
+    )
+
+    log.info(
+        "calling Claude (gameprep) model=%s intake_id=%s slug=%s opponent=%s",
+        settings.claude_model,
+        intake.get("intake_id"),
+        intake.get("slug"),
+        (intake.get("extras") or {}).get("opponent") if isinstance(intake.get("extras"), Mapping) else intake.get("opponent"),
+    )
+
+    try:
+        msg = _client().messages.create(
+            model=settings.claude_model,
+            max_tokens=settings.claude_max_tokens,
+            system=system_prompt,
+            messages=[{"role": "user", "content": user_msg}],
+        )
+    except APIError as exc:
+        log.exception("anthropic API error (gameprep): %s", exc)
+        raise ClaudeGenerationError(f"Anthropic API error: {exc}") from exc
+
+    text = _extract_text(msg)
+    if not text.strip():
+        raise ClaudeGenerationError("Claude returned empty content (gameprep)")
+
+    log.info(
+        "claude gameprep response ok intake_id=%s chars=%d stop_reason=%s",
+        intake.get("intake_id"),
+        len(text),
+        getattr(msg, "stop_reason", "?"),
+    )
+    return text
