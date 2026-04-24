@@ -8,6 +8,11 @@ Routes:
         * `form_type == "gameprep"` → the single-document game-prep pipeline
           (Part G of the master prompt, file `coaches/<slug>/gameprep-<
           opponent-slug>.html`, single-link coach email).
+        * `form_type == "postgame"` → the week-in-review capture handler.
+          Uses a lenient parser (the postgame form does NOT supply
+          `coach_name`, so the weekly-plan strict validator would 422 it)
+          and for now just logs the submission and stores the raw body on
+          the Railway volume for later pipeline work.
         * anything else → the regular weekly two-document pipeline
           (full plan + deck sheet).
 
@@ -39,9 +44,15 @@ from . import __version__
 from .coach_store import CoachStoreError, get_coach_profile, upsert_coach_profile
 from .config import configure_logging, get_settings, load_system_prompt
 from .gameprep import run_gameprep_pipeline
-from .intake import IntakeValidationError, parse_formspree_payload
+from .intake import (
+    IntakeValidationError,
+    parse_formspree_payload,
+    parse_postgame_payload,
+    peek_form_type,
+)
 from .lacrosse import run_lacrosse_pipeline
 from .pipeline import run_pipeline
+from .postgame import run_postgame_handler
 from .security import SignatureError, verify_formspree_signature
 
 log = configure_logging()
@@ -190,17 +201,49 @@ async def _handle_sport_webhook(
     #    credits, or touching the pipeline.
     _verify_hmac_or_401(sport, raw_body, signature_header, signing_secret)
 
-    # 3. Parse.
+    # 3. Flatten the body; DO NOT validate yet. Different form_types use
+    #    different required-field sets — in particular the post-game form
+    #    doesn't send `coach_name`, so running the weekly-plan strict
+    #    validator first would 422 a perfectly legitimate submission.
     body = await _parse_body_flex(request, raw_body)
+    form_type = peek_form_type(body)
+
+    # 4. Route on form_type BEFORE strict validation.
+    if sport == "waterpolo" and form_type == "postgame":
+        # Post-game / Week-in-Review capture path. Lenient parser (never
+        # raises on missing fields); handler just logs + stores the payload
+        # to a JSONL archive for the future post-game pipeline.
+        intake = parse_postgame_payload(body)
+        intake["sport"] = sport
+        coach_name_disp = intake.get("coach_name") or "(unknown)"
+        log.info(
+            "postgame intake accepted coach=%s sport=%s",
+            coach_name_disp, sport,
+        )
+        background.add_task(run_postgame_handler, intake)
+        return JSONResponse(
+            status_code=202,
+            content={
+                "accepted": True,
+                "sport": sport,
+                "form_type": "postgame",
+                "intake_id": intake["intake_id"],
+                "slug": intake["slug"],
+            },
+        )
+
+    # 5. Non-postgame paths use the strict parser (gameprep + weekly-plan
+    #    both require the full coach_name/coach_email contract).
     try:
         intake = parse_formspree_payload(body)
     except IntakeValidationError as exc:
         log.warning("%s intake rejected: %s", sport, exc)
         raise HTTPException(422, detail=str(exc))
 
-    # 4. Dispatch to sport-specific background work.
     intake["sport"] = sport
-    form_type = str(intake.get("form_type") or "").strip().lower()
+    # Re-read form_type from the parsed intake (peek is best-effort; the
+    # strict parser is authoritative once it succeeds).
+    form_type = str(intake.get("form_type") or form_type or "").strip().lower()
     log.info(
         "%s intake accepted id=%s slug=%s coach=%s email=%s form_type=%s",
         sport, intake["intake_id"], intake["slug"],
