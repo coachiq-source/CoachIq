@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Deck Sheet — John Kelly</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+  padding: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-size: 13px;
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--rule);
+  margin-bottom: 16px;
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cq-logo-mark {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--accent);
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.cq-meta {
+  text-align: right;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  border-radius: var(--radius);
+}
+
+.focus-card-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.focus-card-outcome {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.context-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.bars-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.bar {
+  border-left: 3px solid var(--ink-3);
+  padding: 10px 12px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.bar.accent {
+  border-left-color: var(--accent);
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.bar.accent .bar-label {
+  color: var(--accent);
+}
+
+.bar-content {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.bar-content strong {
+  font-weight: 600;
+}
+
+.session-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.session-compact {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.session-day-compact {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.session-focus-compact {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.session-block-compact {
+  font-size: 10px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.session-block-compact:last-child {
+  margin-bottom: 0;
+}
+
+.session-block-compact strong {
+  color: var(--ink);
+}
+
+.drill-quick-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.drill-quick-table th {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick-table td {
+  padding: 8px 10px;
+  font-size: 11px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+.drill-quick-table tr:last-child td {
+  border-bottom: none;
+}
+
+.bottom-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.bottom-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.bottom-card-head {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.bottom-card-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.bottom-card-body {
+  padding: 10px;
+}
+
+.bottom-card-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.bottom-card-body li {
+  font-size: 11px;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  padding-left: 12px;
+  position: relative;
+}
+
+.bottom-card-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.bottom-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.log-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.log-section {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.log-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.log-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.log-row-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-3);
+  min-width: 80px;
+}
+
+.log-row-line {
+  flex: 1;
+  border-bottom: 1px solid var(--rule);
+  display: inline-block;
+}
+
+footer {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .bars-row {
+    grid-template-columns: 1fr;
+  }
+  .session-row {
+    grid-template-columns: 1fr;
+  }
+  .bottom-cards {
+    grid-template-columns: 1fr;
+  }
+  .context-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  .session-compact {
+    page-break-inside: avoid;
+  }
+  .bottom-card {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cq-header">
+  <div class="cq-logo">
+    <div class="cq-logo-mark">CP</div>
+    <div class="cq-wordmark">CoachPrep</div>
+  </div>
+  <div class="cq-meta">
+    <div class="cq-doc-type">Week 1 Deck Sheet</div>
+    <div><strong>John Kelly</strong></div>
+    <div>AlphaWP · Varsity Boys</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-card-title">Week 1: Building Center-Forward Entry Under Pressure</div>
+  <div class="focus-card-outcome"><strong>End of Week 1 Outcome:</strong> Your center-forward receives the ball cleanly in 7 out of 10 possessions by Friday's scrimmage. Wings create entry windows by pulling their defender high, then cutting backdoor. Counter attack produces 3+ goals per scrimmage without depending on GK outlet reads.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">Not specified</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">State championship</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Pool</div>
+    <div class="context-value">25y · Standard</div>
+  </div>
+</div>
+
+<div class="bars-row">
+  <div class="bar">
+    <div class="bar-label">Swim Conditioning</div>
+    <div class="bar-content">
+      <strong>Mon/Thu:</strong> 20 × 25y · 1:1 rest<br>
+      <strong>Tue:</strong> 10 × 50y · :60 rest<br>
+      <strong>Wed:</strong> 5 × 75y · 90s rest<br>
+      <strong>Fri:</strong> 8 × 25y · full recovery<br>
+      All sets: head-up, no walls, two groups.
+    </div>
+  </div>
+  <div class="bar accent">
+    <div class="bar-label">GK Track (0–40 min)</div>
+    <div class="bar-content">
+      <strong>All days:</strong> 200y warm-up + 3 × 100y technical<br>
+      <strong>Mon/Wed:</strong> Positional (GP holds + lunges)<br>
+      <strong>Tue/Thu:</strong> Heavy ball (forehead holds + catapults)<br>
+      <strong>Fri:</strong> Activation only, joins all special teams
+    </div>
+  </div>
+</div>
+
+<div class="session-row">
+  <div class="session-compact">
+    <div class="session-day-compact">Monday</div>
+    <div class="session-focus-compact">Center-Forward Entry</div>
+    <div class="session-block-compact"><strong>0–20:</strong> Spidering + Swim (20×25y)</div>
+    <div class="session-block-compact"><strong>20–50:</strong> Wing Window Creation (3v2)</div>
+    <div class="session-block-compact"><strong>50–75:</strong> Post Seal + Hold</div>
+    <div class="session-block-compact"><strong>75–95:</strong> Counter Attack Lanes</div>
+    <div class="session-block-compact"><strong>95–120:</strong> Scrimmage (entry constraint)</div>
+  </div>
+  <div class="session-compact">
+    <div class="session-day-compact">Tuesday</div>
+    <div class="session-focus-compact">Counter Attack</div>
+    <div class="session-block-compact"><strong>0–20:</strong> Reverse Sculling + Swim (10×50y)</div>
+    <div class="session-block-compact"><strong>20–50:</strong> Advantage Rules (3v2, 4v3)</div>
+    <div class="session-block-compact"><strong>50–75:</strong> GK Outlet Decision Drill</div>
+    <div class="session-block-compact"><strong>75–95:</strong> Drive and Defend (1v1)</div>
+    <div class="session-block-compact"><strong>95–120:</strong> Scrimmage (counter emphasis)</div>
+  </div>
+  <div class="session-compact">
+    <div class="session-day-compact">Wednesday</div>
+    <div class="session-focus-compact">6x5 Power Play</div>
+    <div class="session-block-compact"><strong>0–20:</strong> Elbows Out + Swim (5×75y)</div>
+    <div class="session-block-compact"><strong>20–50:</strong> 4-2 Rotation to 2v1</div>
+    <div class="session-block-compact"><strong>50–75:</strong> Live 6x5 (shot clock)</div>
+    <div class="session-block-compact"><strong>75–95:</strong> 5x6 Post Protection</div>
+    <div class="session-block-compact"><strong>95–120:</strong> Scrimmage (special teams)</div>
+  </div>
+  <div class="session-compact">
+    <div class="session-day-compact">Thursday</div>
+    <div class="session-focus-compact">Press Defense</div>
+    <div class="session-block-compact"><strong>0–20:</strong> Wrestle & React + Swim (20×25y)</div>
+    <div class="session-block-compact"><strong>20–50:</strong> Pressure Passing (Wet & Dry)</div>
+    <div class="session-block-compact"><strong>50–75:</strong> Center Defender Ball-Side</div>
+    <div class="session-block-compact"><strong>75–95:</strong> Monkey in the Middle</div>
+    <div class="session-block-compact"><strong>95–120:</strong> Scrimmage (press discipline)</div>
+  </div>
+  <div class="session-compact">
+    <div class="session-day-compact">Friday</div>
+    <div class="session-focus-compact">Rehearsal</div>
+    <div class="session-block-compact"><strong>0–15:</strong> Activation (8×25y)</div>
+    <div class="session-block-compact"><strong>15–40:</strong> Special Teams Rehearsal</div>
+    <div class="session-block-compact"><strong>40–60:</strong> Counter Speed Runs</div>
+    <div class="session-block-compact"><strong>60–90:</strong> Full Scrimmage</div>
+    <div class="session-block-compact"><strong>90–105:</strong> Timeout Protocol (3 reps)</div>
+  </div>
+</div>
+
+<table class="drill-quick-table">
+  <thead>
+    <tr>
+      <th style="width: 30%;">Drill</th>
+      <th style="width: 15%;">Day</th>
+      <th style="width: 55%;">Key Cue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Wing Window Creation</strong></td>
+      <td>Mon</td>
+      <td>Eye contact with passer BEFORE you move. Pull high, cut backdoor.</td>
+    </tr>
+    <tr>
+      <td><strong>Post Seal + Hold</strong></td>
+      <td>Mon</td>
+      <td>Butt into their hips, top hand protects stick, eyes on the passer.</td>
+    </tr>
+    <tr>
+      <td><strong>Advantage Rules (3v2, 4v3)</strong></td>
+      <td>Tue</td>
+      <td>Sprint first, read second, never slow down to 'set up.'</td>
+    </tr>
+    <tr>
+      <td><strong>GK Outlet Decision</strong></td>
+      <td>Tue</td>
+      <td>GK eyes on wings before releasing. Wings call LOUD.</td>
+    </tr>
+    <tr>
+      <td><strong>4-2 Power Play Rotation</strong></td>
+      <td>Wed</td>
+      <td>Rotate AFTER the pass, not before. Create 2v1 at weak-side post.</td>
+    </tr>
+    <tr>
+      <td><strong>Pressure Passing (Wet & Dry)</strong></td>
+      <td>Thu</td>
+      <td>Deny the lane with your chest, not your hands.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="bottom-cards">
+  <div class="bottom-card">
+    <div class="bottom-card-head">
+      <div class="bottom-card-title">Tracking Priorities</div>
+    </div>
+    <div class="bottom-card-body">
+      <ul>
+        <li><strong>Clean entry passes to post</strong> — Track by session (Mon–Fri)</li>
+        <li><strong>Counter attempts vs. conversions</strong> — Log every 2v1, 3v2, 4v3</li>
+        <li><strong>6x5 first vs. second look</strong> — Mark which shot the PP takes</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bottom-card">
+    <div class="bottom-card-head">
+      <div class="bottom-card-title">Coach Decisions</div>
+    </div>
+    <div class="bottom-card-body">
+      <ul>
+        <li><strong>Mon:</strong> Name top 3 entry-pass creators</li>
+        <li><strong>Tue:</strong> Select first-line counter group (4 players)</li>
+        <li><strong>Wed:</strong> Lock primary 6x5 unit (top 6)</li>
+        <li><strong>Thu:</strong> Name center defender starter</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bottom-card">
+    <div class="bottom-card-head">
+      <div class="bottom-card-title">Watch For</div>
+    </div>
+    <div class="bottom-card-body">
+      <ul>
+        <li>Wing cuts with no eye contact</li>
+        <li>Center-forward weak top hand</li>
+        <li>Counter attack slows at half pool</li>
+        <li>Press defenders chase passes</li>
+        <li>PP rotation before the pass</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="log-strip">
+  <div class="log-section">
+    <div class="log-label">Session notes</div>
+    <div class="log-row">
+      <span class="log-row-label">Mon</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Tue</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Wed</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Thu</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Fri</span>
+      <span class="log-row-line"></span>
+    </div>
+  </div>
+  <div class="log-section" style="border-left: 1px solid var(--rule);">
+    <div class="log-label">KPI log</div>
+    <div class="log-row">
+      <span class="log-row-label">Clean entries</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Counter converts</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">PP first look</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Press overcommits</span>
+      <span class="log-row-line"></span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><strong>CoachPrep</strong> — Week 1 Deck Sheet — John Kelly, AlphaWP Varsity Boys</p>
+  <p style="margin-top: 6px; font-size: 10px;">Print this deck sheet and bring it on deck. Pool: 25y standard. Season target: State championship tournament.</p>
+</footer>
+
+</body>
+</html>
