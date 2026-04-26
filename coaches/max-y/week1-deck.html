@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Field Sheet — Max Y</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 16px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cq-logo-mark {
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+.cq-coach {
+  font-size: 11px;
+  color: var(--ink-2);
+  margin-top: 3px;
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.focus-outcome {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.dual-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.bar {
+  border-left: 3px solid var(--ink-2);
+  padding: 10px 12px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.bar.accent {
+  border-left-color: var(--accent);
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.bar.accent .bar-label {
+  color: var(--accent);
+}
+
+.bar-content {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.session-compact {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  background: var(--bg);
+}
+
+.session-compact-head {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.session-focus-compact {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.session-compact-body {
+  font-size: 11px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.session-compact-body div {
+  margin-bottom: 4px;
+}
+
+.session-compact-body div:last-child {
+  margin-bottom: 0;
+}
+
+.drill-quick {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 11px;
+}
+
+.drill-quick th {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule-light);
+  color: var(--ink);
+  vertical-align: top;
+}
+
+.drill-quick tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-quick .drill-name {
+  font-weight: 600;
+}
+
+.card-trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.mini-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.mini-card-head {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.mini-card-body {
+  padding: 10px;
+  font-size: 11px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.mini-card-body div {
+  margin-bottom: 6px;
+}
+
+.mini-card-body div:last-child {
+  margin-bottom: 0;
+}
+
+.log-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.log-section {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.log-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.log-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.log-row-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--ink-3);
+  min-width: 80px;
+}
+
+.log-row-line {
+  flex: 1;
+  border-bottom: 1px solid var(--rule);
+  display: inline-block;
+}
+
+footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 10px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 600px) {
+  .context-strip,
+  .dual-bar,
+  .card-trio {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  .container {
+    max-width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="cq-header">
+  <div>
+    <div class="cq-logo">
+      <div class="cq-logo-mark">CP</div>
+      <div class="cq-wordmark">CoachPrep</div>
+    </div>
+    <div class="cq-coach">Max Y</div>
+  </div>
+  <div>
+    <div class="cq-doc-type">Week 1 Field Sheet</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-title">Week 1 Focus: Ground balls, box-position catching, and one reliable dodge under pressure</div>
+  <div class="focus-outcome"><strong>Outcome:</strong> Players scoop ground balls with their feet moving and their butt down, catch passes in box position without bobbling, and know one reliable dodge they can run when their first look is taken away.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">May 2</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">First winning season</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Field</div>
+    <div class="context-value">Not specified</div>
+  </div>
+</div>
+
+<div class="dual-bar">
+  <div class="bar">
+    <div class="bar-label">Conditioning</div>
+    <div class="bar-content">U12 attention cap is ~7 min per block. Conditioning happens inside the skill work — ground-ball battles and 1v1 drills are the cardio.</div>
+  </div>
+  <div class="bar accent">
+    <div class="bar-label">Goalie Track</div>
+    <div class="bar-content">Developing goalie — soft feeds from 8–10 yards, focusing on catching mechanics. Joins team for all live scrimmage reps.</div>
+  </div>
+</div>
+
+<div class="session-compact">
+  <div class="session-compact-head">
+    <span>Week 1 Practice (60 min)</span>
+    <span class="session-focus-compact">Fundamentals</span>
+  </div>
+  <div class="session-compact-body">
+    <div><strong>0–8:</strong> Arrival & Dynamic Warm-Up — high knees, butt kicks, side shuffle, carioca, partner passing</div>
+    <div><strong>8–18:</strong> Noodle Scooping — butt down, top hand down, scoop through it · 8 reps per player</div>
+    <div><strong>18–28:</strong> Partner Passing (Box Position) — catch two hands, stick up, look it in · 20 completions per pair</div>
+    <div><strong>28–42:</strong> 1v1 Dodging (Fake & Go) — fake hard, plant, go the other way · 6 reps per player</div>
+    <div><strong>42–55:</strong> 3v3 Scrimmage (Constraint: Must Scoop Before Shooting) — scoop, turn, find the outlet in one motion</div>
+    <div><strong>55–60:</strong> Cool-Down & Message — call out one player who scooped cleanly under pressure</div>
+  </div>
+</div>
+
+<table class="drill-quick">
+  <thead>
+    <tr>
+      <th style="width: 30%;">Drill</th>
+      <th style="width: 40%;">Key Cue</th>
+      <th style="width: 30%;">What This Teaches</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="drill-name">Noodle Scooping</td>
+      <td>"Butt down, top hand down, scoop through it."</td>
+      <td>Ground balls win games — clean scoops with feet moving</td>
+    </tr>
+    <tr>
+      <td class="drill-name">Partner Passing</td>
+      <td>"Catch two hands, stick up, look it in."</td>
+      <td>Box position keeps the stick protected and ready</td>
+    </tr>
+    <tr>
+      <td class="drill-name">1v1 Dodging</td>
+      <td>"Fake hard, plant, go the other way."</td>
+      <td>One reliable dodge when pressure arrives</td>
+    </tr>
+    <tr>
+      <td class="drill-name">3v3 Scrimmage</td>
+      <td>"Scoop, turn, find the outlet in one motion."</td>
+      <td>Small-sided games with constraints = structured chaos</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="card-trio">
+  <div class="mini-card">
+    <div class="mini-card-head">Tracking</div>
+    <div class="mini-card-body">
+      <div><strong>GB Scoop Rate:</strong> Clean scoops / total attempts</div>
+      <div><strong>Box Catches:</strong> Stick vertical, top hand at armpit</div>
+      <div><strong>1v1 Separation:</strong> 2+ steps on 4/6 dodges</div>
+    </div>
+  </div>
+  <div class="mini-card">
+    <div class="mini-card-head">Decisions</div>
+    <div class="mini-card-body">
+      <div>Identify your top 3 ground-ball players by name — they start every GB battle in Week 2.</div>
+    </div>
+  </div>
+  <div class="mini-card">
+    <div class="mini-card-head">Watch For</div>
+    <div class="mini-card-body">
+      <div>Players bending at the waist instead of dropping hips on GBs</div>
+      <div>Ball-carrier choked up on the plastic — cue "hand down the shaft"</div>
+      <div>Players holding the ball after scoop instead of turning and finding outlet</div>
+    </div>
+  </div>
+</div>
+
+<div class="log-strip">
+  <div class="log-section">
+    <div class="log-label">Session Notes</div>
+    <div class="log-row">
+      <span class="log-row-label">Week 1 Practice</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">—</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">—</span>
+      <span class="log-row-line"></span>
+    </div>
+  </div>
+  <div class="log-section" style="border-left: 1px solid var(--rule);">
+    <div class="log-label">KPI Log</div>
+    <div class="log-row">
+      <span class="log-row-label">GB Scoop Rate</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Box Catches</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">1v1 Separation</span>
+      <span class="log-row-line"></span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  CoachPrep · Week 1 Field Sheet · Max Y<br>
+  Print this field sheet and bring it on the field
+</footer>
+
+</div>
+
+</body>
+</html>
