@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Practice Plan — John</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg-off);
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--bg);
+  padding: 32px 40px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 28px;
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cq-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.cq-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.info-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.info-cell {
+  background: var(--bg);
+  padding: 12px 14px;
+}
+
+.info-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.focal-bar {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 16px 18px;
+  margin-bottom: 28px;
+  border-radius: var(--radius);
+}
+
+.fl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.ft {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.fs {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.outcome-bar {
+  border-left: 4px solid var(--ink);
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.outcome-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.outcome-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.swim-bar {
+  border-left: 4px solid var(--ink-2);
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.sl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.sc {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.sc strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 36px 0 16px 0;
+  font-weight: 500;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.kpi-cell {
+  background: var(--bg);
+  padding: 14px 16px;
+}
+
+.kpi-cell.accent {
+  background: var(--accent-bg);
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.kpi-cell.accent .kpi-label {
+  color: var(--accent);
+}
+
+.kpi-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.kpi-if {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.adjustment-trigger {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding: 14px 16px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+}
+
+.trigger-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-bg);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.trigger-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.season-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.season-cell {
+  background: var(--bg);
+  padding: 12px 14px;
+}
+
+.season-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.season-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.session {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.session.full-width {
+  grid-column: 1 / -1;
+}
+
+.session-head {
+  background: var(--bg-off);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+}
+
+.session-day {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.session-focus {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #E8E8E8;
+  color: #555;
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+}
+
+.session-priority {
+  padding: 10px 16px;
+  background: var(--accent-bg);
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 500;
+  border-bottom: 1px solid var(--rule);
+}
+
+.session-body {
+  padding: 16px;
+}
+
+.block {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.block:last-child {
+  margin-bottom: 0;
+}
+
+.block-time {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  padding-top: 2px;
+}
+
+.block-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.block-detail {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.block-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: var(--radius);
+  margin-right: 6px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.tag-focal {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.tag-tech {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.tag-scrim {
+  background: #F3E5F5;
+  color: #6A1B9A;
+}
+
+.drill-ref {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: underline;
+  margin-right: 8px;
+  margin-bottom: 4px;
+}
+
+.coach-decision {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--accent-bg);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--accent);
+}
+
+.coach-decision-icon {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.coach-decision-text {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.friday-success {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+}
+
+.friday-success-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.friday-success-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.drill-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 28px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.drill-table th {
+  background: var(--bg-off);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-table td {
+  padding: 12px;
+  font-size: 13px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.drill-table tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-table .drill-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.drill-table .teach-line {
+  font-size: 12px;
+  color: var(--ink-2);
+  font-style: italic;
+  margin-top: 4px;
+  display: block;
+}
+
+.drill-table .progression-entry {
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-bottom: 4px;
+}
+
+.drill-table .progression-full {
+  font-size: 12px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.note-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.note-head {
+  background: var(--bg-off);
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.note-head.accent {
+  background: var(--accent-bg);
+}
+
+.note-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.note-head.accent .note-title {
+  color: var(--accent);
+}
+
+.note-body {
+  padding: 14px;
+}
+
+.note-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.note-body li {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.note-body li:last-child {
+  margin-bottom: 0;
+}
+
+.note-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  font-size: 12px;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  .session-grid {
+    grid-template-columns: 1fr;
+  }
+  .info-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .season-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+  body {
+    padding: 10px;
+  }
+  .cq-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@media print {
+  body {
+    padding: 0;
+    background: white;
+  }
+  .container {
+    box-shadow: none;
+    padding: 20px;
+  }
+  .session {
+    page-break-inside: avoid;
+  }
+  .note-card {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="cq-header">
+  <div>
+    <div class="cq-logo">
+      <div class="cq-mark">CP</div>
+      <div class="cq-wordmark">CoachPrep</div>
+    </div>
+    <div class="cq-meta">
+      <span>Coach John</span>
+      <span>·</span>
+      <span>U10 Girls Lacrosse</span>
+      <span>·</span>
+      <span>First Practice: April 26</span>
+    </div>
+  </div>
+  <div class="cq-doc-type">Week 1 Practice Plan</div>
+</div>
+
+<div class="info-strip">
+  <div class="info-cell">
+    <div class="info-label">Program</div>
+    <div class="info-value">U10 Girls — First Year</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Practices</div>
+    <div class="info-value">2 × 45 min/week</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">First Game</div>
+    <div class="info-value">May 1</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Season Goal</div>
+    <div class="info-value">Fun + Learning</div>
+  </div>
+</div>
+
+<div class="focal-bar">
+  <div class="fl">Week 1 Focus — From Your Intake</div>
+  <div class="ft">Ground balls, stick skills, and learning what the field looks like.</div>
+  <div class="fs">This is a brand-new program with mostly beginner players and a first-year coach. The job this week is simple: teach what a lacrosse stick does, what a ground ball is, and how to move the ball up the field safely. Every drill stays at the Introduction and Exploration stages — no scheme, no complexity, just fundamentals repeated until they feel normal.</div>
+</div>
+
+<div class="outcome-bar">
+  <div class="outcome-label">End of Week Outcome</div>
+  <div class="outcome-text">By the end of this week, every player can cradle while jogging, scoop a rolling ball without stopping their feet, and complete a catch-and-throw sequence with a partner from 5 yards. The team understands that ground balls decide games, and that moving the ball is safer than carrying it alone.</div>
+</div>
+
+<div class="swim-bar" style="border-left-color: var(--ink-2);">
+  <div class="sl">Conditioning — Age-Appropriate Movement Foundation</div>
+  <div class="sc">
+    <strong>U10 girls (45-min sessions):</strong> No dedicated conditioning block. All movement happens inside games and drills. Each session begins with a 5-minute dynamic warm-up (high knees, butt kicks, side shuffles, carioca — all at half speed, laughing encouraged). The warm-up teaches how to move on a field, not how to get tired. Water breaks every 10 minutes.
+  </div>
+</div>
+
+<div class="swim-bar" style="border-left-color: var(--accent); margin-bottom: 28px;">
+  <div class="sl" style="color: var(--accent);">Goalie Track — Position Unsettled &nbsp;·&nbsp; <span style="font-weight:400;letter-spacing:0;">This week identifies goalie candidates through live reps</span></div>
+  <div class="sc">
+    <strong>Session 1:</strong> No goalie. All shooting drills feed to an empty net with a coach standing in the crease to demonstrate positioning. Players rotate through the crease to see what the goalie sees.<br>
+    <strong>Session 2:</strong> Invite any interested player to try goalie for one 10-minute block (the small-sided game). Provide a chest protector if available; otherwise a player can try it in regular gear. The goal is exposure, not evaluation. Coach stands next to the goalie and narrates every shot: "That one was high — you track it with your eyes and raise your stick." No pressure, just learning.<br>
+    <strong>Girls' lacrosse goalie note:</strong> The draw (girls' face-off) happens at midfield, not in the crease. Goalie does not participate in the draw. After a goal, goalie restarts play from inside the crease with a self-clear or a pass to a defender.
+  </div>
+</div>
+
+<div class="section-label">WEEK 1 TRACKING PRIORITIES</div>
+
+<div class="kpi-grid">
+  <div class="kpi-cell accent">
+    <div class="kpi-label">Ground Ball Attempts</div>
+    <div class="kpi-value">Count attempts, not wins — track how many players go for the ball vs. how many watch</div>
+    <div class="kpi-if">If fewer than half the team goes for ground balls in live play → add one more ground-ball drill to Session 2</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Catch Success Rate</div>
+    <div class="kpi-value">Partner passing — count catches per 10 throws (target: 6/10 by end of week)</div>
+    <div class="kpi-if">If below 5/10 after Session 1 → slow down throwing speed and shorten distance to 3 yards in Session 2</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Cradling While Moving</div>
+    <div class="kpi-value">Watch for top hand position — is it sliding down to the plastic, or staying on the shaft?</div>
+    <div class="kpi-if">If more than half the team chokes up on the stick → add a "hand-check" cue to every cradle drill</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Listen-and-Look</div>
+    <div class="kpi-value">Can players hear a whistle and stop within 2 seconds?</div>
+    <div class="kpi-if">If players don't stop on the whistle → practice whistle-stop 3 times at the start of Session 2</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Smiles Per Session</div>
+    <div class="kpi-value">Informal — are players laughing, asking questions, coming back for more?</div>
+    <div class="kpi-if">If energy drops or players look confused → shorten the drill and add a water break</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Goalie Interest</div>
+    <div class="kpi-value">Track how many players volunteer to try goalie in Session 2</div>
+    <div class="kpi-if">If zero volunteers → assign rotation for Week 2 (everyone tries it once, 5 min each)</div>
+  </div>
+</div>
+
+<div class="adjustment-trigger">
+  <div class="trigger-label">Week 2 Adjustment Trigger</div>
+  <div class="trigger-text">If catch success rate stays below 5/10 AND players are still stopping their feet to scoop ground balls at the first game → repeat Week 1's focal theme in Week 2 with no new concepts. Add clearing and 3v2 only after stick skills and ground balls are consistent under live pressure.</div>
+</div>
+
+<div class="section-label">SEASON CONTEXT</div>
+
+<div class="season-bar">
+  <div class="season-cell">
+    <div class="season-label">First Practice</div>
+    <div class="season-value">April 26</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">First Game</div>
+    <div class="season-value">May 1 (5 days away)</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">Primary Target</div>
+    <div class="season-value">Fun + Learning</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">Biggest Gap</div>
+    <div class="season-value">Timeout management</div>
+  </div>
+</div>
+
+<div class="section-label">SESSION BREAKDOWN</div>
+
+<div class="session-grid">
+  
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Session 1</div>
+      <span class="session-focus focus-off">Stick Skills</span>
+    </div>
+    <div class="session-priority">Priority: Every player holds the stick correctly and completes one clean catch by the end of the session</div>
+    <div class="session-body">
+      
+      <div class="block">
+        <div class="block-time">0–5</div>
+        <div>
+          <div class="block-name">Arrival + Dynamic Warm-Up</div>
+          <div class="block-detail">High knees, butt kicks, side shuffles, carioca (each 10 yards, half speed). Teach the movements, not the intensity. Finish with two laps around the field at a jog — sticks on the ground, no carrying yet.</div>
+          <span class="block-tag tag-tech">Warm-Up</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">5–15</div>
+        <div>
+          <div class="block-name">Stick Introduction + Hand Cradling</div>
+          <div class="block-detail">Every player gets a stick. Teach the parts: head, pocket, shaft, butt. Show top-hand position (halfway down the shaft, thumb up) and bottom-hand position (butt end, pinky down). Cradle demo: rock the stick ear-to-ear, soft hands. Then <strong>Hand Cradling</strong> (no ball): players cradle an imaginary ball while walking in a circle. Cue: "Top hand stays on the shaft — don't slide it down to the plastic."</div>
+          <span class="block-tag tag-focal">Focal Drill</span>
+          <span class="drill-ref">Hand Cradling</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">15–25</div>
+        <div>
+          <div class="block-name">Coach Toss + Partner Passing Intro</div>
+          <div class="block-detail"><strong>Coach Toss</strong> (5 min): Coach tosses a ball underhand to each player from 3 yards. Player catches in their stick (box position — top hand at armpit, stick vertical). Cue: "See the ball into the pocket." 5 reps each.<br><br><strong>Partner Passing</strong> (5 min): Pairs, 5 yards apart. Catch first, then throw. Cue: "Catch two hands, look at your partner, then pass." Count successful catches (target: 3/10 to start — anything caught is a win).</div>
+          <span class="block-tag tag-focal">Focal Drill</span>
+          <span class="drill-ref">Coach Toss</span>
+          <span class="drill-ref">Partner Passing</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">25–35</div>
+        <div>
+          <div class="block-name">Noodle Scooping (Ground Ball Introduction)</div>
+          <div class="block-detail">Two lines facing the coach. Coach rolls a ball out. Player runs to it, scoops through it (butt down, top hand down, scoop through the ball), and jogs away with a fish-hook turn. Cue: "Butt down, top hand down, scoop through it." No defense, no pressure — just the motion. 8 reps each. Celebrate every clean scoop out loud.</div>
+          <span class="block-tag tag-focal">Focal Drill</span>
+          <span class="drill-ref">Noodle Scooping</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">35–43</div>
+        <div>
+          <div class="block-name">3v3 Handball (Small-Sided Introduction)</div>
+          <div class="block-detail">Two teams of 3, small field (20 yards). No sticks — hands only. Goal: pass the ball across the end line. Teaches spacing, passing, and moving without the stick. No tackling, no contact — just passing and running. If a team scores, they get the ball back. Play until time.</div>
+          <span class="block-tag tag-scrim">Live Play</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">43–45</div>
+        <div>
+          <div class="block-name">Cool-Down + Message</div>
+          <div class="block-detail">Two laps around the field at a walk. Gather in a circle. Message: "You all held a stick today. That's lacrosse. Next time we add a ball and see what happens. One player callout: [name the player who had the best attitude or tried the hardest]. Water."</div>
+        </div>
+      </div>
+
+      <div class="coach-decision">
+        <span class="coach-decision-icon">Decision</span>
+        <span class="coach-decision-text">Identify your top 3 ground-ball players by name — they demonstrate Noodle Scooping at the start of Session 2.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-head">
+      <div class="session-day">Session 2</div>
+      <span class="session-focus focus-tran">Ground Balls + Clearing</span>
+    </div>
+    <div class="session-priority">Priority: Every player goes for at least one ground ball in live play, and the team completes one successful clear (ball crosses midfield)</div>
+    <div class="session-body">
+      
+      <div class="block">
+        <div class="block-time">0–5</div>
+        <div>
+          <div class="block-name">Arrival + Dynamic Warm-Up</div>
+          <div class="block-detail">Same as Session 1: high knees, butt kicks, side shuffles, carioca (10 yards each, half speed). Add one new movement: backward jog (10 yards). Two laps around the field at a jog — sticks in hand this time, cradling while jogging (no ball yet).</div>
+          <span class="block-tag tag-tech">Warm-Up</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">5–12</div>
+        <div>
+          <div class="block-name">Form Cradling + Partner Passing Review</div>
+          <div class="block-detail"><strong>Form Cradling</strong> (3 min): Players walk in a circle with a ball in their stick, cradling ear-to-ear. Cue: "Top hand halfway down, bottom hand at the butt." Coach walks around and hand-checks (gently taps the stick — if it falls out, grip is too loose).<br><br><strong>Partner Passing</strong> (4 min): Same as Session 1, but now 7 yards apart. Count catches per 10 throws. Target: 5/10.</div>
+          <span class="drill-ref">Form Cradling</span>
+          <span class="drill-ref">Partner Passing</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">12–22</div>
+        <div>
+          <div class="block-name">1v1 GB's (Ground Ball Battle)</div>
+          <div class="block-detail">Two players face each other, 5 yards apart. Coach rolls a ball between them. Both go for it. Winner scoops and jogs away. Cue: "Box out with your hips, then scoop away from pressure." No stick checks — hips only. 6 reps each. <strong>What this teaches:</strong> Ground balls are contested — you have to want it more than the other player.</div>
+          <span class="block-tag tag-focal">Focal Drill</span>
+          <span class="drill-ref">1v1 GB's</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">22–32</div>
+        <div>
+          <div class="block-name">4v3 Box (Clearing Introduction)</div>
+          <div class="block-detail">Goalie + 3 defenders (no goalie if position unsettled — use a coach). No ride (no defense pressuring the clear). Goalie passes to a defender, defenders pass to each other and carry the ball over the midfield line. Cue: "Goalie looks wide first; defenders spread out." <strong>What this teaches:</strong> Clearing is how you turn a save into offense — spread wide, pass safe, don't force it. Target: 7/10 clears cross midfield.</div>
+          <span class="block-tag tag-focal">Focal Drill</span>
+          <span class="drill-ref">4v3 Box</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">32–42</div>
+        <div>
+          <div class="block-name">3v3 Short Field (Live Play with Constraint)</div>
+          <div class="block-detail">Two teams of 3, 30 yards long. Constraint: every team must complete 2 passes before shooting. Goalie optional (or coach in the crease). Restart after a goal with a goalie clear or a coach toss to the defensive team. <strong>What this teaches:</strong> Passing is safer than dodging — move the ball, not just your feet.</div>
+          <span class="block-tag tag-scrim">Live Play</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-time">42–45</div>
+        <div>
+          <div class="block-name">Cool-Down + Message</div>
+          <div class="block-detail">Two laps at a walk. Gather. Message: "You went for ground balls today. That's how games are won. Next time is our first game — we're going to play, have fun, and do what we practiced. One player callout: [name]. Water."</div>
+        </div>
+      </div>
+
+      <div class="coach-decision">
+        <span class="coach-decision-icon">Decision</span>
+        <span class="coach-decision-text">Name your starting goalie for the first game (or decide to rotate every quarter if position is still unsettled).</span>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="section-label">FOCAL DRILLS — FULL DETAIL</div>
+
+<table class="drill-table">
+  <thead>
+    <tr>
+      <th style="width: 18%;">Drill</th>
+      <th style="width: 22%;">Setup</th>
+      <th style="width: 12%;">Reps/Duration</th>
+      <th style="width: 18%;">Coaching Cue</th>
+      <th style="width: 18%;">What This Teaches</th>
+      <th style="width: 12%;">Progression</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>
+        <span class="drill-name">Hand Cradling</span>
+        <span class="teach-line">Learning the cradle motion without worrying about the ball</span>
+      </td>
+      <td>Players walk in a circle, cradling an imaginary ball. No ball in the stick yet — just the motion.</td>
+      <td>5 min<br>(Session 1)</td>
+      <td>"Top hand stays on the shaft — don't slide it down to the plastic."</td>
+      <td>The cradle keeps the ball in the pocket. The motion is ear-to-ear, not side-to-side.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry:</strong> Walk only, no ball.</div>
+        <div class="progression-full"><strong>Full:</strong> Jog with a ball, change direction on whistle.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="drill-name">Coach Toss</span>
+        <span class="teach-line">First experience catching a ball in a lacrosse stick</span>
+      </td>
+      <td>Coach stands 3 yards away, tosses ball underhand to player. Player catches in box position (top hand at armpit, stick vertical).</td>
+      <td>5 reps each<br>(Session 1)</td>
+      <td>"See the ball into the pocket."</td>
+      <td>Catching is about watching the ball all the way in, not just sticking your stick out.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry:</strong> Stationary catch, 3 yards.</div>
+        <div class="progression-full"><strong>Full:</strong> Catch while moving, 7 yards, on the run.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="drill-name">Partner Passing</span>
+        <span class="teach-line">Learning to catch and throw in a rhythm</span>
+      </td>
+      <td>Pairs, 5 yards apart (Session 1) or 7 yards (Session 2). One ball per pair. Catch, look, pass.</td>
+      <td>10 throws each<br>(Both sessions)</td>
+      <td>"Catch two hands, look at your partner, then pass."</td>
+      <td>Passing is a three-step process: catch, see your target, throw. Rushing any step causes a bad pass.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry:</strong> 5 yards, stationary.</div>
+        <div class="progression-full"><strong>Full:</strong> 10 yards, on the move (triangle weave).</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="drill-name">Noodle Scooping</span>
+        <span class="teach-line">First ground ball — learning the scoop motion</span>
+      </td>
+      <td>Two lines facing coach. Coach rolls ball out, player runs to it, scoops through, jogs away with fish-hook turn. No defense.</td>
+      <td>8 reps each<br>(Session 1)</td>
+      <td>"Butt down, top hand down, scoop through it."</td>
+      <td>The ground ball is scooped through, not picked up. Your feet never stop — scoop on the run.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry:</strong> Coach roll, no defense.</div>
+        <div class="progression-full"><strong>Full:</strong> 1v1 ground ball battle (see 1v1 GB's).</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="drill-name">1v1 GB's</span>
+        <span class="teach-line">Ground balls are contested — you fight for them</span>
+      </td>
+      <td>Two players, 5 yards apart, facing each other. Coach rolls ball between them. Both go for it. Winner scoops and jogs away. Hips only, no stick checks.</td>
+      <td>6 reps each<br>(Session 2)</td>
+      <td>"Box out with your hips, then scoop away from pressure."</td>
+      <td>In a game, every ground ball has an opponent. Use your body to create space, then scoop.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry:</strong> Hips only, no sticks up.</div>
+        <div class="progression-full"><strong>Full:</strong> 1v1 to outlet to transition (2v1 ground ball to fast break).</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="drill-name">4v3 Box</span>
+        <span class="teach-line">Clearing is how a save becomes offense</span>
+      </td>
+      <td>Goalie + 3 defenders (or coach if no goalie). No ride. Goalie passes to a defender, defenders pass and carry over midfield. Spread wide.</td>
+      <td>10 reps<br>(Session 2)</td>
+      <td>"Goalie looks wide first; defenders spread out."</td>
+      <td>The clear is successful when the ball crosses midfield under control. Don't force passes — swing it back if you're covered.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry:</strong> No ride, walk it through.</div>
+        <div class="progression-full"><strong>Full:</strong> 5v4 with a light ride (see 5v4 House in Week 3+).</div>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<div class="section-label">COACHING NOTES</div>
+
+<div class="notes-grid">
+  
+  <div class="note-card">
+    <div class="note-head accent">
+      <div class="note-title">This Week's Priorities</div>
+    </div>
+    <div class="note-body">
+      <ul>
+        <li><strong>Session 1:</strong> Teach stick parts, hand position, and the cradle motion. Success = every player can cradle while walking.</li>
+        <li><strong>Session 1:</strong> Introduce catching with Coach Toss. Target: 3/10 catches. Anything caught is celebrated.</li>
+        <li><strong>Session 1:</strong> Introduce the ground ball scoop with Noodle Scooping. No pressure, no defense — just the motion.</li>
+        <li><strong>Session 2:</strong> Add contested ground balls (1v1 GB's). Teach that ground balls are fought for, not given.</li>
+        <li><strong>Session 2:</strong> Introduce clearing with 4v3 Box. The job is to get the ball past midfield safely — no hero plays.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-head">
+      <div class="note-title">First Game Notes</div>
+    </div>
+    <div class="note-body">
+      <ul>
+        <li>Expect chaos. The other team has practiced too — they might have practiced more. That's fine. Your job is to keep your players smiling.</li>
+        <li>Watch ground balls: do your players go for them, or do they watch? Log who goes for the ball and who hesitates.</li>
+        <li>Watch passing: are players trying to pass, or are they all carrying alone? If they're carrying, remind them between quarters: "Pass first, carry second."</li>
+        <li>Watch the draw (girls' face-off at midfield): does your team know to run to the ball after the whistle? If not, practice it once before the second quarter.</li>
+        <li>Watch your goalie (if you have one): is she tracking the ball with her eyes, or looking at her feet? Cue her once per quarter: "Eyes on the ball."</li>
+        <li>Log who scores, who assists, and who asks to try goalie. Those are your leaders.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-head">
+      <div class="note-title">Watch For (U10 Beginner Failure Modes)</div>
+    </div>
+    <div class="note-body">
+      <ul>
+        <li>Players bend at the waist instead of dropping their hips on ground balls. Cue: "Butt down" every rep.</li>
+        <li>Top hand slides down to the plastic during cradling. Hand-check every player in Session 1 and Session 2.</li>
+        <li>Players throw before they look. Every bad pass is a "look first" cue, not a "throw harder" cue.</li>
+        <li>Players stop their feet to scoop a ground ball. The feet never stop — scoop on the run, fish-hook away.</li>
+        <li>Players crowd the ball in the small-sided game. Teach spacing with a verbal cue: "Spread out — give your teammate room."</li>
+        <li>Players get frustrated when they drop a pass. Celebrate effort ("You went for it — that's lacrosse") and move on. Frustration kills fun.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="adjustment-trigger" style="margin-top: 28px;">
+  <div class="trigger-label" style="background: var(--bg-off); color: var(--ink-2); border: 1px solid var(--rule);">First-Year Coach Note</div>
+  <div class="trigger-text"><strong>Timeout management (your stated gap):</strong> You have two timeouts per half in girls' U10 lacrosse. Use the first one when something breaks (players stop passing, or the other team scores 3 in a row). Script: "We're fine. Pass the ball. Find the open player. Go." That's it. Use the second timeout with 2 minutes left if you're winning (to rest your best players) or if you're losing (to remind them it's about fun, not the score). The timeout isn't about strategy at U10 — it's about calming the chaos and giving them one thing to remember.</div>
+</div>
+
+<div class="footer">
+  <strong>CoachPrep</strong> — Built for coaches, by coaches. Questions? Email support@coachprep.com
+</div>
+
+</div>
+</body>
+</html>
