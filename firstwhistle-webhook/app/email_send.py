@@ -43,6 +43,28 @@ _SHEET_LABEL_BY_SPORT: dict[str, str] = {
 }
 
 
+# Sport -> "where the coach will be when they open this on their phone"
+# surface phrase. Used in the weekly coach-email body line "Open these
+# {open_surface} from your phone, or print the {sheet_lower} and tape it
+# to the wall." Distinct from `_GAMEPREP_SURFACE_BY_SPORT` (which uses
+# "to the field" for the "print it and bring it …" gameprep prose) — here
+# we want the coach's *current location* rather than where they're carrying
+# the printout to. Water polo stays the default so any caller that doesn't
+# pass a sport keeps the original "on deck" wording.
+_OPEN_SURFACE_BY_SPORT: dict[str, str] = {
+    "waterpolo": "on deck",
+    "water_polo": "on deck",
+    "lacrosse": "on the field",
+    "basketball": "on the bench",
+}
+
+
+def _open_surface(sport: Optional[str]) -> str:
+    """Surface noun for the "Open these ___ from your phone" body line."""
+    key = (sport or "").strip().lower()
+    return _OPEN_SURFACE_BY_SPORT.get(key, "on deck")
+
+
 def _sheet_label(sport: Optional[str]) -> str:
     """Return the sport-specific name for the printable one-pager (no suffix).
 
@@ -129,6 +151,7 @@ def _coach_html(
     # short form for the plain-links footer ("Deck: <url>").
     sheet_lower = sheet_label.lower()
     sheet_short = sheet_label.split()[0]  # "Deck" / "Field" / "Court"
+    open_surface = _open_surface(sport)
     gameprep_url = _gameprep_intake_url(sport, coach_code)
     postgame_url = _postgame_intake_url(sport, coach_code)
 
@@ -166,7 +189,7 @@ def _coach_html(
     <a href="{escape(deck_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">{sheet_label} (printable)</a>
     <a href="{escape(gameprep_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">Game prep intake</a>{postgame_button_html}
   </p>
-  <p style="font-size:14px;color:#444;">Open these on deck from your phone, or print the {sheet_lower} and tape it to the wall. The full plan is the coach-facing version with rationale, progressions, and coaching cues.</p>
+  <p style="font-size:14px;color:#444;">Open these {escape(open_surface)} from your phone, or print the {sheet_lower} and tape it to the wall. The full plan is the coach-facing version with rationale, progressions, and coaching cues.</p>
   <p style="font-size:14px;color:#444;">Got a game coming up? Use the <a href="{escape(gameprep_url)}">game prep intake</a> to request an opponent scout and game-day package.</p>{postgame_prose_html}
   <p style="font-size:13px;color:#777777;margin-top:8px;">Links go live within 5 minutes of receiving this email.</p>
   <p style="font-size:14px;color:#444;">When you've run the week, please share a quick note on how it went — it shapes next week's plan:<br>
