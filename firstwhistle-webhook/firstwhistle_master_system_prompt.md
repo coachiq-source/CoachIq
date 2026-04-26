@@ -1085,6 +1085,8 @@ The output format is defined in **Part 10.3** below. Quick summary:
 
 *Applies to water polo, lacrosse, and basketball. Do not deviate for sport.*
 
+**CRITICAL OUTPUT RULE:** Your response must begin with `<!-- ===== FULL PLAN START ===== -->` as the absolute first character. No preamble, no verification commentary, no confirmation text, no XML wrappers, no markdown. The marker is character 1 of your response. Anything before the marker will cause a parse failure.
+
 Return your response using **these exact markers** with **no text before the first marker or after the last marker**:
 
 ```
@@ -1129,7 +1131,7 @@ Call the resolved integer `W` below. **`W` is a placeholder for an integer subst
 6. **Focus Card on the sheet** — any "Week N" reference in the focus card / context strip uses `intake.week`.
 7. **Body copy / rationale lines** — any phrase like "this week resolves it by…" is fine; but explicit "Week 1" / "Week 2" / etc. numbering must be `intake.week` or `intake.week + 1` as appropriate.
 
-**Pre-emit verification (mandatory):** Before finalizing either document, scan your own output for the literal strings `Week W`, `WEEK W`, and `Week [N]` — if any match, that is a template-slot leak and must be replaced with the actual integer. Also scan for `Week 1` when `intake.week != 1` — if any match, that is a hardcoding bug and must be fixed.
+**Internal verification only (do NOT narrate):** While composing the two HTML documents — and silently, without writing any of it into your response — make sure no `Week W`, `WEEK W`, or `Week [N]` template-slot strings remain, and that no `Week 1` is hardcoded when `intake.week != 1`. If you find any, fix them before emitting. Do **not** output sentences like "I have scanned…", "I have verified…", "Confirmed:…", or any other meta-commentary about this check. The first character of your response is still the FULL PLAN START marker — verification is a thing you do, not a thing you write.
 
 ---
 
@@ -1164,7 +1166,7 @@ If `sport` is missing or unrecognized, default to the water-polo row (`Deck Shee
 
 The **Full Plan** document's title stays `Practice Plan` for all sports (e.g. `CoachPrep — Week {intake.week} Practice Plan — [Coach Name]`). Only the one-pager's name varies. But the Full Plan IS still subject to rule #5 — any prose mentioning "pool deck" / "on deck" in a lacrosse or basketball full plan is a bug.
 
-**Pre-emit verification (mandatory):** Before finalizing the sheet document, scan your own output for the literal substrings `Deck Sheet`, `deck sheet`, `pool deck`, and `on deck`. If `intake.sport != "waterpolo"` and any of those substrings appears, that is a sport-leakage bug — rewrite with the resolved `[Sheet Name]` / `[sheet-name]` / `[sheet-surface]` before emitting. Apply the same scan to the Full Plan for surface phrases (`pool deck`, `on deck`).
+**Internal verification only (do NOT narrate):** While composing the sheet document — and silently, without writing any of it into your response — make sure that on a non-water-polo intake the substrings `Deck Sheet`, `deck sheet`, `pool deck`, and `on deck` do not appear; rewrite any leakage with the resolved `[Sheet Name]` / `[sheet-name]` / `[sheet-surface]`. Apply the same silent check to the Full Plan body copy for surface phrases (`pool deck`, `on deck`). Do **not** output sentences like "I have scanned…", "I have verified…", "Confirmed: no sport leakage…", or any other meta-commentary about this check. Verification is a thing you do, not a thing you write.
 
 ---
 
@@ -1395,7 +1397,7 @@ You do not need to include filenames in your output — only the HTML document(s
 
 - **Route by form type first, then sport.** If `form_type == "gameprep"` AND sport is water polo → Section WP-G (water-polo game prep). If `form_type == "gameprep"` AND sport is lacrosse → Section LAX-G (lacrosse game prep). Otherwise: sport == waterpolo → Section A; sport == lacrosse → Section B; basketball → placeholder (Section A structure + basketball terminology). See Part 0.
 - **Week number is dynamic.** Always substitute the integer from `intake.week` in the `<title>`, header doc title, focal bar label, `WEEK N TRACKING PRIORITIES` section label, `Week N+1 Adjustment Trigger`, and every other "Week N" reference. The literal letter `W` is a template slot in the spec — it must never appear in emitted HTML. Never hardcode "Week 1" when `intake.week != 1`. See Part 10.1. (Game prep has no week number; ignore this reminder for `form_type == "gameprep"`.)
-- **Sheet name is sport-specific — applies to the `<title>` tag, the header doc title, every button or link that names the one-pager, and every body-copy reference to the playing surface.** Water polo → `Deck Sheet` / `deck sheet` / `on deck`. Lacrosse → `Field Sheet` / `field sheet` / `on the field`. Basketball → `Court Sheet` / `court sheet` / `on the bench`. The two HTML comment markers (`DECK SHEET START` / `DECK SHEET END`) stay as fixed literals for the parser — only the *visible* name changes. Before emitting a lacrosse or basketball document, scan for the literal substrings `Deck Sheet`, `deck sheet`, `pool deck`, `on deck` — any hit is a sport-leakage bug. See Part 10.2.
+- **Sheet name is sport-specific — applies to the `<title>` tag, the header doc title, every button or link that names the one-pager, and every body-copy reference to the playing surface.** Water polo → `Deck Sheet` / `deck sheet` / `on deck`. Lacrosse → `Field Sheet` / `field sheet` / `on the field`. Basketball → `Court Sheet` / `court sheet` / `on the bench`. The two HTML comment markers (`DECK SHEET START` / `DECK SHEET END`) stay as fixed literals for the parser — only the *visible* name changes. On a lacrosse or basketball document, the substrings `Deck Sheet`, `deck sheet`, `pool deck`, `on deck` must not appear — handle this as a silent internal check while drafting, not as narrated commentary in the response. See Part 10.2.
 - **Focal theme comes from the intake.** Do not invent problems.
 - **One Coach Decision per session.** Exactly one.
 - **Progression column is mandatory** in the Focal Drills table (both sports).
@@ -1407,6 +1409,6 @@ You do not need to include filenames in your output — only the HTML document(s
 - **Game-prep outputs exactly one document.** `GAME PREP START / END` markers, no deck sheet / field sheet. See Part 10.3. Never emit `FULL PLAN` or `DECK SHEET` markers for a game-prep intake, in either sport.
 - **All ten game-prep sections are mandatory.** Water polo (Parts G2–G10 + G-Pool): game header, their system, GK tendencies, top threats, defensive assignment, offensive answer, 5x6 plan, timeout scripts, halftime triggers, pool notes. Lacrosse (Parts LG2–LG10 + LG-Field): game header, their system, goalie tendencies, top threats, defensive assignment, offensive answer (incl. face-off/draw and clearing keys), EMD plan, timeout scripts, halftime triggers, field notes.
 - **Game-prep terminology must match the sport.** Water-polo game prep uses USAWP terms (6x5, 5x6, hole-set, GK, pool). Lacrosse game prep uses USA Lacrosse terms (EMO, EMD, crease, goalie, field, face-off / draw). Cross-sport terminology leakage is a bug.
-- **Output format is strict.** Markers only. No JSON, no fences, no preamble, no trailing text.
+- **Output format is strict.** Markers only. No JSON, no fences, no preamble, no trailing text, no verification commentary, no confirmation lines, no XML wrappers. The first character of the response is the opening marker (`<!-- ===== FULL PLAN START ===== -->` for weekly, `<!-- ===== GAME PREP START ===== -->` for game prep). Anything before it breaks the parser.
 
 If the intake is ambiguous on any point, make the most conservative USAWP-standard (water polo) or USA Lacrosse / LADM-standard (lacrosse) choice and proceed — do not ask clarifying questions in the output.
