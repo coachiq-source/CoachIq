@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Practice Plan — Max Y</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg-off);
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--bg);
+  padding: 32px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.cq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cq-logo-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+.cq-coach {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 4px;
+}
+
+.info-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.info-cell {
+  background: var(--bg);
+  padding: 14px 16px;
+}
+
+.info-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.focal-bar {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  border-radius: var(--radius);
+}
+
+.fl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.ft {
+  font-family: var(--font-head);
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.fs {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.outcome-bar {
+  border-left: 4px solid var(--ink);
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.outcome-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.outcome-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.conditioning-bar {
+  border-left: 4px solid var(--ink-2);
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.conditioning-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.conditioning-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.goalie-bar {
+  border-left: 4px solid var(--accent);
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.goalie-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.goalie-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 36px 0 16px 0;
+  font-weight: 500;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.kpi-cell {
+  background: var(--bg);
+  padding: 16px;
+}
+
+.kpi-cell.accent {
+  background: var(--accent-bg);
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.kpi-value {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.kpi-if {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.trigger-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  margin-bottom: 28px;
+}
+
+.trigger-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.trigger-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.season-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.season-cell {
+  background: var(--bg);
+  padding: 14px 16px;
+}
+
+.season-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.season-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.session {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.session.full-width {
+  grid-column: 1 / -1;
+}
+
+.session-head {
+  background: var(--bg-off);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--rule);
+}
+
+.session-day {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.session-focus {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #E8E8E8;
+  color: var(--ink-2);
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+}
+
+.session-priority {
+  padding: 10px 16px;
+  background: #FFFBEA;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.session-body {
+  padding: 16px;
+}
+
+.block {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.block:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.block-time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  min-width: 48px;
+  font-weight: 500;
+  padding-top: 2px;
+}
+
+.block-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.block-detail {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.block-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 3px;
+  margin-right: 6px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tag-focal {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.tag-tech {
+  background: #F3E5F5;
+  color: #6A1B9A;
+}
+
+.tag-scrim {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.drill-ref {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.coach-decision {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  margin-top: 12px;
+}
+
+.coach-decision-icon {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.coach-decision-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.drill-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 28px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.drill-table th {
+  background: var(--bg-off);
+  padding: 10px 12px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 14px;
+  color: var(--ink);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.drill-table tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-table .drill-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.drill-table .progression-entry {
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.drill-table .progression-full {
+  color: var(--ink);
+}
+
+.drill-table .teaches-line {
+  font-style: italic;
+  color: var(--ink-3);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.note-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.note-card-head {
+  background: var(--bg-off);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.note-card-head.accent {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.note-card-body {
+  padding: 16px;
+}
+
+.note-card-body ul {
+  list-style: none;
+}
+
+.note-card-body li {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 10px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.note-card-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.note-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 20px;
+  }
+  .info-strip,
+  .season-bar {
+    grid-template-columns: 1fr;
+  }
+  .session-grid {
+    grid-template-columns: 1fr;
+  }
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body {
+    background: var(--bg);
+    padding: 0;
+  }
+  .container {
+    box-shadow: none;
+    padding: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="cq-header">
+  <div>
+    <div class="cq-logo">
+      <div class="cq-logo-mark">CP</div>
+      <div class="cq-wordmark">CoachPrep</div>
+    </div>
+    <div class="cq-coach">Max Y</div>
+  </div>
+  <div>
+    <div class="cq-doc-type">Week 1 Practice Plan</div>
+  </div>
+</div>
+
+<div class="info-strip">
+  <div class="info-cell">
+    <div class="info-label">Program</div>
+    <div class="info-value">U12 Boys Lacrosse</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Practices</div>
+    <div class="info-value">1× weekly · 60 min</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">First Practice</div>
+    <div class="info-value">April 20</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">First Game</div>
+    <div class="info-value">May 2</div>
+  </div>
+</div>
+
+<div class="focal-bar">
+  <div class="fl">Week 1 Focus — From Your Intake</div>
+  <div class="ft">Players struggling with ground balls and freezing when the game is close</div>
+  <div class="fs">Coach is in their first season, team is mostly beginners, and they freeze when losing late. Same problem: we haven't built the habits that let players trust their training under pressure. This week installs the foundation — ground-ball technique, box position for catching, and simple dodging footwork — so players have muscle-memory answers when the chaos hits.</div>
+</div>
+
+<div class="outcome-bar">
+  <div class="outcome-label">End of Week 1 Outcome</div>
+  <div class="outcome-text">Players scoop ground balls with their feet moving and their butt down, catch passes in box position without bobbling, and know one reliable dodge they can run when their first look is taken away.</div>
+</div>
+
+<div class="conditioning-bar">
+  <div class="conditioning-label">Conditioning — Age-Appropriate Endurance</div>
+  <div class="conditioning-content">U12 attention cap is ~7 min per block. Every block is 5–7 min, followed by a water break. No fitness-for-fitness-sake drills — conditioning happens inside the skill work. Ground-ball battles and 1v1 drills are the cardio. If players aren't breathing hard after Noodle Scooping, the intensity is too low.</div>
+</div>
+
+<div class="goalie-bar">
+  <div class="goalie-label">Goalie Track — Building Confidence (Parallel to Team)</div>
+  <div class="goalie-content"><strong>Developing goalie — still building confidence.</strong> Goalie works on catching mechanics and crease positioning while the team runs stick-skill blocks. Coach feeds soft shots from 8–10 yards, focusing on tracking the ball into the pocket. No game-speed shooting until the goalie can catch 8/10 clean. Goalie joins the team for all live scrimmage reps and learns to call "clear" on every save.</div>
+</div>
+
+<div class="section-label">WEEK 1 TRACKING PRIORITIES</div>
+
+<div class="kpi-grid">
+  <div class="kpi-cell accent">
+    <div class="kpi-label">Ground Ball Scoop Rate</div>
+    <div class="kpi-value">Track clean scoops (butt down, feet moving, no bobble) vs. total attempts</div>
+    <div class="kpi-if">If scoop rate is under 50% at the end of practice → repeat Noodle Scooping in the Week 2 warm-up before progressing to 1v1 GB's</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Box-Position Catches</div>
+    <div class="kpi-value">Count catches where the stick is vertical and top hand is at the armpit</div>
+    <div class="kpi-if">If players drop more than 3 passes in Partner Passing → shorten the distance and slow the pace; catching under control beats volume</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">1v1 Dodge Completion</div>
+    <div class="kpi-value">Track dodges that create separation (defender trailing by 2+ steps)</div>
+    <div class="kpi-if">If dodge completion is under 40% → the fake isn't selling; add a hesitation step before the go</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Goalie Save Percentage</div>
+    <div class="kpi-value">Saves / shots faced in live scrimmage (feed shots from 10+ yards only)</div>
+    <div class="kpi-if">If save rate is under 30% → goalie is guessing, not tracking; back up to soft-toss catching before live shots</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Transition Possessions</div>
+    <div class="kpi-value">Count possessions that reach the offensive box in under 10 sec after a GB</div>
+    <div class="kpi-if">If transition rate is under 50% → players are holding the ball too long; cue "scoop, turn, find the outlet"</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Coach Calm Under Pressure</div>
+    <div class="kpi-value">Self-rate: did you stay calm and give one clear cue during the scrimmage constraint?</div>
+    <div class="kpi-if">If you froze or over-coached → write down your one cue before the next scrimmage and commit to saying only that</div>
+  </div>
+</div>
+
+<div class="trigger-bar">
+  <div class="trigger-label">Week 2 Adjustment Trigger</div>
+  <div class="trigger-text">If 2 or more KPIs fall below target at the end of practice → repeat the Week 1 focal theme in Week 2 with reduced complexity. Add no new concepts until ground-ball scooping, box-position catching, and 1v1 dodge footwork are consistent under live pressure.</div>
+</div>
+
+<div class="section-label">SEASON CONTEXT</div>
+
+<div class="season-bar">
+  <div class="season-cell">
+    <div class="season-label">First Practice</div>
+    <div class="season-value">April 20</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">First Game</div>
+    <div class="season-value">May 2</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">Practice Frequency</div>
+    <div class="season-value">1× weekly · 60 min</div>
+  </div>
+  <div class="season-cell">
+    <div class="season-label">Primary Target</div>
+    <div class="season-value">First winning season</div>
+  </div>
+</div>
+
+<div class="section-label">SESSION BREAKDOWN</div>
+
+<div class="session">
+  <div class="session-head">
+    <div class="session-day">Week 1 Practice</div>
+    <span class="session-focus focus-off">Fundamentals</span>
+  </div>
+  <div class="session-priority">Priority: Every player leaves knowing how to scoop a ground ball with their feet moving and their butt down</div>
+  <div class="session-body">
+    
+    <div class="block">
+      <div class="block-time">0–8</div>
+      <div>
+        <div class="block-name">Arrival & Dynamic Warm-Up</div>
+        <div class="block-detail">Players arrive, grab sticks, and form two lines. Dynamic warm-up: high knees, butt kicks, side shuffle, carioca (15 yards each). End with partner passing (10 yards apart, 10 completions each). Coach introduces the one focal point: "Today is about ground balls — get low, scoop through, feet never stop."</div>
+        <span class="block-tag tag-tech">Warm-Up</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">8–18</div>
+      <div>
+        <div class="block-name">Noodle Scooping</div>
+        <div class="block-detail">Two lines, coach rolls a ball out. Player scoops through the ball (butt down, top hand down, feet moving), fish-hooks away from the line, and passes back to the coach. 8 reps per player. Coaching cue: "Butt down, top hand down, scoop through it." Success metric: 8/10 clean scoops, feet never stop.</div>
+        <span class="block-tag tag-focal">Focal</span>
+        <span class="drill-ref">Noodle Scooping</span>
+        <div class="coach-decision">
+          <span class="coach-decision-icon">Decision</span>
+          <span class="coach-decision-text">Identify your top 3 ground-ball players by name — they start every GB battle in Week 2.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">18–28</div>
+      <div>
+        <div class="block-name">Partner Passing (Box Position)</div>
+        <div class="block-detail">Players pair up, 10 yards apart. Focus: catching in box position (stick vertical, top hand at the armpit, eyes on the ball). 20 completions per pair. Coaching cue: "Catch two hands, stick up, look it in." If players drop more than 2 passes, they're rushing — slow the pace and shorten the distance to 7 yards.</div>
+        <span class="block-tag tag-tech">Stick Skill</span>
+        <span class="drill-ref">Partner Passing</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">28–42</div>
+      <div>
+        <div class="block-name">1v1 Dodging (Fake & Go)</div>
+        <div class="block-detail">Two lines: offense and defense. Offensive player starts 5 yards from the cone. Fake one way (sell it with a hard step and shoulder dip), then dodge the other way. Defender plays 50% pressure (trails, doesn't chase). 6 reps per player. Coaching cue: "Fake hard, plant, go the other way — make them believe the fake." Success metric: create 2+ steps of separation on 4/6 dodges.</div>
+        <span class="block-tag tag-focal">Focal</span>
+        <span class="drill-ref">1v1 Dodging</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">42–55</div>
+      <div>
+        <div class="block-name">3v3 Small-Sided Scrimmage (Constraint: Must Scoop Before Shooting)</div>
+        <div class="block-detail">Half-field 3v3. Every possession starts with a ground ball at midfield. Constraint: the team that scoops the ball must complete one pass before they can shoot. No face-offs — coach rolls a new ball after every goal or turnover. This forces players to scoop under pressure, transition quickly, and look for an outlet. Coaching cue: "Scoop, turn, find the outlet in one motion."</div>
+        <span class="block-tag tag-scrim">Scrimmage</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">55–60</div>
+      <div>
+        <div class="block-name">Cool-Down & Message</div>
+        <div class="block-detail">Players circle up. Coach picks one player who scooped cleanly under pressure and calls them out by name. Teach point: "Ground balls win games. If you scoop with your feet moving, you're already ahead." Hand out water, remind them of the next practice date.</div>
+        <span class="block-tag tag-tech">Cool-Down</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-label">FOCAL DRILLS — FULL DETAIL</div>
+
+<table class="drill-table">
+  <thead>
+    <tr>
+      <th style="width: 18%;">Drill</th>
+      <th style="width: 20%;">Setup</th>
+      <th style="width: 12%;">Reps/Duration</th>
+      <th style="width: 18%;">Coaching Cue</th>
+      <th style="width: 18%;">What This Teaches</th>
+      <th style="width: 14%;">Progression</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="drill-name">Noodle Scooping</td>
+      <td>Two lines, coach 5 yards away. Coach rolls ball toward player, who scoops and fish-hooks away from the line.</td>
+      <td>8 reps per player</td>
+      <td>"Butt down, top hand down, scoop through it."</td>
+      <td>Ground balls are the foundation of possession — every lacrosse game is won or lost on the ratio of GBs scooped cleanly.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry (Week 1):</strong> Coach rolls slowly, player scoops stationary, no pressure.</div>
+        <div class="progression-full"><strong>Full:</strong> Coach rolls at game speed, player scoops on the run, defender trails at 50%.</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="drill-name">Partner Passing</td>
+      <td>Players pair up, 10 yards apart. One ball per pair. Focus: box position (stick vertical, top hand at armpit).</td>
+      <td>20 completions per pair</td>
+      <td>"Catch two hands, stick up, look it in."</td>
+      <td>Catching in box position keeps the stick protected and ready to pass or dodge — it's the safest receiving position in lacrosse.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry (Week 1):</strong> 7 yards apart, slow pace, catch and hold before passing back.</div>
+        <div class="progression-full"><strong>Full:</strong> 12 yards, catch-look-pass in one motion, add cradle between catches.</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="drill-name">1v1 Dodging (Fake & Go)</td>
+      <td>Two lines: offense and defense. Cone 5 yards from offensive line. Offensive player fakes one way, dodges the other. Defender trails at 50%.</td>
+      <td>6 reps per player</td>
+      <td>"Fake hard, plant, go the other way."</td>
+      <td>Dodging is what you do when your first pass option is covered — one reliable fake-and-go move gives players an answer when pressure arrives.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry (Week 1):</strong> Defender stationary, offensive player dodges at half speed to learn footwork.</div>
+        <div class="progression-full"><strong>Full:</strong> Defender plays live at 75%, offensive player must create 2+ steps of separation.</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="drill-name">3v3 Small-Sided (GB Start)</td>
+      <td>Half-field 3v3. Every possession starts with a ground ball at midfield. Constraint: must complete one pass before shooting.</td>
+      <td>12 min (4 min per round, 3 rounds)</td>
+      <td>"Scoop, turn, find the outlet in one motion."</td>
+      <td>Small-sided games force players to make decisions under light pressure — the constraint (pass before shooting) keeps the chaos structured enough to learn from.</td>
+      <td>
+        <div class="progression-entry"><strong>Entry (Week 1):</strong> Coach rolls the ball, no defense on the scoop, offense runs 3v2.</div>
+        <div class="progression-full"><strong>Full:</strong> Live 3v3 GB battle, winner transitions immediately, must complete pass in stride.</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-label">COACHING NOTES</div>
+
+<div class="notes-grid">
+  <div class="note-card">
+    <div class="note-card-head accent">This Week's Priorities</div>
+    <div class="note-card-body">
+      <ul>
+        <li>Teach ground-ball technique BEFORE the GB battle — players need to know the mechanics before the pressure arrives.</li>
+        <li>Box position on every catch: stick vertical, top hand at the armpit. This is the one receiving position to install in Week 1.</li>
+        <li>One reliable dodge: fake-and-go. Don't introduce roll dodges, split dodges, or face dodges until the fake-and-go is clean.</li>
+        <li>Goalie builds confidence with soft feeds from 8–10 yards. No game-speed shooting until they catch 8/10 clean.</li>
+        <li>Constraint on the scrimmage (pass before shooting) keeps the chaos structured. Remove the constraint only if players are completing passes consistently.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-card-head">Evaluation Notes</div>
+    <div class="note-card-body">
+      <ul>
+        <li>Watch for players bending at the waist instead of dropping their hips on ground balls — this is the #1 scooping error at U12.</li>
+        <li>Track which players naturally find the outlet after a GB vs. which ones hold the ball and stall — the outlet-finders are your transition players.</li>
+        <li>In the 1v1 dodging drill, note which players sell the fake (defender bites) vs. which ones telegraph the dodge (defender doesn't move).</li>
+        <li>During the scrimmage, log which players scoop cleanly under pressure vs. which ones bobble or stop their feet — this is your GB-starter list for Week 2.</li>
+        <li>Goalie: count saves vs. shots faced. If save rate is under 30%, the goalie is guessing instead of tracking the ball.</li>
+        <li>Self-eval: Did you give one clear cue during the scrimmage, or did you over-coach? Write your one cue for Week 2 before you leave the field.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-card-head">Watch For (U12-Specific Failure Modes)</div>
+    <div class="note-card-body">
+      <ul>
+        <li>Players bend at the waist instead of dropping the hips on GBs — cue "butt down" every rep until it's automatic.</li>
+        <li>Ball-carrier carries with the top hand on the plastic (choked up) — cue "hand down the shaft" every time you see it.</li>
+        <li>Players lock onto one target and telegraph the pass — teach "catch, look at the goal, then pass" to break the tunnel vision.</li>
+        <li>Goalie backs up into the crease when a shot is coming — this shrinks their save radius. Cue "step to the ball, not away from it."</li>
+        <li>In the scrimmage, players hold the ball after a scoop instead of turning and finding the outlet — this kills transition. Cue "scoop, turn, outlet" as one motion.</li>
+        <li>Coach freezing when the scrimmage gets chaotic — write down your one coaching cue before practice and commit to saying only that during live play.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  CoachPrep · Week 1 Practice Plan · Max Y
+</footer>
+
+</div>
+
+</body>
+</html>
