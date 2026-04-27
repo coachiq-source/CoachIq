@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Field Sheet — Claire</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+  padding: 16px;
+  font-size: 13px;
+}
+
+.ds-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ds-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.ds-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ds-logo-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+}
+
+.ds-wordmark {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.ds-doc-type {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.ds-meta {
+  text-align: right;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+}
+
+.focus-card-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.focus-card-title {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.focus-card-outcome {
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.context-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.side-bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.side-bar {
+  border-left: 3px solid var(--ink-3);
+  padding: 10px 12px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.side-bar.accent {
+  border-left-color: var(--accent);
+}
+
+.side-bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.side-bar.accent .side-bar-label {
+  color: var(--accent);
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.day-block {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.day-head {
+  padding: 8px 10px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.day-name {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.day-focus {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #F0F0F0;
+  color: #666666;
+}
+
+.day-body {
+  padding: 10px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.day-body strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.drill-quick-ref {
+  margin-bottom: 14px;
+}
+
+.drill-quick-ref table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 10px;
+}
+
+.drill-quick-ref th {
+  background: var(--bg-off);
+  padding: 6px 8px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drill-quick-ref td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--rule-light);
+  color: var(--ink);
+}
+
+.drill-quick-ref tr:last-child td {
+  border-bottom: none;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.mini-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.mini-card-head {
+  padding: 6px 8px;
+  background: var(--bg-off);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+.mini-card-body {
+  padding: 8px;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.mini-card-body ul {
+  list-style: none;
+}
+
+.mini-card-body li {
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.mini-card-body li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.mini-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.log-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.log-section {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.log-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.log-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.log-row-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--ink-3);
+  min-width: 90px;
+}
+
+.log-row-line {
+  flex: 1;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ds-footer {
+  text-align: center;
+  font-size: 10px;
+  color: var(--ink-3);
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  
+  .day-block, .mini-card {
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="ds-container">
+  
+  <div class="ds-header">
+    <div class="ds-logo">
+      <div class="ds-logo-mark">CP</div>
+      <div class="ds-wordmark">CoachPrep</div>
+    </div>
+    <div style="flex: 1;"></div>
+    <div class="ds-doc-type">Week 1 Field Sheet</div>
+    <div class="ds-meta">
+      <strong>Claire</strong><br>
+      Girls U16 Lacrosse
+    </div>
+  </div>
+
+  <div class="focus-card">
+    <div class="focus-card-label">Week 1 Focus</div>
+    <div class="focus-card-title">Players uncertain on basic positioning and ground-ball approach. Zone defense looks solid on paper but breaks when ball movement speeds up.</div>
+    <div class="focus-card-outcome"><strong>End of Week:</strong> Every player can state "ball, help left, help right" and demonstrate it in a live 3v3. Ground balls are scooped cleanly 7 out of 10 reps.</div>
+  </div>
+
+  <div class="context-strip">
+    <div class="context-cell">
+      <div class="context-label">First Game</div>
+      <div class="context-value">April 4</div>
+    </div>
+    <div class="context-cell">
+      <div class="context-label">Primary Target</div>
+      <div class="context-value">Fun and learning</div>
+    </div>
+    <div class="context-cell">
+      <div class="context-label">Field</div>
+      <div class="context-value">Standard field</div>
+    </div>
+  </div>
+
+  <div class="side-bars">
+    <div class="side-bar">
+      <div class="side-bar-label">Conditioning</div>
+      <strong>Session 1:</strong> 2 × 20-yard shuttle runs (light jog recovery).<br>
+      <strong>Session 2:</strong> 3 × 30-yard shuttle runs. All conditioning stays under 3 min total.
+    </div>
+    <div class="side-bar accent">
+      <div class="side-bar-label">Goalie Track</div>
+      Position unsettled. <strong>Coach feeds to empty net</strong> or placeholder goalie for live pressure. Once decided: 200 soft catches + 3 rounds low/hip/high feeds. Communication: call "clear" on outlets.
+    </div>
+  </div>
+
+  <div class="day-grid">
+    
+    <div class="day-block">
+      <div class="day-head">
+        <div class="day-name">Session 1</div>
+        <span class="day-focus focus-def">GB + Zone Intro</span>
+      </div>
+      <div class="day-body">
+        <strong>0–8:</strong> Dynamic warm-up + partner passing (10 yards).<br>
+        <strong>8–18:</strong> Noodle Scooping — "Butt down, top hand down, scoop through it." 8 reps.<br>
+        <strong>18–35:</strong> 1v1 GB's — box out, scoop, outlet. 6 reps.<br>
+        <strong>35–50:</strong> Shell Drill — 2-2-2 zone shape, walk-through. Call "ball, help left, help right."<br>
+        <strong>50–60:</strong> 3v3 half-field. Constraint: 3 passes before shooting.
+      </div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-head">
+        <div class="day-name">Session 2</div>
+        <span class="day-focus focus-off">Clearing + Set Offense</span>
+      </div>
+      <div class="day-body">
+        <strong>0–8:</strong> Dynamic warm-up + partner passing (12 yards). Add Bad Pass Drill.<br>
+        <strong>8–18:</strong> 4v3 Box Clear — goalie → wing → midfield → cross midline. 8 reps.<br>
+        <strong>18–35:</strong> 4 Corners Pass + Star Drill. Goal: 10 consecutive completions.<br>
+        <strong>35–50:</strong> 2-Man Game (Pick & Roll) — 2v2 live, 5 min.<br>
+        <strong>50–60:</strong> 6v6 scrimmage. Constraint: Every possession includes one clear and one pick.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="drill-quick-ref">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Drill</th>
+          <th style="width: 15%;">Day</th>
+          <th style="width: 60%;">Key Cue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Noodle Scooping</strong></td>
+          <td>Session 1</td>
+          <td>"Butt down, top hand down, scoop through it."</td>
+        </tr>
+        <tr>
+          <td><strong>1v1 GB's</strong></td>
+          <td>Session 1</td>
+          <td>"Box out with your hips, then scoop away from pressure."</td>
+        </tr>
+        <tr>
+          <td><strong>Shell Drill (2-2-2)</strong></td>
+          <td>Session 1</td>
+          <td>"Ball, help left, help right."</td>
+        </tr>
+        <tr>
+          <td><strong>4v3 Box Clear</strong></td>
+          <td>Session 2</td>
+          <td>"Goalie looks wing first; defenders spread wide."</td>
+        </tr>
+        <tr>
+          <td><strong>4 Corners Pass</strong></td>
+          <td>Session 2</td>
+          <td>"Catch two hands, look at the goal, then pass."</td>
+        </tr>
+        <tr>
+          <td><strong>2-Man Game (Pick & Roll)</strong></td>
+          <td>Session 2</td>
+          <td>"Set the pick with feet set, roll to the ball."</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card-grid">
+    
+    <div class="mini-card">
+      <div class="mini-card-head">Tracking Priorities</div>
+      <div class="mini-card-body">
+        <ul>
+          <li>Ground ball win rate (60%+ target)</li>
+          <li>Zone shape breaks (≤5 per session)</li>
+          <li>Passing completion (75%+ target)</li>
+          <li>Ball-Help-Help verbal cues (10+ players)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mini-card">
+      <div class="mini-card-head">Coach Decisions</div>
+      <div class="mini-card-body">
+        <ul>
+          <li><strong>Session 1:</strong> Identify top 3 GB players by name</li>
+          <li><strong>Session 2:</strong> Name first-line clearing unit (4 players)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mini-card">
+      <div class="mini-card-head">Watch For</div>
+      <div class="mini-card-body">
+        <ul>
+          <li>Players bending at waist on GBs — cue "butt down"</li>
+          <li>Top hand choked up on plastic — cue "hand down shaft"</li>
+          <li>Zone defenders chasing ball instead of holding area</li>
+          <li>Players not calling "ball, help left, help right"</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="log-strip">
+    <div class="log-section">
+      <div class="log-label">Session notes</div>
+      <div class="log-row">
+        <span class="log-row-label">Session 1</span>
+        <span class="log-row-line"></span>
+      </div>
+      <div class="log-row">
+        <span class="log-row-label">Session 2</span>
+        <span class="log-row-line"></span>
+      </div>
+    </div>
+    <div class="log-section" style="border-left: 1px solid var(--rule);">
+      <div class="log-label">KPI log</div>
+      <div class="log-row">
+        <span class="log-row-label">GB win rate</span>
+        <span class="log-row-line"></span>
+      </div>
+      <div class="log-row">
+        <span class="log-row-label">Zone breaks</span>
+        <span class="log-row-line"></span>
+      </div>
+      <div class="log-row">
+        <span class="log-row-label">Passing %</span>
+        <span class="log-row-line"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-footer">
+    Print this field sheet and bring it on the field — CoachPrep Week 1
+  </div>
+
+</div>
+
+</body>
+</html>
