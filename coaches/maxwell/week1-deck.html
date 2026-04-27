@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Field Sheet — Maxwell</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 16px;
+}
+
+.deck-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cq-mark {
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-meta {
+  text-align: right;
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.cq-coach {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.focus-outcome {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.bars-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.bar {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.bar-head {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.bar-title {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.bar-body {
+  padding: 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.bar-body strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.session-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.session-compact {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.session-compact-head {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.session-compact-day {
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.session-compact-tag {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 5px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #F0F0F0;
+  color: var(--ink-2);
+}
+
+.focus-tran {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-3);
+}
+
+.session-compact-body {
+  padding: 10px;
+}
+
+.compact-block {
+  margin-bottom: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.compact-block:last-child {
+  margin-bottom: 0;
+}
+
+.compact-time {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-3);
+  font-weight: 500;
+  display: inline-block;
+  min-width: 38px;
+}
+
+.compact-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.compact-detail {
+  color: var(--ink-2);
+  font-size: 10px;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.quick-ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  font-size: 11px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.quick-ref-table thead {
+  background: var(--bg-off);
+}
+
+.quick-ref-table th {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: left;
+  padding: 8px 10px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.quick-ref-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+.quick-ref-table tr:last-child td {
+  border-bottom: none;
+}
+
+.quick-ref-table .drill-name-col {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.quick-ref-table .day-col {
+  color: var(--ink-3);
+  font-size: 10px;
+}
+
+.quick-ref-table .cue-col {
+  color: var(--ink-2);
+  font-size: 10px;
+}
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.mini-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.mini-card-head {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.mini-card-title {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.mini-card-body {
+  padding: 10px;
+}
+
+.mini-card-body ul {
+  list-style: none;
+}
+
+.mini-card-body li {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.mini-card-body li:before {
+  content: "·";
+  position: absolute;
+  left: 2px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.mini-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.log-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.log-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.log-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.log-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.log-row:last-child {
+  margin-bottom: 0;
+}
+
+.log-row-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--ink-3);
+  min-width: 60px;
+}
+
+.log-row-line {
+  flex: 1;
+  border-bottom: 1px solid var(--rule);
+  display: inline-block;
+}
+
+.footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 10px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 640px) {
+  .bars-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .session-compact-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cards-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .context-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body {
+    padding: 8px;
+  }
+  
+  .deck-container {
+    max-width: 100%;
+  }
+  
+  .session-compact, .mini-card, .bar {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+<div class="deck-container">
+
+<div class="cq-header">
+  <div class="cq-logo">
+    <div class="cq-mark">CP</div>
+    <div class="cq-wordmark">CoachPrep</div>
+  </div>
+  <div class="cq-meta">
+    <div class="cq-doc-type">Week 1 Field Sheet</div>
+    <div class="cq-coach">Coach Maxwell</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-title">Ground balls and clearing — same problem: we don't know where to move after we pick up the ball.</div>
+  <div class="focus-outcome"><strong>End of Week 1:</strong> Players scoop a ground ball and immediately turn to find a teammate. On clears, the goalie looks to a wing and the wing looks up-field. No more scooping and freezing.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">May 3</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">Fun + Fundamentals</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Field</div>
+    <div class="context-value">Not specified</div>
+  </div>
+</div>
+
+<div class="bars-row">
+  <div class="bar">
+    <div class="bar-head">
+      <div class="bar-title">Conditioning</div>
+    </div>
+    <div class="bar-body">
+      U10 age-appropriate: <strong>dynamic warm-up</strong> (5 min — high knees, butt kicks, shuffles, carioca, skips) + <strong>partner passing</strong> (3 min — catch with two hands, box position). Total: 8 min. No fatigue before teaching.
+    </div>
+  </div>
+  <div class="bar">
+    <div class="bar-head">
+      <div class="bar-title">Goalie Track</div>
+    </div>
+    <div class="bar-body">
+      Position unsettled. Every session: 5-min intro block (rotate interested players). <strong>Session 1:</strong> crease positioning. <strong>Session 2:</strong> soft hands (tennis balls). <strong>Session 3:</strong> basic saves (coach rolls soft shots from 8 feet). Goal: identify one player by Friday.
+    </div>
+  </div>
+</div>
+
+<div class="session-compact-grid">
+  
+  <div class="session-compact">
+    <div class="session-compact-head">
+      <div class="session-compact-day">Session 1</div>
+      <span class="session-compact-tag focus-def">Fundamentals</span>
+    </div>
+    <div class="session-compact-body">
+      <div class="compact-block">
+        <div><span class="compact-time">0–8</span> <span class="compact-name">Warm-Up + Passing</span></div>
+        <div class="compact-detail">Dynamic movements (5 min) + partner passing (3 min)</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">8–18</span> <span class="compact-name">Noodle Scooping</span></div>
+        <div class="compact-detail">Entry-level ground balls: butt down, top hand down, scoop through</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">18–28</span> <span class="compact-name">Partner Passing Progression</span></div>
+        <div class="compact-detail">5 ft → 10 ft → add one cradle before passing</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">28–38</span> <span class="compact-name">4v3 Box (Clearing Intro)</span></div>
+        <div class="compact-detail">Goalie to wing, walk-through (no defense), 8 reps</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">38–45</span> <span class="compact-name">Goalie Intro + Cool-Down</span></div>
+        <div class="compact-detail">Crease positioning, water, one teach point</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="session-compact">
+    <div class="session-compact-head">
+      <div class="session-compact-day">Session 2</div>
+      <span class="session-compact-tag focus-tran">Transition</span>
+    </div>
+    <div class="session-compact-body">
+      <div class="compact-block">
+        <div><span class="compact-time">0–8</span> <span class="compact-name">Warm-Up + Passing</span></div>
+        <div class="compact-detail">Same as Session 1</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">8–18</span> <span class="compact-name">Scoop and Shoot</span></div>
+        <div class="compact-detail">Scoop-pivot-look-shoot in one motion, 8 reps per player</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">18–30</span> <span class="compact-name">2v1 GB's</span></div>
+        <div class="compact-detail">Scoop and outlet to open teammate, light pressure, 10 reps</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">30–38</span> <span class="compact-name">4v3 Box with Defense</span></div>
+        <div class="compact-detail">Goalie outlets to wing, add 2 light defenders, 6 reps</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">38–45</span> <span class="compact-name">Goalie Intro + Cool-Down</span></div>
+        <div class="compact-detail">Soft hands (tennis balls), water, one teach point</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="session-compact">
+    <div class="session-compact-head">
+      <div class="session-compact-day">Session 3</div>
+      <span class="session-compact-tag focus-int">Scrimmage</span>
+    </div>
+    <div class="session-compact-body">
+      <div class="compact-block">
+        <div><span class="compact-time">0–8</span> <span class="compact-name">Light Activation</span></div>
+        <div class="compact-detail">Dynamic warm-up (3 min) + partner passing (5 min, to 15 ft)</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">8–18</span> <span class="compact-name">GB Speed Round</span></div>
+        <div class="compact-detail">1v1 GB's, winner stays, loser rotates, 15 total reps</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">18–38</span> <span class="compact-name">3v3 Scrimmage</span></div>
+        <div class="compact-detail">Constraint: every possession starts with a ground ball. One pass before shooting.</div>
+      </div>
+      <div class="compact-block">
+        <div><span class="compact-time">38–45</span> <span class="compact-name">Goalie Saves + Cool-Down</span></div>
+        <div class="compact-detail">Basic saves (coach rolls shots), partner passing, huddle</div>
+      </div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--rule-light);font-size:10px;color:var(--accent);font-weight:600;">
+        Success = 8/12 scoop-and-turn · 3 goalie outlets · 5+ name callouts
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<table class="quick-ref-table">
+  <thead>
+    <tr>
+      <th style="width:35%;">Drill</th>
+      <th style="width:15%;">Session</th>
+      <th style="width:50%;">Key Cue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="drill-name-col">Noodle Scooping</td>
+      <td class="day-col">Session 1</td>
+      <td class="cue-col">"Butt down, top hand down, scoop through it."</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">Scoop and Shoot</td>
+      <td class="day-col">Session 2</td>
+      <td class="cue-col">"Scoop, turn, look, shoot — one motion, no pause."</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">2v1 GB's</td>
+      <td class="day-col">Session 2</td>
+      <td class="cue-col">"Whoever scoops, turn and find your partner."</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">4v3 Box</td>
+      <td class="day-col">Session 1, 2</td>
+      <td class="cue-col">"Goalie calls the name, wing catches and looks up-field."</td>
+    </tr>
+    <tr>
+      <td class="drill-name-col">1v1 GB's</td>
+      <td class="day-col">Session 3</td>
+      <td class="cue-col">"Scoop it, turn away, outlet to me."</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="cards-row">
+  
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Tracking Priorities</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li>Scoop-turn-look rate (no pause after scooping)</li>
+        <li>Clear completion (goalie to wing, target 5/10 by Fri)</li>
+        <li>Catch success rate (partner passing)</li>
+        <li>Cradle comfort while jogging (8/12 by Fri)</li>
+        <li>Outlet identification (name callouts)</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Coach Decisions</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li><strong>Session 1:</strong> ID top 3 GB players by name</li>
+        <li><strong>Session 2:</strong> Pick one goalie candidate for Friday scrimmage</li>
+        <li><strong>Session 3:</strong> Decide if goalie candidate keeps trying</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="mini-card">
+    <div class="mini-card-head">
+      <div class="mini-card-title">Watch For</div>
+    </div>
+    <div class="mini-card-body">
+      <ul>
+        <li>Bend at waist, not hips (cue "butt down")</li>
+        <li>Scoop and stand still (demo fish-hook pivot)</li>
+        <li>Goalie holds ball too long (cue "call the name first")</li>
+        <li>Top hand choked up (cue "hand down the shaft")</li>
+        <li>One-handed catching (cue "two hands, box position")</li>
+        <li>Drop ball when running (normal — add form cradling Week 2)</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="log-strip">
+  <div class="log-cell">
+    <div class="log-label">Session notes</div>
+    <div class="log-row">
+      <span class="log-row-label">Session 1</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Session 2</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Session 3</span>
+      <span class="log-row-line"></span>
+    </div>
+  </div>
+  <div class="log-cell" style="border-left:1px solid var(--rule);">
+    <div class="log-label">KPI log</div>
+    <div class="log-row">
+      <span class="log-row-label">Scoop-turn-look</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Clear completions</span>
+      <span class="log-row-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-row-label">Name callouts</span>
+      <span class="log-row-line"></span>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  CoachPrep — Week 1 Field Sheet — Print this field sheet and bring it on the field
+</div>
+
+</div>
+</body>
+</html>
