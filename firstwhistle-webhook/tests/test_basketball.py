@@ -493,11 +493,13 @@ def test_email_send_basketball_uses_court_sheet_and_bench_surface():
         assert banned not in text, f"text leaked banned phrase: {banned!r}"
 
 
-def test_email_send_basketball_omits_gameprep_button():
-    """Basketball has no game-prep intake form yet. The weekly coach
-    email must NOT render a 'Game prep intake' button or footer line
-    for sport=basketball — falling back to the water-polo URL would
-    send a basketball coach to a water-polo form."""
+def test_email_send_basketball_links_basketball_gameprep_and_postgame():
+    """Basketball weekly email must render the Game prep intake button
+    and the Week in Review button, both pointing at the basketball
+    URLs (coachprep.co/gameprep/basketball.html and
+    coachprep.co/postgame/basketball.html). Confirms the cross-sport
+    URL leakage guard from Session 17 still holds — basketball must
+    NOT link to a water-polo or lacrosse form."""
     from app import email_send
 
     captured: dict = {}
@@ -522,16 +524,25 @@ def test_email_send_basketball_omits_gameprep_button():
 
     html = captured["html"]
     text = captured["text"]
-    # No game-prep button text or footer line in either format.
-    assert "Game prep intake" not in html, (
-        "basketball email must not render a Game prep intake button"
-    )
-    assert "Game prep intake" not in text
-    # And critically, no link to the water-polo or lacrosse gameprep
-    # form — that would be a sport-leakage bug.
+    # Both buttons render now that basketball has dedicated URLs.
+    assert "Game prep intake" in html
+    assert "Game prep intake" in text
+    assert "Week in Review" in html
+    assert "Week in Review" in text
+    # And they point at the basketball URLs (with the coach code
+    # appended for prefill, mirroring water polo / lacrosse behaviour).
+    assert "coachprep.co/gameprep/basketball.html?code=CJ2026" in html
+    assert "coachprep.co/gameprep/basketball.html?code=CJ2026" in text
+    assert "coachprep.co/postgame/basketball.html?code=CJ2026" in html
+    assert "coachprep.co/postgame/basketball.html?code=CJ2026" in text
+    # No cross-sport URL leakage — basketball must never link to a
+    # water-polo or lacrosse form.
     assert "gameprep/lacrosse.html" not in html
-    assert "gameprep/lacrosse.html" not in text
-    assert "/gameprep/?code=" not in html  # would imply waterpolo URL
+    assert "postgame/lacrosse.html" not in html
+    assert "postgame/waterpolo.html" not in html
+    # The water-polo gameprep URL ends in `/gameprep/` (no html file);
+    # make sure that URL doesn't leak into the basketball email either.
+    assert "coachiq-source.github.io/CoachIq/gameprep/?code=" not in html
 
 
 def test_email_send_waterpolo_default_keeps_gameprep_button():

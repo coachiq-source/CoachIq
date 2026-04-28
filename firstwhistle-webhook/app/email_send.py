@@ -62,6 +62,7 @@ _GAMEPREP_INTAKE_URLS_BY_SPORT: dict[str, str] = {
     "waterpolo": _GAMEPREP_INTAKE_DEFAULT_URL,
     "water_polo": _GAMEPREP_INTAKE_DEFAULT_URL,
     "lacrosse": "https://coachiq-source.github.io/CoachIq/gameprep/lacrosse.html",
+    "basketball": "https://coachprep.co/gameprep/basketball.html",
 }
 
 
@@ -88,6 +89,7 @@ _POSTGAME_INTAKE_URLS_BY_SPORT: dict[str, str] = {
     "waterpolo": "https://coachiq-source.github.io/CoachIq/postgame/waterpolo.html",
     "water_polo": "https://coachiq-source.github.io/CoachIq/postgame/waterpolo.html",
     "lacrosse": "https://coachiq-source.github.io/CoachIq/postgame/lacrosse.html",
+    "basketball": "https://coachprep.co/postgame/basketball.html",
 }
 
 
