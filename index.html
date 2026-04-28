@@ -429,27 +429,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
       </div>
     </div>
 
-    <div class="row">
-      <div class="field">
-        <label>First Name<span class="req">*</span></label>
-        <input type="text" id="firstName" placeholder="Max">
-      </div>
-      <div class="field">
-        <label>Last Name<span class="req">*</span></label>
-        <input type="text" id="lastName" placeholder="Kelly">
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Email<span class="req">*</span></label>
-      <input type="email" id="email" placeholder="coach@school.edu">
-    </div>
-
-    <div class="field">
-      <label>School / Club / Program<span class="req">*</span></label>
-      <input type="text" id="school" placeholder="Episcopal Academy / Santa Barbara Water Polo Club / UCLA">
-    </div>
-
     <div class="show-hs field">
       <label>Conference / League
         <span class="hint">e.g. Inter-Ac, CIF Southern Section, NYSPHSAA, Mission League</span>
@@ -519,16 +498,6 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         <div class="chip" data-val="6–10 years">6–10 years</div>
         <div class="chip" data-val="10+ years">10+ years</div>
       </div>
-    </div>
-
-    <!-- Coach-chosen CoachPrep code. Required for new coaches; pre-filled
-         (and disabled) if the coach applied a returning-code above. -->
-    <div class="field" id="coachCodeField">
-      <label>Pick your CoachPrep code<span class="req">*</span>
-        <span class="hint">4–12 characters, letters and digits only (no spaces). This is how we'll recognise you on game-prep and post-game forms — pick something you'll remember.</span>
-      </label>
-      <input type="text" id="coachCode" maxlength="12" autocomplete="off" spellcheck="false" placeholder="e.g. JR2026">
-      <div class="code-msg" id="coachCodeMsg"></div>
     </div>
 
     <div class="nav">
@@ -1118,6 +1087,36 @@ GK (#1): Makes the easy saves, occasionally beaten near-side on direct shots. Ex
       <textarea id="successVision" style="min-height:60px; margin-top:10px;" placeholder="Optional — add anything specific to your program or situation..."></textarea>
     </div>
 
+    <!-- ===================== YOUR INFO ===================== -->
+    <div class="phase-block" style="margin-top: 28px;">
+      <div class="phase-label">Where should we send your plan?</div>
+      <div class="row">
+        <div class="field">
+          <label>First Name<span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="Max">
+        </div>
+        <div class="field">
+          <label>Last Name<span class="req">*</span></label>
+          <input type="text" id="lastName" placeholder="Kelly">
+        </div>
+      </div>
+      <div class="field">
+        <label>Email<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="coach@school.edu">
+      </div>
+      <div class="field">
+        <label>School / Club / Program<span class="req">*</span></label>
+        <input type="text" id="school" placeholder="Episcopal Academy / Santa Barbara Water Polo Club / UCLA">
+      </div>
+      <div class="field" id="coachCodeField" style="margin-bottom:0;">
+        <label>Pick your CoachPrep code<span class="req">*</span>
+          <span class="hint">4–12 characters, letters and digits only (no spaces). This is how we'll recognise you on game-prep and post-game forms — pick something you'll remember.</span>
+        </label>
+        <input type="text" id="coachCode" maxlength="12" autocomplete="off" spellcheck="false" placeholder="e.g. JR2026">
+        <div class="code-msg" id="coachCodeMsg"></div>
+      </div>
+    </div>
+
     <!-- ===================== CONFIDENTIALITY ===================== -->
     <div class="phase-block" style="margin-top: 28px;">
       <div class="phase-label">Confidentiality & Data Use</div>
@@ -1514,9 +1513,26 @@ async function submitForm() {
     return;
   }
 
+  // Required identity fields (collected on the final step alongside the code).
+  const firstNameEl = document.getElementById('firstName');
+  const lastNameEl = document.getElementById('lastName');
+  const emailEl = document.getElementById('email');
+  const schoolEl = document.getElementById('school');
+  const focusInvalid = (el) => {
+    if (!el) return;
+    el.focus();
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.style.outline = '2px solid var(--accent)';
+    setTimeout(() => { el.style.outline = ''; }, 2000);
+  };
+  if (!(firstNameEl && firstNameEl.value.trim())) { alert('Please enter your first name.'); focusInvalid(firstNameEl); return; }
+  if (!(lastNameEl && lastNameEl.value.trim())) { alert('Please enter your last name.'); focusInvalid(lastNameEl); return; }
+  if (!(emailEl && emailEl.value.trim())) { alert('Please enter your email.'); focusInvalid(emailEl); return; }
+  if (!(schoolEl && schoolEl.value.trim())) { alert('Please enter your school, club, or program.'); focusInvalid(schoolEl); return; }
+
   // Coach-chosen CoachPrep code — required and must match the shape
-  // contract. If it's missing or malformed we bounce back to Step 1 so
-  // the coach can fix it before anything goes to Formspree.
+  // contract. If it's missing or malformed, surface the error inline on
+  // the final step (the code input now lives here, not Step 1).
   const codeInputEl = document.getElementById('coachCode');
   const codeVal = ((codeInputEl && codeInputEl.value) || '').trim();
   if (!codeVal || !CODE_RE.test(codeVal)) {
@@ -1527,11 +1543,6 @@ async function submitForm() {
         ? '4–12 chars, letters/digits/._- only (no spaces).'
         : 'Pick a CoachPrep code before submitting.';
     }
-    // Jump back to Step 1 and focus the input.
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const s0 = document.getElementById('s0');
-    if (s0) s0.classList.add('active');
-    updateProgress(0);
     if (codeInputEl) { codeInputEl.focus(); codeInputEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     return;
   }

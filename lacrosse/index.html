@@ -175,17 +175,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
 
-    <div class="two-col">
-      <div class="field">
-        <label class="field-label">Your name<span class="req">*</span></label>
-        <input type="text" id="name" placeholder="First Last">
-      </div>
-      <div class="field">
-        <label class="field-label">Email<span class="req">*</span></label>
-        <input type="email" id="email" placeholder="you@email.com">
-      </div>
-    </div>
-
     <div class="field">
       <label class="field-label">Age group / level<span class="req">*</span></label>
       <div class="chip-group" id="levelChips">
@@ -216,12 +205,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <div class="chip" data-val="No — came from another sport">No — another sport</div>
         <div class="chip" data-val="No — new to lacrosse entirely">No — new to lacrosse</div>
       </div>
-    </div>
-
-    <div class="field">
-      <label class="field-label">Create your CoachPrep code <span style="font-weight:400;color:var(--ink-3)">(optional — use this on future forms to skip re-entering your info)</span></label>
-      <input type="text" id="coachCodeCreate" placeholder="e.g. LACROSSE2026 or SMITH or anything you'll remember" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
-      <span class="field-hint">4–12 characters, no spaces. You'll enter this on the game prep and week review forms.</span>
     </div>
 
     <div class="nav">
@@ -510,6 +493,27 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <textarea id="whatWorking" placeholder="e.g. Our energy and effort is great. Players compete hard. I don't want to over-coach and kill that."></textarea>
     </div>
 
+    <hr class="divider">
+    <div class="step-header" style="margin-top:8px;margin-bottom:14px;">
+      <div class="step-eyebrow">Almost done</div>
+      <div class="step-title" style="font-size:16px;">Where should we send your plan?</div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Your name<span class="req">*</span></label>
+        <input type="text" id="name" placeholder="First Last">
+      </div>
+      <div class="field">
+        <label class="field-label">Email<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@email.com">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Create your CoachPrep code <span style="font-weight:400;color:var(--ink-3)">(optional — use this on future forms to skip re-entering your info)</span></label>
+      <input type="text" id="coachCodeCreate" placeholder="e.g. LACROSSE2026 or SMITH or anything you'll remember" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+      <span class="field-hint">4–12 characters, no spaces. You'll enter this on the game prep and week review forms.</span>
+    </div>
+
     <div class="nav">
       <button class="btn-back" onclick="prev(3)">← Back</button>
       <button class="btn-submit" onclick="submitForm()">Get My Plan →</button>
@@ -650,8 +654,6 @@ function updateProgress() {
 function next(from) {
   if(from === 0) {
     if(!selectedGender) { alert('Please select Boys or Girls program first.'); return; }
-    if(!val('name')) { alert('Please enter your name.'); return; }
-    if(!val('email')) { alert('Please enter your email.'); return; }
     if(!chips('levelChips')) { alert('Please select your age group / level.'); return; }
     if(!chips('expChips')) { alert('Please select your coaching experience.'); return; }
   }
@@ -684,10 +686,13 @@ async function submitForm() {
   if(!chips('freqChips')) { alert('Please select your practice frequency.'); return; }
   if(!chips('lenChips')) { alert('Please select your practice length.'); return; }
   if(!chips('targetChips')) { alert('Please select what you\'re building toward.'); return; }
+  if(!val('name')) { alert('Please enter your name.'); return; }
+  if(!val('email')) { alert('Please enter your email.'); return; }
 
   const data = {
     sport: 'lacrosse',
     gender: selectedGender,
+    coachCode: (document.getElementById('coachCodeCreate').value || document.getElementById('coachCode').value || '').trim().toUpperCase(),
     name: val('name'),
     email: val('email'),
     level: chips('levelChips'),
