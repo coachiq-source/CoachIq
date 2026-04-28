@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Basketball Week in Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#111111; --ink-2:#444444; --ink-3:#777777;
+  --rule:#DEDEDE; --rule-light:#F0F0F0;
+  --bg:#FFFFFF; --bg-off:#F8F8F6;
+  --accent:#B8420F; --accent-bg:#FDF0EA;
+  --font-head:'Libre Baskerville',Georgia,serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --font-mono:'Source Code Pro',monospace;
+  --r:4px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg-off);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+.page{max-width:640px;margin:0 auto;padding:36px 20px 80px;}
+.header{padding-bottom:16px;border-bottom:2px solid var(--ink);margin-bottom:28px;}
+.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.logo{font-family:var(--font-mono);font-size:11px;background:var(--accent);color:#fff;padding:4px 10px;border-radius:var(--r);letter-spacing:0.5px;}
+.wordmark{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--ink);}
+.sport-tag{font-family:var(--font-mono);font-size:9px;background:var(--ink);color:#fff;padding:2px 8px;border-radius:2px;letter-spacing:1px;text-transform:uppercase;margin-left:auto;}
+.header-desc{font-size:13px;color:var(--ink-3);line-height:1.5;}
+.header-desc strong{color:var(--ink);}
+.progress{display:flex;gap:5px;margin-bottom:24px;}
+.prog-step{flex:1;height:3px;background:var(--rule);border-radius:2px;transition:background 0.2s;}
+.prog-step.done{background:var(--accent);}
+.prog-step.active{background:var(--accent);opacity:0.45;}
+.step-header{margin-bottom:22px;}
+.step-eyebrow{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
+.step-title{font-family:var(--font-head);font-size:19px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:5px;}
+.step-sub{font-size:13px;color:var(--ink-2);}
+.field{margin-bottom:20px;}
+.field-label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px;}
+.field-hint{display:block;font-size:11px;color:var(--ink-3);margin-top:3px;font-style:italic;}
+.req{color:var(--accent);}
+input[type=text],input[type=email],input[type=number],textarea{width:100%;background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);padding:11px 13px;color:var(--ink);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color 0.15s;appearance:none;}
+input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(184,66,15,0.1);}
+input::placeholder,textarea::placeholder{color:var(--ink-3);}
+textarea{resize:vertical;min-height:80px;line-height:1.55;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.chip-group{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{border:1px solid var(--rule);border-radius:20px;padding:6px 13px;font-size:13px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;background:var(--bg);user-select:none;line-height:1.4;}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.chip.selected{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);font-weight:600;}
+.scale-row{display:flex;gap:8px;align-items:center;}
+.scale-btn{width:36px;height:36px;border:1px solid var(--rule);border-radius:var(--r);background:var(--bg);color:var(--ink-3);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.12s;display:flex;align-items:center;justify-content:center;}
+.scale-btn:hover{border-color:var(--accent);color:var(--accent);}
+.scale-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff;}
+.scale-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:4px;padding:0 2px;}
+.scale-desc{font-family:var(--font-mono);font-size:9px;color:var(--accent);margin-left:8px;font-style:italic;}
+.game-section{display:none;}
+.game-section.active{display:block;}
+.divider{border:none;border-top:1px solid var(--rule);margin:22px 0;}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--rule);}
+.btn-back{background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:11px 20px;font-family:var(--font-body);font-size:14px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;}
+.btn-back:hover{border-color:var(--ink);color:var(--ink);}
+.btn-next{background:var(--accent);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.btn-next:hover{opacity:0.88;}
+.btn-submit{background:var(--accent);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.step{display:none;}
+.step.active{display:block;}
+.success{display:none;text-align:center;padding:48px 20px;}
+.success.active{display:block;}
+.success-icon{font-size:52px;margin-bottom:16px;}
+.success-title{font-family:var(--font-head);font-size:22px;font-weight:700;margin-bottom:10px;}
+.success-desc{font-size:14px;color:var(--ink-2);margin-bottom:28px;line-height:1.6;max-width:400px;margin-left:auto;margin-right:auto;}
+@media(max-width:520px){.two-col{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="brand-row">
+      <span class="logo">CP</span>
+      <span class="wordmark">CoachPrep</span>
+      <span class="sport-tag">Basketball</span>
+    </div>
+    <p class="header-desc"><strong>Week in Review — takes 3 minutes.</strong> Your answers feed directly into next week's plan.</p>
+  </div>
+  <div class="progress" id="progress">
+    <div class="prog-step active" id="ps0"></div>
+    <div class="prog-step" id="ps1"></div>
+    <div class="prog-step" id="ps2"></div>
+    <div class="prog-step" id="ps3"></div>
+  </div>
+
+  <!-- STEP 0 — WHO + DID YOU HAVE A GAME -->
+  <div class="step active" id="step0">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 1 of 4</div>
+      <div class="step-title">The week</div>
+      <div class="step-sub">Start here.</div>
+    </div>
+    <div class="field" style="background:var(--accent-bg);border:1px solid rgba(184,66,15,0.2);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;">
+      <label class="field-label" style="color:var(--accent);margin-bottom:8px;">Returning coach? Enter your CoachPrep code to auto-fill your info.</label>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="coachCode" placeholder="e.g. HOOPS2026" style="flex:1;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+        <button type="button" onclick="applyCode()" style="background:var(--accent);color:#fff;border:none;border-radius:var(--r);padding:11px 18px;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Apply</button>
+      </div>
+      <span class="field-hint" id="codeStatus"></span>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Your name<span class="req">*</span></label>
+        <input type="text" id="name" placeholder="First Last">
+      </div>
+      <div class="field">
+        <label class="field-label">Email<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@email.com">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Did you have a game this week?<span class="req">*</span></label>
+      <div class="chip-group" id="hadGameChips">
+        <div class="chip" data-val="yes" onclick="toggleGame('yes',this)">Yes — we played</div>
+        <div class="chip" data-val="no" onclick="toggleGame('no',this)">No game this week</div>
+      </div>
+    </div>
+    <div class="nav"><span></span><button class="btn-next" onclick="next(0)">The Game →</button></div>
+  </div>
+
+  <!-- STEP 1 — THE GAME -->
+  <div class="step" id="step1">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 2 of 4</div>
+      <div class="step-title">The game</div>
+      <div class="step-sub">Quick stats — chips only.</div>
+    </div>
+    <div class="game-section active" id="gameYesSection">
+      <div class="two-col">
+        <div class="field">
+          <label class="field-label">Opponent</label>
+          <input type="text" id="opponent" placeholder="e.g. Jefferson MS">
+        </div>
+        <div class="field">
+          <label class="field-label">Result<span class="req">*</span></label>
+          <div class="chip-group" id="resultChips">
+            <div class="chip" data-val="Win">Win</div>
+            <div class="chip" data-val="Loss">Loss</div>
+            <div class="chip" data-val="Tie">Tie</div>
+          </div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label class="field-label">Points scored</label>
+          <input type="number" id="pointsFor" placeholder="e.g. 42" min="0">
+        </div>
+        <div class="field">
+          <label class="field-label">Points allowed</label>
+          <input type="number" id="pointsAgainst" placeholder="e.g. 38" min="0">
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label class="field-label">Turnovers</label>
+          <input type="number" id="turnovers" placeholder="e.g. 12" min="0">
+        </div>
+        <div class="field">
+          <label class="field-label">Steals</label>
+          <input type="number" id="steals" placeholder="e.g. 8" min="0">
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label class="field-label">Free throws made / attempted</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <input type="number" id="ftMade" placeholder="Made" min="0">
+            <input type="number" id="ftAtt" placeholder="Attempted" min="0">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Rebounds (rough total)</label>
+          <input type="number" id="rebounds" placeholder="e.g. 22" min="0">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">How did the scoreline feel?</label>
+        <div class="chip-group" id="resultFeelChips">
+          <div class="chip" data-val="Scoreline flatters us — we got lucky">Scoreline flatters us</div>
+          <div class="chip" data-val="Scoreline reflects the game — fair result">Fair result</div>
+          <div class="chip" data-val="We deserved more — should have won">We deserved more</div>
+        </div>
+      </div>
+    </div>
+    <div class="game-section" id="gameNoSection">
+      <div class="field" style="background:var(--bg-off);border-radius:var(--r);padding:16px;">
+        <p style="font-size:14px;color:var(--ink-2);">No game this week — skip to practice.</p>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prev(1)">← Back</button>
+      <button class="btn-next" onclick="next(1)">Practice Week →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 — PRACTICE -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 3 of 4</div>
+      <div class="step-title">Practice week</div>
+      <div class="step-sub">What happened on the court this week.</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Best moment this week <span style="font-weight:400;color:var(--ink-3)">(select all that apply)</span></label>
+      <div class="chip-group" id="bestMomentChips">
+        <div class="chip multi" data-val="Shot selection improved">Shot selection improved</div>
+        <div class="chip multi" data-val="Rebounding was dominant">Rebounding was dominant</div>
+        <div class="chip multi" data-val="Defense held them under their average">Defense held them under average</div>
+        <div class="chip multi" data-val="Ball movement clicked — extra passes led to open shots">Ball movement clicked</div>
+        <div class="chip multi" data-val="Press break worked — handled pressure well">Press break worked</div>
+        <div class="chip multi" data-val="Free throw shooting was strong">Free throw shooting was strong</div>
+        <div class="chip multi" data-val="Team competed hard throughout">Team competed hard</div>
+        <div class="chip multi" data-val="A drill or concept clicked in practice">A drill clicked in practice</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">What didn't land?</label>
+      <div class="chip-group" id="didntLandChips">
+        <div class="chip multi" data-val="Turnovers killed us">Turnovers killed us</div>
+        <div class="chip multi" data-val="Free throws cost us points">Free throws cost us</div>
+        <div class="chip multi" data-val="Couldn't rebound — lost the boards">Couldn't rebound</div>
+        <div class="chip multi" data-val="Transition defense broke down">Transition defense broke down</div>
+        <div class="chip multi" data-val="Foul trouble — key players sat too long">Foul trouble</div>
+        <div class="chip multi" data-val="Box out discipline was poor">Box out discipline poor</div>
+        <div class="chip multi" data-val="Nothing major — solid week">Nothing major</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Player who stood out <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <input type="text" id="playerStandout" placeholder="Name or number — what they did">
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prev(2)">← Back</button>
+      <button class="btn-next" onclick="next(2)">Next Week →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — NEXT WEEK -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 4 of 4</div>
+      <div class="step-title">Next week</div>
+      <div class="step-sub">This shapes your next practice plan.</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Confidence going into next week<span class="req">*</span></label>
+      <div style="margin-top:4px;">
+        <div class="scale-row" id="confidenceScale">
+          <button class="scale-btn" onclick="setScale('confidence','1',this)">1</button>
+          <button class="scale-btn" onclick="setScale('confidence','2',this)">2</button>
+          <button class="scale-btn" onclick="setScale('confidence','3',this)">3</button>
+          <button class="scale-btn" onclick="setScale('confidence','4',this)">4</button>
+          <button class="scale-btn" onclick="setScale('confidence','5',this)">5</button>
+          <span class="scale-desc" id="confidenceDesc">tap to rate</span>
+        </div>
+        <div class="scale-labels"><span>Low — lots to fix</span><span>High — we're rolling</span></div>
+      </div>
+      <input type="hidden" id="confidence" value="">
+    </div>
+    <div class="field">
+      <label class="field-label">One thing to fix next week</label>
+      <div class="chip-group" id="fixChips">
+        <div class="chip" data-val="Turnovers — ball security and decision-making">Turnovers</div>
+        <div class="chip" data-val="Rebounding — box out discipline">Rebounding</div>
+        <div class="chip" data-val="Free throws — shooting form and routine">Free throws</div>
+        <div class="chip" data-val="Transition defense — getting back faster">Transition defense</div>
+        <div class="chip" data-val="Offense — spacing and ball movement">Offense spacing</div>
+        <div class="chip" data-val="Defense — man principles and help side">Defense principles</div>
+        <div class="chip" data-val="Press break — handling pressure">Press break</div>
+        <div class="chip" data-val="Foul discipline — staying out of the penalty">Foul discipline</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">One thing to protect</label>
+      <div class="chip-group" id="protectChips">
+        <div class="chip" data-val="Our rebounding edge">Rebounding edge</div>
+        <div class="chip" data-val="Our transition offense — pushing early">Transition offense</div>
+        <div class="chip" data-val="Our defensive intensity">Defensive intensity</div>
+        <div class="chip" data-val="Our ball movement and extra passes">Ball movement</div>
+        <div class="chip" data-val="Our team energy and effort">Team energy</div>
+        <div class="chip" data-val="Our free throw routine">Free throw routine</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Any extra notes? <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <textarea id="extraNotes" placeholder="Anything else you want next week's plan to know — injuries, schedule changes, a player stepping up."></textarea>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prev(3)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">Submit Week in Review →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success">
+    <div class="success-icon">🏀</div>
+    <div class="success-title">Week in Review received.</div>
+    <div class="success-desc">Your next week's plan will incorporate this. It'll be in your inbox after you submit your Week 2 intake.</div>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:12px;">Ready for next week? <a href="https://coachprep.co/basketball/" style="color:var(--accent);font-weight:600;">Submit your Week 2 intake →</a></p>
+    <p style="font-size:13px;color:var(--ink-3);">Questions? Email <strong>hello@coachprep.co</strong></p>
+  </div>
+</div>
+
+<script>
+let currentStep = 0;
+let hasGame = null;
+const totalSteps = 4;
+
+window.addEventListener('load', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if(code) { document.getElementById('coachCode').value = code.toUpperCase(); await applyCode(); }
+});
+
+async function applyCode() {
+  const code = document.getElementById('coachCode').value.trim().toUpperCase();
+  if(!code) return;
+  const status = document.getElementById('codeStatus');
+  status.textContent = 'Looking up...'; status.style.color = 'var(--ink-3)';
+  try {
+    const res = await fetch(`https://coachiq-production.up.railway.app/coach/${code}`);
+    if(res.ok) {
+      const p = await res.json();
+      const n = document.getElementById('name'); const e = document.getElementById('email');
+      if(n) { n.value = p.name||''; n.style.background='var(--accent-bg)'; n.style.color='var(--accent)'; }
+      if(e) { e.value = p.email||''; e.style.background='var(--accent-bg)'; e.style.color='var(--accent)'; }
+      status.textContent = '✓ Info loaded — ' + p.name; status.style.color = 'var(--accent)';
+    } else { status.textContent = 'Code not found — fill in your info below.'; status.style.color = 'var(--ink-3)'; }
+  } catch(e) { status.textContent = 'Could not connect — fill in your info below.'; status.style.color = 'var(--ink-3)'; }
+}
+
+function toggleGame(val, el) {
+  hasGame = val === 'yes';
+  document.querySelectorAll('#hadGameChips .chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+const singleGroups = ['resultChips','resultFeelChips','fixChips','protectChips'];
+singleGroups.forEach(id => {
+  const g = document.getElementById(id); if(!g) return;
+  g.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
+    g.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+  }));
+});
+document.querySelectorAll('.chip.multi').forEach(c => c.addEventListener('click', () => c.classList.toggle('selected')));
+
+function setScale(id, val, btn) {
+  btn.closest('.scale-row').querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById(id).value = val;
+  const labels = {'1':'Low confidence','2':'Some concerns','3':'Neutral','4':'Feeling good','5':'Very confident'};
+  const desc = document.getElementById(id + 'Desc');
+  if(desc) desc.textContent = labels[val] || '';
+}
+
+function chips(id) { const g = document.getElementById(id); if(!g) return ''; const s = g.querySelector('.chip.selected'); return s ? s.dataset.val : ''; }
+function multiChips(id) { const g = document.getElementById(id); if(!g) return ''; return Array.from(g.querySelectorAll('.chip.selected')).map(c => c.dataset.val).join(', '); }
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+function updateProgress() {
+  for(let i = 0; i < totalSteps; i++) {
+    const el = document.getElementById('ps' + i); if(!el) continue;
+    el.className = 'prog-step' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+  }
+}
+
+function next(from) {
+  if(from === 0) {
+    if(!val('name')) { alert('Please enter your name.'); return; }
+    if(!val('email')) { alert('Please enter your email.'); return; }
+    if(hasGame === null) { alert('Please select whether you had a game this week.'); return; }
+    document.getElementById('gameYesSection').classList.toggle('active', hasGame);
+    document.getElementById('gameNoSection').classList.toggle('active', !hasGame);
+  }
+  if(from === 1 && hasGame) {
+    if(!chips('resultChips')) { alert('Please select the result.'); return; }
+  }
+  document.getElementById('step' + from).classList.remove('active');
+  currentStep = from + 1;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+function prev(from) {
+  document.getElementById('step' + from).classList.remove('active');
+  currentStep = from - 1;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+async function submitForm() {
+  if(!val('confidence')) { alert('Please rate your confidence going into next week.'); return; }
+  const data = {
+    sport: 'basketball', formType: 'postgame',
+    coachCode: document.getElementById('coachCode').value.trim().toUpperCase(),
+    name: val('name'), email: val('email'),
+    hadGame: hasGame ? 'yes' : 'no',
+    opponent: val('opponent'), result: chips('resultChips'),
+    pointsFor: val('pointsFor'), pointsAgainst: val('pointsAgainst'),
+    turnovers: val('turnovers'), steals: val('steals'),
+    ftMade: val('ftMade'), ftAttempted: val('ftAtt'),
+    rebounds: val('rebounds'), resultFeel: chips('resultFeelChips'),
+    bestMoments: multiChips('bestMomentChips'),
+    didntLand: multiChips('didntLandChips'),
+    playerStandout: val('playerStandout'),
+    confidenceLevel: val('confidence'),
+    fixNextWeek: chips('fixChips'), protectNextWeek: chips('protectChips'),
+    extraNotes: val('extraNotes'),
+    _subject: `CoachPrep Basketball Week in Review — ${val('name')}`,
+  };
+  try {
+    const res = await fetch('https://formspree.io/f/xkoklraj', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if(res.ok) {
+      document.getElementById('step3').classList.remove('active');
+      document.getElementById('success').classList.add('active');
+      window.scrollTo(0,0);
+    } else { alert('Submission failed. Please email hello@coachprep.co directly.'); }
+  } catch(e) { alert('Network error. Please try again.'); }
+}
+</script>
+</body>
+</html>
