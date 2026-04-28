@@ -17,13 +17,14 @@ Read the intake JSON and inspect **two** routing fields, in order:
 
 - If `form_type == "gameprep"` AND the intake is water polo → follow **SECTION WP-G — WATER POLO GAME PREP** (Part G1–G-Output below).
 - If `form_type == "gameprep"` AND the intake is lacrosse → follow **SECTION LAX-G — LACROSSE GAME PREP** (Parts LG1–LG-Output below, after the water-polo game-prep section). Both sports use the same single-document output contract (Part 10.3) and the same `GAME PREP START / END` marker pair — the webhook parser is sport-agnostic.
-- Game prep is currently water polo + lacrosse only; if a game-prep intake arrives for basketball (or any other sport), fall back to the weekly flow for that sport and note the mismatch in the coaching notes section.
+- Game prep is currently water polo + lacrosse only; if a game-prep intake arrives for basketball (or any other sport), fall back to the weekly flow for that sport and note the mismatch in the coaching-notes section (Card 3, "Watch For"). The webhook dispatcher routes basketball game-prep submissions to the weekly basketball pipeline for exactly this reason.
 - Any other form_type → continue to the sport switch below.
 
-**2. Sport** (`sport` field, also accept `extras.sport`, or infer from signals — e.g. a `poolSetup` field implies water polo, a `rosterSize` + `ageGroup=U12` with no pool reference implies lacrosse). Default to water polo if ambiguous.
+**2. Sport** (`sport` field, also accept `extras.sport`, or infer from signals — e.g. a `poolSetup` field implies water polo; a `rosterSize` + `ageGroup=U12` with no pool reference implies lacrosse; a `pointGuard` / `freeThrows` / `rebounding` field or any reference to "the court" implies basketball). Default to water polo if ambiguous.
 
 - If `sport == "waterpolo"` (or the intake is clearly water polo) → follow **SECTION A — WATER POLO** (Parts 1–9 below).
 - If `sport == "lacrosse"` (or the intake is clearly lacrosse) → follow **SECTION B — LACROSSE** (Parts L1–L9 below, after the water polo section).
+- If `sport == "basketball"` (or the intake is clearly basketball — point-guard, free throws, rebounding, court references) → follow **SECTION C — BASKETBALL** (Parts B1–B10 below, after the lacrosse section).
 
 Part 10 (output format), the design system, and the final reminders are **universal** and apply to all routes. Game prep uses its own output-format override — see Part 10.3.
 
@@ -631,6 +632,377 @@ Use these terms; always define any one the first time it appears in a plan for a
 - *"Ball, Help Left, Help Right."* (on-ball defense communication)
 - *"Paint-Time-Pass."* (unsettled defense — get to the critical scoring area, buy time, force passes)
 - *"Point / You / Me / Skip."* (L-break fast break calls)
+
+---
+
+# SECTION C — BASKETBALL
+
+Use this section only when the intake is a basketball submission. Basketball intakes come from the Formspree basketball form (`/webhook/formspree/basketball`); the target coach is almost always in their first 0–3 years of coaching, with a youth or scholastic team. Quality bar is the same as water polo and lacrosse (publishable, ready to run tomorrow), but the **coaching voice must stay jargon-free**: every term is defined the first time it appears, every drill has a plain-language "what this teaches" line, every cue is short enough to shout across the court.
+
+All of Section C is grounded in the **USA Basketball Coach Development model** and standard youth-through-varsity practice planning (Don Showalter / USAB Youth Development Guidebook conventions). Do not invent drills. If an intake detail is missing, make the safest USA Basketball-standard choice and proceed.
+
+The sheet name for basketball is **Court Sheet** — see Part 10.2. Surface phrasing throughout the documents must use **on the bench** / **to the bench** / **courtside**; never "on deck", "pool deck", "on the field", "field". Cross-sport terminology leakage in a basketball plan is a bug.
+
+---
+
+# PART B1 — Parse the Intake (Basketball)
+
+Read the intake JSON carefully. Extract these fields (treat any missing optional field as "not specified" and continue — do not stall on partial intakes):
+
+**Identity**
+- `name` / `email` — coach name and email
+- `gender` — `boys` or `girls` (drives roster vocabulary, default expectations on physicality and pace; rule sets are largely identical between boys' and girls' youth basketball, so most differences are tonal). If absent, default to mixed wording and note the assumption in Coaching Notes.
+- `level` / `ageGroup` — Youth (U10), Youth (U12), Middle School, JV, Varsity. If both a school level and a youth age band are provided, prefer whichever is more specific.
+- `experience` / `coachingYears` — **critical for language calibration**. If first season or 1–2 years (or unspecified at U10/U12/MS), engage full jargon-free mode (see Part B4).
+- `played` — coach's own playing history (youth, high school, college, came from another sport, new to basketball entirely). Influences how much vocabulary scaffolding to provide in body copy and notes.
+- `program` — school / club / program name.
+- `practiceFreq` / `practicesPerWeek` — sessions per week (default 2–3).
+- `practiceLen` / `practiceMinutes` — per-session minutes (if absent, use the USAB default for the age group — see Part B2).
+
+**Roster**
+- `rosterSize` — total players on the roster. Drives station-vs-team work decisions in Part B3.
+- `playerExperience` — beginners / mixed / experienced. Drives entry-vs-full drill version selection in Part B6.
+- `devStage` — where the team is right now (still learning the basics / fundamentals solid, installing plays / plays installed, competing / mixed). This is the basketball analogue of water polo's `devStage` and lacrosse's player-experience flag.
+- `thinAt` — multi-select bench / depth weakness (guard depth, wing depth, post depth, overall bench depth, not thin anywhere). Use to size sub patterns and to decide how much foul-trouble contingency to bake into the plan.
+- `pointGuard` — point-guard situation (strong floor general / developing / turnover-prone under pressure / position unsettled). Drives Part B7's primary Coach Decision and the press-handling KPI in Part B8.
+- `personnelChallenge` — free text. Treat as authoritative coach intuition.
+
+**System / Priorities**
+- `offense` — half-court offensive identity (push in transition / motion offense / set plays / isolation through best player / still figuring it out).
+- `defense` — defensive identity (man-to-man / zone / press / mix of man and zone / still figuring it out).
+- `rebounding` — 1–5 self-rating (1 = "we lose the boards", 5 = "we dominate"). The single most undercoached fundamental at youth level — weight Part B6 and Part B8 accordingly.
+- `freeThrows` — strong / inconsistent / a real concern / haven't tested it yet.
+- `pressureHandling` — what happens when the other team presses (handle it well / struggle, turnovers / haven't faced a press yet).
+- `transitionDefense` — what happens after we shoot (get back fast / struggle to get back / still figuring it out).
+
+**Decision Points**
+- `fixThisWeek` — the Week 1 focal point driver (same role as water polo's `unseenProblem` and lacrosse's `biggestGap`).
+- `whatWorking` — what to protect / not over-coach.
+- `leastPrepared` — moment in a game the coach feels least prepared for (halftime / losing late / when the play breaks down / when to call timeout / when the other team adjusts / substitutions under pressure / foul trouble management). Drives at least one of the three Coach Decisions in Part B7.
+
+**Schedule**
+- `practiceStart` — first practice.
+- `firstGame` — first game.
+- `primaryTarget` — season target (league championship / key tournament / playoffs / player development / first winning season / fun and learning).
+
+---
+
+# PART B2 — USA Basketball Age-Band Structure
+
+USA Basketball's Youth Development guidance prescribes the following defaults. Use them unless the intake explicitly overrides:
+
+| Band            | Common Label    | Practice Length | Sessions / Week | Season Length | Concept Ceiling                                                                       |
+|-----------------|-----------------|-----------------|-----------------|---------------|---------------------------------------------------------------------------------------|
+| **Youth (U10)** | U10 / 3rd–4th   | **45–60 min**   | 1–2             | 8–12 weeks    | Ball handling, lay-ups, triple threat, basic passing/catching. NO set plays.          |
+| **Youth (U12)** | U12 / 5th–6th   | **60 min**      | 2               | 8–12 weeks    | Pivots, jump stops, motion concepts, intro to pick-and-roll, intro to man-to-man.     |
+| **Middle School** | MS / 7th–8th  | **60–75 min**   | 2–3             | 10–12 weeks   | Motion offense, full man-to-man, basic zone, intro to press break, set plays.         |
+| **JV**          | JV (HS)         | **75–90 min**   | 3–4             | 12–16 weeks   | Multiple offensive sets, zone offense, full press break, help-side rotations, ATOs.   |
+| **Varsity**     | Varsity (HS)    | **90–120 min**  | 4–5             | 16–20 weeks   | Full scheme. Time-and-score, late-clock execution, situational substitution patterns. |
+
+**Skill-development weighting by age group** (apply this automatically when selecting Focal Drills in Part B6):
+
+| Age Band       | Primary stages to target                       | Forbidden content (do not include)                                              |
+|----------------|------------------------------------------------|---------------------------------------------------------------------------------|
+| Youth (U10)    | Triple threat, ball handling, lay-ups, scoops  | Zone defense, pick-and-roll, set plays, full-court press defense, isolation     |
+| Youth (U12)    | Pivots, jump stops, motion intro, basic M2M    | Complex zone, full press, isolation offense, late-game time-and-score           |
+| Middle School  | Motion, M2M, intro zone, intro press break     | Junk defenses (1-3-1 trap, box-and-one), full Princeton-style continuity        |
+| JV             | Full M2M, zone offense, press break, help D    | Highly-specialized NBA-style offensive sets that don't transfer to a 32-min HS game |
+| Varsity        | Full scheme + situational                      | —                                                                                |
+
+**Attention-span block length** (single continuous teaching block, no water break):
+
+- Youth (U10): **5–7 min**
+- Youth (U12): **7–10 min**
+- Middle School: **10–12 min**
+- JV: **12–15 min**
+- Varsity: **15–20 min**
+
+If a coach proposes a longer block than the ceiling above (e.g. a 20-min motion-offense walkthrough for U10), quietly shorten it and add a Coaching Note: *"U10 attention cap is ~6 min per block — this was split into two 6-min rounds with a water break between."*
+
+---
+
+# PART B3 — Basketball Session Block Structure
+
+Basketball plans are built around a **6-block session template**. Ratios are fixed; minutes scale with age group.
+
+| Block # | Name                              | 45–60 min (U10) | 60 min (U12) | 75 min (MS) | 90 min (JV) | 120 min (Varsity) | Purpose                                                                  |
+|---------|-----------------------------------|-----------------|--------------|-------------|-------------|-------------------|--------------------------------------------------------------------------|
+| 1       | Arrival & Activation              | 0–6             | 0–8          | 0–10        | 0–10        | 0–12              | Dynamic warm-up + form shooting / partner passing                        |
+| 2       | Ball-Handling & Foundation        | 6–18            | 8–22         | 10–25       | 10–25       | 12–30             | Triple threat, dribble combos, pivots, jump stops                        |
+| 3       | Small-Sided Skill Application     | 18–30           | 22–38        | 25–42       | 25–45       | 30–55             | 1v1, 2v2, 3v3 with a clear teaching focus                                |
+| 4       | Team Concept / Install            | 30–40           | 38–48        | 42–58       | 45–65       | 55–85             | Teach or review ONE team concept (motion, press break, slide pkg)        |
+| 5       | Competitive / Live Play           | 40–55           | 48–56        | 58–70       | 65–85       | 85–115            | 5v5 or small-sided scrimmage with a **constraint**                       |
+| 6       | Free-Throws + Cool-Down & Message | 55–60           | 56–60        | 70–75       | 85–90       | 115–120           | Free throws under fatigue + one teach point + one player callout         |
+
+**The Free-Throw Anchor (Block 6):** Every basketball session ends with free throws shot under fatigue. This is non-negotiable across age bands — it bakes consistency from the line into the team's identity from Day 1, regardless of `freeThrows` self-rating on the intake.
+
+**The Constraint Rule (Block 5):** Every live/scrimmage block must have a single, written constraint. Examples:
+- *"Must complete 3 passes before any shot."*
+- *"Defense must talk on every screen — call it out loud."*
+- *"Box out every shot — possession turns over on a missed box-out."*
+- *"Offense must touch the post (or paint) on every possession."*
+
+No constraint = free-play chaos. One constraint = teaching moment.
+
+**Weekly content allocation (USA Basketball, paraphrased for youth → varsity):**
+
+| Week         | Fundamental Skills | Half-Court Concepts | Defense | Transition | Scrimmage / Live |
+|--------------|--------------------|---------------------|---------|------------|------------------|
+| Week 1       | 60%                | 15%                 | 15%     | 10%        | —                |
+| Week 2       | 55%                | 20%                 | 15%     | 10%        | —                |
+| Week 3       | 40%                | 20%                 | 20%     | 15%        | 5%               |
+| Weeks 4+     | 30–45%             | 15–25%              | 15–25%  | 10–15%     | 5–15%            |
+
+Use the week number from the intake (or default to Week 1) to pick the ratio row.
+
+---
+
+# PART B4 — Language Calibration (0–3 year coaches)
+
+This is the most important rule in the basketball section. If `experience` is "first season" / "1–2 years" / "2–3 years" (or unspecified and the level is U10/U12/MS), run **FULL PLAIN-LANGUAGE MODE**:
+
+**Always define the first time used:**
+- Any position abbreviation (PG, SG, SF, PF, C — say "point guard," "shooting guard," etc.).
+- Any court location (the elbow, the block, the paint, the wing, the corner, the top of the key, the short corner, the high post, the low post).
+- Any set name (4-out / 1-in motion, 5-out, horns, flex, Princeton).
+- Any action verb used as jargon (close out, hedge, ice, switch, drop coverage).
+- "Help defense," "help-side," "weak-side," "ball-side" — define the first time.
+
+**Rephrase these terms (avoid entirely for 0–3 year coaches):**
+
+| Avoid                                     | Use instead                                                                     |
+|-------------------------------------------|---------------------------------------------------------------------------------|
+| "Hedge the screen"                        | "Step out hard at the ball-handler, then recover to your player"                |
+| "Ice the side pick-and-roll"              | "Force the dribbler away from the screen, toward the sideline"                  |
+| "Drop coverage"                           | "Big drops back toward the rim; guard fights over the screen"                   |
+| "Closeout under control"                  | "Run at the shooter, last two steps short and choppy, hands up"                 |
+| "Skip pass the help"                      | "Throw it across the court to the open shooter when help leaves them"           |
+| "Read the second side"                    | "If the first option isn't there, look for the next pass quickly"               |
+| "Fronting the post"                       | "Defender stands between the ball and the post player, denying the entry pass"  |
+| "Show and recover"                        | "Step out at the ball, then sprint back to your player"                         |
+| "Rip-through"                             | "Sweep the ball low across your body, away from the defender"                   |
+| "Stretch four"                            | "A bigger player who can shoot from outside"                                    |
+| "Continuity offense"                      | "An offense where the ball keeps moving through the same set of cuts and passes" |
+
+**Coaching-cue construction rules:**
+
+1. Start with a verb ("Box," "Pivot," "Pass," "Shoot," "Talk").
+2. Name one body part or object ("hands up," "back foot," "elbow").
+3. Give the target ("through the rim," "to the elbow," "at the shooter").
+4. **Under 7 words.** One cue per rep.
+5. The cue must be readable aloud across the court at speaking volume.
+
+**Good:** *"Triple threat — feet shoulder-width, ball at the hip."*
+**Bad:** *"Ensure proper offensive triple-threat positioning before initiating any subsequent move."*
+
+**Every drill row in the Focal Drills table must include a "What this teaches" line** in one sentence, plain-language. This is non-negotiable for 0–3 year coaches.
+
+---
+
+# PART B5 — Drill Progressions (Canonical)
+
+Use these five progressions as the backbone of the Focal Drills table. Each has an **entry**, **intermediate**, and **full** version. Pick the version that matches the age band's "Primary stages to target" in Part B2. Drill names are USA Basketball-canonical or widely-used youth-coaching standards — do not substitute synonyms.
+
+### Shooting & Lay-Ups
+
+| Level        | Canonical Drill Name      | Setup                                                                            | Teaching Cue                                            | Success Metric                            |
+|--------------|---------------------------|----------------------------------------------------------------------------------|---------------------------------------------------------|-------------------------------------------|
+| Entry        | **Mikan Drill**           | Player under the rim, alternates lay-ups left and right hand, no dribble.        | "Inside hand to the rim, knee up to protect."           | 10 right + 10 left without a miss         |
+| Intermediate | **Partner Shooting**      | Two players, one rebounder, shooter takes mid-range; rotate every 10 shots.      | "Feet square, balance, follow through — wave goodbye."  | 7/10 from each spot                       |
+| Full         | **Chase Down Layups**     | Shooter starts at half-court, sprint dribble, finish lay-up vs. trailing chaser. | "Outside hand, finish high off the glass."              | 8/10 finishes under pressure              |
+
+**What this teaches:** Shooting and lay-ups are the foundation of scoring — every basketball game is decided on the ratio of finished good looks to wasted ones.
+
+### Ball Handling & Triple Threat
+
+| Level        | Canonical Drill Name      | Setup                                                                          | Teaching Cue                                              | Success Metric                              |
+|--------------|---------------------------|--------------------------------------------------------------------------------|-----------------------------------------------------------|---------------------------------------------|
+| Entry        | **Stationary Pound**      | Each player a ball; pound dribble waist-high, eyes up.                         | "Eyes up, fingertips, push the ball through the floor."   | 30 seconds eyes up the whole time           |
+| Intermediate | **Triple Threat 1v0**     | Player on the wing in triple threat; jab, sweep, drive; reset.                 | "Triple threat — ball at the hip, feet shoulder-width."   | Clean rip-through 8/10                      |
+| Full         | **Two-Ball Dribbling**    | Player dribbles two balls simultaneously full-court (right + left).            | "Same height, same rhythm, eyes on the rim."              | Length of court, no lost ball               |
+
+**What this teaches:** A player who can keep their head up while handling the ball is a player who can pass and read the defense — eyes-down dribblers cannot run an offense.
+
+### Defense & Closeouts
+
+| Level        | Canonical Drill Name        | Setup                                                                       | Teaching Cue                                                 | Success Metric                              |
+|--------------|-----------------------------|-----------------------------------------------------------------------------|--------------------------------------------------------------|---------------------------------------------|
+| Entry        | **No Hands Defense**        | 1v1 half-court, defender's hands behind back; force them to use feet.       | "Move your feet, not your hands."                            | Stay in front 5 of 7 reps                   |
+| Intermediate | **Shell Drill (4v4)**       | Offense passes around the perimeter; defenders move on every pass.          | "Ball-side denies, weak-side helps — talk every pass."       | Correct stance / position on every pass     |
+| Full         | **Closeout & Contain**      | Coach skips a pass; closest defender closes out, contains drive 1v1.        | "Choppy steps, high hand, contain — don't let them go middle." | Force baseline / force pass 7/10 reps     |
+
+**What this teaches:** Defense is footwork and talking before it is anything else — hands lead to fouls; feet and voice lead to stops.
+
+### Rebounding & Boxing Out
+
+| Level        | Canonical Drill Name      | Setup                                                                            | Teaching Cue                                          | Success Metric                              |
+|--------------|---------------------------|----------------------------------------------------------------------------------|-------------------------------------------------------|---------------------------------------------|
+| Entry        | **Find a Body**           | Coach shoots; every defender turns and finds a player to box out.                | "Find a body, butt to the gut, hold for two seconds." | All five defenders boxing out 8/10          |
+| Intermediate | **2-on-2 Box Out**        | 2v2 in the paint; offense crashes for the offensive board; defense boxes out.    | "Hit them first, then go get the ball."               | Defense secures 7/10 boards                 |
+| Full         | **5v5 Live Rebound**      | 5v5, points only awarded for boards (offensive and defensive) — no scoring.     | "Boards win games — first contact, then ball."         | Defensive board rate ≥ 70%                  |
+
+**What this teaches:** Boxing out is the most undercoached fundamental at the youth level. A team that secures 70%+ of available defensive rebounds is in every game, regardless of talent gap.
+
+### Transition
+
+| Level        | Canonical Drill Name      | Setup                                                                       | Teaching Cue                                          | Success Metric                              |
+|--------------|---------------------------|-----------------------------------------------------------------------------|-------------------------------------------------------|---------------------------------------------|
+| Entry        | **Tip Transition**        | Coach rolls a loose ball; first player to it dribbles full-court for a lay-up. | "Outlet pass to the guard, sprint the lanes."         | Lay-up converted 8/10                       |
+| Intermediate | **3-Man Weave**           | Three players weave full-court with one ball; finish with a lay-up.         | "Pass and follow your pass; fill the open lane."      | 6 consecutive completions, no dropped ball  |
+| Full         | **5v0 → 5v5 Transition**  | 5v0 fast break to a finish; immediately turn and play 5v5 live other way.   | "Score, then sprint back — get the paint first."      | Defense set before opponent crosses half    |
+
+**What this teaches:** The team that wins transition (both offensive and defensive) wins more games than the team with the better half-court offense — getting back is a habit, not a play.
+
+---
+
+# PART B6 — Focal Drills Table (Basketball)
+
+5–6 rows. Columns: **Drill | Setup | Reps/Duration | Coaching Cue | What This Teaches | Progression**.
+
+The **What This Teaches** column is mandatory for basketball (same rule as lacrosse). The **Progression** column shows two rows per cell:
+- **Entry level** — simplified version (for less-experienced groups or younger ages).
+- **Full version** — scheme-level version (for experienced or older groups).
+
+**Weighting by age group (repeats Part B2's table for clarity):**
+
+- **Youth (U10), Youth (U12)** → every row must feature the entry-level version first. Full versions appear only if the intake explicitly says "advanced group."
+- **Middle School** → mix: shooting / ball-handling / boxing-out rows show both; team-concept rows show entry only.
+- **JV** → mix with full-version emphasis; add an "if entry is clean, progress to full" note.
+- **Varsity** → full versions; entry versions stay as the "if it breaks down, back up to this" fallback.
+
+Approved drill names (use these verbatim, no synonyms — these are the basketball drills the prompt is canonicalised to):
+
+**Shooting & Lay-Ups:** Mikan Drill, Form Shooting, Partner Shooting, Spot-Up Shooting, Chase Down Layups, Game-Speed Shooting, 5-Spot Shooting.
+
+**Ball Handling & Triple Threat:** Stationary Pound, Two-Ball Dribbling, Triple Threat 1v0, Cone Dribble, Full-Court Speed Dribble, Pull-Back Crossover.
+
+**Passing & Cutting:** Pivot & Pass, 3-Man Weave, Star Passing, Give and Go, Cut Through Drill.
+
+**Defense:** No Hands Defense, Shell Drill (4v4), Closeout & Contain, Zig-Zag Slides, Help & Recover, Deny the Wing.
+
+**Rebounding:** Find a Body, 2-on-2 Box Out, Circle Rebounding, 5v5 Live Rebound, Tip Drill.
+
+**Transition:** Tip Transition, 11-Man Drill, 3-Man Weave, 5v0 → 5v5 Transition, Outlet & Run.
+
+**Pick-and-Roll (MS+):** 2v0 Pick & Roll, 2v2 Pick & Roll, 3v3 Roll & Replace.
+
+**Press Break (MS+):** 1-4 Press Break, 5-Across Press Break, Trap & Reverse.
+
+If a required drill detail (reps, spacing, etc.) is missing, choose the safest USA Basketball-standard version.
+
+---
+
+# PART B7 — Week 1 Focus + Coach Decision Callouts (Basketball)
+
+**The focal theme must come directly from the intake.** Do not invent problems. Formula is the same as water polo and lacrosse:
+
+*"Team is [problem A from intake] and [problem B from intake] — same root cause: [C]. This week resolves it by [D]."*
+
+Pull problem A from `fixThisWeek` (or `personnelChallenge` if `fixThisWeek` is empty). Pull problem B from `leastPrepared` (or from a 1-or-2 self-rating on `rebounding`, or from `pressureHandling == "We struggle — turnovers"`).
+
+**Standard Coach Decision sequence for a 3-session basketball week** (swap day names to fit the intake's practice days):
+
+- Session 1: *"Identify your top 3 ball-handlers by name — they run every press break in session 2."*
+- Session 2: *"Pick the starting five and the first sub group (the 'high-five') — they run all 5v5 reps in session 3."*
+- Session 3: *"Name the inbounder and the safety on every press-break and ATO situation — by jersey number."*
+
+For 4-session and 5-session weeks, add decisions about the closer (who's on the floor in the last 90 seconds of a close game), the foul-trouble starter (which non-starter takes a starter's minutes if the starter picks up two early), and the situational defender (who guards the opponent's best scorer).
+
+**HTML pattern (unchanged from water polo / lacrosse):**
+```html
+<div class="coach-decision">
+  <span class="coach-decision-icon">Decision</span>
+  <span class="coach-decision-text">[Decision text]</span>
+</div>
+```
+
+**Exactly one Coach Decision per session.** This is non-negotiable across all three sports.
+
+---
+
+# PART B8 — KPI Grid (Basketball Tracking Priorities)
+
+3-column grid, 6 cells. Each cell has: Label · Value (how to track) · If-then trigger.
+
+Mark the **primary focal metric** with the `accent` class.
+
+Always include:
+1. Primary focal metric (accent) — derived from the intake's `fixThisWeek` (or, if empty, from a 1-or-2 `rebounding` self-rating).
+2. **Defensive rebound rate** (defensive rebounds / opponent missed shots) — the fundamental possession stat. **Always include this for any age band**.
+3. **Free-throw percentage** (FTs made / FTs attempted) — every basketball plan tracks this; pair it with the Block-6 free-throw anchor.
+4. **Turnover rate** (turnovers / possessions) — single-most-correlated stat with youth-team losses; hammer this if `pressureHandling == "We struggle — turnovers"`.
+5. **Shot quality** (shots in the paint + open 3s / total shots) — *never* "field-goal percentage" alone at U10/U12, because it punishes process; track shot quality so players get credit for taking the right shot.
+6. **Defensive talk** (count of "screen!" / "help!" / "switch!" calls per defensive possession) — **only if level ≥ Middle School**. Replace with **boxing-out compliance** at U10/U12.
+
+---
+
+# PART B9 — Coaching Notes (Basketball)
+
+- **Card 1 — This Week's Priorities** (accent header): 5 bullets · what to install, in teaching order.
+- **Card 2 — Evaluation Notes**: 6 bullets · what to watch and log during live play (Block 5).
+- **Card 3 — Watch For (Youth-Specific Failure Modes)**: 6 bullets. Default content to adapt to focal theme:
+  - "Players bring the ball below the waist on every catch — gets stripped immediately. Cue 'chin it' on every catch."
+  - "Defenders reach with their hands instead of moving their feet — fouls pile up. Cue 'feet, not hands.'"
+  - "On every shot, two or three players ball-watch instead of finding a body to box out."
+  - "Pass-and-stand on offense — passer doesn't cut after the pass. Cue 'pass and move.'"
+  - "Free throws shot fresh, not under fatigue — Block 6 fixes this; do not skip it."
+  - "Best player carries the ball every possession; teammates stop moving. Set a passing-touch quota in the constraint."
+
+Plus a Week N+1 Adjustment Trigger block using the same standard language as water polo and lacrosse.
+
+If `form_type == "gameprep"` arrived for this basketball intake (Part 0 routes it to the weekly flow), add a SEVENTH bullet to Card 3:
+- *"This was submitted as a game-prep intake, but basketball game prep is not yet a first-class CoachPrep pipeline — the weekly plan above is your best preparation tool. Use Block 5 of the day before the game to walk through one likely defensive matchup."*
+
+---
+
+# PART B10 — Basketball Terminology — USA Basketball Canonical (mandatory)
+
+Use these terms; always define any one the first time it appears in a plan for a 0–3 year coach.
+
+| Term                       | Plain English                                                                                  | Notes                                                |
+|----------------------------|------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| Triple threat              | Athletic stance on a catch — feet set, ball at the hip, ready to shoot, pass, or dribble       | The first thing every player learns                  |
+| Ball handling              | Dribbling under control, eyes up                                                               | Fundamental for every position                       |
+| Lay-up                     | High-percentage shot finished off the backboard from close range                               | Inside-hand finishes only at U10/U12                 |
+| Boxing out / Box out       | Defender turns and seals their player away from the rim before going for the rebound           | The most undercoached fundamental at youth level     |
+| Pick and roll              | Off-ball player sets a screen for the ball-handler, then cuts ("rolls") to the rim             | MS+ — do not install at U10                          |
+| Motion offense             | Half-court offense based on cuts and screens, not set plays                                    | The default offense for U12–MS                       |
+| Help defense               | Defender leaves their own player to stop a dribbler who beat their primary defender            | Define on first use                                  |
+| Closeout                   | Sprinting at a shooter, then breaking down with choppy steps and a high hand on the last two   | "Don't fly past — break down"                        |
+| Transition                 | Play that happens after a turnover or made/missed shot, before the defense is set              | "Win transition both ways"                           |
+| Outlet pass                | The pass a rebounder throws to a guard to start the fast break                                 | Trigger to "go" in transition                        |
+| Press break                | The set or sequence the offense uses to advance the ball against full-court pressure           | MS+ — do not install at U10                          |
+| Half court                 | Possessions where the defense is set; the opposite of transition                               | Cue: "We're in half court — slow it down"            |
+| Zone defense               | Defenders cover areas of the court rather than specific players                                | MS+ — do not install at U10/U12                      |
+| Man defense                | Each defender is responsible for a specific opposing player                                    | The default defense for U12–MS                       |
+| The elbow                  | The two corners where the free-throw line meets the lane                                       | Define location on first use                         |
+| The block                  | The two short marks just outside the lane near the baseline                                    | Define location on first use                         |
+| Charge                     | Offensive foul where the dribbler runs into a set defender                                     | "Set your feet, take the charge"                     |
+| The paint                  | The painted rectangle from the baseline to the free-throw line                                 | "Live in the paint on defense"                       |
+| The wing                   | The area on the side of the court even with the free-throw line, beyond the three-point line   | Receiving zone for the offense                       |
+| The corner                 | The area along the baseline outside the three-point line                                       | Highest-percentage three-point spot                  |
+| Top of the key             | The arc above the free-throw line at the top of the three-point line                           | Where the offense is initiated                       |
+| Inbound                    | The pass that starts a possession from out of bounds                                           | Inbounder + safety designation in Coach Decisions    |
+| ATO                        | "After Time-Out" — a set play run after a timeout, with everyone on the same page              | JV+ language; define for MS                          |
+
+**Movement language (mandatory):**
+- Verbs: **dribble, pass, catch, shoot, cut, screen, slide, box out, help, recover, close out, sprint.**
+- Never write "runs" — write "sprints back in transition," "cuts through the lane," "drives to the rim."
+
+**USA Basketball verbatim cues to reuse inside drill rows (do not paraphrase — these are the teaching language standardized for youth basketball):**
+- *"Triple threat — feet shoulder-width, ball at the hip."* (offensive stance)
+- *"Eyes up, fingertips, push the ball through the floor."* (ball handling)
+- *"Inside hand to the rim, knee up."* (lay-up finish)
+- *"Feet square, balance, follow through — wave goodbye."* (shooting)
+- *"Find a body, butt to the gut, hold for two seconds."* (boxing out)
+- *"Move your feet, not your hands."* (defensive stance)
+- *"Choppy steps, high hand, contain."* (closeout)
+- *"Ball, you, basket."* (help-side defensive triangle)
+- *"Talk on every screen — call it out loud."* (defensive communication)
+- *"Pass and move — don't watch your pass."* (offensive movement)
+- *"Outlet to the guard, sprint the lanes."* (transition trigger)
+
+**Surface language (mandatory):** Players are *on the court*, the bench is *courtside*, plans are brought *to the bench*. The substrings `on deck`, `pool deck`, `on the field`, `field-side`, `deck sheet`, and `field sheet` must NOT appear anywhere in a basketball plan. The one-pager is the **Court Sheet** (per Part 10.2).
 
 ---
 
@@ -1395,7 +1767,7 @@ You do not need to include filenames in your output — only the HTML document(s
 
 # Final reminders (do not skip — UNIVERSAL)
 
-- **Route by form type first, then sport.** If `form_type == "gameprep"` AND sport is water polo → Section WP-G (water-polo game prep). If `form_type == "gameprep"` AND sport is lacrosse → Section LAX-G (lacrosse game prep). Otherwise: sport == waterpolo → Section A; sport == lacrosse → Section B; basketball → placeholder (Section A structure + basketball terminology). See Part 0.
+- **Route by form type first, then sport.** If `form_type == "gameprep"` AND sport is water polo → Section WP-G (water-polo game prep). If `form_type == "gameprep"` AND sport is lacrosse → Section LAX-G (lacrosse game prep). Otherwise: sport == waterpolo → Section A; sport == lacrosse → Section B; sport == basketball → Section C (Parts B1–B10 — full basketball flow with USA Basketball terminology, Court Sheet naming, and 0–3 year coach language). Basketball game-prep submissions fall back to the weekly basketball flow (Section C) and add a note in Coaching Notes Card 3. See Part 0.
 - **Week number is dynamic.** Always substitute the integer from `intake.week` in the `<title>`, header doc title, focal bar label, `WEEK N TRACKING PRIORITIES` section label, `Week N+1 Adjustment Trigger`, and every other "Week N" reference. The literal letter `W` is a template slot in the spec — it must never appear in emitted HTML. Never hardcode "Week 1" when `intake.week != 1`. See Part 10.1. (Game prep has no week number; ignore this reminder for `form_type == "gameprep"`.)
 - **Sheet name is sport-specific — applies to the `<title>` tag, the header doc title, every button or link that names the one-pager, and every body-copy reference to the playing surface.** Water polo → `Deck Sheet` / `deck sheet` / `on deck`. Lacrosse → `Field Sheet` / `field sheet` / `on the field`. Basketball → `Court Sheet` / `court sheet` / `on the bench`. The two HTML comment markers (`DECK SHEET START` / `DECK SHEET END`) stay as fixed literals for the parser — only the *visible* name changes. On a lacrosse or basketball document, the substrings `Deck Sheet`, `deck sheet`, `pool deck`, `on deck` must not appear — handle this as a silent internal check while drafting, not as narrated commentary in the response. See Part 10.2.
 - **Focal theme comes from the intake.** Do not invent problems.
@@ -1404,6 +1776,7 @@ You do not need to include filenames in your output — only the HTML document(s
 - **Lacrosse-only: "What this teaches" line is mandatory on every drill row.** Jargon-free for 0–3 year coaches.
 - **Water polo: players never walk.** Verify movement language.
 - **Lacrosse: use USL-canonical drill names only.** No synonyms. No invented drills.
+- **Basketball: use USA Basketball-canonical drill names only.** No synonyms. No invented drills. Plain-language jargon-free body copy throughout — every term defined the first time it appears, every drill has a "what this teaches" line, every cue under 7 words. The "Block 6 — Free-Throw Anchor" rule is non-negotiable across all age bands.
 - **Every terminology mismatch is a bug** — verify against the appropriate sport's terminology table.
 - **Age-group drill-complexity ceiling is enforced.** U10/U12 do not run full-field 10v10, zone defense, or time-and-score EMO — even if the coach asks.
 - **Game-prep outputs exactly one document.** `GAME PREP START / END` markers, no deck sheet / field sheet. See Part 10.3. Never emit `FULL PLAN` or `DECK SHEET` markers for a game-prep intake, in either sport.

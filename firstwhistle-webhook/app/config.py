@@ -22,6 +22,13 @@ Optional overrides:
                                     (weekly + game-prep both submit to one
                                     Formspree form; the webhook branches on
                                     `formType` — same shape as water polo).
+    FORMSPREE_SECRET_BASKETBALL     HMAC signing secret for the basketball
+                                    form (weekly intake; game-prep is not
+                                    yet live for basketball — Part 0 of the
+                                    master prompt routes any basketball
+                                    `formType=gameprep` submission back into
+                                    the weekly flow with a coaching-notes
+                                    mismatch flag).
     WEBHOOK_SECRET                  (legacy, deprecated endpoint only)
     EMAIL_REPLY_TO                  (optional reply-to header)
     OPS_NOTIFY_EMAIL                (default "johnmaxwell.kelly@gmail.com")
@@ -103,6 +110,7 @@ class Settings:
     # therefore one-per-sport, not one-per-pipeline.
     formspree_secret_waterpolo: str
     formspree_secret_lacrosse: str
+    formspree_secret_basketball: str
 
     # Lacrosse holding-email wording knob (SLA we promise the coach).
     lacrosse_holding_hours: int
@@ -145,6 +153,7 @@ def get_settings() -> Settings:
         webhook_secret=_optional("WEBHOOK_SECRET", ""),
         formspree_secret_waterpolo=_optional("FORMSPREE_SECRET_WATERPOLO", ""),
         formspree_secret_lacrosse=_optional("FORMSPREE_SECRET_LACROSSE", ""),
+        formspree_secret_basketball=_optional("FORMSPREE_SECRET_BASKETBALL", ""),
         lacrosse_holding_hours=int(_optional("LACROSSE_HOLDING_HOURS", "48")),
         github_token=_require("GITHUB_TOKEN"),
         github_owner=gh_owner,

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Basketball Coach Intake</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#111111; --ink-2:#444444; --ink-3:#777777;
+  --rule:#DEDEDE; --rule-light:#F0F0F0;
+  --bg:#FFFFFF; --bg-off:#F8F8F6;
+  --accent:#B8420F; --accent-bg:#FDF0EA;
+  --font-head:'Libre Baskerville',Georgia,serif;
+  --font-body:'Source Sans 3',system-ui,sans-serif;
+  --font-mono:'Source Code Pro',monospace;
+  --r:4px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg-off);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+.page{max-width:640px;margin:0 auto;padding:36px 20px 80px;}
+.header{padding-bottom:16px;border-bottom:2px solid var(--ink);margin-bottom:28px;}
+.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.logo{font-family:var(--font-mono);font-size:11px;background:var(--accent);color:#fff;padding:4px 10px;border-radius:var(--r);letter-spacing:0.5px;}
+.wordmark{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--ink);}
+.sport-tag{font-family:var(--font-mono);font-size:9px;background:var(--ink);color:#fff;padding:2px 8px;border-radius:2px;letter-spacing:1px;text-transform:uppercase;margin-left:auto;}
+.header-desc{font-size:13px;color:var(--ink-3);line-height:1.5;}
+.header-desc strong{color:var(--ink);}
+.progress{display:flex;gap:5px;margin-bottom:24px;}
+.prog-step{flex:1;height:3px;background:var(--rule);border-radius:2px;transition:background 0.2s;}
+.prog-step.done{background:var(--accent);}
+.prog-step.active{background:var(--accent);opacity:0.45;}
+.step-header{margin-bottom:22px;}
+.step-eyebrow{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
+.step-title{font-family:var(--font-head);font-size:19px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:5px;}
+.step-sub{font-size:13px;color:var(--ink-2);}
+.field{margin-bottom:20px;}
+.field-label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px;}
+.field-hint{display:block;font-size:11px;color:var(--ink-3);margin-top:3px;font-style:italic;}
+.req{color:var(--accent);}
+input[type=text],input[type=email],input[type=number],textarea,select{
+  width:100%;background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);
+  padding:11px 13px;color:var(--ink);font-family:var(--font-body);font-size:14px;
+  outline:none;transition:border-color 0.15s;appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(184,66,15,0.1);}
+input::placeholder,textarea::placeholder{color:var(--ink-3);}
+textarea{resize:vertical;min-height:80px;line-height:1.55;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.gender-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.gender-card{border:2px solid var(--rule);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:all 0.15s;background:var(--bg);text-align:center;}
+.gender-card:hover{border-color:var(--accent);}
+.gender-card.selected{border-color:var(--accent);background:var(--accent-bg);}
+.gender-card .gc-icon{font-size:24px;margin-bottom:6px;}
+.gender-card .gc-label{font-size:14px;font-weight:600;color:var(--ink);}
+.gender-card .gc-sub{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:2px;letter-spacing:0.5px;}
+.chip-group{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{border:1px solid var(--rule);border-radius:20px;padding:6px 13px;font-size:13px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;background:var(--bg);user-select:none;line-height:1.4;}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.chip.selected{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);font-weight:600;}
+.chip-desc{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);display:block;margin-top:1px;}
+.scale-row{display:flex;gap:8px;align-items:center;}
+.scale-btn{width:36px;height:36px;border:1px solid var(--rule);border-radius:var(--r);background:var(--bg);color:var(--ink-3);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.12s;display:flex;align-items:center;justify-content:center;}
+.scale-btn:hover{border-color:var(--accent);color:var(--accent);}
+.scale-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff;}
+.scale-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:4px;padding:0 2px;}
+.scale-desc{font-family:var(--font-mono);font-size:9px;color:var(--accent);margin-left:8px;font-style:italic;}
+.divider{border:none;border-top:1px solid var(--rule);margin:22px 0;}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--rule);}
+.btn-back{background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:11px 20px;font-family:var(--font-body);font-size:14px;color:var(--ink-2);cursor:pointer;transition:all 0.15s;}
+.btn-back:hover{border-color:var(--ink);color:var(--ink);}
+.btn-next{background:var(--accent);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.btn-next:hover{opacity:0.88;}
+.btn-submit{background:var(--accent);border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--font-body);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity 0.15s;}
+.btn-submit:hover{opacity:0.88;}
+.step{display:none;}
+.step.active{display:block;}
+.success{display:none;text-align:center;padding:48px 20px;}
+.success.active{display:block;}
+.success-icon{font-size:52px;margin-bottom:16px;}
+.success-title{font-family:var(--font-head);font-size:22px;font-weight:700;margin-bottom:10px;}
+.success-desc{font-size:14px;color:var(--ink-2);margin-bottom:28px;line-height:1.6;max-width:400px;margin-left:auto;margin-right:auto;}
+.summary-box{background:var(--bg);border:1px solid var(--rule);border-radius:var(--r);padding:16px 20px;text-align:left;max-width:400px;margin:0 auto 24px;}
+.summary-row{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--rule-light);font-size:13px;}
+.summary-row:last-child{border-bottom:none;}
+.summary-label{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);min-width:100px;padding-top:1px;}
+.summary-value{color:var(--ink-2);}
+@media(max-width:520px){
+  .two-col{grid-template-columns:1fr;}
+  .gender-row{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="brand-row">
+      <span class="logo">CP</span>
+      <span class="wordmark">CoachPrep</span>
+      <span class="sport-tag">Basketball</span>
+    </div>
+    <p class="header-desc"><strong>Your personalized Week 1 plan — in your inbox within the hour.</strong> Takes about 10 minutes. No tactical knowledge required — just answer what you actually know.</p>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="prog-step active" id="ps0"></div>
+    <div class="prog-step" id="ps1"></div>
+    <div class="prog-step" id="ps2"></div>
+    <div class="prog-step" id="ps3"></div>
+  </div>
+
+  <!-- STEP 0 — WHO YOU ARE -->
+  <div class="step active" id="step0">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 1 of 4</div>
+      <div class="step-title">Who are you coaching?</div>
+      <div class="step-sub">Start here — the rest of the form adjusts to your program.</div>
+    </div>
+
+    <!-- RETURNING COACH CODE -->
+    <div class="field" style="background:var(--accent-bg);border:1px solid rgba(184,66,15,0.2);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;">
+      <label class="field-label" style="color:var(--accent);margin-bottom:8px;">Returning coach? Enter your CoachPrep code to auto-fill your info.</label>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="coachCode" placeholder="e.g. EA2026" style="flex:1;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+        <button type="button" onclick="applyCode()" style="background:var(--accent);color:#fff;border:none;border-radius:var(--r);padding:11px 18px;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Apply</button>
+      </div>
+      <span class="field-hint" id="codeStatus"></span>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Boys or Girls program?<span class="req">*</span></label>
+      <div class="gender-row">
+        <div class="gender-card" onclick="selectGender('boys',this)">
+          <div class="gc-icon">🏀</div>
+          <div class="gc-label">Boys</div>
+          <div class="gc-sub">Basketball</div>
+        </div>
+        <div class="gender-card" onclick="selectGender('girls',this)">
+          <div class="gc-icon">🏀</div>
+          <div class="gc-label">Girls</div>
+          <div class="gc-sub">Basketball</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Your name<span class="req">*</span></label>
+        <input type="text" id="name" placeholder="First Last">
+      </div>
+      <div class="field">
+        <label class="field-label">Email<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@email.com">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Your school or program<span class="req">*</span></label>
+      <input type="text" id="program" placeholder="e.g. Jefferson Middle School or EA JV Boys">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Age group / level<span class="req">*</span></label>
+      <div class="chip-group" id="levelChips">
+        <div class="chip" data-val="Youth (U10)">Youth U10</div>
+        <div class="chip" data-val="Youth (U12)">Youth U12</div>
+        <div class="chip" data-val="Middle School">Middle School</div>
+        <div class="chip" data-val="JV">JV</div>
+        <div class="chip" data-val="Varsity">Varsity</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">How long have you been coaching basketball?<span class="req">*</span></label>
+      <div class="chip-group" id="expChips">
+        <div class="chip" data-val="This is my first season">First season</div>
+        <div class="chip" data-val="1–2 years">1–2 years</div>
+        <div class="chip" data-val="2–3 years">2–3 years</div>
+        <div class="chip" data-val="3+ years">3+ years</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Did you play basketball?</label>
+      <div class="chip-group" id="playedChips">
+        <div class="chip" data-val="Yes — youth or rec level">Played — youth / rec</div>
+        <div class="chip" data-val="Yes — high school">Played — high school</div>
+        <div class="chip" data-val="Yes — college">Played — college</div>
+        <div class="chip" data-val="No — came from another sport">No — another sport</div>
+        <div class="chip" data-val="No — new to basketball entirely">No — new to basketball</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Create your CoachPrep code <span style="font-weight:400;color:var(--ink-3)">(optional — skip re-entering your info on future forms)</span></label>
+      <input type="text" id="coachCodeCreate" placeholder="e.g. HOOPS2026 or SMITH or anything you'll remember" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+      <span class="field-hint">4–12 characters, no spaces. Use this on the game prep and Week in Review forms.</span>
+    </div>
+
+    <div class="nav">
+      <span></span>
+      <button class="btn-next" onclick="next(0)">Your Team →</button>
+    </div>
+  </div>
+
+  <!-- STEP 1 — YOUR TEAM -->
+  <div class="step" id="step1">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 2 of 4</div>
+      <div class="step-title">Tell me about your team</div>
+      <div class="step-sub">Be honest — this shapes the whole plan.</div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Roster size<span class="req">*</span></label>
+        <input type="number" id="rosterSize" placeholder="12" min="5" max="25">
+      </div>
+      <div class="field">
+        <label class="field-label">Years most players have played</label>
+        <div class="chip-group" id="playerExpChips">
+          <div class="chip" data-val="Mostly beginners — 1 year or less">Beginners</div>
+          <div class="chip" data-val="Mixed — some experienced, some new">Mixed</div>
+          <div class="chip" data-val="Mostly experienced — 3+ years">Experienced</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Where is your team right now?<span class="req">*</span></label>
+      <div class="chip-group" id="devStageChips">
+        <div class="chip" data-val="Learning the basics — triple threat, ball handling, lay-ups">Still learning the basics</div>
+        <div class="chip" data-val="Fundamentals solid — starting to install plays and concepts">Fundamentals solid, installing plays</div>
+        <div class="chip" data-val="Plays installed — refining and competing">Plays installed, competing</div>
+        <div class="chip" data-val="Mixed — experienced core with newer players alongside">Mixed — experienced and new players</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Where are you thin? <span style="font-weight:400;color:var(--ink-3)">(select all that apply)</span></label>
+      <div class="chip-group" id="thinAtChips">
+        <div class="chip multi" data-val="Guard depth">Guard depth</div>
+        <div class="chip multi" data-val="Wing / forward depth">Wing depth</div>
+        <div class="chip multi" data-val="Post / big depth">Post depth</div>
+        <div class="chip multi" data-val="Overall bench depth">Bench depth</div>
+        <div class="chip multi" data-val="Not thin anywhere">Not thin anywhere</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Point guard situation<span class="req">*</span></label>
+      <div class="chip-group" id="pgChips">
+        <div class="chip" data-val="Strong floor general — handles pressure, makes good decisions">Strong floor general</div>
+        <div class="chip" data-val="Developing — still building decision-making under pressure">Still developing</div>
+        <div class="chip" data-val="Turnover-prone — ball handling under pressure is a concern">Turnover-prone under pressure</div>
+        <div class="chip" data-val="Position unsettled — still deciding who runs the point">Position unsettled</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Biggest personnel challenge right now <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <textarea id="personnelChallenge" placeholder="e.g. My best player is injured. I have three kids who've never played before. Nobody on the team can shoot free throws consistently."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(1)">← Back</button>
+      <button class="btn-next" onclick="next(1)">How You Play →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 — HOW YOU PLAY -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 3 of 4</div>
+      <div class="step-title">How do you play?</div>
+      <div class="step-sub">Don't overthink this — pick what sounds closest. "Still figuring it out" is a completely valid answer.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">When your team has the ball in the half court — what do you try to run?<span class="req">*</span></label>
+      <div class="chip-group" id="offenseChips">
+        <div class="chip" data-val="Push in transition — attack before the defense sets up">
+          Push in transition — attack before defense sets
+          <span class="chip-desc">fast break first</span>
+        </div>
+        <div class="chip" data-val="Motion offense — players move, cut, and screen to create open looks">
+          Motion — cuts and screens to find the open shot
+          <span class="chip-desc">motion offense</span>
+        </div>
+        <div class="chip" data-val="Set plays — specific plays we run from set positions">
+          Set plays — specific plays from set positions
+          <span class="chip-desc">play-based</span>
+        </div>
+        <div class="chip" data-val="Isolation — run it through our best player">
+          Run it through our best player
+          <span class="chip-desc">isolation</span>
+        </div>
+        <div class="chip" data-val="Still figuring out our offensive identity">
+          Still figuring it out
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">How do you defend?<span class="req">*</span></label>
+      <div class="chip-group" id="defenseChips">
+        <div class="chip" data-val="Man-to-man — pressure the ball carrier everywhere on the court">
+          Man-to-man — pressure everywhere
+          <span class="chip-desc">man defense</span>
+        </div>
+        <div class="chip" data-val="Zone — stay in areas and make them shoot from outside">
+          Zone — stay in areas, make them shoot from outside
+          <span class="chip-desc">zone defense</span>
+        </div>
+        <div class="chip" data-val="Press — full or half court pressure to force turnovers">
+          Press — full or half court pressure
+          <span class="chip-desc">press</span>
+        </div>
+        <div class="chip" data-val="Mix of man and zone depending on the situation">
+          Mix of man and zone
+          <span class="chip-desc">hybrid</span>
+        </div>
+        <div class="chip" data-val="Still figuring out our defensive identity">
+          Still figuring it out
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Rebounding — how good is your team at boxing out and securing the ball?</label>
+      <div style="margin-top:4px;">
+        <div class="scale-row" id="reboundScale">
+          <button class="scale-btn" data-val="1" onclick="setScale('rebound','1',this)">1</button>
+          <button class="scale-btn" data-val="2" onclick="setScale('rebound','2',this)">2</button>
+          <button class="scale-btn" data-val="3" onclick="setScale('rebound','3',this)">3</button>
+          <button class="scale-btn" data-val="4" onclick="setScale('rebound','4',this)">4</button>
+          <button class="scale-btn" data-val="5" onclick="setScale('rebound','5',this)">5</button>
+          <span class="scale-desc" id="reboundDesc">tap to rate</span>
+        </div>
+        <div class="scale-labels"><span>We lose the boards</span><span>We dominate</span></div>
+      </div>
+      <input type="hidden" id="rebound" value="">
+      <span class="field-hint">Rebounding is the most undercoached fundamental — and the biggest separator at the youth level.</span>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Free throws — how does your team shoot from the line?</label>
+      <div class="chip-group" id="ftChips">
+        <div class="chip" data-val="Strong — we're consistent from the line">Strong — consistent</div>
+        <div class="chip" data-val="Inconsistent — hit or miss depending on the player">Inconsistent</div>
+        <div class="chip" data-val="A real concern — free throws cost us games">A real concern</div>
+        <div class="chip" data-val="Haven't tested it yet">Haven't tested it yet</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Ball handling under pressure — what happens when the other team presses?</label>
+      <div class="chip-group" id="pressureChips">
+        <div class="chip" data-val="We handle it well — our guards break pressure easily">We handle it well</div>
+        <div class="chip" data-val="We struggle — turnovers when pressed">We struggle — turnovers</div>
+        <div class="chip" data-val="Haven't faced a press yet — unknown">Haven't faced a press yet</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Transition defense — what happens after we shoot?</label>
+      <div class="chip-group" id="transDefChips">
+        <div class="chip" data-val="We get back fast — transition defense is a priority">We get back fast</div>
+        <div class="chip" data-val="We struggle to get back — opponent scores in transition">We struggle to get back</div>
+        <div class="chip" data-val="Still figuring out our transition defense">Still figuring it out</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(2)">← Back</button>
+      <button class="btn-next" onclick="next(2)">Schedule + Goals →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — SCHEDULE + GOALS -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-eyebrow">Step 4 of 4</div>
+      <div class="step-title">Schedule and what you need most</div>
+      <div class="step-sub">Last step — and the most important one.</div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Practice frequency<span class="req">*</span></label>
+        <div class="chip-group" id="freqChips">
+          <div class="chip" data-val="Once a week">1x / week</div>
+          <div class="chip" data-val="Twice a week">2x / week</div>
+          <div class="chip" data-val="3 times a week">3x / week</div>
+          <div class="chip" data-val="4–5 times a week">4–5x / week</div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Practice length<span class="req">*</span></label>
+        <div class="chip-group" id="lenChips">
+          <div class="chip" data-val="45 minutes">45 min</div>
+          <div class="chip" data-val="60 minutes">60 min</div>
+          <div class="chip" data-val="75 minutes">75 min</div>
+          <div class="chip" data-val="90 minutes">90 min</div>
+          <div class="chip" data-val="2 hours or more">2+ hrs</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">First practice</label>
+        <input type="text" id="practiceStart" placeholder="e.g. Nov 10">
+      </div>
+      <div class="field">
+        <label class="field-label">First game</label>
+        <input type="text" id="firstGame" placeholder="e.g. Dec 1">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Primary target — what are you building toward?<span class="req">*</span></label>
+      <div class="chip-group" id="targetChips">
+        <div class="chip" data-val="League championship — that's the goal">League championship</div>
+        <div class="chip" data-val="Tournament — we have a key tournament to peak for">Key tournament</div>
+        <div class="chip" data-val="Playoffs — making and competing in the playoffs">Playoffs</div>
+        <div class="chip" data-val="Player development — every player improves this season">Player development</div>
+        <div class="chip" data-val="First winning season — we want to be competitive">First winning season</div>
+        <div class="chip" data-val="Fun and learning — this is a new program">Fun and learning</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+      <label class="field-label">What moment in a game do you feel least prepared for?</label>
+      <div class="chip-group" id="leastPrepChips">
+        <div class="chip" data-val="Halftime — I don't know what to say">Halftime — don't know what to say</div>
+        <div class="chip" data-val="When we're losing with 2 minutes left — I freeze">Losing late — I freeze</div>
+        <div class="chip" data-val="When our primary play breaks down — no backup plan">When the play breaks down</div>
+        <div class="chip" data-val="When to call timeout — and what to say in it">When to call timeout</div>
+        <div class="chip" data-val="When the other team adjusts and I don't know how to respond">When the other team adjusts</div>
+        <div class="chip" data-val="Managing substitutions under pressure">Substitutions under pressure</div>
+        <div class="chip" data-val="When we're in foul trouble — I don't know how to manage it">Foul trouble management</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">What's one thing you want to fix this week? <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <textarea id="fixThisWeek" placeholder="e.g. We can't box out on defense. Nobody sets screens correctly. Our fast break falls apart because players don't fill the lanes."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">What's working that you want to protect? <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+      <textarea id="whatWorking" placeholder="e.g. Our energy and effort is great. Players compete hard. I don't want to over-coach and kill that."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="prev(3)">← Back</button>
+      <button class="btn-submit" onclick="submitForm()">Get My Plan →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success">
+    <div class="success-icon">🏀</div>
+    <div class="success-title">You're in.</div>
+    <div class="success-desc">Your Week 1 basketball plan will be in your inbox within the hour — personalized to your team, your level, and your biggest challenge right now.</div>
+    <div class="summary-box" id="summaryBox"></div>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:12px;">Have a game coming up? <a href="https://coachprep.co/gameprep/basketball.html" style="color:var(--accent);font-weight:600;">Submit your game prep intake →</a></p>
+    <p style="font-size:13px;color:var(--ink-3);">Questions? Email <strong>hello@coachprep.co</strong></p>
+  </div>
+
+</div>
+
+<script>
+let currentStep = 0;
+let selectedGender = '';
+const totalSteps = 4;
+
+function selectGender(g, el) {
+  selectedGender = g;
+  document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+window.addEventListener('load', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if(code) {
+    const codeEl = document.getElementById('coachCode');
+    if(codeEl) {
+      codeEl.value = code.toUpperCase();
+      await applyCode();
+    }
+  }
+});
+
+async function applyCode() {
+  const code = document.getElementById('coachCode').value.trim().toUpperCase();
+  if(!code) return;
+  const status = document.getElementById('codeStatus');
+  status.textContent = 'Looking up...';
+  status.style.color = 'var(--ink-3)';
+  try {
+    const res = await fetch(`https://coachiq-production.up.railway.app/coach/${code}`);
+    if(res.ok) {
+      const profile = await res.json();
+      const nameEl = document.getElementById('name');
+      const emailEl = document.getElementById('email');
+      const programEl = document.getElementById('program');
+      if(nameEl) { nameEl.value = profile.name || ''; nameEl.style.background = 'var(--accent-bg)'; nameEl.style.color = 'var(--accent)'; }
+      if(emailEl) { emailEl.value = profile.email || ''; emailEl.style.background = 'var(--accent-bg)'; emailEl.style.color = 'var(--accent)'; }
+      if(programEl && profile.program) { programEl.value = profile.program; programEl.style.background = 'var(--accent-bg)'; programEl.style.color = 'var(--accent)'; }
+      status.textContent = '✓ Info loaded — ' + profile.name;
+      status.style.color = 'var(--accent)';
+    } else {
+      status.textContent = 'Code not found — fill in your info below.';
+      status.style.color = 'var(--ink-3)';
+    }
+  } catch(e) {
+    status.textContent = 'Could not connect — fill in your info below.';
+    status.style.color = 'var(--ink-3)';
+  }
+}
+
+const singleChipGroups = [
+  'levelChips','expChips','playedChips','devStageChips','pgChips',
+  'offenseChips','defenseChips','ftChips','pressureChips','transDefChips',
+  'freqChips','lenChips','targetChips','playerExpChips','leastPrepChips'
+];
+
+singleChipGroups.forEach(id => {
+  const group = document.getElementById(id);
+  if(!group) return;
+  group.querySelectorAll('.chip:not(.multi)').forEach(chip => {
+    chip.addEventListener('click', () => {
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+    });
+  });
+});
+
+document.querySelectorAll('.chip.multi').forEach(chip => {
+  chip.addEventListener('click', () => chip.classList.toggle('selected'));
+});
+
+function setScale(id, val, btn) {
+  const scale = btn.closest('.scale-row');
+  scale.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById(id).value = val;
+  const labels = {'1':'We lose the boards','2':'We struggle','3':'About even','4':'We win more than we lose','5':'We dominate the boards'};
+  const desc = document.getElementById(id + 'Desc');
+  if(desc) desc.textContent = labels[val] || '';
+}
+
+function chips(id) {
+  const group = document.getElementById(id);
+  if(!group) return '';
+  const sel = group.querySelector('.chip.selected');
+  return sel ? sel.dataset.val : '';
+}
+
+function multiChips(id) {
+  const group = document.getElementById(id);
+  if(!group) return '';
+  return Array.from(group.querySelectorAll('.chip.selected')).map(c => c.dataset.val).join(', ');
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function updateProgress() {
+  for(let i = 0; i < totalSteps; i++) {
+    const el = document.getElementById('ps' + i);
+    if(!el) continue;
+    el.className = 'prog-step' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+  }
+}
+
+function next(from) {
+  if(from === 0) {
+    if(!selectedGender) { alert('Please select Boys or Girls program first.'); return; }
+    if(!val('name')) { alert('Please enter your name.'); return; }
+    if(!val('email')) { alert('Please enter your email.'); return; }
+    if(!val('program')) { alert('Please enter your school or program.'); return; }
+    if(!chips('levelChips')) { alert('Please select your level.'); return; }
+    if(!chips('expChips')) { alert('Please select your coaching experience.'); return; }
+  }
+  if(from === 1) {
+    if(!val('rosterSize')) { alert('Please enter your roster size.'); return; }
+    if(!chips('devStageChips')) { alert('Please select where your team is right now.'); return; }
+    if(!chips('pgChips')) { alert('Please select your point guard situation.'); return; }
+  }
+  if(from === 2) {
+    if(!chips('offenseChips')) { alert('Please select your offensive approach.'); return; }
+    if(!chips('defenseChips')) { alert('Please select your defensive approach.'); return; }
+  }
+  document.getElementById('step' + from).classList.remove('active');
+  currentStep = from + 1;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+function prev(from) {
+  document.getElementById('step' + from).classList.remove('active');
+  currentStep = from - 1;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+async function submitForm() {
+  if(!chips('freqChips')) { alert('Please select your practice frequency.'); return; }
+  if(!chips('lenChips')) { alert('Please select your practice length.'); return; }
+  if(!chips('targetChips')) { alert('Please select what you\'re building toward.'); return; }
+
+  const data = {
+    sport: 'basketball',
+    gender: selectedGender,
+    coachCode: (document.getElementById('coachCodeCreate').value || document.getElementById('coachCode').value || '').trim().toUpperCase(),
+    name: val('name'),
+    email: val('email'),
+    program: val('program'),
+    level: chips('levelChips'),
+    experience: chips('expChips'),
+    played: chips('playedChips'),
+    rosterSize: val('rosterSize'),
+    playerExperience: chips('playerExpChips'),
+    devStage: chips('devStageChips'),
+    thinAt: multiChips('thinAtChips'),
+    pointGuard: chips('pgChips'),
+    personnelChallenge: val('personnelChallenge'),
+    offense: chips('offenseChips'),
+    defense: chips('defenseChips'),
+    rebounding: val('rebound'),
+    freeThrows: chips('ftChips'),
+    pressureHandling: chips('pressureChips'),
+    transitionDefense: chips('transDefChips'),
+    practiceFreq: chips('freqChips'),
+    practiceLen: chips('lenChips'),
+    practiceStart: val('practiceStart'),
+    firstGame: val('firstGame'),
+    primaryTarget: chips('targetChips'),
+    leastPrepared: chips('leastPrepChips'),
+    fixThisWeek: val('fixThisWeek'),
+    whatWorking: val('whatWorking'),
+    _subject: `CoachPrep Basketball Intake — ${val('name')} · ${selectedGender} · ${chips('levelChips')}`,
+  };
+
+  try {
+    const res = await fetch('https://formspree.io/f/xkoklraj', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if(res.ok) {
+      document.getElementById('step3').classList.remove('active');
+      const succ = document.getElementById('success');
+      succ.classList.add('active');
+      document.getElementById('summaryBox').innerHTML = `
+        <div class="summary-row"><span class="summary-label">Name</span><span class="summary-value">${data.name}</span></div>
+        <div class="summary-row"><span class="summary-label">Sport</span><span class="summary-value">Basketball · ${selectedGender.charAt(0).toUpperCase()+selectedGender.slice(1)}</span></div>
+        <div class="summary-row"><span class="summary-label">Level</span><span class="summary-value">${data.level}</span></div>
+        <div class="summary-row"><span class="summary-label">Program</span><span class="summary-value">${data.program}</span></div>
+        <div class="summary-row"><span class="summary-label">Roster</span><span class="summary-value">${data.rosterSize} players</span></div>
+        <div class="summary-row"><span class="summary-label">First game</span><span class="summary-value">${data.firstGame || 'TBD'}</span></div>
+        <div class="summary-row"><span class="summary-label">Plan sent to</span><span class="summary-value">${data.email}</span></div>
+      `;
+      window.scrollTo(0,0);
+    } else {
+      alert('Submission failed. Please email hello@coachprep.co directly.');
+    }
+  } catch(e) {
+    alert('Network error. Please try again.');
+  }
+}
+</script>
+</body>
+</html>

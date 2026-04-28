@@ -30,6 +30,19 @@ Routes:
       The legacy holding-email path is preserved in
       `app.lacrosse.run_lacrosse_holding` for emergency rollback.
 
+  POST /webhook/formspree/basketball
+      Verified via HMAC against FORMSPREE_SECRET_BASKETBALL. Branches on
+      the intake's `form_type` field (same shape as waterpolo / lacrosse):
+        * `form_type == "gameprep"` → routed to the basketball gameprep
+          stub, which falls back to the weekly basketball pipeline (Part
+          0 of the master prompt: basketball gameprep is not yet a
+          first-class pipeline; the model adds a coaching-notes mismatch
+          flag and returns the weekly two-document output).
+        * anything else → the weekly two-document pipeline (full plan +
+          court sheet) flagged with `sport=basketball` so the master
+          prompt routes to SECTION C (USA Basketball terminology, 0–3
+          year coach language, court sheet sport-specific naming).
+
   POST /webhook/formspree  (deprecated)
       Returns 410 Gone; kept so legacy Formspree integrations fail loudly
       instead of silently disappearing.
@@ -57,6 +70,7 @@ from .intake import (
     peek_form_type,
 )
 from .lacrosse import run_lacrosse_pipeline
+from .basketball import run_basketball_pipeline, run_basketball_gameprep_pipeline
 from .pipeline import run_pipeline
 from .postgame import run_postgame_handler
 from .security import SignatureError, verify_formspree_signature
@@ -98,10 +112,11 @@ def _startup() -> None:
         raise
     log.info(
         "firstwhistle webhook starting v%s model=%s prompt_chars=%d public_base=%s "
-        "waterpolo_secret=%s lacrosse_secret=%s",
+        "waterpolo_secret=%s lacrosse_secret=%s basketball_secret=%s",
         __version__, settings.claude_model, prompt_len, settings.public_base_url,
         "SET" if settings.formspree_secret_waterpolo else "MISSING",
         "SET" if settings.formspree_secret_lacrosse else "MISSING",
+        "SET" if settings.formspree_secret_basketball else "MISSING",
     )
 
 
@@ -119,6 +134,7 @@ def health() -> Dict[str, Any]:
         "prompt_loaded": prompt_ok,
         "waterpolo_secret_configured": bool(settings.formspree_secret_waterpolo),
         "lacrosse_secret_configured": bool(settings.formspree_secret_lacrosse),
+        "basketball_secret_configured": bool(settings.formspree_secret_basketball),
     }
 
 
@@ -272,6 +288,18 @@ async def _handle_sport_webhook(
             # Default / "week" / anything else → regular weekly lacrosse
             # pipeline (full plan + field sheet).
             background.add_task(run_lacrosse_pipeline, intake)
+    elif sport == "basketball":
+        if form_type == "gameprep":
+            # Basketball game prep is not yet a first-class pipeline.
+            # Part 0 of the master prompt routes such submissions back
+            # into the weekly flow with a coaching-notes mismatch flag;
+            # the stub does the same dispatch so log greps still see
+            # the form_type=gameprep lineage.
+            background.add_task(run_basketball_gameprep_pipeline, intake)
+        else:
+            # Default / "week" / anything else → regular weekly
+            # basketball pipeline (full plan + court sheet).
+            background.add_task(run_basketball_pipeline, intake)
     else:  # pragma: no cover — defensive
         raise HTTPException(500, detail=f"unknown sport: {sport}")
 
@@ -319,6 +347,22 @@ async def webhook_lacrosse(
     )
 
 
+@app.post("/webhook/formspree/basketball")
+async def webhook_basketball(
+    request: Request,
+    background: BackgroundTasks,
+    formspree_signature: str | None = Header(default=None, alias="Formspree-Signature"),
+) -> JSONResponse:
+    secret = get_settings().formspree_secret_basketball
+    return await _handle_sport_webhook(
+        sport="basketball",
+        request=request,
+        background=background,
+        signature_header=formspree_signature,
+        signing_secret=secret,
+    )
+
+
 @app.post("/webhook/formspree")
 async def webhook_formspree_deprecated(request: Request) -> JSONResponse:
     """Deprecated endpoint. Returns 410 Gone with a pointer to the new URLs.
@@ -336,9 +380,10 @@ async def webhook_formspree_deprecated(request: Request) -> JSONResponse:
         content={
             "error": "deprecated",
             "message": (
-                "Use /webhook/formspree/waterpolo or /webhook/formspree/lacrosse. "
-                "Each sport has its own signing secret; the webhook branches on "
-                "`formType` server-side to dispatch weekly / gameprep / postgame."
+                "Use /webhook/formspree/waterpolo, /webhook/formspree/lacrosse, "
+                "or /webhook/formspree/basketball. Each sport has its own "
+                "signing secret; the webhook branches on `formType` server-"
+                "side to dispatch weekly / gameprep / postgame."
             ),
         },
     )

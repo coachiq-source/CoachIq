@@ -65,9 +65,18 @@ _GAMEPREP_INTAKE_URLS_BY_SPORT: dict[str, str] = {
 }
 
 
-def _gameprep_intake_url(sport: Optional[str], coach_code: Optional[str]) -> str:
+def _gameprep_intake_url(sport: Optional[str], coach_code: Optional[str]) -> Optional[str]:
+    # Returns None for an explicitly-named sport without a registered
+    # form (basketball today) so the email never links a coach to the
+    # wrong sport's gameprep form. Empty/missing sport keeps the
+    # legacy water-polo default for back-compat with no-sport callers.
     key = (sport or "").strip().lower()
-    base = _GAMEPREP_INTAKE_URLS_BY_SPORT.get(key, _GAMEPREP_INTAKE_DEFAULT_URL)
+    if key in _GAMEPREP_INTAKE_URLS_BY_SPORT:
+        base = _GAMEPREP_INTAKE_URLS_BY_SPORT[key]
+    elif key == "":
+        base = _GAMEPREP_INTAKE_DEFAULT_URL
+    else:
+        return None
     code = (coach_code or "").strip()
     if not code:
         return base
@@ -110,6 +119,28 @@ def _coach_html(
     gameprep_url = _gameprep_intake_url(sport, coach_code)
     postgame_url = _postgame_intake_url(sport, coach_code)
 
+    gameprep_button_html = ""
+    gameprep_prose_html = ""
+    gameprep_footer_html = ""
+    if gameprep_url:
+        gameprep_button_html = (
+            f'\n    <a href="{escape(gameprep_url)}" '
+            'style="display:inline-block;background:#eaeef8;color:#0b3d91;'
+            'text-decoration:none;padding:12px 18px;border-radius:6px;'
+            'font-weight:600;margin-right:8px;margin-bottom:8px;">'
+            'Game prep intake</a>'
+        )
+        gameprep_prose_html = (
+            f'\n  <p style="font-size:14px;color:#444;">Got a game coming '
+            f'up? Use the <a href="{escape(gameprep_url)}">game prep '
+            'intake</a> to request an opponent scout and game-day '
+            'package.</p>'
+        )
+        gameprep_footer_html = (
+            f'\n    Game prep intake: <a href="{escape(gameprep_url)}">'
+            f'{escape(gameprep_url)}</a><br>'
+        )
+
     postgame_button_html = ""
     postgame_prose_html = ""
     postgame_footer_html = ""
@@ -138,11 +169,9 @@ def _coach_html(
   <p>Your Week {week_number} practice plan and one-page {sheet_lower} are live:</p>
   <p style="margin:24px 0;">
     <a href="{escape(plan_url)}" style="display:inline-block;background:#0b3d91;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">View full practice plan</a>
-    <a href="{escape(deck_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">{sheet_label} (printable)</a>
-    <a href="{escape(gameprep_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">Game prep intake</a>{postgame_button_html}
+    <a href="{escape(deck_url)}" style="display:inline-block;background:#eaeef8;color:#0b3d91;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:600;margin-right:8px;margin-bottom:8px;">{sheet_label} (printable)</a>{gameprep_button_html}{postgame_button_html}
   </p>
-  <p style="font-size:14px;color:#444;">Open these {escape(open_surface)} from your phone, or print the {sheet_lower} and tape it to the wall. The full plan is the coach-facing version with rationale, progressions, and coaching cues.</p>
-  <p style="font-size:14px;color:#444;">Got a game coming up? Use the <a href="{escape(gameprep_url)}">game prep intake</a> to request an opponent scout and game-day package.</p>{postgame_prose_html}
+  <p style="font-size:14px;color:#444;">Open these {escape(open_surface)} from your phone, or print the {sheet_lower} and tape it to the wall. The full plan is the coach-facing version with rationale, progressions, and coaching cues.</p>{gameprep_prose_html}{postgame_prose_html}
   <p style="font-size:13px;color:#777777;margin-top:8px;">Links go live within 5 minutes of receiving this email.</p>
   <p style="font-size:14px;color:#444;">When you've run the week, please share a quick note on how it went — it shapes next week's plan:<br>
     <a href="{escape(FEEDBACK_FORM_URL)}">{escape(FEEDBACK_FORM_URL)}</a>
@@ -151,8 +180,7 @@ def _coach_html(
   <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
   <p style="font-size:12px;color:#888;">Plain links, in case the buttons don't work:<br>
     Plan: <a href="{escape(plan_url)}">{escape(plan_url)}</a><br>
-    {sheet_short}: <a href="{escape(deck_url)}">{escape(deck_url)}</a><br>
-    Game prep intake: <a href="{escape(gameprep_url)}">{escape(gameprep_url)}</a><br>{postgame_footer_html}
+    {sheet_short}: <a href="{escape(deck_url)}">{escape(deck_url)}</a><br>{gameprep_footer_html}{postgame_footer_html}
     Feedback: <a href="{escape(FEEDBACK_FORM_URL)}">{escape(FEEDBACK_FORM_URL)}</a>
   </p>
 </body></html>
@@ -170,9 +198,17 @@ def _coach_text(
     first = _first_name(coach_name)
     sheet_label = _sheet_label(sport)
     sheet_lower = sheet_label.lower()
+    open_surface = _open_surface(sport)
     gameprep_url = _gameprep_intake_url(sport, coach_code)
     postgame_url = _postgame_intake_url(sport, coach_code)
 
+    gameprep_line = f"Game prep intake: {gameprep_url}\n" if gameprep_url else ""
+    gameprep_prose = (
+        "Got a game coming up? Use the game prep intake link above to "
+        "request an opponent scout and game-day package.\n"
+        if gameprep_url
+        else ""
+    )
     postgame_line = f"Week in Review: {postgame_url}\n" if postgame_url else ""
     postgame_prose = (
         "Finished the week? Fill in the Week in Review link above so next "
@@ -186,12 +222,12 @@ def _coach_text(
         f"Your Week {week_number} CoachPrep practice plan is ready.\n\n"
         f"Full practice plan: {plan_url}\n"
         f"{sheet_label} (printable): {deck_url}\n"
-        f"Game prep intake: {gameprep_url}\n"
+        f"{gameprep_line}"
         f"{postgame_line}"
         "\n"
-        f"Open the full plan on your phone, print the {sheet_lower} for the wall.\n"
-        "Got a game coming up? Use the game prep intake link above to request "
-        "an opponent scout and game-day package.\n"
+        f"Open the full plan {open_surface} from your phone, or print the "
+        f"{sheet_lower} and tape it to the wall.\n"
+        f"{gameprep_prose}"
         f"{postgame_prose}"
         "Links go live within 5 minutes of receiving this email.\n\n"
         "When you've run the week, please share a quick note on how it went — "
