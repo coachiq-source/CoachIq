@@ -60,8 +60,14 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from . import __version__
-from .coach_store import CoachStoreError, get_coach_profile, upsert_coach_profile
+from .coach_store import (
+    CoachStoreError,
+    get_coach_by_email,
+    get_coach_profile,
+    upsert_coach_profile,
+)
 from .config import configure_logging, get_settings, load_system_prompt
+from .email_send import EmailSendError, send_coach_recovery_email
 from .gameprep import run_gameprep_pipeline, run_lacrosse_gameprep_pipeline
 from .intake import (
     IntakeValidationError,
@@ -455,6 +461,52 @@ def get_coach(code: str) -> CoachProfileOut:
             detail=f"No CoachPrep profile found for code {code!r}.",
         )
     return CoachProfileOut(**profile.__dict__)
+
+
+class CoachRecoverIn(BaseModel):
+    """Body accepted by POST /coach/recover."""
+    email: str = Field(..., min_length=3)
+
+
+class CoachRecoverOut(BaseModel):
+    status: str
+
+
+@app.post("/coach/recover", response_model=CoachRecoverOut)
+def post_coach_recover(body: CoachRecoverIn) -> CoachRecoverOut:
+    """Email a coach their CoachPrep code, looked up by email address.
+
+    Returns `{"status": "sent"}` regardless of whether the email matches a
+    stored profile. This is deliberate — confirming hit/miss would let an
+    attacker probe the store for known coaches. The frontend should show a
+    neutral "if we have your email on file, your code is on its way" message.
+
+    Email send failures are swallowed for the same reason: a 500 leaks that
+    a match was found. We log the failure for ops; the coach can retry or
+    contact support if their code never arrives.
+    """
+    email = (body.email or "").strip()
+    profile = get_coach_by_email(email)
+    if profile is not None:
+        try:
+            send_coach_recovery_email(
+                coach_name=profile.name,
+                coach_email=profile.email,
+                coach_code=profile.code,
+            )
+        except EmailSendError as exc:
+            log.error(
+                "coach recovery email failed code=%s: %s",
+                profile.code, exc,
+            )
+        else:
+            log.info(
+                "coach recovery email queued code=%s",
+                profile.code,
+            )
+    else:
+        log.info("coach recovery: no profile for submitted email")
+    return CoachRecoverOut(status="sent")
 
 
 @app.get("/")

@@ -25,6 +25,7 @@ os.environ.setdefault("COACH_EMAIL_FROM", "coach@example.com")
 
 from app.coach_store import (  # noqa: E402
     CoachStoreError,
+    get_coach_by_email,
     get_coach_profile,
     reset_coach_store_for_tests,
     upsert_coach_profile,
@@ -156,6 +157,57 @@ def test_get_coach_profile_rejects_malformed_code():
 
 
 # ---------------------------------------------------------------------------
+# get_coach_by_email
+# ---------------------------------------------------------------------------
+
+def test_get_coach_by_email_returns_none_for_missing():
+    assert get_coach_by_email("nobody@example.com") is None
+
+
+def test_get_coach_by_email_returns_none_for_blank():
+    assert get_coach_by_email("") is None
+    assert get_coach_by_email("   ") is None
+
+
+def test_get_coach_by_email_finds_exact_match():
+    upsert_coach_profile("MS2026", "Magnus Sims", "magnus@example.com", "EA", "waterpolo")
+    profile = get_coach_by_email("magnus@example.com")
+    assert profile is not None
+    assert profile.code == "MS2026"
+    assert profile.name == "Magnus Sims"
+
+
+def test_get_coach_by_email_is_case_insensitive():
+    upsert_coach_profile("MS2026", "Magnus Sims", "Magnus@Example.COM", "EA", "waterpolo")
+    # Lookup with all-lower input still finds the row.
+    p = get_coach_by_email("magnus@example.com")
+    assert p is not None and p.code == "MS2026"
+    # All-upper too.
+    p2 = get_coach_by_email("MAGNUS@EXAMPLE.COM")
+    assert p2 is not None and p2.code == "MS2026"
+    # Mixed casing.
+    p3 = get_coach_by_email("MaGnUs@ExAmPlE.cOm")
+    assert p3 is not None and p3.code == "MS2026"
+
+
+def test_get_coach_by_email_strips_whitespace():
+    upsert_coach_profile("MS2026", "Magnus Sims", "magnus@example.com", "EA", "waterpolo")
+    p = get_coach_by_email("  magnus@example.com  ")
+    assert p is not None and p.code == "MS2026"
+
+
+def test_get_coach_by_email_returns_most_recent_when_multiple_codes_share_email():
+    # Same email registered against two different codes — we should return
+    # the most-recently-updated one so the recovery email points at the
+    # code the coach is actively using.
+    upsert_coach_profile("OLD2024", "Magnus Sims", "magnus@example.com", "EA", "waterpolo")
+    upsert_coach_profile("NEW2026", "Magnus Sims", "magnus@example.com", "EA", "waterpolo")
+    profile = get_coach_by_email("magnus@example.com")
+    assert profile is not None
+    assert profile.code == "NEW2026"
+
+
+# ---------------------------------------------------------------------------
 # /coach HTTP endpoints (pydantic + CORS stack)
 # ---------------------------------------------------------------------------
 
@@ -236,6 +288,102 @@ def test_get_coach_returns_404_when_missing(client):
 def test_get_coach_returns_400_on_malformed_code(client):
     resp = client.get("/coach/!!")
     assert resp.status_code == 400
+
+
+# ---------------------------------------------------------------------------
+# /coach/recover endpoint
+# ---------------------------------------------------------------------------
+
+@pytest.fixture
+def captured_recovery_sends(monkeypatch):
+    """Replace the recovery email sender so tests never hit Resend.
+
+    Captures (coach_name, coach_email, coach_code) tuples for every call.
+    Patches the symbol on `app.main` (where the endpoint imported it) so
+    the in-process FastAPI call uses the stub.
+    """
+    sent: list[tuple[str, str, str]] = []
+
+    def _fake_send(coach_name, coach_email, coach_code):
+        sent.append((coach_name, coach_email, coach_code))
+        # Mirror the real return shape just in case the endpoint ever
+        # decides to inspect it.
+        from app.email_send import EmailResult
+        return EmailResult(message_id="test-msg-id", to=coach_email)
+
+    import app.main as main_module
+    monkeypatch.setattr(main_module, "send_coach_recovery_email", _fake_send)
+    return sent
+
+
+def test_recover_returns_sent_when_email_found(client, captured_recovery_sends):
+    client.post(
+        "/coach",
+        json={
+            "code": "MS2026", "name": "Magnus Sims",
+            "email": "magnus@example.com", "program": "EA", "sport": "waterpolo",
+        },
+    )
+    resp = client.post("/coach/recover", json={"email": "magnus@example.com"})
+    assert resp.status_code == 200, resp.text
+    assert resp.json() == {"status": "sent"}
+    assert captured_recovery_sends == [
+        ("Magnus Sims", "magnus@example.com", "MS2026")
+    ]
+
+
+def test_recover_returns_sent_when_email_not_found(client, captured_recovery_sends):
+    # Empty store — endpoint must NOT confirm absence and must NOT send mail.
+    resp = client.post("/coach/recover", json={"email": "ghost@nowhere.com"})
+    assert resp.status_code == 200, resp.text
+    assert resp.json() == {"status": "sent"}
+    assert captured_recovery_sends == []
+
+
+def test_recover_is_case_insensitive(client, captured_recovery_sends):
+    client.post(
+        "/coach",
+        json={
+            "code": "MS2026", "name": "Magnus Sims",
+            "email": "Magnus@Example.com", "program": "EA", "sport": "waterpolo",
+        },
+    )
+    resp = client.post("/coach/recover", json={"email": "MAGNUS@EXAMPLE.COM"})
+    assert resp.status_code == 200, resp.text
+    assert resp.json() == {"status": "sent"}
+    assert len(captured_recovery_sends) == 1
+    name, email, code = captured_recovery_sends[0]
+    assert code == "MS2026"
+    # Email passed to the sender comes from the stored row, not the request.
+    assert email == "Magnus@Example.com"
+
+
+def test_recover_swallows_email_send_failure(client, monkeypatch):
+    # If Resend is down we still must return {"status": "sent"} — never leak
+    # that a match was found.
+    client.post(
+        "/coach",
+        json={
+            "code": "MS2026", "name": "Magnus Sims",
+            "email": "magnus@example.com", "program": "EA", "sport": "waterpolo",
+        },
+    )
+    from app.email_send import EmailSendError
+    import app.main as main_module
+
+    def _raise(*_a, **_kw):
+        raise EmailSendError("simulated resend outage")
+
+    monkeypatch.setattr(main_module, "send_coach_recovery_email", _raise)
+    resp = client.post("/coach/recover", json={"email": "magnus@example.com"})
+    assert resp.status_code == 200, resp.text
+    assert resp.json() == {"status": "sent"}
+
+
+def test_recover_rejects_missing_email(client):
+    resp = client.post("/coach/recover", json={})
+    # Pydantic validation — missing required field is a 422.
+    assert resp.status_code == 422
 
 
 def test_get_coach_cors_headers_present(client):

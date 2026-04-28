@@ -119,6 +119,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.55;}
         <button type="button" onclick="applyCode()" style="background:var(--accent);color:#fff;border:none;border-radius:var(--r);padding:11px 18px;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Apply</button>
       </div>
       <span class="field-hint" id="codeStatus"></span>
+      <button type="button" id="recoverLink" onclick="toggleRecoverPanel()" style="display:inline-block;margin-top:8px;font-size:12px;color:var(--accent);background:none;border:none;padding:0;cursor:pointer;font-family:var(--font-body);text-decoration:underline;text-underline-offset:2px;">Forgot your code? We'll email it to you →</button>
+      <div id="recoverPanel" style="display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1px solid rgba(184,66,15,0.25);border-radius:var(--r);">
+        <div style="display:flex;gap:8px;">
+          <input type="email" id="recoverEmail" autocomplete="email" placeholder="coach@school.edu" style="flex:1;">
+          <button type="button" id="recoverBtn" onclick="submitRecover()" style="background:var(--accent);color:#fff;border:none;border-radius:var(--r);padding:11px 16px;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Send my code</button>
+        </div>
+        <span id="recoverMsg" style="display:block;margin-top:8px;font-size:12px;min-height:16px;color:var(--ink-3);"></span>
+      </div>
     </div>
     <div class="field">
       <label class="field-label">Boys or Girls program?<span class="req">*</span></label>
@@ -480,6 +488,54 @@ async function applyCode() {
   } catch(e) {
     status.textContent = 'Could not connect — fill in your info below.';
     status.style.color = 'var(--ink-3)';
+  }
+}
+
+// "Forgot your code?" recovery — POSTs the email to /coach/recover; the
+// server returns {status:"sent"} either way so we never confirm whether
+// the email is on file.
+function toggleRecoverPanel() {
+  const panel = document.getElementById('recoverPanel');
+  if(!panel) return;
+  const open = panel.style.display !== 'block';
+  panel.style.display = open ? 'block' : 'none';
+  if(open) {
+    const input = document.getElementById('recoverEmail');
+    if(input) input.focus();
+  }
+}
+
+async function submitRecover() {
+  const input = document.getElementById('recoverEmail');
+  const btn = document.getElementById('recoverBtn');
+  const msg = document.getElementById('recoverMsg');
+  if(!input || !btn || !msg) return;
+  const email = (input.value || '').trim();
+  if(!email || email.indexOf('@') < 1) {
+    msg.textContent = 'Enter the email address you used on your last intake.';
+    msg.style.color = '#B01C14';
+    return;
+  }
+  btn.disabled = true;
+  const prev = btn.textContent;
+  btn.textContent = 'Sending…';
+  msg.textContent = '';
+  try {
+    await fetch('https://coachiq-production.up.railway.app/coach/recover', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
+      mode: 'cors',
+      body: JSON.stringify({ email: email }),
+    });
+    msg.textContent = "If we have your email on file, your code is on its way.";
+    msg.style.color = 'var(--accent)';
+  } catch(err) {
+    console.error('CoachPrep recovery failed', err);
+    msg.textContent = 'Could not reach CoachPrep — check your connection and try again.';
+    msg.style.color = '#B01C14';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = prev;
   }
 }
 

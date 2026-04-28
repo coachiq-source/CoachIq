@@ -148,6 +148,64 @@ body {
 .returning-msg.err { color: #B01C14; }
 .returning-msg.ok { color: var(--accent); }
 
+/* RECOVER-CODE PANEL ("Forgot your code?") */
+.recover-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.recover-link:hover { opacity: 0.8; }
+.recover-panel {
+  display: none;
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.recover-panel.open { display: block; }
+.recover-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.recover-row input {
+  flex: 1;
+  min-width: 0;
+}
+.recover-row .btn-recover {
+  padding: 10px 16px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.recover-row .btn-recover:hover { opacity: 0.88; }
+.recover-row .btn-recover:disabled { opacity: 0.5; cursor: default; }
+.recover-msg {
+  margin-top: 8px;
+  font-size: 12px;
+  min-height: 16px;
+  color: var(--ink-3);
+}
+.recover-msg.ok { color: var(--accent); }
+.recover-msg.err { color: #B01C14; }
+
 /* LOCKED FIELDS (after a returning-coach apply) */
 input.locked, textarea.locked {
   background: var(--bg-off);
@@ -401,6 +459,14 @@ textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
         <button type="button" class="btn-apply" id="returningApplyBtn" onclick="applyReturningCode()">Apply</button>
       </div>
       <div class="returning-msg" id="returningMsg"></div>
+      <button type="button" class="recover-link" id="recoverLink" onclick="toggleRecoverPanel()">Forgot your code? We'll email it to you →</button>
+      <div class="recover-panel" id="recoverPanel">
+        <div class="recover-row">
+          <input type="email" id="recoverEmail" autocomplete="email" placeholder="coach@school.edu">
+          <button type="button" class="btn-recover" id="recoverBtn" onclick="submitRecover()">Send my code</button>
+        </div>
+        <div class="recover-msg" id="recoverMsg"></div>
+      </div>
     </div>
 
     <div class="field">
@@ -1478,6 +1544,59 @@ async function applyReturningCode() {
   } catch (err) {
     console.error('CoachPrep lookup failed', err);
     setReturningMsg('Lookup failed — check your connection and try again, or continue without a code.', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = prevLabel;
+  }
+}
+
+// "Forgot your code?" recovery flow. Posts the email to /coach/recover;
+// the server returns {status: "sent"} whether or not the email is on file
+// so we never confirm membership in the store.
+function setRecoverMsg(text, cls) {
+  const el = document.getElementById('recoverMsg');
+  if (!el) return;
+  el.className = 'recover-msg' + (cls ? ' ' + cls : '');
+  el.textContent = text || '';
+}
+
+function toggleRecoverPanel() {
+  const panel = document.getElementById('recoverPanel');
+  if (!panel) return;
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    const input = document.getElementById('recoverEmail');
+    if (input) input.focus();
+  }
+}
+
+async function submitRecover() {
+  const input = document.getElementById('recoverEmail');
+  const btn = document.getElementById('recoverBtn');
+  if (!input || !btn) return;
+  const email = (input.value || '').trim();
+  if (!email || email.indexOf('@') < 1) {
+    setRecoverMsg('Enter the email address you used on your last intake.', 'err');
+    return;
+  }
+  btn.disabled = true;
+  const prevLabel = btn.textContent;
+  btn.textContent = 'Sending…';
+  setRecoverMsg('');
+  try {
+    await fetch(COACHPREP_API_BASE + '/coach/recover', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      mode: 'cors',
+      body: JSON.stringify({ email: email }),
+    });
+    // Server intentionally returns the same response either way; we mirror
+    // that on the frontend so the UI never confirms whether the email is
+    // registered.
+    setRecoverMsg("If we have your email on file, your code is on its way.", 'ok');
+  } catch (err) {
+    console.error('CoachPrep recovery failed', err);
+    setRecoverMsg('Could not reach CoachPrep — check your connection and try again.', 'err');
   } finally {
     btn.disabled = false;
     btn.textContent = prevLabel;

@@ -455,6 +455,63 @@ def send_gameprep_email(
     return EmailResult(message_id=msg_id or "", to=coach_email)
 
 
+def _coach_recovery_html(coach_name: str, coach_code: str) -> str:
+    name = escape(_first_name(coach_name))
+    code = escape(coach_code)
+    return f"""\
+<!doctype html>
+<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;max-width:560px;margin:0 auto;padding:24px;line-height:1.55">
+  <h1 style="font-size:22px;margin:0 0 16px 0;">Your CoachPrep code</h1>
+  <p>Hi {name},</p>
+  <p>Your CoachPrep code is:</p>
+  <p style="margin:24px 0;">
+    <span style="display:inline-block;background:#eaeef8;color:#0b3d91;padding:12px 18px;border-radius:6px;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:18px;font-weight:600;letter-spacing:1px;">{code}</span>
+  </p>
+  <p>Use it on any intake form to auto-fill your info. <a href="https://coachprep.co">coachprep.co</a></p>
+  <p style="margin-top:32px;">— CoachPrep</p>
+</body></html>
+"""
+
+
+def _coach_recovery_text(coach_name: str, coach_code: str) -> str:
+    first = _first_name(coach_name)
+    return (
+        f"Hi {first}, your CoachPrep code is: {coach_code}. "
+        "Use it on any intake form to auto-fill your info. "
+        "https://coachprep.co\n"
+    )
+
+
+def send_coach_recovery_email(
+    coach_name: str,
+    coach_email: str,
+    coach_code: str,
+) -> EmailResult:
+    """Email a returning coach the CoachPrep code we have on file for them."""
+    _init()
+    s = get_settings()
+    subject = "Your CoachPrep code"
+    params: dict = {
+        "from": s.email_from,
+        "to": [coach_email],
+        "subject": subject,
+        "html": _coach_recovery_html(coach_name, coach_code),
+        "text": _coach_recovery_text(coach_name, coach_code),
+    }
+    if s.email_reply_to:
+        params["reply_to"] = [s.email_reply_to]
+
+    try:
+        resp = resend.Emails.send(params)
+    except Exception as exc:
+        log.exception("resend recovery send failed")
+        raise EmailSendError(f"resend send failed: {exc}") from exc
+
+    msg_id = (resp or {}).get("id", "") if isinstance(resp, dict) else getattr(resp, "id", "")
+    log.info("coach recovery email sent to=%s id=%s", coach_email, msg_id)
+    return EmailResult(message_id=msg_id or "", to=coach_email)
+
+
 def send_ops_lacrosse_manual_email(
     intake_id: str,
     coach_name: str,

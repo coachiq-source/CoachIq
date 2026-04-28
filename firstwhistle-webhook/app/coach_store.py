@@ -233,3 +233,40 @@ def get_coach_profile(code: str) -> Optional[CoachProfile]:
         created_at=row["created_at"],
         updated_at=row["updated_at"],
     )
+
+
+def get_coach_by_email(email: str) -> Optional[CoachProfile]:
+    """Look up a coach by email address. Case-insensitive.
+
+    Used by the /coach/recover endpoint so a coach who's lost their code
+    can have it emailed back to them. Returns None for blank input or no
+    match — never raises, because the recovery endpoint deliberately
+    returns the same response whether or not the email is on file (so
+    third parties can't probe the store for membership).
+    """
+    needle = (email or "").strip().lower()
+    if not needle:
+        return None
+    with _lock, _connect() as conn:
+        _ensure_schema(conn)
+        # SQLite's datetime('now') is second-precision, so two upserts in
+        # the same second tie on updated_at; ROWID breaks the tie in favour
+        # of the most-recently-inserted row.
+        row = conn.execute(
+            "SELECT code, name, email, program, sport, created_at, updated_at "
+            "FROM coach_profile WHERE LOWER(email) = ? "
+            "ORDER BY updated_at DESC, ROWID DESC LIMIT 1",
+            (needle,),
+        ).fetchone()
+
+    if row is None:
+        return None
+    return CoachProfile(
+        code=row["code"],
+        name=row["name"],
+        email=row["email"],
+        program=row["program"],
+        sport=row["sport"],
+        created_at=row["created_at"],
+        updated_at=row["updated_at"],
+    )
