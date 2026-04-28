@@ -64,6 +64,8 @@ from .coach_store import (
     CoachStoreError,
     get_coach_by_email,
     get_coach_profile,
+    record_recovery_sent,
+    should_send_recovery,
     upsert_coach_profile,
 )
 from .config import configure_logging, get_settings, load_system_prompt
@@ -487,25 +489,40 @@ def post_coach_recover(body: CoachRecoverIn) -> CoachRecoverOut:
     """
     email = (body.email or "").strip()
     profile = get_coach_by_email(email)
-    if profile is not None:
-        try:
-            send_coach_recovery_email(
-                coach_name=profile.name,
-                coach_email=profile.email,
-                coach_code=profile.code,
-            )
-        except EmailSendError as exc:
-            log.error(
-                "coach recovery email failed code=%s: %s",
-                profile.code, exc,
-            )
-        else:
-            log.info(
-                "coach recovery email queued code=%s",
-                profile.code,
-            )
-    else:
+    if profile is None:
         log.info("coach recovery: no profile for submitted email")
+        return CoachRecoverOut(status="sent")
+
+    # 60-minute per-email cooldown. Keyed on the stored profile's email
+    # (case-folded inside should_send_recovery), so repeated clicks from a
+    # coach — or a third party trying to spray someone else's inbox — only
+    # produce one Resend send per hour. The frontend response is the same
+    # whether or not we actually send, so the cooldown is invisible to the
+    # caller and can't be used to probe membership.
+    if not should_send_recovery(profile.email):
+        log.info(
+            "coach recovery skipped (cooldown active) code=%s",
+            profile.code,
+        )
+        return CoachRecoverOut(status="sent")
+
+    try:
+        send_coach_recovery_email(
+            coach_name=profile.name,
+            coach_email=profile.email,
+            coach_code=profile.code,
+        )
+    except EmailSendError as exc:
+        log.error(
+            "coach recovery email failed code=%s: %s",
+            profile.code, exc,
+        )
+    else:
+        record_recovery_sent(profile.email)
+        log.info(
+            "coach recovery email queued code=%s",
+            profile.code,
+        )
     return CoachRecoverOut(status="sent")
 
 

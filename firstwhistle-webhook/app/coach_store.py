@@ -28,6 +28,7 @@ import os
 import re
 import sqlite3
 import threading
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -45,6 +46,17 @@ _VALID_SPORTS = frozenset({"waterpolo", "lacrosse", "basketball"})
 
 _lock = threading.Lock()
 _db_path: Optional[Path] = None
+
+# Default cooldown for /coach/recover: a single email may only trigger one
+# Resend send per hour, so a coach repeatedly clicking "Send my code" can't
+# fan out into a flood (and a third party can't use the endpoint to spray
+# someone else's inbox).
+RECOVERY_COOLDOWN_SECONDS = 3600
+
+
+def _utcnow_unix() -> float:
+    """Indirection over time.time() so tests can monkeypatch the clock."""
+    return time.time()
 
 
 class CoachStoreError(RuntimeError):
@@ -110,6 +122,20 @@ def _ensure_schema(conn: sqlite3.Connection) -> None:
             sport       TEXT NOT NULL,
             created_at  TEXT NOT NULL DEFAULT (datetime('now')),
             updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        """
+    )
+    # Cooldown tracking for /coach/recover. Stored separately from
+    # coach_profile because the cooldown is keyed on email, not code, and
+    # one email could in theory map to multiple codes — we want a single
+    # rate-limit bucket per address. `last_sent_at` is a Unix timestamp
+    # in seconds (REAL) so the (now - last_sent_at) math is just float
+    # subtraction with no timezone parsing.
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS coach_recovery_log (
+            email_lc     TEXT PRIMARY KEY,
+            last_sent_at REAL NOT NULL
         );
         """
     )
@@ -270,3 +296,65 @@ def get_coach_by_email(email: str) -> Optional[CoachProfile]:
         created_at=row["created_at"],
         updated_at=row["updated_at"],
     )
+
+
+# ---------------------------------------------------------------------------
+# /coach/recover cooldown
+# ---------------------------------------------------------------------------
+
+def should_send_recovery(
+    email: str,
+    cooldown_seconds: int = RECOVERY_COOLDOWN_SECONDS,
+) -> bool:
+    """Return True iff a recovery email may be sent for `email` right now.
+
+    Returns False when the same address received a recovery email within
+    the last `cooldown_seconds` seconds. Blank input returns False — the
+    endpoint shouldn't fan out on empty addresses regardless. The check
+    is case-insensitive (`Foo@Bar.com` shares a bucket with `foo@bar.com`).
+
+    A corrupt timestamp in the log is treated as "no record" (fail open):
+    one extra Resend send is preferable to a coach permanently locked out
+    of recovery because of a bad row.
+    """
+    needle = (email or "").strip().lower()
+    if not needle:
+        return False
+    with _lock, _connect() as conn:
+        _ensure_schema(conn)
+        row = conn.execute(
+            "SELECT last_sent_at FROM coach_recovery_log WHERE email_lc = ?",
+            (needle,),
+        ).fetchone()
+    if row is None:
+        return True
+    try:
+        last_sent = float(row["last_sent_at"])
+    except (TypeError, ValueError):
+        return True
+    return (_utcnow_unix() - last_sent) >= cooldown_seconds
+
+
+def record_recovery_sent(email: str) -> None:
+    """Stamp `email` (case-insensitively) as having received a recovery now.
+
+    Idempotent — repeated calls overwrite the last-sent timestamp. Blank
+    input is a no-op so the endpoint can call this unconditionally after
+    a successful send.
+    """
+    needle = (email or "").strip().lower()
+    if not needle:
+        return
+    now = _utcnow_unix()
+    with _lock, _connect() as conn:
+        _ensure_schema(conn)
+        conn.execute(
+            """
+            INSERT INTO coach_recovery_log (email_lc, last_sent_at)
+            VALUES (?, ?)
+            ON CONFLICT(email_lc) DO UPDATE SET
+                last_sent_at = excluded.last_sent_at;
+            """,
+            (needle, now),
+        )
+        conn.commit()

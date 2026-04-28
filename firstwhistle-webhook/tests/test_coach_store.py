@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 import pytest
@@ -25,9 +26,12 @@ os.environ.setdefault("COACH_EMAIL_FROM", "coach@example.com")
 
 from app.coach_store import (  # noqa: E402
     CoachStoreError,
+    RECOVERY_COOLDOWN_SECONDS,
     get_coach_by_email,
     get_coach_profile,
+    record_recovery_sent,
     reset_coach_store_for_tests,
+    should_send_recovery,
     upsert_coach_profile,
     validate_code,
 )
@@ -208,6 +212,99 @@ def test_get_coach_by_email_returns_most_recent_when_multiple_codes_share_email(
 
 
 # ---------------------------------------------------------------------------
+# Recovery cooldown
+# ---------------------------------------------------------------------------
+
+def test_recovery_cooldown_default_is_one_hour():
+    # Document the documented value — guards against accidental shrinkage.
+    assert RECOVERY_COOLDOWN_SECONDS == 3600
+
+
+def test_should_send_recovery_true_when_no_record():
+    assert should_send_recovery("anyone@example.com") is True
+
+
+def test_should_send_recovery_false_for_blank():
+    assert should_send_recovery("") is False
+    assert should_send_recovery("   ") is False
+
+
+def test_should_send_recovery_false_right_after_record():
+    record_recovery_sent("magnus@example.com")
+    assert should_send_recovery("magnus@example.com") is False
+
+
+def test_should_send_recovery_true_after_cooldown_window_passes(monkeypatch):
+    import app.coach_store as cs
+    # Stamp the record at "now" with a clock pinned 2 hours in the past.
+    fake_now = [time.time() - 7200]
+    monkeypatch.setattr(cs, "_utcnow_unix", lambda: fake_now[0])
+    record_recovery_sent("magnus@example.com")
+    # Move the clock forward to real now — 2 hours later, well past the
+    # 60-minute window.
+    fake_now[0] = time.time()
+    assert should_send_recovery("magnus@example.com") is True
+
+
+def test_should_send_recovery_blocked_just_inside_window(monkeypatch):
+    import app.coach_store as cs
+    # Stamp the record 59 minutes ago — still inside the 60-minute window.
+    fake_now = [time.time() - (59 * 60)]
+    monkeypatch.setattr(cs, "_utcnow_unix", lambda: fake_now[0])
+    record_recovery_sent("magnus@example.com")
+    fake_now[0] = time.time()
+    assert should_send_recovery("magnus@example.com") is False
+
+
+def test_should_send_recovery_is_case_insensitive():
+    record_recovery_sent("Magnus@Example.COM")
+    assert should_send_recovery("magnus@example.com") is False
+    assert should_send_recovery("MAGNUS@EXAMPLE.COM") is False
+    assert should_send_recovery("MaGnUs@ExAmPlE.cOm") is False
+
+
+def test_should_send_recovery_strips_whitespace():
+    record_recovery_sent("  magnus@example.com  ")
+    assert should_send_recovery("magnus@example.com") is False
+
+
+def test_record_recovery_sent_is_idempotent_upsert():
+    # Two stamps for the same email should not raise / should overwrite.
+    record_recovery_sent("magnus@example.com")
+    record_recovery_sent("magnus@example.com")
+    assert should_send_recovery("magnus@example.com") is False
+
+
+def test_record_recovery_sent_blank_is_noop():
+    # Recording a blank email should not poison the table or raise.
+    record_recovery_sent("")
+    record_recovery_sent("   ")
+    assert should_send_recovery("") is False  # blank still blocked
+    assert should_send_recovery("magnus@example.com") is True  # unrelated email unaffected
+
+
+def test_should_send_recovery_isolated_per_email():
+    record_recovery_sent("alice@example.com")
+    # Bob is unaffected by Alice's recent send.
+    assert should_send_recovery("bob@example.com") is True
+    assert should_send_recovery("alice@example.com") is False
+
+
+def test_should_send_recovery_handles_corrupt_timestamp_fail_open(temp_store):
+    # If something writes a non-numeric value into last_sent_at the gate
+    # should fail open (allow send) rather than lock the coach out.
+    import sqlite3
+    record_recovery_sent("magnus@example.com")  # creates schema + row
+    with sqlite3.connect(str(temp_store)) as conn:
+        conn.execute(
+            "UPDATE coach_recovery_log SET last_sent_at = 'not-a-number' WHERE email_lc = ?",
+            ("magnus@example.com",),
+        )
+        conn.commit()
+    assert should_send_recovery("magnus@example.com") is True
+
+
+# ---------------------------------------------------------------------------
 # /coach HTTP endpoints (pydantic + CORS stack)
 # ---------------------------------------------------------------------------
 
@@ -384,6 +481,100 @@ def test_recover_rejects_missing_email(client):
     resp = client.post("/coach/recover", json={})
     # Pydantic validation — missing required field is a 422.
     assert resp.status_code == 422
+
+
+def test_recover_cooldown_blocks_second_send_within_window(client, captured_recovery_sends):
+    client.post(
+        "/coach",
+        json={
+            "code": "MS2026", "name": "Magnus Sims",
+            "email": "magnus@example.com", "program": "EA", "sport": "waterpolo",
+        },
+    )
+    # First call → sends.
+    r1 = client.post("/coach/recover", json={"email": "magnus@example.com"})
+    assert r1.status_code == 200
+    assert r1.json() == {"status": "sent"}
+    # Second call within the 60-minute window → cooldown blocks the send,
+    # but the response is identical so the cooldown can't be probed.
+    r2 = client.post("/coach/recover", json={"email": "magnus@example.com"})
+    assert r2.status_code == 200
+    assert r2.json() == {"status": "sent"}
+    assert len(captured_recovery_sends) == 1, (
+        "second recovery call within cooldown window must NOT trigger a send"
+    )
+
+
+def test_recover_cooldown_expires_after_window(client, captured_recovery_sends, monkeypatch):
+    import app.coach_store as cs
+    client.post(
+        "/coach",
+        json={
+            "code": "MS2026", "name": "Magnus Sims",
+            "email": "magnus@example.com", "program": "EA", "sport": "waterpolo",
+        },
+    )
+    # Pin the clock 2 hours in the past for the first send so the stored
+    # cooldown timestamp is old.
+    fake_now = [time.time() - 7200]
+    monkeypatch.setattr(cs, "_utcnow_unix", lambda: fake_now[0])
+    r1 = client.post("/coach/recover", json={"email": "magnus@example.com"})
+    assert r1.status_code == 200
+    assert len(captured_recovery_sends) == 1
+
+    # Clock advances to "now" — well past the 60-minute window.
+    fake_now[0] = time.time()
+    r2 = client.post("/coach/recover", json={"email": "magnus@example.com"})
+    assert r2.status_code == 200
+    assert len(captured_recovery_sends) == 2, (
+        "recovery call after cooldown window should send a new email"
+    )
+
+
+def test_recover_cooldown_is_per_email_not_global(client, captured_recovery_sends):
+    # Two coaches, two emails. Triggering recovery for Alice must not
+    # block Bob's recovery.
+    client.post("/coach", json={
+        "code": "ALICE26", "name": "Alice", "email": "alice@example.com",
+        "program": "P1", "sport": "waterpolo",
+    })
+    client.post("/coach", json={
+        "code": "BOB2026", "name": "Bob", "email": "bob@example.com",
+        "program": "P2", "sport": "waterpolo",
+    })
+    client.post("/coach/recover", json={"email": "alice@example.com"})
+    client.post("/coach/recover", json={"email": "bob@example.com"})
+    assert len(captured_recovery_sends) == 2
+    codes_sent = sorted(c for (_n, _e, c) in captured_recovery_sends)
+    assert codes_sent == ["ALICE26", "BOB2026"]
+
+
+def test_recover_cooldown_does_not_record_when_send_fails(client, monkeypatch):
+    # If Resend errors out we don't record a "sent" timestamp — otherwise a
+    # transient failure would lock the coach out of recovery for an hour.
+    client.post("/coach", json={
+        "code": "MS2026", "name": "Magnus Sims",
+        "email": "magnus@example.com", "program": "EA", "sport": "waterpolo",
+    })
+    from app.email_send import EmailSendError
+    import app.main as main_module
+
+    call_count = {"n": 0}
+    def _flaky(coach_name, coach_email, coach_code):
+        call_count["n"] += 1
+        if call_count["n"] == 1:
+            raise EmailSendError("simulated transient outage")
+        from app.email_send import EmailResult
+        return EmailResult(message_id="ok", to=coach_email)
+
+    monkeypatch.setattr(main_module, "send_coach_recovery_email", _flaky)
+    r1 = client.post("/coach/recover", json={"email": "magnus@example.com"})
+    assert r1.status_code == 200
+    # Second call: cooldown should NOT have been set (because the first
+    # send failed), so this attempt actually goes through to the sender.
+    r2 = client.post("/coach/recover", json={"email": "magnus@example.com"})
+    assert r2.status_code == 200
+    assert call_count["n"] == 2
 
 
 def test_get_coach_cors_headers_present(client):
