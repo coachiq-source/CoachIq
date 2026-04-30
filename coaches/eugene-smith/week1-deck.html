@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Deck Sheet — Eugene Smith</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 16px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--rule);
+}
+
+.cq-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cq-logo {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-header-right {
+  text-align: right;
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.cq-coach-name {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.focus-outcome {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg-off);
+  padding: 10px 12px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.context-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.bars-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.bar {
+  background: var(--bg-off);
+  border-left: 3px solid var(--ink-2);
+  padding: 10px 12px;
+  border-radius: var(--radius);
+}
+
+.bar.accent-bar {
+  border-left-color: var(--accent);
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.bar.accent-bar .bar-label {
+  color: var(--accent);
+}
+
+.bar-content {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.bar-content strong {
+  font-weight: 600;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.day-block {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.day-head {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.day-focus-chip {
+  font-size: 7px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  letter-spacing: 0.8px;
+}
+
+.focus-off { background: var(--accent-bg); color: var(--accent); }
+.focus-def { background: #E8E8E8; color: #555555; }
+.focus-tran { background: #E8F5E9; color: #2E7D32; }
+.focus-int { background: var(--bg-off); color: var(--ink-2); border: 1px solid var(--rule); }
+
+.day-item {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  padding-left: 8px;
+  border-left: 2px solid var(--rule-light);
+}
+
+.day-item:last-child {
+  margin-bottom: 0;
+}
+
+.day-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.drills-quick-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.drills-quick-table th {
+  background: var(--bg-off);
+  padding: 8px 10px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drills-quick-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.drills-quick-table tr:last-child td {
+  border-bottom: none;
+}
+
+.drills-quick-table .drill-name-cell {
+  font-weight: 600;
+}
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.mini-card {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 10px;
+}
+
+.mini-card-head {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  font-weight: 600;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.mini-card ul {
+  list-style: none;
+}
+
+.mini-card li {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 6px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.mini-card li:last-child {
+  margin-bottom: 0;
+}
+
+.mini-card li:before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.log-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.log-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.log-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.log-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.log-row:last-child {
+  margin-bottom: 0;
+}
+
+.log-day {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--ink-3);
+  min-width: 20px;
+}
+
+.log-line {
+  flex: 1;
+  border-bottom: 1px solid var(--rule);
+  display: inline-block;
+}
+
+footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 10px;
+  color: var(--ink-3);
+}
+
+@media print {
+  body { padding: 8px; }
+  .container { max-width: 100%; }
+  .days-grid, .cards-row, .bars-row { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="cq-header">
+  <div class="cq-logo-group">
+    <div class="cq-logo">CP</div>
+    <div class="cq-wordmark">CoachPrep</div>
+  </div>
+  <div class="cq-header-right">
+    <div class="cq-doc-type">Week 1 Deck Sheet</div>
+    <div class="cq-coach-name">Eugene Smith · St Anthony's</div>
+  </div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-title">Speed Without Size — Maximize What You Have</div>
+  <div class="focus-outcome">Fast, skilled, small players with an elite goalie. This week builds a transition-first identity — win with counter-attack speed before opponents can set, and run a press that denies entries rather than fighting size-on-size. By Friday: 70%+ counter-attack conversion, press denies center passes, GK outlets within 2 sec.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">Aug 25</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">State championship</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Pool</div>
+    <div class="context-value">25y · Standard</div>
+  </div>
+</div>
+
+<div class="bars-row">
+  <div class="bar">
+    <div class="bar-label">Swim Conditioning</div>
+    <div class="bar-content">
+      <strong>Mon/Thu:</strong> 20×25y · 1:1 rest<br>
+      <strong>Tue:</strong> 10×50y · :60 rest<br>
+      <strong>Wed:</strong> 5×75y · 90s rest<br>
+      <strong>Fri:</strong> 8×25y · full recovery
+    </div>
+  </div>
+  <div class="bar accent-bar">
+    <div class="bar-label">GK Track (0–40 min)</div>
+    <div class="bar-content">
+      <strong>All days:</strong> 200y warm-up + 3×100y technical<br>
+      <strong>Mon/Wed:</strong> Positional (4×7min blocks)<br>
+      <strong>Tue/Thu:</strong> Heavy ball (4×7min blocks)<br>
+      <strong>Fri:</strong> Activation only + special teams
+    </div>
+  </div>
+</div>
+
+<div class="days-grid">
+  <div class="day-block">
+    <div class="day-head">
+      Mon
+      <span class="day-focus-chip focus-tran">TRAN</span>
+    </div>
+    <div class="day-item"><strong>0–20:</strong> Spider + Swim (20×25y)</div>
+    <div class="day-item"><strong>20–50:</strong> Counter Attack Lanes</div>
+    <div class="day-item"><strong>50–75:</strong> Advantage Rules (3v2)</div>
+    <div class="day-item"><strong>75–95:</strong> GK Outlet Pressure</div>
+    <div class="day-item"><strong>95–120:</strong> Scrim: Counter constraint</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">
+      Tue
+      <span class="day-focus-chip focus-def">DEF</span>
+    </div>
+    <div class="day-item"><strong>0–20:</strong> Spider + Swim (10×50y)</div>
+    <div class="day-item"><strong>20–50:</strong> Pressure Passing (Wet & Dry)</div>
+    <div class="day-item"><strong>50–75:</strong> Center D Ball-Side Positioning</div>
+    <div class="day-item"><strong>75–95:</strong> Reverse Scull → Field Block</div>
+    <div class="day-item"><strong>95–120:</strong> Scrim: Press denial</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">
+      Wed
+      <span class="day-focus-chip focus-off">OFF</span>
+    </div>
+    <div class="day-item"><strong>0–20:</strong> Spider + Swim (5×75y)</div>
+    <div class="day-item"><strong>20–50:</strong> 3-3 Primary Look (6x5)</div>
+    <div class="day-item"><strong>50–75:</strong> Live 6x5 (shot clock)</div>
+    <div class="day-item"><strong>75–95:</strong> 5x6 Post Protection + GK call</div>
+    <div class="day-item"><strong>95–120:</strong> Scrim: Special teams</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">
+      Thu
+      <span class="day-focus-chip focus-tran">TRAN</span>
+    </div>
+    <div class="day-item"><strong>0–20:</strong> Spider + Swim (20×25y)</div>
+    <div class="day-item"><strong>20–50:</strong> Advantage Rules (4v3)</div>
+    <div class="day-item"><strong>50–75:</strong> Counter → Front Court Reset</div>
+    <div class="day-item"><strong>75–95:</strong> Monkey in the Middle</div>
+    <div class="day-item"><strong>95–120:</strong> Full scrimmage</div>
+  </div>
+  <div class="day-block">
+    <div class="day-head">
+      Fri
+      <span class="day-focus-chip focus-int">INT</span>
+    </div>
+    <div class="day-item"><strong>0–15:</strong> Spider + Light swim (8×25y)</div>
+    <div class="day-item"><strong>15–40:</strong> Special teams rehearsal</div>
+    <div class="day-item"><strong>40–60:</strong> Counter speed runs</div>
+    <div class="day-item"><strong>60–90:</strong> Full scrimmage (game conditions)</div>
+    <div class="day-item"><strong>90–120:</strong> Timeout protocol + game preview</div>
+  </div>
+</div>
+
+<table class="drills-quick-table">
+<thead>
+<tr>
+  <th style="width:35%;">Drill</th>
+  <th style="width:10%;">Day</th>
+  <th style="width:55%;">Key Cue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td class="drill-name-cell">Counter Attack Lanes</td>
+  <td>Mon</td>
+  <td>Read open lane before you pass; outlet receiver catches and attacks in one motion</td>
+</tr>
+<tr>
+  <td class="drill-name-cell">Advantage Rules (3v2, 4v3)</td>
+  <td>Mon, Thu</td>
+  <td>Don't slow down — if you have numbers, attack the goal</td>
+</tr>
+<tr>
+  <td class="drill-name-cell">Pressure Passing</td>
+  <td>Tue</td>
+  <td>Stick in the lane, body position denies — don't reach</td>
+</tr>
+<tr>
+  <td class="drill-name-cell">Center D Ball-Side Positioning</td>
+  <td>Tue</td>
+  <td>Stay ball-side — if ball is on the right, your body is on the right side of center-forward</td>
+</tr>
+<tr>
+  <td class="drill-name-cell">3-3 Primary Look (6x5)</td>
+  <td>Wed</td>
+  <td>If center-forward open, pass. If wing pocket open, skip. If nothing, reset to point</td>
+</tr>
+<tr>
+  <td class="drill-name-cell">GK Outlet</td>
+  <td>Mon</td>
+  <td>Save, scan, outlet — no pause. Your outlet starts the counter attack</td>
+</tr>
+</tbody>
+</table>
+
+<div class="cards-row">
+  <div class="mini-card">
+    <div class="mini-card-head">Tracking Priorities</div>
+    <ul>
+      <li><strong>Counter conversion:</strong> Conversions / numerical advantages — target 70%+</li>
+      <li><strong>Press denial:</strong> Forced perimeter passes / center entries attempted</li>
+      <li><strong>GK outlet speed:</strong> Save to outlet — target ≤ 2 sec</li>
+      <li><strong>6x5 first look:</strong> Shots from first read / total shots — target 60%+</li>
+    </ul>
+  </div>
+  <div class="mini-card">
+    <div class="mini-card-head">Coach Decisions</div>
+    <ul>
+      <li><strong>Mon:</strong> Name top 3 counter-attack outlet receivers</li>
+      <li><strong>Tue:</strong> Name center defender starter by number</li>
+      <li><strong>Wed:</strong> Lock primary 6x5 unit (6 players)</li>
+      <li><strong>Thu:</strong> Name transition starting five</li>
+    </ul>
+  </div>
+  <div class="mini-card">
+    <div class="mini-card-head">Watch For</div>
+    <ul>
+      <li>Small players fighting size-on-size at center D — cue "position beats size"</li>
+      <li>Counter turning into footrace with no spacing — cue "lanes, not chaos"</li>
+      <li>GK hesitating on outlet — cue "outlet within 2 sec or call 'hold'"</li>
+      <li>Press defenders ball-watching — cue "your job is the pass, not the ball"</li>
+    </ul>
+  </div>
+</div>
+
+<div class="log-strip">
+  <div class="log-cell">
+    <div class="log-label">Session notes</div>
+    <div class="log-row">
+      <span class="log-day">Mon</span>
+      <span class="log-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-day">Tue</span>
+      <span class="log-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-day">Wed</span>
+      <span class="log-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-day">Thu</span>
+      <span class="log-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-day">Fri</span>
+      <span class="log-line"></span>
+    </div>
+  </div>
+  <div class="log-cell" style="border-left:1px solid var(--rule);">
+    <div class="log-label">KPI log</div>
+    <div class="log-row">
+      <span class="log-day" style="min-width:90px;">Counter conv</span>
+      <span class="log-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-day" style="min-width:90px;">Press denial</span>
+      <span class="log-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-day" style="min-width:90px;">GK outlet</span>
+      <span class="log-line"></span>
+    </div>
+    <div class="log-row">
+      <span class="log-day" style="min-width:90px;">6x5 first look</span>
+      <span class="log-line"></span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Print this deck sheet and bring it on deck · CoachPrep Week 1 · Eugene Smith</p>
+</footer>
+
+</div>
+</body>
+</html>
