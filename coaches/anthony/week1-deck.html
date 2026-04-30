@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Court Sheet — Anthony</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 16px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cq-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--bg);
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.cq-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--ink-2);
+  margin-top: 6px;
+}
+
+.focus-card {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+}
+
+.focus-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.focus-title {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.focus-outcome {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.context-cell {
+  background: var(--bg-off);
+  padding: 8px 10px;
+}
+
+.context-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.context-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.bars-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.bar {
+  border-left: 3px solid var(--ink-2);
+  padding: 10px 12px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.bar-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.bar-content {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.session-compact {
+  background: var(--bg);
+  padding: 10px;
+}
+
+.session-compact-day {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.session-compact-focus {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.session-compact-body {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.session-compact-body div {
+  margin-bottom: 4px;
+}
+
+.session-compact-body div:last-child {
+  margin-bottom: 0;
+}
+
+.drill-quick {
+  margin-bottom: 14px;
+}
+
+.drill-quick-head {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.drill-quick table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.drill-quick th {
+  background: var(--bg-off);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 600;
+}
+
+.drill-quick td {
+  padding: 8px;
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.drill-quick tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-quick td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.card-compact {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.card-compact-head {
+  background: var(--bg-off);
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.card-compact-body {
+  padding: 10px;
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.card-compact-body div {
+  margin-bottom: 6px;
+}
+
+.card-compact-body div:last-child {
+  margin-bottom: 0;
+}
+
+.notes-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.notes-strip-cell {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.notes-strip-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.notes-strip-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.notes-strip-row:last-child {
+  margin-bottom: 0;
+}
+
+.notes-strip-row span:first-child {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--ink-3);
+  min-width: 60px;
+}
+
+.notes-strip-row span:last-child {
+  flex: 1;
+  border-bottom: 1px solid var(--rule);
+  display: inline-block;
+}
+
+.footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-size: 10px;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 100%;
+  }
+  
+  .session-grid,
+  .cards-row,
+  .drill-quick,
+  .notes-strip {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="cq-header">
+  <div>
+    <div class="cq-logo">
+      <div class="cq-logo-mark">CP</div>
+      <div class="cq-wordmark">CoachPrep</div>
+    </div>
+    <div class="cq-meta">
+      <span><strong>Anthony</strong></span>
+      <span>·</span>
+      <span>Oceana MS Girls</span>
+    </div>
+  </div>
+  <div class="cq-doc-type">Week 1 Court Sheet</div>
+</div>
+
+<div class="focus-card">
+  <div class="focus-label">Week 1 Focus</div>
+  <div class="focus-title">Passing and moving without the ball — players are stationary after the pass</div>
+  <div class="focus-outcome"><strong>End of Week 1:</strong> Every player can complete a pass-and-cut sequence in live 3v3 play without freezing after the first pass. Players call "move!" when they see a teammate standing still.</div>
+</div>
+
+<div class="context-strip">
+  <div class="context-cell">
+    <div class="context-label">First Game</div>
+    <div class="context-value">May 30</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Primary Target</div>
+    <div class="context-value">Player development</div>
+  </div>
+  <div class="context-cell">
+    <div class="context-label">Court</div>
+    <div class="context-value">Full court</div>
+  </div>
+</div>
+
+<div class="bars-row">
+  <div class="bar">
+    <div class="bar-label">Conditioning — Built Into Every Block</div>
+    <div class="bar-content"><strong>No dedicated conditioning block.</strong> Every drill is run at game speed with short rest intervals. Players condition through repetition, not through separate fitness work. Focus: quick feet, sharp cuts, hands ready.</div>
+  </div>
+</div>
+
+<div class="session-grid">
+  
+  <div class="session-compact">
+    <div class="session-compact-day">Session 1 · May 22</div>
+    <div class="session-compact-focus">Ball Handling & Movement</div>
+    <div class="session-compact-body">
+      <div><strong>0–6:</strong> Warm-up + partner passing</div>
+      <div><strong>6–18:</strong> Triple threat + stationary pound (eyes up, fingertips)</div>
+      <div><strong>18–30:</strong> Pass and cut — no defense (2v0)</div>
+      <div><strong>30–40:</strong> 3-man weave</div>
+      <div><strong>40–55:</strong> 3v3 half-court (constraint: 3 passes before shot)</div>
+      <div><strong>55–60:</strong> Free throws + cool-down</div>
+    </div>
+  </div>
+
+  <div class="session-compact">
+    <div class="session-compact-day">Session 2 · May 24</div>
+    <div class="session-compact-focus">Defense & Rebounding</div>
+    <div class="session-compact-body">
+      <div><strong>0–6:</strong> Warm-up (defensive slides)</div>
+      <div><strong>6–18:</strong> Find a body (boxing-out intro)</div>
+      <div><strong>18–30:</strong> No hands defense (1v1)</div>
+      <div><strong>30–40:</strong> 2-on-2 box out (live rebounding)</div>
+      <div><strong>40–55:</strong> 4v4 half-court (constraint: box out every shot)</div>
+      <div><strong>55–60:</strong> Free throws + cool-down</div>
+    </div>
+  </div>
+
+  <div class="session-compact">
+    <div class="session-compact-day">Pre-Game · May 29</div>
+    <div class="session-compact-focus">Game Prep</div>
+    <div class="session-compact-body">
+      <div><strong>0–6:</strong> Light warm-up (no fatigue)</div>
+      <div><strong>6–18:</strong> Lay-up lines + form shooting</div>
+      <div><strong>18–30:</strong> Pass-and-cut review (3v0)</div>
+      <div><strong>30–42:</strong> 5v5 scrimmage (no coaching)</div>
+      <div><strong>42–55:</strong> Free throws + cool-down</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="drill-quick">
+  <div class="drill-quick-head">Focal Drills — Quick Reference</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 28%;">Drill</th>
+        <th style="width: 12%;">Day</th>
+        <th style="width: 60%;">Key Cue</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Triple Threat 1v0</td>
+        <td>Session 1</td>
+        <td>"Triple threat — ball at the hip, feet shoulder-width."</td>
+      </tr>
+      <tr>
+        <td>Stationary Pound</td>
+        <td>Session 1</td>
+        <td>"Eyes up, fingertips, push the ball through the floor."</td>
+      </tr>
+      <tr>
+        <td>Pass and Cut</td>
+        <td>Session 1</td>
+        <td>"Pass and move — don't watch your pass."</td>
+      </tr>
+      <tr>
+        <td>Find a Body</td>
+        <td>Session 2</td>
+        <td>"Find a body, butt to the gut, hold for two seconds."</td>
+      </tr>
+      <tr>
+        <td>No Hands Defense</td>
+        <td>Session 2</td>
+        <td>"Move your feet, not your hands."</td>
+      </tr>
+      <tr>
+        <td>2-on-2 Box Out</td>
+        <td>Session 2</td>
+        <td>"Hit them first, then go get the ball."</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="cards-row">
+  
+  <div class="card-compact">
+    <div class="card-compact-head">Tracking Priorities</div>
+    <div class="card-compact-body">
+      <div><strong>Pass-and-move:</strong> Count passes where passer cuts vs. stands still</div>
+      <div><strong>Shot quality:</strong> Shots in paint + open looks / total shots</div>
+      <div><strong>Boxing out:</strong> Defenders who find a body / total rebounds</div>
+      <div><strong>Free throws:</strong> FT% under fatigue (Block 6)</div>
+    </div>
+  </div>
+
+  <div class="card-compact">
+    <div class="card-compact-head">Coach Decisions</div>
+    <div class="card-compact-body">
+      <div><strong>Session 1:</strong> Identify top 3 ball-handlers by name</div>
+      <div><strong>Session 2:</strong> Pick starting five + first sub group ("high-five")</div>
+      <div><strong>Pre-game:</strong> Name the point guard by jersey number</div>
+    </div>
+  </div>
+
+  <div class="card-compact">
+    <div class="card-compact-head">Watch For</div>
+    <div class="card-compact-body">
+      <div>Players bring ball below waist on catch → cue "chin it"</div>
+      <div>Defenders reach with hands, not feet → cue "feet, not hands"</div>
+      <div>Ball-watching on rebounds instead of boxing out</div>
+      <div>Pass-and-stand on offense — passer doesn't cut</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="notes-strip">
+  <div class="notes-strip-cell">
+    <div class="notes-strip-label">Session notes</div>
+    <div class="notes-strip-row">
+      <span>Session 1</span>
+      <span></span>
+    </div>
+    <div class="notes-strip-row">
+      <span>Session 2</span>
+      <span></span>
+    </div>
+    <div class="notes-strip-row">
+      <span>Pre-game</span>
+      <span></span>
+    </div>
+  </div>
+  <div class="notes-strip-cell" style="border-left: 1px solid var(--rule);">
+    <div class="notes-strip-label">KPI log</div>
+    <div class="notes-strip-row">
+      <span>Pass-and-move</span>
+      <span></span>
+    </div>
+    <div class="notes-strip-row">
+      <span>Shot quality</span>
+      <span></span>
+    </div>
+    <div class="notes-strip-row">
+      <span>Boxing out</span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p><strong>CoachPrep</strong> — Week 1 Court Sheet for Anthony · Oceana MS Girls Basketball</p>
+  <p style="margin-top: 6px;">Print this court sheet and bring it on the bench · Week beginning May 22 · First game May 30</p>
+</div>
+
+</div>
+
+</body>
+</html>
