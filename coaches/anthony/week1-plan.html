@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoachPrep — Week 1 Practice Plan — Anthony</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #111111;
+  --ink-2:      #444444;
+  --ink-3:      #777777;
+  --rule:       #DEDEDE;
+  --rule-light: #F0F0F0;
+  --bg:         #FFFFFF;
+  --bg-off:     #F8F8F6;
+  --accent:     #0057A8;
+  --accent-bg:  #EEF4FC;
+  --font-head:  'Libre Baskerville', Georgia, serif;
+  --font-body:  'Source Sans 3', system-ui, sans-serif;
+  --font-mono:  'Source Code Pro', monospace;
+  --radius:     4px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg-off);
+  padding: 20px;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  background: var(--bg);
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.cq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cq-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cq-logo-mark {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--bg);
+}
+
+.cq-wordmark {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cq-doc-type {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.cq-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 8px;
+}
+
+.info-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.info-cell {
+  background: var(--bg);
+  padding: 12px 14px;
+}
+
+.info-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.focal-bar {
+  background: var(--bg-off);
+  border-left: 4px solid var(--accent);
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  border-radius: var(--radius);
+}
+
+.fl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.ft {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.fs {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.outcome-bar {
+  border-left: 4px solid var(--ink);
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.outcome-bar strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.swim-bar {
+  border-left: 4px solid var(--ink-2);
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  background: var(--bg-off);
+  border-radius: var(--radius);
+}
+
+.sl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.sc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.sc strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 32px 0 16px 0;
+  font-weight: 500;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.kpi-cell {
+  background: var(--bg);
+  padding: 14px 16px;
+}
+
+.kpi-cell.accent {
+  background: var(--accent-bg);
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.kpi-cell.accent .kpi-label {
+  color: var(--accent);
+}
+
+.kpi-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.kpi-if {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.trigger-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--bg-off);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  margin-bottom: 28px;
+}
+
+.trigger-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-bg);
+  padding: 6px 10px;
+  border-radius: 3px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.trigger-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.session-grid .session.friday {
+  grid-column: 1 / -1;
+}
+
+.session {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.session-head {
+  background: var(--bg-off);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--rule);
+}
+
+.session-day {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.session-focus {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.focus-off {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.focus-def {
+  background: #E8E8E8;
+  color: #555555;
+}
+
+.focus-int {
+  background: var(--bg-off);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+}
+
+.session-priority {
+  padding: 10px 16px;
+  background: #FFFBF0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.session-body {
+  padding: 16px;
+}
+
+.block {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.block:last-child {
+  margin-bottom: 0;
+}
+
+.block-time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+.block-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.block-detail {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.block-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 2px;
+  margin-right: 6px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tag-focal {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.tag-tech {
+  background: #F0F0F0;
+  color: var(--ink-3);
+}
+
+.tag-scrim {
+  background: #FFF5E6;
+  color: #B8860B;
+}
+
+.drill-ref {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--accent);
+  text-decoration: underline;
+  margin-top: 4px;
+}
+
+.coach-decision {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  margin-top: 12px;
+}
+
+.coach-decision-icon {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.coach-decision-text {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.friday-success {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #F0FAF0;
+  border-left: 3px solid #4A9B4A;
+  border-radius: var(--radius);
+  margin-top: 12px;
+}
+
+.friday-success-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4A9B4A;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.friday-success-text {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.drill-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.drill-table th {
+  background: var(--bg-off);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 600;
+}
+
+.drill-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  vertical-align: top;
+}
+
+.drill-table tr:last-child td {
+  border-bottom: none;
+}
+
+.drill-table td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.drill-table .progression {
+  font-size: 12px;
+}
+
+.drill-table .progression div {
+  margin-bottom: 8px;
+}
+
+.drill-table .progression div:last-child {
+  margin-bottom: 0;
+}
+
+.drill-table .progression strong {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.note-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.note-card-head {
+  background: var(--bg-off);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--rule);
+}
+
+.note-card-head.accent {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.note-card-body {
+  padding: 14px;
+}
+
+.note-card-body ul {
+  list-style: none;
+}
+
+.note-card-body li {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.note-card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.note-card-body li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  font-size: 12px;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 20px;
+  }
+  
+  .info-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .session-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .drill-table {
+    font-size: 12px;
+  }
+  
+  .drill-table th,
+  .drill-table td {
+    padding: 8px;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+  
+  .container {
+    box-shadow: none;
+    padding: 0;
+  }
+  
+  .session,
+  .note-card,
+  .kpi-grid {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="cq-header">
+  <div>
+    <div class="cq-logo">
+      <div class="cq-logo-mark">CP</div>
+      <div class="cq-wordmark">CoachPrep</div>
+    </div>
+    <div class="cq-meta">
+      <span><strong>Anthony</strong></span>
+      <span>·</span>
+      <span>Oceana</span>
+      <span>·</span>
+      <span>Week Beginning May 22</span>
+    </div>
+  </div>
+  <div class="cq-doc-type">Week 1 Practice Plan</div>
+</div>
+
+<div class="info-strip">
+  <div class="info-cell">
+    <div class="info-label">Program</div>
+    <div class="info-value">Oceana MS Girls</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Practices</div>
+    <div class="info-value">2 × 45 min</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">First Game</div>
+    <div class="info-value">May 30</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Roster</div>
+    <div class="info-value">9 players, mixed</div>
+  </div>
+</div>
+
+<div class="focal-bar">
+  <div class="fl">Week 1 Focus — From Your Intake</div>
+  <div class="ft">Passing and moving without the ball — players are stationary after the pass.</div>
+  <div class="fs">The team struggles under pressure because players pass and freeze, expecting the passer to solve the next problem. Same root cause: no one moves after the pass, so every possession is one pass followed by a trap. This week resolves it by teaching pass-and-cut as a single motion — every pass creates an open player through movement, not through waiting.</div>
+</div>
+
+<div class="outcome-bar">
+  <strong>End of Week 1 Outcome:</strong> Every player can complete a pass-and-cut sequence (pass → cut to the ball or basket → receive a return pass) in live 3v3 play without freezing after the first pass. Players call "move!" when they see a teammate standing still.
+</div>
+
+<div class="swim-bar" style="border-left-color: var(--ink-2);">
+  <div class="sl" style="color: var(--ink-2);">Conditioning — Built Into Every Block</div>
+  <div class="sc">
+    <strong>No dedicated conditioning block.</strong> Every drill is run at game speed with short rest intervals. Players condition through repetition, not through separate fitness work. Focus: <strong>quick feet, sharp cuts, hands ready</strong>. Every water break is earned after a completed drill block — movement never stops during teaching.
+  </div>
+</div>
+
+<div class="section-label">WEEK 1 TRACKING PRIORITIES</div>
+
+<div class="kpi-grid">
+  <div class="kpi-cell accent">
+    <div class="kpi-label">Pass-and-Move Compliance</div>
+    <div class="kpi-value">Count passes where the passer cuts immediately vs. passes where the passer stands still</div>
+    <div class="kpi-if">If fewer than 5 of 10 passes include a cut by end of Session 2 → dedicate an extra 5-min block to stationary pass-and-cut (no defense) in Session 3 before live play</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Shot Quality</div>
+    <div class="kpi-value">Shots in the paint + open looks / total shots — track by player name</div>
+    <div class="kpi-if">If more than half of all shots are forced/contested outside → Session 3 focuses exclusively on inside finishing (lay-up drills, 2v2 inside only)</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Boxing Out Compliance</div>
+    <div class="kpi-value">Count of defensive rebounds where all five defenders found a body vs. total defensive rebound opportunities</div>
+    <div class="kpi-if">If boxing-out rate is below 50% in Session 2 live play → Session 3 starts with a 7-min Find a Body drill before any other teaching</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Turnover Rate Under Pressure</div>
+    <div class="kpi-value">Turnovers per possession when defense applies token pressure (no press, just active hands)</div>
+    <div class="kpi-if">If turnover rate is above 30% in Session 2 → Session 3 teaches one simple pass-out option (skip pass to the weak side) and practices it 20 reps before scrimmage</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Free-Throw Percentage (Under Fatigue)</div>
+    <div class="kpi-value">FTs made / FTs attempted in Block 6 of each session — track by player</div>
+    <div class="kpi-if">If team FT% is below 40% after Session 2 → every player shoots 5 bonus FTs at the start of Session 3 (fresh, no fatigue) to isolate form issues</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Defensive Talk</div>
+    <div class="kpi-value">Count of "help!" / "screen!" / "ball!" calls per defensive possession in live play</div>
+    <div class="kpi-if">If talk rate is under 1 call per possession by Session 3 → add a 3-min "talk or sit" drill: defense plays 4v4, any possession with zero calls = that defender sits one rep</div>
+  </div>
+</div>
+
+<div class="trigger-bar">
+  <div class="trigger-label">Week 2 Adjustment Trigger</div>
+  <div class="trigger-text">If 2 or more KPIs fall below target at the first game (May 30) → repeat the Week 1 focal theme in Week 2 with reduced complexity. Add no new concepts until <strong>pass-and-cut compliance</strong>, <strong>shot quality</strong>, and <strong>boxing-out compliance</strong> are consistent under live pressure.</div>
+</div>
+
+<div class="section-label">SEASON CONTEXT</div>
+
+<div class="info-strip" style="grid-template-columns: repeat(4, 1fr);">
+  <div class="info-cell">
+    <div class="info-label">First League</div>
+    <div class="info-value">Not specified</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Priority Opponent</div>
+    <div class="info-value">Not specified</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Major Tournament</div>
+    <div class="info-value">Not specified</div>
+  </div>
+  <div class="info-cell">
+    <div class="info-label">Primary Target</div>
+    <div class="info-value">Player development</div>
+  </div>
+</div>
+
+<div class="section-label">SESSION BREAKDOWN</div>
+
+<div class="session-grid">
+
+<div class="session">
+  <div class="session-head">
+    <div class="session-day">Session 1 (May 22)</div>
+    <span class="session-focus focus-off">Ball Handling & Movement</span>
+  </div>
+  <div class="session-priority">Priority: Every player learns that a pass is the start of movement, not the end</div>
+  <div class="session-body">
+    
+    <div class="block">
+      <div class="block-time">0–6</div>
+      <div>
+        <div class="block-name">Arrival & Activation</div>
+        <div class="block-detail">Dynamic warm-up: high knees, butt kicks, side shuffle, backpedal (2 min). Partner passing: chest pass, bounce pass, overhead pass — 10 reps each, 6 feet apart. Focus: catch two hands, look at your partner's chest before you pass.</div>
+        <span class="block-tag tag-tech">Warm-Up</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">6–18</div>
+      <div>
+        <div class="block-name">Triple Threat & Stationary Pound</div>
+        <div class="block-detail">Each player with a ball. <strong>Triple threat:</strong> feet shoulder-width, ball at the hip, knees bent. Hold for 10 seconds, reset. 3 reps. <strong>Stationary pound:</strong> waist-high dribble, eyes up, fingertips. 30 seconds right hand, 30 seconds left hand. <strong>Cue:</strong> "Eyes up, fingertips, push the ball through the floor." <strong>What this teaches:</strong> A player who can keep their head up while handling the ball can pass and read the defense — eyes-down dribblers cannot run an offense.</div>
+        <span class="block-tag tag-focal">Focal Skill</span>
+        <span class="drill-ref">Triple Threat 1v0</span>
+        <span class="drill-ref">Stationary Pound</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">18–30</div>
+      <div>
+        <div class="block-name">Pass and Cut — No Defense (2v0)</div>
+        <div class="block-detail">Two players, one ball. Player 1 passes to Player 2, then immediately cuts toward Player 2 (not away). Player 2 passes back to Player 1 on the cut. Reset. 10 reps each. <strong>Cue:</strong> "Pass and move — don't watch your pass." <strong>What this teaches:</strong> Every pass creates an open player through movement. Passers who stand still give the defense an extra second to recover.</div>
+        <span class="block-tag tag-focal">Focal Movement</span>
+        <span class="drill-ref">Give and Go</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">30–40</div>
+      <div>
+        <div class="block-name">3-Man Weave (Entry Version)</div>
+        <div class="block-detail">Three players weave across half-court with one ball. Pass and follow your pass — the passer runs behind the receiver. Finish with a lay-up. Walk-through first 3 reps; full speed next 5 reps. <strong>Cue:</strong> "Pass and follow your pass; fill the open lane." <strong>What this teaches:</strong> The weave reinforces pass-and-move as a single motion — no one ever stands still when the ball is live.</div>
+        <span class="block-tag tag-focal">Team Movement</span>
+        <span class="drill-ref">3-Man Weave</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">40–55</div>
+      <div>
+        <div class="block-name">3v3 Half-Court — Constraint: 3 Passes Before Any Shot</div>
+        <div class="block-detail">Three possessions each side, switch. Offense must complete 3 passes before shooting. Defense: token pressure (active hands, no steals). <strong>Constraint:</strong> If offense shoots before 3 passes, possession turns over immediately. <strong>What to watch:</strong> Does the passer cut after the first pass, or do they stand and watch?</div>
+        <span class="block-tag tag-scrim">Live Play</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">55–60</div>
+      <div>
+        <div class="block-name">Free Throws + Cool-Down</div>
+        <div class="block-detail">Every player shoots 5 free throws. <strong>Cue:</strong> "Feet square, balance, follow through — wave goodbye." Track makes/misses by player name. One teach point: pass-and-cut is a single motion, not two separate actions. One player callout: name one player who cut immediately after every pass. Water.</div>
+        <span class="block-tag tag-tech">Free Throws</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="coach-decision">
+    <span class="coach-decision-icon">Decision</span>
+    <span class="coach-decision-text">Identify your top 3 ball-handlers by name — they run every 3v3 possession in Session 2 and demonstrate pass-and-cut for the rest of the team.</span>
+  </div>
+</div>
+
+<div class="session">
+  <div class="session-head">
+    <div class="session-day">Session 2 (May 24)</div>
+    <span class="session-focus focus-def">Defense & Rebounding</span>
+  </div>
+  <div class="session-priority">Priority: Every defensive rebound starts with finding a body — boards are won before the shot goes up</div>
+  <div class="session-body">
+    
+    <div class="block">
+      <div class="block-time">0–6</div>
+      <div>
+        <div class="block-name">Arrival & Activation</div>
+        <div class="block-detail">Dynamic warm-up: defensive slides across the lane (forward, backward, side-to-side). Partner passing: 10 chest passes, 10 bounce passes. Focus: hands ready, eyes on the ball.</div>
+        <span class="block-tag tag-tech">Warm-Up</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">6–18</div>
+      <div>
+        <div class="block-name">Find a Body — Intro to Boxing Out</div>
+        <div class="block-detail">Coach shoots from the free-throw line. Five defenders under the rim. On the shot, every defender turns and finds a player (imaginary offense for now) and holds position (butt out, arms wide) for 2 seconds, then goes for the ball. 10 reps. <strong>Cue:</strong> "Find a body, butt to the gut, hold for two seconds." <strong>What this teaches:</strong> Boxing out is the most undercoached fundamental at the youth level. A team that secures 70%+ of available defensive rebounds is in every game, regardless of talent gap.</div>
+        <span class="block-tag tag-focal">Rebounding</span>
+        <span class="drill-ref">Find a Body</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">18–30</div>
+      <div>
+        <div class="block-name">No Hands Defense (1v1 Half-Court)</div>
+        <div class="block-detail">Defender's hands behind their back. Offense dribbles from the wing to the opposite wing. Defender must stay in front using only feet. 5 reps each, then switch. <strong>Cue:</strong> "Move your feet, not your hands." <strong>What this teaches:</strong> Defense is footwork and talking before it is anything else — hands lead to fouls; feet and voice lead to stops.</div>
+        <span class="block-tag tag-focal">Defense</span>
+        <span class="drill-ref">No Hands Defense</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">30–40</div>
+      <div>
+        <div class="block-name">2-on-2 Box Out (Live Rebounding)</div>
+        <div class="block-detail">Two offense, two defense in the paint. Coach shoots. Offense crashes for the offensive board; defense boxes out. <strong>Cue:</strong> "Hit them first, then go get the ball." Defense scores 1 point per secured rebound; offense scores 1 point per offensive board. First to 5 wins. 3 games. <strong>What this teaches:</strong> Rebounding is contact before ball — players who go straight for the ball lose to players who seal their opponent first.</div>
+        <span class="block-tag tag-focal">Rebounding</span>
+        <span class="drill-ref">2-on-2 Box Out</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">40–55</div>
+      <div>
+        <div class="block-name">4v4 Half-Court — Constraint: Box Out Every Shot</div>
+        <div class="block-detail">Four possessions each side, switch. Defense must box out on every shot — if a defender doesn't find a body before going for the ball, that's an automatic offensive board (even if defense gets it). <strong>Constraint:</strong> Boxing out is mandatory; turnovers from missed box-outs teach the priority. <strong>What to watch:</strong> Are defenders turning and sealing, or are they ball-watching and reaching?</div>
+        <span class="block-tag tag-scrim">Live Play</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">55–60</div>
+      <div>
+        <div class="block-name">Free Throws + Cool-Down</div>
+        <div class="block-detail">Every player shoots 5 free throws under fatigue. Track makes/misses by player name. One teach point: boxing out wins games — boards are the foundation of every possession. One player callout: name one player who sealed their opponent on every rebound attempt. Water.</div>
+        <span class="block-tag tag-tech">Free Throws</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="coach-decision">
+    <span class="coach-decision-icon">Decision</span>
+    <span class="coach-decision-text">Pick the starting five and the first sub group (the "high-five") — they run all 5v5 reps in the first-game warm-up and the May 30 game.</span>
+  </div>
+</div>
+
+<div class="session friday">
+  <div class="session-head">
+    <div class="session-day">Pre-Game Walk-Through (May 29, day before first game)</div>
+    <span class="session-focus focus-int">Game Prep</span>
+  </div>
+  <div class="session-body">
+    
+    <div class="block">
+      <div class="block-time">0–6</div>
+      <div>
+        <div class="block-name">Arrival & Activation (No Fatigue Load)</div>
+        <div class="block-detail">Light jog, dynamic stretch. Partner passing: 10 reps each (chest, bounce, overhead). Focus: sharp passes, soft hands. <strong>No conditioning — this is a confidence-building session.</strong></div>
+        <span class="block-tag tag-tech">Warm-Up</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">6–18</div>
+      <div>
+        <div class="block-name">Lay-Up Lines + Form Shooting</div>
+        <div class="block-detail">Two lines, lay-up alternating right and left hand. 10 makes each side. Then: form shooting from the elbow, 5 makes per player. <strong>Cue:</strong> "Inside hand to the rim, knee up." <strong>What this teaches:</strong> Shooting and lay-ups are the foundation of scoring — every basketball game is decided on the ratio of finished good looks to wasted ones.</div>
+        <span class="block-tag tag-tech">Shooting</span>
+        <span class="drill-ref">Mikan Drill</span>
+        <span class="drill-ref">Form Shooting</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">18–30</div>
+      <div>
+        <div class="block-name">Pass-and-Cut Review (3v0)</div>
+        <div class="block-detail">Three players, walk-through tempo. Pass → cut → receive return pass → reset. 10 reps. Then: same drill, game speed. <strong>Cue:</strong> "Pass and move — don't watch your pass." Confidence-building only — no defense, no pressure.</div>
+        <span class="block-tag tag-focal">Movement Review</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">30–42</div>
+      <div>
+        <div class="block-name">5v5 Scrimmage — No Constraints, No Coaching</div>
+        <div class="block-detail">Starting five vs. bench four (add a coach if needed to balance numbers). Play to 11 points, ones and twos. <strong>Coach does not call plays or correct mistakes</strong> — let them play. Watch: Who moves without the ball? Who boxes out? Who talks on defense? Log observations for post-game adjustments.</div>
+        <span class="block-tag tag-scrim">Live Play</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-time">42–55</div>
+      <div>
+        <div class="block-name">Free Throws + Cool-Down</div>
+        <div class="block-detail">Every player shoots 5 free throws. <strong>No teaching — just shooting.</strong> Track makes/misses. One message: "You've prepared. Play your game. Move after every pass, box out every shot, and talk on defense. That's the whole game plan."</div>
+        <span class="block-tag tag-tech">Free Throws</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="friday-success">
+    <div class="friday-success-label">Session Success =</div>
+    <div class="friday-success-text"><strong>Every player finishes 8 of 10 lay-ups</strong> · <strong>Starting five demonstrates pass-and-cut in scrimmage without prompting</strong> · <strong>Team free-throw percentage improves 10% from Session 2 baseline</strong></div>
+  </div>
+  <div class="coach-decision">
+    <span class="coach-decision-icon">Decision</span>
+    <span class="coach-decision-text">Name the point guard by jersey number — the player who will bring the ball up the court on every possession in the first game. If unsure, pick the player with the best handle under pressure from Session 2 live play.</span>
+  </div>
+</div>
+
+</div>
+
+<div class="section-label">FOCAL DRILLS — FULL DETAIL</div>
+
+<table class="drill-table">
+  <thead>
+    <tr>
+      <th style="width: 15%;">Drill</th>
+      <th style="width: 20%;">Setup</th>
+      <th style="width: 12%;">Reps/Duration</th>
+      <th style="width: 18%;">Coaching Cue</th>
+      <th style="width: 20%;">What This Teaches</th>
+      <th style="width: 15%;">Progression</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Triple Threat 1v0</td>
+      <td>Each player with a ball, spread out on the court. Feet shoulder-width, ball at the hip, knees bent.</td>
+      <td>3 reps × 10 sec hold</td>
+      <td>"Triple threat — ball at the hip, feet shoulder-width."</td>
+      <td>Triple threat is the ready position on every catch — a player in triple threat can shoot, pass, or dribble without telegraphing.</td>
+      <td>
+        <div><strong>Entry level:</strong> Stationary hold, no movement. Coach checks every player's stance.</div>
+        <div><strong>Full version:</strong> Jab step from triple threat, sweep through (rip-through), then drive. Triple threat becomes the launch point for all offensive moves.</div>
+      </td>
+    </tr>
+    <tr>
+      <td>Stationary Pound</td>
+      <td>Each player with a ball. Waist-high dribble, eyes up. No movement.</td>
+      <td>30 sec right / 30 sec left</td>
+      <td>"Eyes up, fingertips, push the ball through the floor."</td>
+      <td>A player who can keep their head up while handling the ball can pass and read the defense — eyes-down dribblers cannot run an offense.</td>
+      <td>
+        <div><strong>Entry level:</strong> Stationary pound, one hand at a time. Eyes must stay on the rim or a target across the court.</div>
+        <div><strong>Full version:</strong> Two-Ball Dribbling — player dribbles two balls simultaneously (right + left) full-court. Same height, same rhythm, eyes on the rim.</div>
+      </td>
+    </tr>
+    <tr>
+      <td>Pass and Cut (Give and Go)</td>
+      <td>Two players, one ball. Player 1 passes to Player 2, immediately cuts toward Player 2. Player 2 returns the pass to Player 1 on the cut.</td>
+      <td>10 reps each</td>
+      <td>"Pass and move — don't watch your pass."</td>
+      <td>Every pass creates an open player through movement. Passers who stand still give the defense an extra second to recover.</td>
+      <td>
+        <div><strong>Entry level:</strong> 2v0, no defense. Walk-through first 5 reps, then game speed.</div>
+        <div><strong>Full version:</strong> 2v1 — one defender guards the cutter. Passer must read the defender and decide whether to pass back or reset.</div>
+      </td>
+    </tr>
+    <tr>
+      <td>Find a Body</td>
+      <td>Five defenders under the rim. Coach shoots from the free-throw line. On the shot, every defender turns, finds an imaginary offensive player, and holds position (butt out, arms wide) for 2 seconds before going for the ball.</td>
+      <td>10 reps</td>
+      <td>"Find a body, butt to the gut, hold for two seconds."</td>
+      <td>Boxing out is the most undercoached fundamental at the youth level. A team that secures 70%+ of available defensive rebounds is in every game, regardless of talent gap.</td>
+      <td>
+        <div><strong>Entry level:</strong> Imaginary offense. Defenders practice the turn-and-seal motion without contact.</div>
+        <div><strong>Full version:</strong> 5v5 Live Rebound — full scrimmage, but points are only awarded for boards (offensive and defensive). No scoring on made shots; only possession matters.</div>
+      </td>
+    </tr>
+    <tr>
+      <td>No Hands Defense</td>
+      <td>1v1 half-court. Defender's hands behind their back. Offense dribbles from one wing to the opposite wing. Defender must stay in front using only feet.</td>
+      <td>5 reps each, switch</td>
+      <td>"Move your feet, not your hands."</td>
+      <td>Defense is footwork and talking before it is anything else — hands lead to fouls; feet and voice lead to stops.</td>
+      <td>
+        <div><strong>Entry level:</strong> No hands, half speed. Offense announces direction before the move.</div>
+        <div><strong>Full version:</strong> Hands active, full speed. Add a help defender who steps in on every drive. Primary defender recovers.</div>
+      </td>
+    </tr>
+    <tr>
+      <td>2-on-2 Box Out</td>
+      <td>Two offense, two defense in the paint. Coach shoots from the elbow. Offense crashes for the offensive board; defense boxes out.</td>
+      <td>First to 5 wins · 3 games</td>
+      <td>"Hit them first, then go get the ball."</td>
+      <td>Rebounding is contact before ball — players who go straight for the ball lose to players who seal their opponent first.</td>
+      <td>
+        <div><strong>Entry level:</strong> 2v2, coach shoots from the same spot every time. Defenders know the shot is coming.</div>
+        <div><strong>Full version:</strong> 5v5 Live Rebound — full scrimmage, defense scores 1 point per defensive rebound, offense scores 1 per offensive board. First to 10 wins.</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-label">COACHING NOTES</div>
+
+<div class="notes-grid">
+
+<div class="note-card">
+  <div class="note-card-head accent">This Week's Priorities</div>
+  <div class="note-card-body">
+    <ul>
+      <li><strong>Session 1:</strong> Teach pass-and-cut as a single motion, not two separate actions. Every player must demonstrate it once in 3v3 before the session ends.</li>
+      <li><strong>Session 2:</strong> Introduce boxing out as first contact, then ball. Rebounding is won before the shot goes up, not after.</li>
+      <li><strong>Pre-game walk-through:</strong> Confidence-building only. No new teaching, no corrections. Let them play and watch who leads.</li>
+      <li><strong>First game teaching sequence:</strong> One timeout focuses on pass-and-move; one timeout focuses on boxing out. Do not introduce any new concepts during the game.</li>
+      <li><strong>Terminology scaffolding:</strong> This is a first-year coach with a roster where only two players have played before. Every term must be defined the first time it appears. "Triple threat" = ready position. "Boxing out" = turning and sealing your player away from the rim. "Help defense" = leaving your own player to stop a dribbler who beat their primary defender.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="note-card">
+  <div class="note-card-head">Evaluation Notes</div>
+  <div class="note-card-body">
+    <ul>
+      <li><strong>Pass-and-cut compliance:</strong> Track by player name — who cuts immediately after the pass, and who stands still? The ones who stand still are your teaching targets for Session 2.</li>
+      <li><strong>Ball-handler identification:</strong> In Session 1 live play, watch who can dribble with their head up under token pressure. Those are your top 3 ball-handlers.</li>
+      <li><strong>Boxing-out technique:</strong> In Session 2, watch who turns and seals vs. who ball-watches and reaches. Turners are your rebounding leaders; watchers need individual coaching.</li>
+      <li><strong>Free-throw form:</strong> Track every player's FT% across all three sessions. Any player under 30% needs individual form work (feet square, elbow in, follow through).</li>
+      <li><strong>Defensive talk:</strong> In every live-play block, count the number of "help!" / "screen!" / "ball!" calls per possession. Silent teams lose to talking teams — make talk a non-negotiable.</li>
+      <li><strong>Point-guard decision:</strong> By the end of Session 2, you must have picked the player who will bring the ball up the court in the first game. The decision is based on who handles pressure best, not who scores most.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="note-card">
+  <div class="note-card-head">Watch For</div>
+  <div class="note-card-body">
+    <ul>
+      <li><strong>Players bring the ball below the waist on every catch — gets stripped immediately.</strong> Cue "chin it" on every catch. Ball stays at the hip (triple threat) or above the shoulders (overhead pass protection).</li>
+      <li><strong>Defenders reach with their hands instead of moving their feet — fouls pile up.</strong> Cue "feet, not hands" every defensive rep. Hands go up when you're in position, not before.</li>
+      <li><strong>On every shot, two or three players ball-watch instead of finding a body to box out.</strong> This is the #1 rebounding failure mode at MS level. Fix it by making boxing-out compliance mandatory (Session 2 constraint).</li>
+      <li><strong>Pass-and-stand on offense — passer doesn't cut after the pass.</strong> Cue "pass and move" on every rep. If a player passes and stands still, stop the drill and have them do it again.</li>
+      <li><strong>Free throws shot fresh, not under fatigue — Block 6 fixes this; do not skip it.</strong> Every session ends with FTs under fatigue. This is non-negotiable. MS players who can hit FTs tired will hit them fresh in games.</li>
+      <li><strong>Best player (if there is one) carries the ball every possession; teammates stop moving.</strong> Set a passing-touch quota in the constraint (e.g. "Must complete 3 passes before any shot"). Force ball movement.</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<div class="trigger-bar" style="margin-top: 32px;">
+  <div class="trigger-label">Week 2 Adjustment Trigger</div>
+  <div class="trigger-text">If 2 or more KPIs fall below target at the first game (May 30) → repeat the Week 1 focal theme in Week 2 with reduced complexity. Add no new concepts until <strong>pass-and-cut compliance</strong>, <strong>shot quality</strong>, and <strong>boxing-out compliance</strong> are consistent under live pressure. Week 2 becomes a refinement week, not a progression week.</div>
+</div>
+
+<div class="footer">
+  <p><strong>CoachPrep</strong> — Week 1 Practice Plan for Anthony · Oceana Middle School Girls Basketball</p>
+  <p style="margin-top: 8px;">Generated for the week beginning May 22 · First game May 30 · Primary target: Player development</p>
+</div>
+
+</div>
+
+</body>
+</html>
