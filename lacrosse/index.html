@@ -517,6 +517,10 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
     <div class="field">
+      <label class="field-label">Your school or program<span class="req">*</span></label>
+      <input type="text" id="program" placeholder="e.g. Haverford School or EA JV Boys">
+    </div>
+    <div class="field">
       <label class="field-label">Create your CoachPrep code <span style="font-weight:400;color:var(--ink-3)">(optional — use this on future forms to skip re-entering your info)</span></label>
       <input type="text" id="coachCodeCreate" placeholder="e.g. LACROSSE2026 or SMITH or anything you'll remember" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
       <span class="field-hint">4–12 characters, no spaces. You'll enter this on the game prep and week review forms.</span>
@@ -580,8 +584,10 @@ async function applyCode() {
       const profile = await res.json();
       const nameEl = document.getElementById('name');
       const emailEl = document.getElementById('email');
+      const programEl = document.getElementById('program');
       if(nameEl) { nameEl.value = profile.name || ''; nameEl.style.background = 'var(--accent-bg)'; nameEl.style.color = 'var(--accent)'; }
       if(emailEl) { emailEl.value = profile.email || ''; emailEl.style.background = 'var(--accent-bg)'; emailEl.style.color = 'var(--accent)'; }
+      if(programEl && profile.program) { programEl.value = profile.program; programEl.style.background = 'var(--accent-bg)'; programEl.style.color = 'var(--accent)'; }
       status.textContent = '✓ Info loaded — ' + profile.name;
       status.style.color = 'var(--accent)';
     } else {
@@ -744,6 +750,7 @@ async function submitForm() {
   if(!chips('targetChips')) { alert('Please select what you\'re building toward.'); return; }
   if(!val('name')) { alert('Please enter your name.'); return; }
   if(!val('email')) { alert('Please enter your email.'); return; }
+  if(!val('program')) { alert('Please enter your school or program.'); return; }
 
   const data = {
     sport: 'lacrosse',
@@ -751,6 +758,7 @@ async function submitForm() {
     coachCode: (document.getElementById('coachCodeCreate').value || document.getElementById('coachCode').value || '').trim().toUpperCase(),
     name: val('name'),
     email: val('email'),
+    program: val('program'),
     level: chips('levelChips'),
     experience: chips('expChips'),
     played: chips('playedChips'),
@@ -792,6 +800,7 @@ async function submitForm() {
         <div class="summary-row"><span class="summary-label">Name</span><span class="summary-value">${data.name}</span></div>
         <div class="summary-row"><span class="summary-label">Sport</span><span class="summary-value">Field Lacrosse · ${selectedGender.charAt(0).toUpperCase()+selectedGender.slice(1)}</span></div>
         <div class="summary-row"><span class="summary-label">Level</span><span class="summary-value">${data.level}</span></div>
+        <div class="summary-row"><span class="summary-label">Program</span><span class="summary-value">${data.program}</span></div>
         <div class="summary-row"><span class="summary-label">Roster</span><span class="summary-value">${data.rosterSize} players</span></div>
         <div class="summary-row"><span class="summary-label">First game</span><span class="summary-value">${data.firstGame || 'TBD'}</span></div>
         <div class="summary-row"><span class="summary-label">Plan sent to</span><span class="summary-value">${data.email}</span></div>
